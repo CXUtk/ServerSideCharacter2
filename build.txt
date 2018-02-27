@@ -1,0 +1,9 @@
+displayName = ServerSideCharacter2
+author = DXTsT
+version = 1.0
+hideResources = false
+hideCode = true
+includePDB = true
+includeSource = false
+languageVersion = 6
+buildIgnore = *.csproj, *.sln, obj\*, bin\*, .git\*, .vs\*, .gitignore, References\*
