@@ -1,6 +1,6 @@
 displayName = ServerSideCharacter2
 author = DXTsT
-version = 1.0
+version = 0.1
 hideResources = false
 hideCode = true
 includePDB = true

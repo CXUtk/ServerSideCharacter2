@@ -7,6 +7,8 @@ using System.Text;
 
 namespace ServerSideCharacter2.Network
 {
+	public delegate bool MessagePatchDelegate(ref BinaryReader reader, int playerNumber);
+
 	public abstract class MessageDispatcher<T>
 	{
 		protected Dictionary<T, MessagePatchDelegate> _method;
@@ -22,10 +24,10 @@ namespace ServerSideCharacter2.Network
 		{
 			try
 			{
-				MessagePatchDelegate mpd;
-				if (_method.TryGetValue(msgType, out mpd))
+				MessagePatchDelegate method;
+				if (_method.TryGetValue(msgType, out method))
 				{
-					return mpd(ref reader, playerNumber);
+					return method(ref reader, playerNumber);
 				}
 			}
 			catch (Exception ex)

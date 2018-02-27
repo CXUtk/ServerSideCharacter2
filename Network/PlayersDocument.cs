@@ -56,7 +56,7 @@ namespace ServerSideCharacter2.Network
 				{
 					ServerPlayer p = new ServerPlayer();
 					p.SetPlayerInfo(player.Value);
-					p.SyncFromInfo();
+					p.SyncPlayerFromInfo();
 					ServerSideCharacter2.PlayerCollection.Add(p);
 				}
 			}

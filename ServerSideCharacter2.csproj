@@ -119,6 +119,9 @@
     <Compile Include="Utils\PlayerCollection.cs" />
     <Compile Include="Utils\ServerUtils.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>
     <VisualStudio AllowExistingFolder="true" />

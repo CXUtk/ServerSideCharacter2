@@ -20,7 +20,6 @@ using System.Windows.Forms;
 
 namespace ServerSideCharacter2
 {
-	[SuppressMessage("ReSharper", "InvertIf")]
 	public class ServerSideCharacter2 : Mod
 	{
 		public static ServerSideCharacter2 Instance;
@@ -117,7 +116,7 @@ namespace ServerSideCharacter2
 			}
 			catch(Exception ex)
 			{
-				MessageBox.Show(ex.ToString());
+				CommandBoardcast.ConsoleError(ex);
 			}
 
 			return false;
@@ -126,16 +125,15 @@ namespace ServerSideCharacter2
 
 		public override bool HijackGetData(ref byte messageType, ref BinaryReader reader, int playerNumber)
 		{
-			bool b = false;
 			try
 			{
-				b = _messageChecker.CheckMessage(ref messageType, ref reader, playerNumber);
+				return _messageChecker.CheckMessage(ref messageType, ref reader, playerNumber);
 			}
 			catch(Exception ex)
 			{
-				MessageBox.Show(ex.ToString());
+				CommandBoardcast.ConsoleError(ex);
 			}
-			return b;
+			return false;
 		}
 
 

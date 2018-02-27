@@ -14,9 +14,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace ServerSideCharacter2.Network
-{
-	public delegate bool MessagePatchDelegate(ref BinaryReader reader, int playerNumber);
-
+{ 
 	public class MessageChecker : MessageDispatcher<int>
 	{
 		public bool CheckMessage(ref byte messageType, ref BinaryReader reader, int playerNumber)
@@ -353,7 +351,7 @@ namespace ServerSideCharacter2.Network
 				string name = Main.player[plr].name;
 				ServerPlayer player = ServerSideCharacter2.PlayerCollection.Get(name);
 				player.PrototypePlayer = Main.player[plr];
-				player.CopyToPlayer();
+				player.ApplyToPlayer();
 				player.ClearAllBuffs();
 				Main.player[plr].trashItem = new Item();
 

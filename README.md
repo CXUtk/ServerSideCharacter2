@@ -1,11 +1,10 @@
 # Server Side Chararter
 
 ## What is it?
-ServerSideCharacter(SSC) is a server management tool for tModLoader, it gives the player ability to play form beginning in mod world.
+ServerSideCharacter(SSC) is a server management tool for tModLoader, it gives the player ability to play from the beginning of mod world.
 
 ## Version Compatibility
-* TmodLoader v0.9.2.1	V0.2.X
-* TmodLoader v0.9.1		V0.1.X
+
 
 
 ## Current Command List

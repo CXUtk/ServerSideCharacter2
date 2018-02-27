@@ -195,7 +195,7 @@ namespace ServerSideCharacter2
 			};
 
 			instance._info = player;
-			instance.SyncFromInfo();
+			instance.SyncPlayerFromInfo();
 
 			return instance;
 		}
@@ -211,7 +211,7 @@ namespace ServerSideCharacter2
 				new Color(255, 20, 20, 0), PrototypePlayer.whoAmI);
 		}
 
-		public void SyncFromInfo()
+		public void SyncPlayerFromInfo()
 		{
 			ServerUtils.InfoToItem(_info.inventory, inventory);
 			ServerUtils.InfoToItem(_info.armor, armor);
@@ -255,7 +255,7 @@ namespace ServerSideCharacter2
 			}
 		}
 
-		public void CopyToPlayer()
+		public void ApplyToPlayer()
 		{
 			if (PrototypePlayer.active)
 			{
