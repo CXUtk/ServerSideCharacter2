@@ -1,6 +1,7 @@
 #define DEBUGMODE
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -15,14 +16,18 @@ using Terraria.ModLoader;
 using Terraria.Social;
 using ServerSideCharacter2.Network;
 using ServerSideCharacter2.Utils;
+using ServerSideCharacter2.GUI;
 using Newtonsoft.Json;
 using System.Windows.Forms;
+using Terraria.UI;
 
 namespace ServerSideCharacter2
 {
 	public class ServerSideCharacter2 : Mod
 	{
 		public static ServerSideCharacter2 Instance;
+
+		public static Dictionary<string, Texture2D> ModTexturesTable = new Dictionary<string, Texture2D>();
 
 		public static Vector2 TilePos1;
 
@@ -41,6 +46,8 @@ namespace ServerSideCharacter2
 		private MessageChecker _messageChecker;
 
 		private PacketHandler _packetHandler;
+
+		private GUIManager _manager;
 
 
 
@@ -151,8 +158,10 @@ namespace ServerSideCharacter2
 
 		public override void PostSetupContent()
 		{
+			ResourceLoader.LoadAll();
 			_messageChecker = new MessageChecker();
 			_packetHandler = new PacketHandler();
+			_manager = new GUIManager(this);
 			if (Main.dedServ)
 			{
 				PlayerCollection = new PlayerCollection();
@@ -169,6 +178,19 @@ namespace ServerSideCharacter2
 				Main.ServerSideCharacter = true;
 				ErrorLogger = new ErrorLogger("SSC-Log.txt", false);
 				Console.WriteLine("[ServerSideCharacter Mod, Author: DXTsT	Version: " + APIVersion + "]");
+			}
+		}
+
+		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
+		{
+			int MouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
+			if(MouseTextIndex != -1)
+			{
+				layers.Insert(MouseTextIndex, new SSCLayer(_manager));
+			}
+			else
+			{
+				throw new SSCException("Unable to add UI interface to the game!");
 			}
 		}
 	}

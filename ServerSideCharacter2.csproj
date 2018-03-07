@@ -86,6 +86,11 @@
     <Content Include="build.txt" />
     <Content Include="ChangeLog.txt" />
     <Content Include="description.txt" />
+    <Content Include="Graphics\Bar.png" />
+    <Content Include="Graphics\Box.png" />
+    <Content Include="Graphics\Box2.png" />
+    <Content Include="Graphics\CloseButton.png" />
+    <Content Include="Graphics\Cog.png" />
     <Content Include="Items\RegionItem.png" />
     <Content Include="Items\FailedItem.png" />
     <Content Include="Libraries\Microsoft.Xna.Framework.dll" />
@@ -101,6 +106,12 @@
   <ItemGroup>
     <Compile Include="Commands\SaveCommand.cs" />
     <Compile Include="Extensions\PlayerExtension.cs" />
+    <Compile Include="GUI\GUIManager.cs" />
+    <Compile Include="GUI\SSCLayer.cs" />
+    <Compile Include="GUI\UI\UIAdvPanel.cs" />
+    <Compile Include="GUI\UI\UIButtonDraggable.cs" />
+    <Compile Include="GUI\UI\UIButton.cs" />
+    <Compile Include="GUI\UI\WindowUIState.cs" />
     <Compile Include="Items\RegionItem.cs" />
     <Compile Include="Items\FailedItem.cs" />
     <Compile Include="JsonData\ItemInfo.cs" />
@@ -114,9 +125,12 @@
     <Compile Include="ErrorLogger.cs" />
     <Compile Include="ServerPlayer.cs" />
     <Compile Include="ServerSideCharacter2.cs" />
+    <Compile Include="SSCException.cs" />
     <Compile Include="SSCMessageType.cs" />
     <Compile Include="Utils\CommandBoardcast.cs" />
+    <Compile Include="Utils\Drawing.cs" />
     <Compile Include="Utils\PlayerCollection.cs" />
+    <Compile Include="Utils\ResourceLoader.cs" />
     <Compile Include="Utils\ServerUtils.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,4 @@
-﻿V0.3
+﻿V0.1
 1. Now /ls command works in console mode
 2. Now player can use /key to get weapons according to keys they have
 3. Now support V0.10.0.1

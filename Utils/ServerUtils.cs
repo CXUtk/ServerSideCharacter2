@@ -27,5 +27,28 @@ namespace ServerSideCharacter2.Utils
 				dest[i] = src[i].ToItem();
 			}
 		}
+
+		public static NetworkMode NetworkMode
+		{
+			get
+			{
+				return (NetworkMode)Main.netMode;
+			}
+		}
+
+		public static Player LocalModPlayer
+		{
+			get
+			{
+				return Main.LocalPlayer;
+			}
+		} 
+	}
+
+	public enum NetworkMode : byte
+	{
+		None,
+		Client,
+		Server
 	}
 }
