@@ -17,45 +17,58 @@ namespace ServerSideCharacter2.GUI.UI
         /// Text appeared on the button
         /// </summary>
         public string ButtonText { get; set; }
+
         /// <summary>
         /// Color when mouse move on the button
         /// </summary>
         public Color ButtonChangeColor { get; set; }
+
         /// <summary>
         /// Default button color
         /// </summary>
         public Color ButtonDefaultColor { get; set; }
+
         /// <summary>
         /// Text color
         /// </summary>
         public Color ButtonTextColor { get; set; }
+
         /// <summary>
         /// True if you want the button using box's texture
         /// Default: True
         /// </summary>
         public bool WithBox { get; set; }
+
 		/// <summary>
 		/// Button's texture
 		/// </summary>
 		public Texture2D Texture { get; set; }
 
-        private float alpha;
+		/// <summary>
+		/// 渐变动画值
+		/// </summary>
+        private float _alpha;
 
+		/// <summary>
+		/// 当前绘制颜色
+		/// </summary>
 		private Color CurrentColor;
 
+		/// <summary>
+		/// 鼠标是否在按钮内
+		/// </summary>
 		private bool isMouseInside = false;
 
-        public UIButton(Texture2D texture, bool withBox = true)
+        public UIButton(Texture2D texture = null, bool withBox = true)
         {
 			Texture = texture;
-			alpha = 0f;
+			_alpha = 0f;
             ButtonText = "";
             ButtonChangeColor = Color.White * 0.75f;
             ButtonDefaultColor = Drawing.DefaultBoxColor * 0.75f;
 			CurrentColor = ButtonDefaultColor;
             ButtonTextColor = Color.White;
 			WithBox = withBox;
-            
         }
 
 
@@ -74,16 +87,16 @@ namespace ServerSideCharacter2.GUI.UI
 		{
 			if (!isMouseInside)
 			{
-				if (alpha > 0)
-					alpha -= 0.05f;
-				CurrentColor = Color.Lerp(ButtonDefaultColor, ButtonChangeColor, alpha);
+				if (_alpha > 0)
+					_alpha -= 0.05f;
+				CurrentColor = Color.Lerp(ButtonDefaultColor, ButtonChangeColor, _alpha);
 			}
 			if (ContainsPoint(Main.MouseScreen))
 			{
 				isMouseInside = true;
-				if (alpha < 1)
-					alpha += 0.05f;
-				CurrentColor = Color.Lerp(ButtonDefaultColor, ButtonChangeColor, alpha);
+				if (_alpha < 1)
+					_alpha += 0.05f;
+				CurrentColor = Color.Lerp(ButtonDefaultColor, ButtonChangeColor, _alpha);
 			}
 
 			PostUpdate();
@@ -103,6 +116,8 @@ namespace ServerSideCharacter2.GUI.UI
 				Drawing.DrawAdvBox(sb, (int)innerDimension.X, (int)innerDimension.Y,
 					(int)innerDimension.Width, (int)innerDimension.Height,
 					CurrentColor, Drawing.Box1, new Vector2(10, 10));
+				if (Texture != null)
+					sb.Draw(Texture, innerDimension.ToRectangle(), Color.White);
 			}
 			else
 			{

@@ -41,6 +41,8 @@ namespace ServerSideCharacter2
 
 		public static PlayersDocument PlayerDoc;
 
+		public static UIElement UIMouseLocker;
+
 		private string _authcode;
 
 		private MessageChecker _messageChecker;
@@ -49,7 +51,10 @@ namespace ServerSideCharacter2
 
 		private GUIManager _manager;
 
-
+		public void ChangeState()
+		{
+			_manager.SwitchState();
+		}
 
 		public ServerSideCharacter2()
 		{

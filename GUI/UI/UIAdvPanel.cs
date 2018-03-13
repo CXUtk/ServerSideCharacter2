@@ -11,6 +11,10 @@ using Terraria.UI;
 
 namespace ServerSideCharacter2.GUI.UI
 {
+	/// <summary>
+	/// 高级UI面板：
+	/// 用于绘制可自定义边框样式贴图的基本面版
+	/// </summary>
 	public class UIAdvPanel : UIElement
 	{
 		public int CornerSize = 12;

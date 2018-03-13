@@ -86,11 +86,11 @@
     <Content Include="build.txt" />
     <Content Include="ChangeLog.txt" />
     <Content Include="description.txt" />
+    <Content Include="Graphics\Cog.png" />
     <Content Include="Graphics\Bar.png" />
     <Content Include="Graphics\Box.png" />
     <Content Include="Graphics\Box2.png" />
     <Content Include="Graphics\CloseButton.png" />
-    <Content Include="Graphics\Cog.png" />
     <Content Include="Items\RegionItem.png" />
     <Content Include="Items\FailedItem.png" />
     <Content Include="Libraries\Microsoft.Xna.Framework.dll" />
@@ -106,11 +106,17 @@
   <ItemGroup>
     <Compile Include="Commands\SaveCommand.cs" />
     <Compile Include="Extensions\PlayerExtension.cs" />
+    <Compile Include="GUI\Animate\UIAnimation.cs" />
+    <Compile Include="GUI\Animate\MoveIn.cs" />
     <Compile Include="GUI\GUIManager.cs" />
     <Compile Include="GUI\SSCLayer.cs" />
     <Compile Include="GUI\UI\UIAdvPanel.cs" />
-    <Compile Include="GUI\UI\UIButtonDraggable.cs" />
+    <Compile Include="GUI\UI\UIAlignType.cs" />
     <Compile Include="GUI\UI\UIButton.cs" />
+    <Compile Include="GUI\UI\UIAnimatedState.cs" />
+    <Compile Include="GUI\UI\UIDraggableState.cs" />
+    <Compile Include="GUI\UI\UIImageResizable.cs" />
+    <Compile Include="GUI\UI\UIToolButtonState.cs" />
     <Compile Include="GUI\UI\WindowUIState.cs" />
     <Compile Include="Items\RegionItem.cs" />
     <Compile Include="Items\FailedItem.cs" />

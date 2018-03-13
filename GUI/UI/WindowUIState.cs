@@ -11,36 +11,16 @@ using Terraria.GameContent.UI.Elements;
 
 namespace ServerSideCharacter2.GUI.UI
 {
-	public class WindowUIState : UIState
+	public class WindowUIState : UIDraggableState
 	{
-		public UIPanel WindowPanel;
+		private UIPanel WindowPanel;
 		private UIButton close;
-		private Vector2 _offset;
-		private bool _dragging = false;
 
-		protected sealed override void DrawSelf(SpriteBatch spriteBatch)
-		{
-			Vector2 MousePosition = Main.MouseScreen;
-			if (WindowPanel.ContainsPoint(MousePosition))
-			{
-				Main.LocalPlayer.mouseInterface = true;
-				Main.LocalPlayer.showItemIcon = false;
-			}
-			if (_dragging)
-			{
-				WindowPanel.Left.Set(MousePosition.X - _offset.X, 0f);
-				WindowPanel.Top.Set(MousePosition.Y - _offset.Y, 0f);
-				Recalculate();
-			}
-			OnDraw(spriteBatch);
-		}
+
 
 		public sealed override void OnInitialize()
 		{
 			WindowPanel = new UIPanel();
-			WindowPanel.OnMouseDown += new MouseEvent(DragStart);
-			WindowPanel.OnMouseOver += new MouseEvent(Dragging);
-			WindowPanel.OnMouseUp += new MouseEvent(DragEnd);
 			Texture2D closeTex = ServerSideCharacter2.ModTexturesTable["CloseButton"];
 			close = new UIButton(closeTex, false);
 			close.Left.Set(-30f, 1f);
@@ -49,9 +29,14 @@ namespace ServerSideCharacter2.GUI.UI
 			close.Height.Set(20f, 0f);
 			close.OnClick += Close_OnClick;
 			//close.OnMouseOver += Close_OnMouseOver;
+			WindowPanel.Left.Set(Main.screenWidth / 2 - 150f, 0f);
+			WindowPanel.Top.Set(Main.screenHeight / 2 - 150f, 0f);
+			WindowPanel.Width.Set(300f, 0f);
+			WindowPanel.Height.Set(300f, 0f);
+			WindowPanel.BackgroundColor = new Color(73, 94, 171) * 0.7f;
 			WindowPanel.Append(close);
 			Initialize(WindowPanel);
-			base.Append(WindowPanel);
+			base.AppendDraggableElement(WindowPanel);
 		}
 
 		public void SetCloseTexture(Texture2D tex)
@@ -59,15 +44,7 @@ namespace ServerSideCharacter2.GUI.UI
 			close.Texture = tex;
 		}
 
-		private void Dragging(UIMouseEvent evt, UIElement listeningElement)
-		{
-			if (_dragging)
-			{
-				Vector2 end = evt.MousePosition;
-				WindowPanel.Left.Set(end.X - _offset.X, 0f);
-				WindowPanel.Top.Set(end.Y - _offset.Y, 0f);
-			}
-		}
+
 
 		protected virtual void Initialize(UIPanel WindowPanel)
 		{
@@ -84,24 +61,7 @@ namespace ServerSideCharacter2.GUI.UI
 
 		}
 
-		protected virtual void OnDraw(SpriteBatch sb)
-		{
 
-		}
 
-		private void DragStart(UIMouseEvent evt, UIElement listeningElement)
-		{
-			_offset = new Vector2(evt.MousePosition.X - WindowPanel.Left.Pixels, evt.MousePosition.Y - WindowPanel.Top.Pixels);
-			_dragging = true;
-		}
-
-		private void DragEnd(UIMouseEvent evt, UIElement listeningElement)
-		{
-			Vector2 end = evt.MousePosition;
-			_dragging = false;
-			WindowPanel.Left.Set(end.X - _offset.X, 0f);
-			WindowPanel.Top.Set(end.Y - _offset.Y, 0f);
-			Recalculate();
-		}
 	}
 }
