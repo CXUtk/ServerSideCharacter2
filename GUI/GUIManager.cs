@@ -16,27 +16,27 @@ namespace ServerSideCharacter2.GUI
 	{
 		private ServerSideCharacter2 _mod;
 		private UserInterface _userInterface;
-		private UIToolButtonState _mainButtonState;
-		private WindowUIState _mainWindow;
+		private ToolButtonState _mainButtonState;
+		private MainWindowState _mainWindow;
 
 		public GUIManager(ServerSideCharacter2 mod)
 		{
 			_mod = mod;
-			_mainButtonState = new UIToolButtonState();
+			_mainButtonState = new ToolButtonState();
 			_userInterface = new UserInterface();
-			_mainWindow = new WindowUIState();
-			//_mainWindow.setAnimation(new Animate.MoveIn(60, new Microsoft.Xna.Framework.Vector2(500, 500)));
+			_mainWindow = new MainWindowState();
+			//_mainWindow.setAnimation(new Animate.MoveIn(60, new Microsoft.Xna.Framework.Vector2(500, 0)));
 			_userInterface.SetState(_mainButtonState);
 		}
 		
 		private void Update_Main()
 		{
-			_userInterface.CurrentState.Update(Main._drawInterfaceGameTime);
+			_userInterface.Update(Main._drawInterfaceGameTime);
 		}
 
 		private void Draw_Main()
 		{
-			_userInterface.CurrentState.Draw(Main.spriteBatch);
+			_userInterface.Draw(Main.spriteBatch, Main._drawInterfaceGameTime);
 		}
 
 		public void RunUI()
@@ -54,7 +54,15 @@ namespace ServerSideCharacter2.GUI
 
 		internal void SwitchState()
 		{
-			_userInterface.SetState(_mainWindow);
+			if (_userInterface.CurrentState.Equals(_mainButtonState))
+				_userInterface.SetState(_mainWindow);
+			else
+				_userInterface.SetState(_mainButtonState);
+		}
+
+		internal void Reset()
+		{
+			_userInterface.SetState(_mainButtonState);
 		}
 	}
 }

@@ -14,8 +14,6 @@ namespace ServerSideCharacter2.GUI.UI
 {
 	public class UIAnimatedState : UIState
 	{
-		protected bool _active = false;
-
 		protected UIAnimation _animation;
 
 		public UIAnimatedState(UIAnimation animation = null)

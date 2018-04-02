@@ -26,15 +26,15 @@ namespace ServerSideCharacter2.GUI.UI
 		public UIImageResizable(Texture2D texture)
 		{
 			this._texture = texture;
-			base.Width.Set((float)this._texture.Width, 0f);
-			base.Height.Set((float)this._texture.Height, 0f);
+			base.Width.Set(this._texture.Width, 0f);
+			base.Height.Set(this._texture.Height, 0f);
 		}
 
 		public void SetImage(Texture2D texture)
 		{
 			this._texture = texture;
-			base.Width.Set((float)this._texture.Width, 0f);
-			base.Height.Set((float)this._texture.Height, 0f);
+			base.Width.Set(this._texture.Width, 0f);
+			base.Height.Set(this._texture.Height, 0f);
 		}
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)

@@ -11,7 +11,7 @@ using Terraria.GameContent.UI.Elements;
 
 namespace ServerSideCharacter2.GUI.UI
 {
-	public class UIToolButtonState : UIDraggableState
+	public class ToolButtonState : UIDraggableState
 	{
 		private UIButton _mainButton;
 
@@ -29,6 +29,7 @@ namespace ServerSideCharacter2.GUI.UI
 			_mainButton.Height.Set(50f, 0f);
 			_mainButton.ButtonChangeColor = Color.White * 0.3f;
 			_mainButton.ButtonDefaultColor = Color.White * 0.75f;
+			_mainButton.OnClick += _mainButton_OnClick;
 			_mainButton.Append(image);
 
 

@@ -116,8 +116,6 @@ namespace ServerSideCharacter2.GUI.UI
 				Drawing.DrawAdvBox(sb, (int)innerDimension.X, (int)innerDimension.Y,
 					(int)innerDimension.Width, (int)innerDimension.Height,
 					CurrentColor, Drawing.Box1, new Vector2(10, 10));
-				if (Texture != null)
-					sb.Draw(Texture, innerDimension.ToRectangle(), Color.White);
 			}
 			else
 			{

@@ -251,7 +251,7 @@ namespace ServerSideCharacter2
 			}
 			else
 			{
-				throw new ArgumentException("Unable to syncronize player data, the player does no exist.");
+				throw new ArgumentException("Unable to syncronize player data, the player does not exist.");
 			}
 		}
 
@@ -275,7 +275,7 @@ namespace ServerSideCharacter2
 			}
 			else
 			{
-				throw new ArgumentException("Unable to syncronize player data, the player does no exist.");
+				throw new ArgumentException("Unable to syncronize player data, the player does not exist.");
 			}
 		}
 

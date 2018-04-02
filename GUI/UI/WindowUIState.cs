@@ -16,8 +16,6 @@ namespace ServerSideCharacter2.GUI.UI
 		private UIPanel WindowPanel;
 		private UIButton close;
 
-
-
 		public sealed override void OnInitialize()
 		{
 			WindowPanel = new UIPanel();
@@ -39,12 +37,15 @@ namespace ServerSideCharacter2.GUI.UI
 			base.AppendDraggableElement(WindowPanel);
 		}
 
+		public new void Append(UIElement element)
+		{
+			WindowPanel.Append(element);
+		}
+
 		public void SetCloseTexture(Texture2D tex)
 		{
 			close.Texture = tex;
 		}
-
-
 
 		protected virtual void Initialize(UIPanel WindowPanel)
 		{
@@ -60,8 +61,6 @@ namespace ServerSideCharacter2.GUI.UI
 		{
 
 		}
-
-
 
 	}
 }
