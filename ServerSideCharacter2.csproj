@@ -101,6 +101,7 @@
     <Content Include="Libraries\Terraria.exe" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Language\zh-cn.json" />
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
@@ -123,8 +124,7 @@
     <Compile Include="Items\RegionItem.cs" />
     <Compile Include="Items\FailedItem.cs" />
     <Compile Include="JsonData\ItemInfo.cs" />
-    <Compile Include="Network\MessageDispatcher.cs" />
-    <Compile Include="Network\MessageChecker.cs" />
+    <Compile Include="JsonData\LanguageData.cs" />
     <Compile Include="Network\PacketHandler.cs" />
     <Compile Include="Network\PlayersDocument.cs" />
     <Compile Include="Network\MessageSender.cs" />
@@ -137,6 +137,7 @@
     <Compile Include="SSCMessageType.cs" />
     <Compile Include="Utils\CommandBoardcast.cs" />
     <Compile Include="Utils\Drawing.cs" />
+    <Compile Include="Utils\GameLanguage.cs" />
     <Compile Include="Utils\PlayerCollection.cs" />
     <Compile Include="Utils\ResourceLoader.cs" />
     <Compile Include="Utils\ServerUtils.cs" />

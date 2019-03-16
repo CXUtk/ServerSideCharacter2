@@ -18,7 +18,6 @@ using ServerSideCharacter2.Network;
 using ServerSideCharacter2.Utils;
 using ServerSideCharacter2.GUI;
 using Newtonsoft.Json;
-using System.Data;
 using Terraria.UI;
 
 namespace ServerSideCharacter2
@@ -44,8 +43,6 @@ namespace ServerSideCharacter2
 		public static UIElement UIMouseLocker;
 
 		private string _authcode;
-
-		private MessageChecker _messageChecker;
 
 		private PacketHandler _packetHandler;
 
@@ -144,7 +141,7 @@ namespace ServerSideCharacter2
 		{
 			try
 			{
-				return _messageChecker.CheckMessage(ref messageType, ref reader, playerNumber);
+				return _packetHandler.Handle(messageType, ref reader, playerNumber);
 			}
 			catch(Exception ex)
 			{
@@ -154,21 +151,21 @@ namespace ServerSideCharacter2
 		}
 
 
-		public override void HandlePacket(BinaryReader reader, int whoAmI)
-		{
-			try
-			{
-				_packetHandler.DispatchPacket(reader, whoAmI);
-			}
-			catch(Exception ex)
-			{
-				CommandBoardcast.ConsoleError(ex);
-			}
-		}
+		//public override void HandlePacket(BinaryReader reader, int whoAmI)
+		//{
+		//	try
+		//	{
+		//		_packetHandler.DispatchPacket(reader, whoAmI);
+		//	}
+		//	catch(Exception ex)
+		//	{
+		//		CommandBoardcast.ConsoleError(ex);
+		//	}
+		//}
 
 		public override void PostSetupContent()
 		{
-			_messageChecker = new MessageChecker();
+			//_messageChecker = new MessageChecker();
 			_packetHandler = new PacketHandler();
 			if (!Main.dedServ)
 			{
@@ -191,6 +188,7 @@ namespace ServerSideCharacter2
 				Main.ServerSideCharacter = true;
 				ErrorLogger = new ErrorLogger("SSC-Log.txt", false);
 				Console.WriteLine("[ServerSideCharacter Mod, Author: DXTsT	Version: " + APIVersion + "]");
+				GameLanguage.LoadLanguage();
 			}
 		}
 

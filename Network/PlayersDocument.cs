@@ -25,6 +25,7 @@ namespace ServerSideCharacter2.Network
 
 		public void SavePlayersData()
 		{
+			ServerSideCharacter2.PlayerCollection.SyncPlayers();
 			string data = ServerSideCharacter2.PlayerCollection.GetJson();
 			using (StreamWriter writer = new StreamWriter(FileName, false, Encoding.UTF8))
 			{
@@ -36,13 +37,13 @@ namespace ServerSideCharacter2.Network
 		{
 			if (!File.Exists(FileName))
 			{
-				CommandBoardcast.ConsoleMessage("Creating players documents...");
+				CommandBoardcast.ConsoleMessage(GameLanguage.GetText("creatingPlayerDoc"));
 				ServerSideCharacter2.PlayerCollection = new PlayerCollection();
 				SavePlayersData();
 				return;
 			}
 
-			CommandBoardcast.ConsoleMessage("Reading players documents...");
+			CommandBoardcast.ConsoleMessage(GameLanguage.GetText("readingPlayerDoc"));
 			string data;
 			using(StreamReader reader = new StreamReader(FileName, Encoding.UTF8))
 			{
@@ -60,6 +61,7 @@ namespace ServerSideCharacter2.Network
 					ServerSideCharacter2.PlayerCollection.Add(p);
 				}
 			}
+			CommandBoardcast.ConsoleMessage(GameLanguage.GetText("FinishReadPlayerDoc"));
 		}
 	}
 }

@@ -1,0 +1,11 @@
+﻿{
+	"languageDictionary": {
+		"savingText": "正在保存服务器数据……",
+		"savedText": "保存完毕！",
+		"readingPlayerDoc": "读取玩家数据中……",
+		"creatingPlayerDoc": "创建玩家数据中……",
+		"recognizedPlayer": "已识别玩家{0}的身份",
+		"newPlayer": "新玩家{0}加入，玩家数据已创建",
+		"FinishReadPlayerDoc": "玩家数据读取完毕"
+	}
+}

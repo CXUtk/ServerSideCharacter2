@@ -26,7 +26,9 @@ namespace ServerSideCharacter2.Commands
 		{
 			try
 			{
+				Console.WriteLine(GameLanguage.GetText("savingText"));
 				ServerSideCharacter2.PlayerDoc.SavePlayersData();
+				Console.WriteLine(GameLanguage.GetText("savedText"));
 			}
 			catch(Exception ex)
 			{

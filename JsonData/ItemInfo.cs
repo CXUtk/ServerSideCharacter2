@@ -58,7 +58,7 @@ namespace ServerSideCharacter2.JsonData
 				{
 					item.netDefaults(ServerSideCharacter2.Instance.ItemType<FailedItem>());
 					((FailedItem)item.modItem).SetUp(FullName);
-					//物品数据会丢失
+					// MOD物品数据会丢失
 				}
 			}
 			else

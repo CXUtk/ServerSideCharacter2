@@ -39,6 +39,14 @@ namespace ServerSideCharacter2.Utils
 			return _playerList[name];
 		}
 
+		public void SyncPlayers()
+		{
+			foreach(var p in _playerList)
+			{
+				p.Value.SyncPlayerToInfo();
+			}
+		}
+
 		public string GetJson()
 		{
 			Dictionary<string, PlayerInfo> PlayersData = new Dictionary<string, PlayerInfo>();
