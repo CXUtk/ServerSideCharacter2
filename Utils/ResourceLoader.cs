@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace ServerSideCharacter2.Utils
@@ -12,6 +13,7 @@ namespace ServerSideCharacter2.Utils
 	{
 		public static void LoadAll()
 		{
+			if (Main.dedServ) return;
 			LoadTextures();
 			Drawing.Box1 = ServerSideCharacter2.ModTexturesTable["Box"];
 			Drawing.Box2 = ServerSideCharacter2.ModTexturesTable["Box2"];

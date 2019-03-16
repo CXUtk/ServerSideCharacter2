@@ -18,7 +18,7 @@ using ServerSideCharacter2.Network;
 using ServerSideCharacter2.Utils;
 using ServerSideCharacter2.GUI;
 using Newtonsoft.Json;
-using System.Windows.Forms;
+using System.Data;
 using Terraria.UI;
 
 namespace ServerSideCharacter2
@@ -168,11 +168,14 @@ namespace ServerSideCharacter2
 
 		public override void PostSetupContent()
 		{
-			ResourceLoader.LoadAll();
 			_messageChecker = new MessageChecker();
 			_packetHandler = new PacketHandler();
-			_manager = new GUIManager(this);
-			if (Main.dedServ)
+			if (!Main.dedServ)
+			{
+				ResourceLoader.LoadAll();
+				_manager = new GUIManager(this);
+			}
+			else
 			{
 				PlayerCollection = new PlayerCollection();
 				PlayerDoc = new PlayersDocument("players.json");
