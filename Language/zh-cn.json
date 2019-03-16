@@ -1,6 +1,6 @@
 ﻿{
 	"languageDictionary": {
-		"savingText": "正在保存服务器数据……",
+		"savingText": "正在保存服务器数据…… 可能会有些许卡顿",
 		"savedText": "保存完毕！",
 		"readingPlayerDoc": "读取玩家数据中……",
 		"creatingPlayerDoc": "创建玩家数据中……",

@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+    <Content Include="Buffs\Locked.png" />
     <Content Include="build.txt" />
     <Content Include="ChangeLog.txt" />
     <Content Include="description.txt" />
@@ -105,6 +106,7 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buffs\Locked.cs" />
     <Compile Include="Commands\SaveCommand.cs" />
     <Compile Include="Extensions\PlayerExtension.cs" />
     <Compile Include="GUI\Animate\UIAnimation.cs" />
@@ -124,9 +126,12 @@
     <Compile Include="Items\RegionItem.cs" />
     <Compile Include="Items\FailedItem.cs" />
     <Compile Include="JsonData\ItemInfo.cs" />
+    <Compile Include="JsonData\ConfigData.cs" />
     <Compile Include="JsonData\LanguageData.cs" />
+    <Compile Include="MPlayer.cs" />
+    <Compile Include="MWorld.cs" />
     <Compile Include="Network\PacketHandler.cs" />
-    <Compile Include="Network\PlayersDocument.cs" />
+    <Compile Include="Core\PlayersDocument.cs" />
     <Compile Include="Network\MessageSender.cs" />
     <Compile Include="Network\PacketModifier.cs" />
     <Compile Include="JsonData\PlayerInfo.cs" />
@@ -136,6 +141,7 @@
     <Compile Include="SSCException.cs" />
     <Compile Include="SSCMessageType.cs" />
     <Compile Include="Utils\CommandBoardcast.cs" />
+    <Compile Include="Utils\ConfigLoader.cs" />
     <Compile Include="Utils\Drawing.cs" />
     <Compile Include="Utils\GameLanguage.cs" />
     <Compile Include="Utils\PlayerCollection.cs" />

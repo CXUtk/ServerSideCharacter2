@@ -19,6 +19,8 @@ using ServerSideCharacter2.Utils;
 using ServerSideCharacter2.GUI;
 using Newtonsoft.Json;
 using Terraria.UI;
+using ServerSideCharacter2.JsonData;
+using ServerSideCharacter2.Core;
 
 namespace ServerSideCharacter2
 {
@@ -41,6 +43,8 @@ namespace ServerSideCharacter2
 		public static PlayersDocument PlayerDoc;
 
 		public static UIElement UIMouseLocker;
+
+		public static ConfigData Config { get; set; }
 
 		private string _authcode;
 
@@ -177,6 +181,7 @@ namespace ServerSideCharacter2
 				PlayerCollection = new PlayerCollection();
 				PlayerDoc = new PlayersDocument("players.json");
 				PlayerDoc.ExtractPlayersData();
+				ConfigLoader.Load();
 			}
 		}
 

@@ -5,10 +5,11 @@ using System.Text;
 using Terraria;
 using Newtonsoft.Json;
 using ServerSideCharacter2.JsonData;
+using System.Collections;
 
 namespace ServerSideCharacter2.Utils
 {
-	public class PlayerCollection
+	public class PlayerCollection : IEnumerable<KeyValuePair<string, ServerPlayer>>
 	{
 		[JsonRequired]
 		private Dictionary<string, ServerPlayer> _playerList;
@@ -43,6 +44,7 @@ namespace ServerSideCharacter2.Utils
 		{
 			foreach(var p in _playerList)
 			{
+				if(p.Value.IsLogin)
 				p.Value.SyncPlayerToInfo();
 			}
 		}
@@ -55,6 +57,16 @@ namespace ServerSideCharacter2.Utils
 				PlayersData.Add(p.Key, p.Value.GetPlayerInfo());
 			}
 			return JsonConvert.SerializeObject(PlayersData);
+		}
+
+		public IEnumerator<KeyValuePair<string, ServerPlayer>> GetEnumerator()
+		{
+			return _playerList.GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return _playerList.GetEnumerator();
 		}
 	}
 }

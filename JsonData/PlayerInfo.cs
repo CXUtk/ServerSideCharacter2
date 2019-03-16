@@ -18,8 +18,6 @@ namespace ServerSideCharacter2.JsonData
 
 		public bool HasPassword { get; set; }
 
-		public bool IsLogin { get; set; }
-
 		public bool TPProtect { get; set; }
 
 		public int LifeMax { get; set; }

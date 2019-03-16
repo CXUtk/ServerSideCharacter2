@@ -315,12 +315,17 @@ namespace ServerSideCharacter2.Network
 			{
 				try
 				{
+					CommandBoardcast.ConsoleMessage(string.Format(GameLanguage.GetText("newPlayer"), Main.player[playerNumber].name));
 					ServerSideCharacter2.PlayerCollection.AddNewPlayer(Main.player[playerNumber]);
 				}
 				catch (Exception ex)
 				{
 					CommandBoardcast.ConsoleError(ex);
 				}
+			}
+			else
+			{
+				CommandBoardcast.ConsoleMessage(string.Format(GameLanguage.GetText("recognizedPlayer"), Main.player[playerNumber].name));
 			}
 			if (Netplay.Clients[playerNumber].State == 3)
 			{
@@ -377,11 +382,10 @@ namespace ServerSideCharacter2.Network
 				NetMessage.SendData(MessageID.PlayerMana, -1, -1, NetworkText.Empty, plr);
 				//MessageSender.SyncPlayerMana(plr, -1, -1);
 				NetMessage.SendData(MessageID.PlayerBuffs, -1, -1, NetworkText.Empty, plr, 0f, 0f, 0f, 0, 0, 0);
-
 				if (toWho == -1)
 				{
-					//player.IsLogin = false;
-					//player.ApplyLockBuffs();
+					player.IsLogin = false;
+					player.Lock();
 				}
 
 				for (int i = 0; i < 59; i++)

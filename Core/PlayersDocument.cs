@@ -8,7 +8,7 @@ using ServerSideCharacter2.Utils;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace ServerSideCharacter2.Network
+namespace ServerSideCharacter2.Core
 {
 	public class PlayersDocument
 	{

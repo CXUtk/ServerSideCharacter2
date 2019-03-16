@@ -42,6 +42,13 @@ namespace ServerSideCharacter2.JsonData
 			return info;
 		}
 
+		public static ItemInfo CreateInfo(int id)
+		{
+			Item item = new Item();
+			item.SetDefaults(id);
+			return CreateInfo(item);
+		}
+
 		public Item ToItem()
 		{
 			Item item = new Item();

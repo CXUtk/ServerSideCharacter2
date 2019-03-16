@@ -42,7 +42,9 @@ namespace ServerSideCharacter2.Utils
 			{
 				return Main.LocalPlayer;
 			}
-		} 
+		}
+
+	
 	}
 
 	public enum NetworkMode : byte

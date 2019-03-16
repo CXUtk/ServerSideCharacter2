@@ -6,6 +6,7 @@ using Terraria.Localization;
 using System;
 using ServerSideCharacter2.Utils;
 using Newtonsoft.Json;
+using Terraria.ModLoader;
 
 namespace ServerSideCharacter2
 {
@@ -52,16 +53,13 @@ namespace ServerSideCharacter2
 			}
 		}
 
-		public bool IsLogin
+
+		public bool IsLogin { get; set; }
+
+		public bool HasPassword
 		{
-			get
-			{
-				return _info.IsLogin;
-			}
-			set
-			{
-				_info.IsLogin = value;
-			}
+			get { return _info.HasPassword; }
+			set { _info.HasPassword = value; }
 		}
 
 		public int StatLife
@@ -175,17 +173,12 @@ namespace ServerSideCharacter2
 		public static ServerPlayer CreateNewPlayer(Player p)
 		{
 			ServerPlayer instance = new ServerPlayer(p);
+			PlayerHooks.SetStartInventory(p);
 			PlayerInfo player = new PlayerInfo
 			{
-				//int i = 0;
-				//foreach (var item in ServerSideCharacter.Config.StartupItems)
-				//{
-				//	player.inventory[i++] = Utils.GetItemFromNet(item);
-				//}
 				Name = p.name,
 				ID = GetNextID(),
 				HasPassword = false,
-				IsLogin = false,
 				TPProtect = true,
 				Password = "",
 				LifeMax = 100,
@@ -193,10 +186,13 @@ namespace ServerSideCharacter2
 				ManaMax = 20,
 				StatMana = 20
 			};
-
+			int i = 0;
+			foreach (var item in ServerSideCharacter2.Config.startUpInventory)
+			{
+				player.inventory[i++] = item;
+			}
 			instance._info = player;
 			instance.SyncPlayerFromInfo();
-
 			return instance;
 		}
 
@@ -285,6 +281,18 @@ namespace ServerSideCharacter2
 			{
 				PrototypePlayer.DelBuff(i);
 			}
+		}
+
+		public void Lock()
+		{
+			PrototypePlayer.AddBuff(ServerSideCharacter2.Instance.BuffType("Locked"), 18000, false);
+			PrototypePlayer.AddBuff(BuffID.Frozen, 18000, false);
+			NetMessage.SendData(MessageID.AddPlayerBuff, PrototypePlayer.whoAmI, -1,
+				NetworkText.Empty, PrototypePlayer.whoAmI,
+				ServerSideCharacter2.Instance.BuffType("Locked"), 18000, 0f, 0, 0, 0);
+			NetMessage.SendData(MessageID.AddPlayerBuff, PrototypePlayer.whoAmI, -1,
+				NetworkText.Empty, PrototypePlayer.whoAmI,
+				BuffID.Frozen, 18000, 0f, 0, 0, 0);
 		}
 	}
 }

@@ -8,7 +8,7 @@ namespace ServerSideCharacter2.Utils
 		public static void ConsoleSaveInfo()
 		{
 			Console.ForegroundColor = ConsoleColor.Yellow;
-			string info = string.Format("[SSC {0}] Saved all player data", ServerSideCharacter2.APIVersion);
+			string info = string.Format("[SSC {0}] " + GameLanguage.GetText("savingText"), ServerSideCharacter2.APIVersion);
 			Console.WriteLine(info);
 			LogInfo(info);
 			Console.ResetColor();
