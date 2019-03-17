@@ -10,6 +10,9 @@ using Terraria.UI;
 
 namespace ServerSideCharacter2.GUI.UI.Component
 {
+	/// <summary>
+	/// 我写的垃圾代码，以后重构
+	/// </summary>
     public class UIButton : UIElement
     {
         /// <summary>
@@ -41,6 +44,9 @@ namespace ServerSideCharacter2.GUI.UI.Component
         /// </summary>
 		public string Tooltip { get; set; }
 
+		public Texture2D BoxTexture { get; set; }
+		public Vector2 CornerSize { get; set; }
+
         private float _alpha;
 
 		private Color _currentColor;
@@ -59,7 +65,9 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			_currentColor = ButtonDefaultColor;
             ButtonTextColor = Color.White;
 			WithBox = withBox;
-			Tooltip = "";            
+			Tooltip = "";
+			CornerSize = new Vector2(10, 10);
+			BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
         }
 
 
@@ -72,15 +80,18 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		public override void MouseDown(UIMouseEvent evt)
 		{
 			OnMouseDown?.Invoke(evt, this);
+			base.MouseDown(evt);
 		}
 		public override void Click(UIMouseEvent evt)
 		{
 			OnClick?.Invoke(evt, this);
+			base.Click(evt);
 		}
 
 		public override void MouseUp(UIMouseEvent evt)
 		{
 			OnMouseUp?.Invoke(evt, this);
+			base.MouseUp(evt);
 		}
 
 
@@ -112,7 +123,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			{
 				Drawing.DrawAdvBox(sb, (int)innerDimension.X, (int)innerDimension.Y,
 					(int)innerDimension.Width, (int)innerDimension.Height,
-					_currentColor, Drawing.Box1, new Vector2(10, 10));
+					_currentColor, BoxTexture, CornerSize);
 			}
 			else
 			{
@@ -123,9 +134,9 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			{
 				Vector2 txtMeasure = Main.fontMouseText.MeasureString(ButtonText);
 				Terraria.Utils.DrawBorderStringFourWay(sb, Main.fontMouseText, ButtonText,
-					innerDimension.Center().X - txtMeasure.X / 2, innerDimension.Center().Y - txtMeasure.Y / 2,
+					innerDimension.Center().X, innerDimension.Center().Y + 4,
 					ButtonTextColor,
-					Color.Black, Vector2.Zero);
+					Color.Black, txtMeasure * 0.5f);
 			}
 		}
     }

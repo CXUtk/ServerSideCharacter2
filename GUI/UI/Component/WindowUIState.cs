@@ -48,7 +48,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			close.Width.Set(20f, 0f);
 			close.Height.Set(20f, 0f);
 			close.ButtonDefaultColor = Color.White;
-			close.ButtonChangeColor = Color.White * 0f;
+			close.ButtonChangeColor = Color.Red;
 			close.OnClick += Close_OnClick;
 			WindowPanel.Append(close);
 			Initialize(WindowPanel);

@@ -15,7 +15,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 	{
 		public event UIDrawEventHandler PostDraw;
 		
-		public int CornerSize
+		public Vector2 CornerSize
 		{
 			get;
 			set;
@@ -25,13 +25,18 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			get;
 			set;
 		}
-		public Color Color = new Color(63, 82, 151) * 0.7f;
+		public Color Color
+		{
+			get;
+			set;
+		}
 
 		public UIAdvPanel(Texture2D texture = null)
 		{
-			CornerSize = 12;
+			CornerSize = new Vector2(12, 12);
 			MainTexture = texture;
-			base.SetPadding(CornerSize);
+			Color = new Color(63, 82, 151) * 0.7f;
+			// base.SetPadding(CornerSize);
 		}
 
 		private void DrawPanel(SpriteBatch spriteBatch, Texture2D texture, Color color)
@@ -40,7 +45,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 				return;
 			CalculatedStyle dimensions = GetDimensions();
 			Drawing.DrawAdvBox(spriteBatch, (int)dimensions.X, (int)dimensions.Y, (int)dimensions.Width,(int)dimensions.Height,
-				Color, MainTexture, new Vector2(CornerSize, CornerSize));
+				Color, MainTexture, CornerSize);
 		}
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)

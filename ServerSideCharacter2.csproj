@@ -108,6 +108,8 @@
   <ItemGroup>
     <Compile Include="Buffs\Locked.cs" />
     <Compile Include="Commands\SaveCommand.cs" />
+    <Compile Include="Core\CryptedUserInfo.cs" />
+    <Compile Include="Crypto\RSACrypto.cs" />
     <Compile Include="Extensions\PlayerExtension.cs" />
     <Compile Include="GUI\GUIManager.cs" />
     <Compile Include="GUI\SSCLayer.cs" />
@@ -124,11 +126,12 @@
     <Compile Include="GUI\UI\Component\UISliderH.cs" />
     <Compile Include="GUI\UI\Component\UISliderV.cs" />
     <Compile Include="GUI\UI\Component\UISlot.cs" />
+    <Compile Include="GUI\UI\Component\UIAdvTextBox.cs" />
     <Compile Include="GUI\UI\Component\UITextButton.cs" />
     <Compile Include="GUI\UI\Component\UIValueChanger.cs" />
     <Compile Include="GUI\UI\Component\WindowUIState.cs" />
     <Compile Include="GUI\UI\ConditionalInterface.cs" />
-    <Compile Include="GUI\UI\State\MainWindowState.cs" />
+    <Compile Include="GUI\UI\State\LoginWindowState.cs" />
     <Compile Include="GUI\UI\Component\UIPage.cs" />
     <Compile Include="GUI\UI\Component\UIImageResizable.cs" />
     <Compile Include="GUI\UI\State\ToolButtonState.cs" />

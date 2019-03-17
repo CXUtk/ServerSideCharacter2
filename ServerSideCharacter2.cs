@@ -21,6 +21,7 @@ using Newtonsoft.Json;
 using Terraria.UI;
 using ServerSideCharacter2.JsonData;
 using ServerSideCharacter2.Core;
+using ServerSideCharacter2.Crypto;
 
 namespace ServerSideCharacter2
 {
@@ -49,6 +50,8 @@ namespace ServerSideCharacter2
 		private PacketHandler _packetHandler;
 
 		private GUIManager _manager;
+
+		private bool Loaded { get; set; }
 
 		public void ChangeState()
 		{
@@ -167,6 +170,7 @@ namespace ServerSideCharacter2
 
 		public override void PostSetupContent()
 		{
+			if (Loaded) return;
 			//_messageChecker = new MessageChecker();
 			_packetHandler = new PacketHandler();
 			if (!Main.dedServ)
@@ -181,6 +185,7 @@ namespace ServerSideCharacter2
 				PlayerDoc.ExtractPlayersData();
 				ConfigLoader.Load();
 			}
+			Loaded = true;
 		}
 
 		public override void Load()
@@ -191,8 +196,9 @@ namespace ServerSideCharacter2
 				Main.ServerSideCharacter = true;
 				ErrorLogger = new ErrorLogger("SSC-Log.txt", false);
 				Console.WriteLine("[ServerSideCharacter Mod, Author: DXTsT	Version: " + APIVersion + "]");
-				GameLanguage.LoadLanguage();
+				RSACrypto.GenKey();
 			}
+			GameLanguage.LoadLanguage();
 		}
 
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
