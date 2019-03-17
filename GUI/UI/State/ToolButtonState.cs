@@ -8,37 +8,38 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.GameContent.UI.Elements;
+using ServerSideCharacter2.GUI.UI.Component;
 
 namespace ServerSideCharacter2.GUI.UI
 {
-	public class ToolButtonState : UIDraggableState
+	public class ToolButtonState : UIState
 	{
-		private UIButton _mainButton;
+		private UIPicButton _mainButton;
 
 		private Texture2D _gearTex;
 
 		public override void OnInitialize()
 		{
-			_gearTex = ServerSideCharacter2.ModTexturesTable["Cog"];
-			UIImageResizable image = new UIImageResizable(_gearTex);
-			image.ImageScale = (50f / _gearTex.Height) * 0.85f;
-			image.AlignType = UIAlignType.AlignCenter;
-
-			_mainButton = new UIButton();
+			_mainButton = new UIPicButton();
+			_mainButton.Texture = ServerSideCharacter2.ModTexturesTable["Cog"];
 			_mainButton.Width.Set(50f, 0f);
 			_mainButton.Height.Set(50f, 0f);
-			_mainButton.ButtonChangeColor = Color.White * 0.3f;
 			_mainButton.ButtonDefaultColor = Color.White * 0.75f;
+			_mainButton.ButtonSecondColor = Color.White * 0.3f;
 			_mainButton.OnClick += _mainButton_OnClick;
-			_mainButton.Append(image);
 
-
-			AppendDraggableElement(_mainButton);
+			Append(_mainButton);
 		}
 
 		private void _mainButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
 			ServerSideCharacter2.Instance.ChangeState();
+		}
+
+		public override void Draw(SpriteBatch spriteBatch)
+		{
+			if (Main.playerInventory) return;
+			base.Draw(spriteBatch);
 		}
 	}
 }

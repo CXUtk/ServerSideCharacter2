@@ -4,122 +4,120 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ServerSideCharacter2.Utils;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
 
-namespace ServerSideCharacter2.GUI.UI
+namespace ServerSideCharacter2.GUI.UI.Component
 {
     public class UIButton : UIElement
     {
         /// <summary>
-        /// Text appeared on the button
+        /// 显现在按钮上的文本
         /// </summary>
         public string ButtonText { get; set; }
-
         /// <summary>
-        /// Color when mouse move on the button
+        /// 鼠标移动到按钮上后需要变成的颜色
         /// </summary>
         public Color ButtonChangeColor { get; set; }
-
         /// <summary>
-        /// Default button color
+        /// 按钮的默认颜色
         /// </summary>
         public Color ButtonDefaultColor { get; set; }
-
         /// <summary>
-        /// Text color
+        /// 按钮文本的颜色
         /// </summary>
         public Color ButtonTextColor { get; set; }
-
         /// <summary>
-        /// True if you want the button using box's texture
-        /// Default: True
+        /// 按钮是否有默认边框，默认为true
         /// </summary>
         public bool WithBox { get; set; }
-
 		/// <summary>
-		/// Button's texture
+		/// 按钮的内部贴图
 		/// </summary>
 		public Texture2D Texture { get; set; }
+        /// <summary>
+        /// 鼠标移动到按钮上后显示的文本
+        /// </summary>
+		public string Tooltip { get; set; }
 
-		/// <summary>
-		/// 渐变动画值
-		/// </summary>
         private float _alpha;
 
-		/// <summary>
-		/// 当前绘制颜色
-		/// </summary>
-		private Color CurrentColor;
+		private Color _currentColor;
 
-		/// <summary>
-		/// 鼠标是否在按钮内
-		/// </summary>
-		private bool isMouseInside = false;
+		public new event UIElement.MouseEvent OnClick;
+		public new event UIElement.MouseEvent OnMouseDown;
+		public new event UIElement.MouseEvent OnMouseUp;
 
-        public UIButton(Texture2D texture = null, bool withBox = true)
+		public UIButton(Texture2D texture, bool withBox = true)
         {
 			Texture = texture;
 			_alpha = 0f;
             ButtonText = "";
-            ButtonChangeColor = Color.White * 0.75f;
+            ButtonChangeColor = Color.White;
             ButtonDefaultColor = Drawing.DefaultBoxColor * 0.75f;
-			CurrentColor = ButtonDefaultColor;
+			_currentColor = ButtonDefaultColor;
             ButtonTextColor = Color.White;
 			WithBox = withBox;
+			Tooltip = "";            
         }
 
 
 		public override void MouseOver(UIMouseEvent evt)
 		{
-			base.MouseOver(evt);
 			Main.PlaySound(12, -1, -1, 1, 1f, 0f);
+			base.MouseOver(evt);
 		}
 
-		public override void MouseOut(UIMouseEvent evt)
+		public override void MouseDown(UIMouseEvent evt)
 		{
-			isMouseInside = false;
+			OnMouseDown?.Invoke(evt, this);
 		}
+		public override void Click(UIMouseEvent evt)
+		{
+			OnClick?.Invoke(evt, this);
+		}
+
+		public override void MouseUp(UIMouseEvent evt)
+		{
+			OnMouseUp?.Invoke(evt, this);
+		}
+
 
 		public override void Update(GameTime gameTime)
 		{
-			if (!isMouseInside)
+            if(Tooltip != "" && ContainsPoint(Main.MouseScreen))
+			{
+				ServerSideCharacter2.ShowTooltip = Tooltip;
+			}
+
+			if (!IsMouseHovering)
 			{
 				if (_alpha > 0)
 					_alpha -= 0.05f;
-				CurrentColor = Color.Lerp(ButtonDefaultColor, ButtonChangeColor, _alpha);
+				_currentColor = Color.Lerp(ButtonDefaultColor, ButtonChangeColor, _alpha);
 			}
-			if (ContainsPoint(Main.MouseScreen))
+			else
 			{
-				isMouseInside = true;
-				if (_alpha < 1)
+				if (_alpha < 1.0f)
 					_alpha += 0.05f;
-				CurrentColor = Color.Lerp(ButtonDefaultColor, ButtonChangeColor, _alpha);
+				_currentColor = Color.Lerp(ButtonDefaultColor, ButtonChangeColor, _alpha);
 			}
-
-			PostUpdate();
+			base.Update(gameTime);
 		}
-
-		protected virtual void PostUpdate()
-		{
-
-		}
-
 		protected override void DrawSelf(SpriteBatch sb)
 		{
-
 			CalculatedStyle innerDimension = GetInnerDimensions();
 			if (WithBox)
 			{
 				Drawing.DrawAdvBox(sb, (int)innerDimension.X, (int)innerDimension.Y,
 					(int)innerDimension.Width, (int)innerDimension.Height,
-					CurrentColor, Drawing.Box1, new Vector2(10, 10));
+					_currentColor, Drawing.Box1, new Vector2(10, 10));
 			}
 			else
 			{
-				sb.Draw(Texture, innerDimension.ToRectangle(), CurrentColor);
+				if (Texture != null)
+					sb.Draw(Texture, innerDimension.ToRectangle(), _currentColor);
 			}
 			if (ButtonText != "")
 			{

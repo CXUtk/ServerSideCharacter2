@@ -9,17 +9,12 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
 
-namespace ServerSideCharacter2.GUI.UI
+namespace ServerSideCharacter2.GUI.UI.Component
 {
 	public class UIImageResizable : UIElement
 	{
 		private Texture2D _texture;
 
-		public UIAlignType AlignType
-		{
-			get;
-			set;
-		}
 
 		public float ImageScale = 1f;
 
@@ -40,14 +35,14 @@ namespace ServerSideCharacter2.GUI.UI
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
 			CalculatedStyle dimensions = base.GetDimensions();
-			if (AlignType == UIAlignType.AlignCenter)
-			{
-				spriteBatch.Draw(this._texture, dimensions.Center(), null, Color.White, 0f, _texture.Size() * 0.5f, this.ImageScale, SpriteEffects.None, 0f);
-			}
-			else
-			{
-				spriteBatch.Draw(this._texture, dimensions.Position(), null, Color.White, 0f, Vector2.Zero, this.ImageScale, SpriteEffects.None, 0f);
-			}
+			//if (AlignType == UIAlignType.AlignCenter)
+			//{
+			//	spriteBatch.Draw(this._texture, dimensions.Center(), null, Color.White, 0f, _texture.Size() * 0.5f, this.ImageScale, SpriteEffects.None, 0f);
+			//}
+			//else
+			//{
+			//	spriteBatch.Draw(this._texture, dimensions.Position(), null, Color.White, 0f, Vector2.Zero, this.ImageScale, SpriteEffects.None, 0f);
+			//}
 		}
 	}
 }

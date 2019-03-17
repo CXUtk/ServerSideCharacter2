@@ -30,10 +30,6 @@ namespace ServerSideCharacter2
 
 		public static Dictionary<string, Texture2D> ModTexturesTable = new Dictionary<string, Texture2D>();
 
-		public static Vector2 TilePos1;
-
-		public static Vector2 TilePos2;
-
 		public static PlayerCollection PlayerCollection;
 
 		public static string APIVersion = "V1.0";
@@ -45,6 +41,8 @@ namespace ServerSideCharacter2
 		public static UIElement UIMouseLocker;
 
 		public static ConfigData Config { get; set; }
+
+		public static string ShowTooltip { get; internal set; }
 
 		private string _authcode;
 
@@ -203,11 +201,13 @@ namespace ServerSideCharacter2
 			if(MouseTextIndex != -1)
 			{
 				layers.Insert(MouseTextIndex, new SSCLayer(_manager));
+				layers.Insert(MouseTextIndex + 1, new GameInterfaceLayer("SSC: Tooltip", InterfaceScaleType.UI));
 			}
 			else
 			{
 				throw new SSCException("Unable to add UI interface to the game!");
 			}
 		}
+
 	}
 }

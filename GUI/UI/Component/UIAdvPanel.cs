@@ -4,33 +4,40 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ServerSideCharacter2.Utils;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
 
-namespace ServerSideCharacter2.GUI.UI
+namespace ServerSideCharacter2.GUI.UI.Component
 {
-	/// <summary>
-	/// 高级UI面板：
-	/// 用于绘制可自定义边框样式贴图的基本面版
-	/// </summary>
+	public delegate void UIDrawEventHandler(UIElement sender, SpriteBatch sb);
 	public class UIAdvPanel : UIElement
 	{
-		public int CornerSize = 12;
-		private const int TEXTURE_PADDING = 3;
-		private const int BAR_SIZE = 2;
-		public Texture2D MainTexture;
+		public event UIDrawEventHandler PostDraw;
+		
+		public int CornerSize
+		{
+			get;
+			set;
+		}
+		public Texture2D MainTexture
+		{
+			get;
+			set;
+		}
 		public Color Color = new Color(63, 82, 151) * 0.7f;
 
-		public UIAdvPanel(Texture2D texture)
+		public UIAdvPanel(Texture2D texture = null)
 		{
+			CornerSize = 12;
 			MainTexture = texture;
 			base.SetPadding(CornerSize);
 		}
 
 		private void DrawPanel(SpriteBatch spriteBatch, Texture2D texture, Color color)
 		{
+			if (MainTexture == null)
+				return;
 			CalculatedStyle dimensions = GetDimensions();
 			Drawing.DrawAdvBox(spriteBatch, (int)dimensions.X, (int)dimensions.Y, (int)dimensions.Width,(int)dimensions.Height,
 				Color, MainTexture, new Vector2(CornerSize, CornerSize));
@@ -39,6 +46,8 @@ namespace ServerSideCharacter2.GUI.UI
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
 			this.DrawPanel(spriteBatch, MainTexture, Color);
+			PostDraw?.Invoke(this, spriteBatch);
 		}
+
 	}
 }

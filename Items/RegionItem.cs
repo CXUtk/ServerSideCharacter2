@@ -33,23 +33,23 @@ namespace ServerSideCharacter2.Items
 		{
 			return true;
 		}
-		public override bool UseItem(Player player)
-		{
+		//public override bool UseItem(Player player)
+		//{
 			
-			if (player.altFunctionUse != 2 && Main.mouseLeftRelease)
-			{
-				Vector2 tilePos = new Vector2(Player.tileTargetX, Player.tileTargetY);
-				ServerSideCharacter2.TilePos1 = tilePos;
-				Main.NewText(string.Format("Selected tile positon 1 at ({0}, {1})", tilePos.X, tilePos.Y));
-			}
-			else if (player.altFunctionUse == 2 && Main.mouseRightRelease)
-			{
-				Vector2 tilePos = new Vector2(Player.tileTargetX, Player.tileTargetY);
-				ServerSideCharacter2.TilePos2 = tilePos;
-				Main.NewText(string.Format("Selected tile positon 2 at ({0}, {1})", tilePos.X, tilePos.Y));
-			}
-			return true;
-		}
+		//	if (player.altFunctionUse != 2 && Main.mouseLeftRelease)
+		//	{
+		//		Vector2 tilePos = new Vector2(Player.tileTargetX, Player.tileTargetY);
+		//		ServerSideCharacter2.TilePos1 = tilePos;
+		//		Main.NewText(string.Format("Selected tile positon 1 at ({0}, {1})", tilePos.X, tilePos.Y));
+		//	}
+		//	else if (player.altFunctionUse == 2 && Main.mouseRightRelease)
+		//	{
+		//		Vector2 tilePos = new Vector2(Player.tileTargetX, Player.tileTargetY);
+		//		ServerSideCharacter2.TilePos2 = tilePos;
+		//		Main.NewText(string.Format("Selected tile positon 2 at ({0}, {1})", tilePos.X, tilePos.Y));
+		//	}
+		//	return true;
+		//}
 
 	}
 }

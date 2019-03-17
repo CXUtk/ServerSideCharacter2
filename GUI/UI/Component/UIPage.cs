@@ -9,7 +9,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
 
-namespace ServerSideCharacter2.GUI.UI
+namespace ServerSideCharacter2.GUI.UI.Component
 {
 	/// <summary>
 	/// 高级UI面板：

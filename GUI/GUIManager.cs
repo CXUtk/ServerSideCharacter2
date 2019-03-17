@@ -17,14 +17,14 @@ namespace ServerSideCharacter2.GUI
 		private ServerSideCharacter2 _mod;
 		private UserInterface _userInterface;
 		private ToolButtonState _mainButtonState;
-		private MainWindowState _mainWindow;
+		private LoginWindowState _mainWindow;
 
 		public GUIManager(ServerSideCharacter2 mod)
 		{
 			_mod = mod;
 			_mainButtonState = new ToolButtonState();
 			_userInterface = new UserInterface();
-			_mainWindow = new MainWindowState();
+			_mainWindow = new LoginWindowState();
 			//_mainWindow.setAnimation(new Animate.MoveIn(60, new Microsoft.Xna.Framework.Vector2(500, 0)));
 			_userInterface.SetState(_mainButtonState);
 		}

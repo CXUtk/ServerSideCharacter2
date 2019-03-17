@@ -55,7 +55,7 @@ namespace ServerSideCharacter2
 							}
 						}
 					}
-					if (Main.time % 3600 < 1)
+					if (Main.time % ServerSideCharacter2.Config.SaveInterval < 1)
 					{
 						ThreadPool.QueueUserWorkItem(Do_Save);
 					}
