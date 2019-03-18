@@ -101,7 +101,8 @@ namespace ServerSideCharacter2.GUI.UI
 				_relaxTimer--;
 			else
 			{
-				Relax();
+				if(!_submitFormButton.Enabled)
+					Relax();
 			}
 			base.Update(gameTime);
 		}

@@ -24,8 +24,8 @@ namespace ServerSideCharacter2.GUI
 
 		private const int FADEIN_TIME = 20;
 		private const int FADEOUT_TIME = 20;
-		private const float MSG_MAX_WIDTH = 300;
-		private const float MSG_MAX_HEIGHT = 50;
+		private const float MSG_MAX_WIDTH = 500;
+		private const float MSG_MAX_HEIGHT = 70;
 
 		public void ShowMessage(string msg, int time, Color color)
 		{

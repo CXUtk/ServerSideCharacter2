@@ -53,7 +53,7 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.RSAPublic,  ReceiveRSA},
 				{SSCMessageType.SuccessLogin,  SuccessLogin},
 				{SSCMessageType.FailLogin,  FailedLogin},
-				{SSCMessageType.WelcomeMessage,  FailedLogin},
+				{SSCMessageType.WelcomeMessage,  WelcomeMessage},
 			};
 		}
 
