@@ -11,7 +11,7 @@
 		RequestItem,
 		RequestAuth,
 		ResetPassword,
-		SendLoginPassword,
+		LoginPassword,
 		SendTimeSet,
 		HelpCommand,
 		KillCommand,
@@ -35,7 +35,11 @@
 		ServerSideCharacter,
 		GenResources,
 		ChestCommand,
-		TPProtect
+		TPProtect,
+		RSAPublic,
+		SuccessLogin,
+		FailLogin,
+		WelcomeMessage
 	}
 
 	public enum GenerationType

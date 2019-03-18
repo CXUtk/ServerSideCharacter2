@@ -12,6 +12,7 @@ using ServerSideCharacter2.GUI.UI.Component;
 using Terraria.GameContent.UI.States;
 using ServerSideCharacter2.Utils;
 using System.Security.Cryptography;
+using ServerSideCharacter2.Core;
 
 namespace ServerSideCharacter2.GUI.UI
 {
@@ -21,6 +22,7 @@ namespace ServerSideCharacter2.GUI.UI
 		private UIAdvTextBox _usernameText;
 		private UIAdvTextBox _passwordText;
 		private UIButton _submitFormButton;
+		private int _relaxTimer;
 
 		private const float LOGIN_WIDTH = 320;
 		private const float LOGIN_HEIGHT = 200;
@@ -85,12 +87,33 @@ namespace ServerSideCharacter2.GUI.UI
 		{
 			var username = _usernameText.Text;
 			var password = _passwordText.Text;
+			CryptedUserInfo info = CryptedUserInfo.Create(username, password);
+			_submitFormButton.Enabled = false;
+			Main.NewText(info.ToString());
+			MessageSender.SendLoginPassword(info);
+			// ServerSideCharacter2.Instance.ShowMessage("已经提交", 120);
+			_relaxTimer = 180;
+		}
 
+		public override void Update(GameTime gameTime)
+		{
+			if (_relaxTimer > 0)
+				_relaxTimer--;
+			else
+			{
+				Relax();
+			}
+			base.Update(gameTime);
 		}
 
 		protected override void OnClose(UIMouseEvent evt, UIElement listeningElement)
 		{
 			ServerSideCharacter2.Instance.ChangeState();
+		}
+
+		public void Relax()
+		{
+			_submitFormButton.Enabled = true;
 		}
 	}
 }

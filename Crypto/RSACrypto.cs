@@ -14,6 +14,13 @@ namespace ServerSideCharacter2.Crypto
 		private static string privateKey;
 
 		private static bool isSet;
+		public static string PublicKey
+		{
+			get
+			{
+				return publicKey;
+			}
+		}
 
 		public static void GenKey()
 		{

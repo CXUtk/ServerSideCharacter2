@@ -50,16 +50,18 @@ namespace ServerSideCharacter2.Core
 				data = reader.ReadToEnd();
 			}
 
-			var dict = JsonConvert.DeserializeObject<Dictionary<string, PlayerInfo>>(data);
-			if (dict.Count > 0)
+			var dict = JsonConvert.DeserializeObject<ServerPlayerInfo>(data);
+			if (dict.Playerdata.Count > 0)
 			{
-				foreach (var player in dict)
+				foreach (var player in dict.Playerdata)
 				{
 					ServerPlayer p = new ServerPlayer();
 					p.SetPlayerInfo(player.Value);
 					p.SyncPlayerFromInfo();
 					ServerSideCharacter2.PlayerCollection.Add(p);
 				}
+				ServerSideCharacter2.PlayerCollection.SetID(dict.CurrentID);
+
 			}
 			CommandBoardcast.ConsoleMessage(GameLanguage.GetText("FinishReadPlayerDoc"));
 		}

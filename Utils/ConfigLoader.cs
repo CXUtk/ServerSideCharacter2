@@ -20,13 +20,21 @@ namespace ServerSideCharacter2.Utils
 			}
 			else
 			{
-				string data;
-				using (StreamReader reader = new StreamReader(defaultName, Encoding.UTF8))
+				try
 				{
-					data = reader.ReadToEnd();
-				}
+					string data;
+					using (StreamReader reader = new StreamReader(defaultName, Encoding.UTF8))
+					{
+						data = reader.ReadToEnd();
+					}
 
-				ServerSideCharacter2.Config = JsonConvert.DeserializeObject<ConfigData>(data);
+					ServerSideCharacter2.Config = JsonConvert.DeserializeObject<ConfigData>(data);
+				}
+				catch(Exception ex)
+				{
+					CommandBoardcast.ConsoleError("读取配置文件出错");
+					CommandBoardcast.ConsoleError(ex);
+				} 
 			}
 		}
 

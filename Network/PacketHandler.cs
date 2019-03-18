@@ -289,7 +289,7 @@ namespace ServerSideCharacter2.Network
 		//	}
 		//	return true;
 		//}
-
+		bool newflag = false;
 		private bool PlayerSpawn(ref BinaryReader reader, int playerNumber)
 		{
 			int id = reader.ReadByte();
@@ -310,11 +310,13 @@ namespace ServerSideCharacter2.Network
 			{
 				return true;
 			}
+
 			//如果数据中没有玩家的信息
 			if (!ServerSideCharacter2.PlayerCollection.ContainsKey(Main.player[playerNumber].name))
 			{
 				try
 				{
+					newflag = true;
 					CommandBoardcast.ConsoleMessage(string.Format(GameLanguage.GetText("newPlayer"), Main.player[playerNumber].name));
 					ServerSideCharacter2.PlayerCollection.AddNewPlayer(Main.player[playerNumber]);
 				}
@@ -327,12 +329,16 @@ namespace ServerSideCharacter2.Network
 			{
 				CommandBoardcast.ConsoleMessage(string.Format(GameLanguage.GetText("recognizedPlayer"), Main.player[playerNumber].name));
 			}
+			
+
 			if (Netplay.Clients[playerNumber].State == 3)
 			{
 				Netplay.Clients[playerNumber].State = 10;
 				NetMessage.greetPlayer(playerNumber);
 				NetMessage.buffer[playerNumber].broadcast = true;
 				SyncConnectedPlayer(playerNumber);
+				MessageSender.SendRSAPublic();
+				
 				NetMessage.SendData(MessageID.SpawnPlayer, -1, playerNumber, NetworkText.Empty, playerNumber, 0f, 0f, 0f, 0, 0, 0);
 				NetMessage.SendData(MessageID.AnglerQuest, playerNumber, -1, NetworkText.FromLiteral(Main.player[playerNumber].name), Main.anglerQuest, 0f, 0f, 0f, 0, 0, 0);
 				return true;
@@ -367,7 +373,7 @@ namespace ServerSideCharacter2.Network
 			{
 				string name = Main.player[plr].name;
 				ServerPlayer player = ServerSideCharacter2.PlayerCollection.Get(name);
-				player.PrototypePlayer = Main.player[plr];
+				player.SetID(plr);
 				player.ApplyToPlayer();
 				player.ClearAllBuffs();
 				Main.player[plr].trashItem = new Item();
@@ -386,7 +392,9 @@ namespace ServerSideCharacter2.Network
 				{
 					player.IsLogin = false;
 					player.Lock();
+					MessageSender.SendWelcomeMessage(plr, GameLanguage.GetText("welcomenew"));
 				}
+
 
 				for (int i = 0; i < 59; i++)
 				{
@@ -416,10 +424,10 @@ namespace ServerSideCharacter2.Network
 				if (!Netplay.Clients[plr].IsAnnouncementCompleted)
 				{
 					Netplay.Clients[plr].IsAnnouncementCompleted = true;
-					NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(Main.player[plr].name + " joined the Game. Welcome!"), new Color(255, 255, 240, 20), plr);
+					NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(Main.player[plr].name + GameLanguage.GetText("entergame")), new Color(255, 255, 240, 20), plr);
 					if (Main.dedServ)
 					{
-						Console.WriteLine(Main.player[plr].name + " joined the Game. Welcome!");
+						Console.WriteLine(Main.player[plr].name + GameLanguage.GetText("entergame"));
 					}
 				}
 			}
@@ -430,10 +438,10 @@ namespace ServerSideCharacter2.Network
 				if (Netplay.Clients[plr].IsAnnouncementCompleted)
 				{
 					Netplay.Clients[plr].IsAnnouncementCompleted = false;
-					NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(Netplay.Clients[plr].Name + " lefted the Game!"), new Color(255, 255, 240, 20), plr);
+					NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(Netplay.Clients[plr].Name + GameLanguage.GetText("leavegame")), new Color(255, 255, 240, 20), plr);
 					if (Main.dedServ)
 					{
-						Console.WriteLine(Netplay.Clients[plr].Name + " lefted the Game!");
+						Console.WriteLine(Netplay.Clients[plr].Name + GameLanguage.GetText("leavegame"));
 					}
 					Netplay.Clients[plr].Name = "Anonymous";
 				}

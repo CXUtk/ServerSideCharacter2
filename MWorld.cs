@@ -17,6 +17,7 @@ namespace ServerSideCharacter2
 		public static bool ServerStarted = false;
 
 
+
 		public override void PostUpdate()
 		{
 			if (Main.netMode == 2)
@@ -46,10 +47,14 @@ namespace ServerSideCharacter2
 										player.Value.ApplyLockBuffs();
 										NetMessage.SendChatMessageToClient(NetworkText.FromLiteral("Welcome! You are new to here. Please use /register <password> to register an account!"), new Color(255, 255, 30, 30), playerID);
 									}
-									if (player.Value.HasPassword && !player.Value.IsLogin)
+									else if (player.Value.HasPassword && !player.Value.IsLogin)
 									{
 										player.Value.ApplyLockBuffs();
 										NetMessage.SendChatMessageToClient(NetworkText.FromLiteral("Welcome! You have already created an account. Please type /login <password> to login!"), new Color(255, 255, 30, 30), playerID);
+									}
+									if (!player.Value.PrototypePlayer.active)
+									{
+										player.Value.SetID(-1);
 									}
 								}
 							}

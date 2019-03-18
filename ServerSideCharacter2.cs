@@ -22,6 +22,7 @@ using Terraria.UI;
 using ServerSideCharacter2.JsonData;
 using ServerSideCharacter2.Core;
 using ServerSideCharacter2.Crypto;
+using System.Windows.Forms;
 
 namespace ServerSideCharacter2
 {
@@ -45,13 +46,15 @@ namespace ServerSideCharacter2
 
 		public static string ShowTooltip { get; internal set; }
 
-		private string _authcode;
-
 		private PacketHandler _packetHandler;
+
+		private SSCPacketHandler _sscPacketHandler;
 
 		private GUIManager _manager;
 
 		private bool Loaded { get; set; }
+
+		private MessageDisplayer messageDisplayer;
 
 		public void ChangeState()
 		{
@@ -156,27 +159,30 @@ namespace ServerSideCharacter2
 		}
 
 
-		//public override void HandlePacket(BinaryReader reader, int whoAmI)
-		//{
-		//	try
-		//	{
-		//		_packetHandler.DispatchPacket(reader, whoAmI);
-		//	}
-		//	catch(Exception ex)
-		//	{
-		//		CommandBoardcast.ConsoleError(ex);
-		//	}
-		//}
+		public override void HandlePacket(BinaryReader reader, int whoAmI)
+		{
+			try
+			{
+				SSCMessageType type = (SSCMessageType)reader.ReadInt32();
+				_sscPacketHandler.Handle(type, reader, whoAmI);
+			}
+			catch (Exception ex)
+			{
+				CommandBoardcast.ConsoleError(ex);
+			}
+		}
 
 		public override void PostSetupContent()
 		{
 			if (Loaded) return;
 			//_messageChecker = new MessageChecker();
 			_packetHandler = new PacketHandler();
+			_sscPacketHandler = new SSCPacketHandler();
 			if (!Main.dedServ)
 			{
 				ResourceLoader.LoadAll();
 				_manager = new GUIManager(this);
+				messageDisplayer = new MessageDisplayer();
 			}
 			else
 			{
@@ -213,6 +219,28 @@ namespace ServerSideCharacter2
 			{
 				throw new SSCException("Unable to add UI interface to the game!");
 			}
+		}
+
+		public override void UpdateUI(GameTime gameTime)
+		{
+			messageDisplayer.Update(gameTime);
+			_manager.UpdateUI(gameTime);
+			base.UpdateUI(gameTime);
+		}
+
+		public void ShowMessage(string msg, int time, Color color)
+		{
+			messageDisplayer.ShowMessage(msg, time, color);
+		}
+
+		public override void PostDrawInterface(SpriteBatch spriteBatch)
+		{
+			messageDisplayer.Draw(spriteBatch);
+		}
+
+		public void RelaxButton()
+		{
+			_manager.RelaxGUI();
 		}
 
 	}

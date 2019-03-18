@@ -9,6 +9,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
 using ServerSideCharacter2.GUI.UI;
+using Microsoft.Xna.Framework;
 
 namespace ServerSideCharacter2.GUI
 {
@@ -29,21 +30,30 @@ namespace ServerSideCharacter2.GUI
 			_userInterface.SetState(_mainButtonState);
 		}
 		
-		private void Update_Main()
+		public void RelaxGUI()
 		{
-			_userInterface.Update(Main._drawInterfaceGameTime);
+			_mainWindow.Relax();
 		}
 
 		private void Draw_Main()
 		{
 			_userInterface.Draw(Main.spriteBatch, Main._drawInterfaceGameTime);
 		}
-
+		public void UpdateUI(GameTime gameTime) 
+		{
+			try
+			{
+				_userInterface.Update(gameTime);
+			}
+			catch (Exception ex)
+			{
+				Main.NewText(ex);
+			}
+		}
 		public void RunUI()
 		{
 			try
 			{
-				Update_Main();
 				Draw_Main();
 			}
 			catch(Exception ex)

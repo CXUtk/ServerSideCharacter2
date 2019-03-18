@@ -1,4 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using ServerSideCharacter2.Core;
+using ServerSideCharacter2.Crypto;
+using ServerSideCharacter2.Utils;
 using Terraria;
 using Terraria.ModLoader;
 namespace ServerSideCharacter2
@@ -101,13 +104,12 @@ namespace ServerSideCharacter2
 			p.Send();
 		}
 
-		public static void SendLoginPassword(int plr, string password)
+		public static void SendLoginPassword(CryptedUserInfo info)
 		{
-			string name = Main.player[plr].name;
+			if (Main.netMode != 1) return;
 			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
-			p.Write((int)SSCMessageType.SendLoginPassword);
-			p.Write((byte)plr);
-			p.Write(password);
+			p.Write((int)SSCMessageType.LoginPassword);
+			p.Write(info.GetEncryptedData());
 			p.Send();
 		}
 
@@ -307,6 +309,51 @@ namespace ServerSideCharacter2
 			p.Write((int)SSCMessageType.TPProtect);
 			p.Write((byte)Main.myPlayer);
 			p.Send();
+		}
+
+		public static void SendRSAPublic()
+		{
+			if(Main.netMode == 2)
+			{
+				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				// CommandBoardcast.ConsoleMessage("发送RSA公钥");
+				p.Write((int)SSCMessageType.RSAPublic);
+				p.Write(RSACrypto.PublicKey);
+				p.Send();
+			}
+		}
+
+		public static void SendLoginSuccess(int to, string msg)
+		{
+			if (Main.netMode == 2)
+			{
+				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				p.Write((int)SSCMessageType.SuccessLogin);
+				p.Write(msg);
+				p.Send(to);
+			}
+		}
+
+		public static void SendLoginFailed(int to, string msg)
+		{
+			if (Main.netMode == 2)
+			{
+				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				p.Write((int)SSCMessageType.FailLogin);
+				p.Write(msg);
+				p.Send(to);
+			}
+		}
+
+		public static void SendWelcomeMessage(int to, string msg)
+		{
+			if (Main.netMode == 2)
+			{
+				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				p.Write((int)SSCMessageType.WelcomeMessage);
+				p.Write(msg);
+				p.Send(to);
+			}
 		}
 
 		//public static void SendChestCommand(ChestManager.Pending pending, int plr, string friendName = null)

@@ -20,10 +20,6 @@ namespace ServerSideCharacter2
 			Locked = false;
 		}
 
-		public override void SetupStartInventory(IList<Item> items)
-		{
-			base.SetupStartInventory(items);
-		}
 
 		public override void SetControls()
 		{
@@ -70,6 +66,7 @@ namespace ServerSideCharacter2
 				// 给玩家一个很长世界的锁debuff，直到服务器解除
 				player.AddBuff(mod.BuffType("Locked"), 18000);
 			}
+			ServerSideCharacter2.Instance.RelaxButton();
 		}
 
 

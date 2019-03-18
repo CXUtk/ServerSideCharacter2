@@ -78,14 +78,14 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Terraria, Version=1.3.5.1, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\FallenStar49\Libraries\Terraria.exe</HintPath>
+      <HintPath>Libraries\Terraria.exe</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
     <Content Include="Buffs\Locked.png" />
     <Content Include="build.txt" />
-    <Content Include="ChangeLog.txt" />
+    <None Include="ChangeLog.md" />
     <Content Include="description.txt" />
     <Content Include="Graphics\Cog.png" />
     <Content Include="Graphics\Bar.png" />
@@ -108,7 +108,8 @@
   <ItemGroup>
     <Compile Include="Buffs\Locked.cs" />
     <Compile Include="Commands\SaveCommand.cs" />
-    <Compile Include="Core\CryptedUserInfo.cs" />
+    <Compile Include="GUI\MessageDisplayer.cs" />
+    <Compile Include="JsonData\CryptedUserInfo.cs" />
     <Compile Include="Crypto\RSACrypto.cs" />
     <Compile Include="Extensions\PlayerExtension.cs" />
     <Compile Include="GUI\GUIManager.cs" />
@@ -140,8 +141,10 @@
     <Compile Include="JsonData\ItemInfo.cs" />
     <Compile Include="JsonData\ConfigData.cs" />
     <Compile Include="JsonData\LanguageData.cs" />
+    <Compile Include="JsonData\ServerPlayerInfo.cs" />
     <Compile Include="MPlayer.cs" />
     <Compile Include="MWorld.cs" />
+    <Compile Include="Network\SSCPacketHandler.cs" />
     <Compile Include="Network\PacketHandler.cs" />
     <Compile Include="Core\PlayersDocument.cs" />
     <Compile Include="Network\MessageSender.cs" />
@@ -156,7 +159,7 @@
     <Compile Include="Utils\ConfigLoader.cs" />
     <Compile Include="Utils\Drawing.cs" />
     <Compile Include="Utils\GameLanguage.cs" />
-    <Compile Include="Utils\PlayerCollection.cs" />
+    <Compile Include="Core\PlayerCollection.cs" />
     <Compile Include="Utils\ResourceLoader.cs" />
     <Compile Include="Utils\ServerUtils.cs" />
   </ItemGroup>

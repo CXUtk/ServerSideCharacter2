@@ -46,6 +46,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 
 		public Texture2D BoxTexture { get; set; }
 		public Vector2 CornerSize { get; set; }
+		public bool Enabled { get; set; }
 
         private float _alpha;
 
@@ -66,6 +67,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
             ButtonTextColor = Color.White;
 			WithBox = withBox;
 			Tooltip = "";
+			Enabled = true;
 			CornerSize = new Vector2(10, 10);
 			BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
         }
@@ -73,7 +75,8 @@ namespace ServerSideCharacter2.GUI.UI.Component
 
 		public override void MouseOver(UIMouseEvent evt)
 		{
-			Main.PlaySound(12, -1, -1, 1, 1f, 0f);
+			if (Enabled)
+				Main.PlaySound(12, -1, -1, 1, 1f, 0f);
 			base.MouseOver(evt);
 		}
 
@@ -84,7 +87,8 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		}
 		public override void Click(UIMouseEvent evt)
 		{
-			OnClick?.Invoke(evt, this);
+			if (Enabled)
+				OnClick?.Invoke(evt, this);
 			base.Click(evt);
 		}
 

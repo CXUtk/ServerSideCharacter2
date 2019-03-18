@@ -9,5 +9,8 @@
 		"FinishReadPlayerDoc": "玩家数据读取完毕",
 		"username": "用户名",
 		"password": "密码",
+		"entergame": " 加入了游戏",
+		"leavegame": " 退出了游戏",
+		"welcomenew": "欢迎新来的小伙伴，点击旁边的齿轮就可以跳到登录界面哦！"
 	}
 }

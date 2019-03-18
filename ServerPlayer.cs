@@ -7,6 +7,7 @@ using System;
 using ServerSideCharacter2.Utils;
 using Newtonsoft.Json;
 using Terraria.ModLoader;
+using ServerSideCharacter2.Core;
 
 namespace ServerSideCharacter2
 {
@@ -27,8 +28,10 @@ namespace ServerSideCharacter2
 		public Chest bank2 = new Chest(true);
 		public Chest bank3 = new Chest(true);
 
+		private int playerID = -1;
+
 		[JsonIgnore]
-		public Player PrototypePlayer { get; set; }
+		public Player PrototypePlayer { get { if (playerID == -1) return null; return Main.player[playerID]; } }
 
 		public string GetSerializedString()
 		{
@@ -155,7 +158,12 @@ namespace ServerSideCharacter2
 		public ServerPlayer(Player player)
 		{
 			SetupPlayer();
-			PrototypePlayer = player;
+			playerID = player.whoAmI;
+		}
+
+		public void SetID(int id)
+		{
+			playerID = id;
 		}
 
 		public void ApplyLockBuffs(int time = 180)
@@ -177,7 +185,7 @@ namespace ServerSideCharacter2
 			PlayerInfo player = new PlayerInfo
 			{
 				Name = p.name,
-				ID = GetNextID(),
+				ID = ServerSideCharacter2.PlayerCollection.GetNextID(),
 				HasPassword = false,
 				TPProtect = true,
 				Password = "",
@@ -196,10 +204,6 @@ namespace ServerSideCharacter2
 			return instance;
 		}
 
-		private static int GetNextID()
-		{
-			return _NextID++;
-		}
 
 		public void SendErrorInfo(string msg)
 		{
@@ -283,6 +287,8 @@ namespace ServerSideCharacter2
 			}
 		}
 
+	
+
 		public void Lock()
 		{
 			PrototypePlayer.AddBuff(ServerSideCharacter2.Instance.BuffType("Locked"), 18000, false);
@@ -293,6 +299,17 @@ namespace ServerSideCharacter2
 			NetMessage.SendData(MessageID.AddPlayerBuff, PrototypePlayer.whoAmI, -1,
 				NetworkText.Empty, PrototypePlayer.whoAmI,
 				BuffID.Frozen, 18000, 0f, 0, 0, 0);
+		}
+
+		public bool CheckPassword(CryptedUserInfo info)
+		{
+			return info.Password.Equals(_info.Password);
+		}
+
+		public void SetPassword(CryptedUserInfo info)
+		{
+			HasPassword = true;
+			_info.Password = info.Password;
 		}
 	}
 }
