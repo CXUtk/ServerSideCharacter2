@@ -110,7 +110,9 @@
     <Compile Include="Commands\SaveCommand.cs" />
     <Compile Include="GUI\MessageDisplayer.cs" />
     <Compile Include="GUI\UI\Component\ToggableElement.cs" />
+    <Compile Include="GUI\UI\State\PlayerOnlineWindow.cs" />
     <Compile Include="GUI\UI\State\ToolBarState.cs" />
+    <Compile Include="GUI\UI\ToolBarServiceManager.cs" />
     <Compile Include="JsonData\CryptedUserInfo.cs" />
     <Compile Include="Crypto\RSACrypto.cs" />
     <Compile Include="Extensions\PlayerExtension.cs" />
@@ -137,7 +139,6 @@
     <Compile Include="GUI\UI\State\LoginWindowState.cs" />
     <Compile Include="GUI\UI\Component\UIPage.cs" />
     <Compile Include="GUI\UI\Component\UIImageResizable.cs" />
-    <Compile Include="GUI\UI\State\ToolButtonState.cs" />
     <Compile Include="Items\RegionItem.cs" />
     <Compile Include="Items\FailedItem.cs" />
     <Compile Include="JsonData\ItemInfo.cs" />
@@ -155,6 +156,14 @@
     <Compile Include="ErrorLogger.cs" />
     <Compile Include="ServerPlayer.cs" />
     <Compile Include="ServerSideCharacter2.cs" />
+    <Compile Include="Services\ISSCNetService.cs" />
+    <Compile Include="Services\ISSCToolBarService.cs" />
+    <Compile Include="Services\Login\Authorization.cs" />
+    <Compile Include="Services\Login\LoginMessage.cs" />
+    <Compile Include="Services\Login\LoginService.cs" />
+    <Compile Include="Services\OnlinePlayer\OnlinePlayerService.cs" />
+    <Compile Include="Services\ReceiveRSA.cs" />
+    <Compile Include="Services\NormalMessage.cs" />
     <Compile Include="SSCException.cs" />
     <Compile Include="SSCMessageType.cs" />
     <Compile Include="Utils\CommandBoardcast.cs" />
@@ -165,9 +174,7 @@
     <Compile Include="Utils\ResourceLoader.cs" />
     <Compile Include="Utils\ServerUtils.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>
     <VisualStudio AllowExistingFolder="true" />

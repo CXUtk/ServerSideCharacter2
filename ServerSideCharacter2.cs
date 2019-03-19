@@ -23,28 +23,31 @@ using ServerSideCharacter2.JsonData;
 using ServerSideCharacter2.Core;
 using ServerSideCharacter2.Crypto;
 using System.Windows.Forms;
+using ServerSideCharacter2.GUI.UI;
 
 namespace ServerSideCharacter2
 {
 	public class ServerSideCharacter2 : Mod
 	{
-		public static ServerSideCharacter2 Instance;
+		internal static ServerSideCharacter2 Instance;
 
-		public static Dictionary<string, Texture2D> ModTexturesTable = new Dictionary<string, Texture2D>();
+		internal static Dictionary<string, Texture2D> ModTexturesTable = new Dictionary<string, Texture2D>();
 
-		public static PlayerCollection PlayerCollection;
+		internal static PlayerCollection PlayerCollection;
 
-		public static string APIVersion = "V1.0";
+		internal static string APIVersion = "V0.1 测试";
 
-		public static ErrorLogger ErrorLogger;
+		internal static ErrorLogger ErrorLogger;
 
-		public static PlayersDocument PlayerDoc;
+		internal static PlayersDocument PlayerDoc;
 
-		public static UIElement UIMouseLocker;
+		internal static UIElement UIMouseLocker;
 
-		public static ConfigData Config { get; set; }
+		internal static ConfigData Config { get; set; }
 
-		public static string ShowTooltip { get; internal set; }
+		internal static string ShowTooltip { get; set; }
+
+		public static ToolBarServiceManager ToolBarServiceManager { get; set; }
 
 		private PacketHandler _packetHandler;
 
@@ -56,7 +59,8 @@ namespace ServerSideCharacter2
 
 		private MessageDisplayer messageDisplayer;
 
-		public void ChangeState(SSCUIState state)
+
+		internal void ChangeState(SSCUIState state)
 		{
 			_manager.ToggleState(state);
 		}
@@ -149,6 +153,7 @@ namespace ServerSideCharacter2
 		{
 			try
 			{
+				// 处理原版消息的地方
 				return _packetHandler.Handle(messageType, ref reader, playerNumber);
 			}
 			catch(Exception ex)
@@ -163,6 +168,7 @@ namespace ServerSideCharacter2
 		{
 			try
 			{
+				// 处理自定义消息的地方
 				SSCMessageType type = (SSCMessageType)reader.ReadInt32();
 				_sscPacketHandler.Handle(type, reader, whoAmI);
 			}
@@ -181,15 +187,19 @@ namespace ServerSideCharacter2
 			_sscPacketHandler = new SSCPacketHandler();
 			if (!Main.dedServ)
 			{
+				// 加载资源只有在非服务器端才会执行
+				ToolBarServiceManager = new ToolBarServiceManager();
 				ResourceLoader.LoadAll();
 				_manager = new GUIManager(this);
 				messageDisplayer = new MessageDisplayer();
 			}
 			else
 			{
+				// 生成玩家存档，这里用json文件存储玩家信息
 				PlayerCollection = new PlayerCollection();
 				PlayerDoc = new PlayersDocument("players.json");
 				PlayerDoc.ExtractPlayersData();
+
 				ConfigLoader.Load();
 			}
 			Loaded = true;
@@ -201,8 +211,11 @@ namespace ServerSideCharacter2
 			if (Main.dedServ)
 			{
 				Main.ServerSideCharacter = true;
+				// 错误记录日志
 				ErrorLogger = new ErrorLogger("SSC-Log.txt", false);
 				Console.WriteLine("[ServerSideCharacter Mod, Author: DXTsT	Version: " + APIVersion + "]");
+				
+				// 服务器端生成RSA私钥
 				RSACrypto.GenKey();
 			}
 			GameLanguage.LoadLanguage();

@@ -80,6 +80,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 
 		}
 
+
 		private void Close_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
 			OnClose(evt, listeningElement);

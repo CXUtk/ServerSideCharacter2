@@ -14,6 +14,8 @@ namespace ServerSideCharacter2.GUI.UI
 {
 	public class ToolBarState : UIState
 	{
+		public int ButtonsCount { get { return _toolButtons.Count; } }
+
 		private UIAdvPanel windowPanel;
 		private bool _collapseOn;
 		private UIButton _openButton;
@@ -27,18 +29,17 @@ namespace ServerSideCharacter2.GUI.UI
 		private const float TOOLBAR_ICON_PADDING_LEFT = 30f;
 		private const float TOOLBAR_ICON_MARGIN_LEFT = 50f;
 
-		public void UnlockButtons(int n)
+		public void ShowButtons()
 		{
-			if (n > _toolButtons.Count) return;
 			windowPanel.RemoveAllChildren();
-			for(int i = 0; i < n; i++)
+			for(int i = 0; i < _toolButtons.Count; i++)
 			{
 				var but = _toolButtons[i];
 				but.Top.Set(-but.Height.Pixels / 2, 0.5f);
 				but.Left.Set(TOOLBAR_ICON_PADDING_LEFT + i * TOOLBAR_ICON_MARGIN_LEFT, 0f);
 				windowPanel.Append(but);
 			}
-			float estimatedWidth = TOOLBAR_ICON_PADDING_LEFT * 2 + n * TOOLBAR_ICON_MARGIN_LEFT;
+			float estimatedWidth = TOOLBAR_ICON_PADDING_LEFT * 2 + _toolButtons.Count * TOOLBAR_ICON_MARGIN_LEFT;
 			if(estimatedWidth < TOOLBAR_INIT_WIDTH)
 			{
 				estimatedWidth = TOOLBAR_INIT_WIDTH;
@@ -50,13 +51,7 @@ namespace ServerSideCharacter2.GUI.UI
 
 		private void SetUpButtons()
 		{
-			var boxTex = ServerSideCharacter2.ModTexturesTable["Box"];
-			UIButton loginButton = new UIButton(ServerSideCharacter2.ModTexturesTable["Cog"], false);
-			loginButton.OnClick += LoginButton_OnClick;
-			loginButton.Width.Set(35, 0f);
-			loginButton.Height.Set(35, 0f);
-			loginButton.Tooltip = "登录界面";
-			_toolButtons.Add(loginButton);
+			ServerSideCharacter2.ToolBarServiceManager.GetButtons(_toolButtons);
 		}
 
 		private void LoginButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
@@ -86,7 +81,7 @@ namespace ServerSideCharacter2.GUI.UI
 			_openButton.OnClick += OpenPanel_OnClick;
 
 			SetUpButtons();
-			UnlockButtons(1);
+			ShowButtons();
 			base.Append(_openButton);
 			base.Append(windowPanel);
 			

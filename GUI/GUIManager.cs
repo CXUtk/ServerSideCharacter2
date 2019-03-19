@@ -16,13 +16,14 @@ namespace ServerSideCharacter2.GUI
 	public enum SSCUIState
 	{
 		LoginWindow,	
+		PlayerOnlineWindow
 	}
 	public class GUIManager
 	{
 		private ServerSideCharacter2 _mod;
 
-		private UserInterface _mainInterface;
 		private LoginWindowState _loginWindowState;
+		private PlayerOnlineWindow _playerOnlineWindow;
 
 		private UserInterface _toolBarInterface;
 
@@ -34,21 +35,34 @@ namespace ServerSideCharacter2.GUI
 		public GUIManager(ServerSideCharacter2 mod)
 		{
 			_mod = mod;
-			_mainInterface = new UserInterface();
-			_loginWindowState = new LoginWindowState();
+
+			
 
 			_toolBarInterface = new UserInterface();
 			_toolBarInterface.SetState(new ToolBarState());
 
-
-			_canShowUITable.Add(SSCUIState.LoginWindow, false);
+			foreach (var type in typeof(SSCUIState).GetEnumValues())
+			{
+				_canShowUITable.Add((SSCUIState)type, false);
+			}
 
 			_cdInterface = new CDInterfaceManager();
+
+			SetWindows();
+
+		}
+
+		private void SetWindows()
+		{
+			_loginWindowState = new LoginWindowState();
 			ConditionalInterface loginWindow = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.LoginWindow]; });
 			loginWindow.SetState(_loginWindowState);
 			_cdInterface.Add(loginWindow);
 
-
+			_playerOnlineWindow = new PlayerOnlineWindow();
+			ConditionalInterface playerOnlineWindow = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.PlayerOnlineWindow]; });
+			playerOnlineWindow.SetState(_playerOnlineWindow);
+			_cdInterface.Add(playerOnlineWindow);
 		}
 		
 		public void RelaxGUI()

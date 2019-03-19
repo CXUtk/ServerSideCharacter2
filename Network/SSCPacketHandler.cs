@@ -14,13 +14,13 @@ using Terraria.ModLoader;
 using ServerSideCharacter2.Core;
 using ServerSideCharacter2.Crypto;
 using System.Windows.Forms;
+using ServerSideCharacter2.Services;
 
 namespace ServerSideCharacter2.Network
 {
 	public class SSCPacketHandler
 	{
-		public delegate bool SSCPacketHandlerDelegate(BinaryReader reader, int playerNumber);
-		private Dictionary<SSCMessageType, SSCPacketHandlerDelegate> _packethandler;
+		private Dictionary<SSCMessageType, ISSCNetService> _packethandler;
 		public SSCPacketHandler()
 		{
 			RegisterHandler();
@@ -30,10 +30,10 @@ namespace ServerSideCharacter2.Network
 		{
 			try
 			{
-				SSCPacketHandlerDelegate method;
+				ISSCNetService method;
 				if (_packethandler.TryGetValue(msgType, out method))
 				{
-					return method(reader, playerNumber);
+					return method.Handle(reader, playerNumber);
 				}
 			}
 			catch (Exception ex)
@@ -47,93 +47,14 @@ namespace ServerSideCharacter2.Network
 
 		private void RegisterHandler()
 		{
-			_packethandler = new Dictionary<SSCMessageType, SSCPacketHandlerDelegate>()
+			_packethandler = new Dictionary<SSCMessageType, ISSCNetService>()
 			{
-				{SSCMessageType.LoginPassword,  LoginMsg},
-				{SSCMessageType.RSAPublic,  ReceiveRSA},
-				{SSCMessageType.SuccessLogin,  SuccessLogin},
-				{SSCMessageType.FailLogin,  FailedLogin},
-				{SSCMessageType.WelcomeMessage,  WelcomeMessage},
+				{SSCMessageType.LoginPassword,  new Services.Login.Authorization()},
+				{SSCMessageType.RSAPublic,  new ReceiveRSA()},
+				{SSCMessageType.SuccessLogin,  new Services.Login.LoginMessage(Color.Green)},
+				{SSCMessageType.FailLogin,  new Services.Login.LoginMessage(Color.Red)},
+				{SSCMessageType.WelcomeMessage,  new NormalMessage()},
 			};
-		}
-
-		private void successLogin(ServerPlayer player)
-		{
-			player.IsLogin = true;
-			player.ClearAllBuffs();
-			NetMessage.SendData(MessageID.PlayerBuffs, -1, -1, NetworkText.Empty, player.PrototypePlayer.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-		}
-
-		private bool LoginMsg(BinaryReader reader, int playerNumber)
-		{
-			if(Main.netMode == 2)
-			{
-				string encrypted = reader.ReadString();
-				var info = CryptedUserInfo.GetDecrypted(encrypted);
-				var serverPlayer = Main.player[playerNumber].GetServerPlayer();
-				if (serverPlayer.HasPassword)
-				{
-					if (serverPlayer.CheckPassword(info))
-					{
-						successLogin(serverPlayer);
-						MessageSender.SendLoginSuccess(serverPlayer.PrototypePlayer.whoAmI, "认证成功");
-						CommandBoardcast.ConsoleMessage("玩家 " + serverPlayer.Name + " 认证成功");
-					}
-					else
-					{
-						MessageSender.SendLoginFailed(playerNumber, "密码错误！");
-					}
-				}
-				else
-				{
-					serverPlayer.SetPassword(info);
-					successLogin(serverPlayer);
-					MessageSender.SendLoginSuccess(serverPlayer.PrototypePlayer.whoAmI, "注册成功");
-				}
-			}
-			return false;
-		}
-
-		private bool ReceiveRSA(BinaryReader reader, int playerNumber)
-		{
-			if (Main.netMode == 1)
-			{
-				string publicKey = reader.ReadString();
-				RSACrypto.SetPublicKey(publicKey);
-			}
-			return false;
-		}
-
-		private bool SuccessLogin(BinaryReader reader, int playerNumber)
-		{
-			if (Main.netMode == 1)
-			{
-				string msg = reader.ReadString();
-				ServerSideCharacter2.Instance.ShowMessage(msg, 120, Color.Green);
-				ServerSideCharacter2.Instance.RelaxButton();
-			}
-			return false;
-		}
-
-		private bool FailedLogin(BinaryReader reader, int playerNumber)
-		{
-			if (Main.netMode == 1)
-			{
-				string msg = reader.ReadString();
-				ServerSideCharacter2.Instance.ShowMessage(msg, 120, Color.Red);
-				ServerSideCharacter2.Instance.RelaxButton();
-			}
-			return false;
-		}
-
-		private bool WelcomeMessage(BinaryReader reader, int playerNumber)
-		{
-			if (Main.netMode == 1)
-			{
-				string msg = reader.ReadString();
-				ServerSideCharacter2.Instance.ShowMessage(msg, 120, Color.White);
-			}
-			return false;
 		}
 	}
 }
