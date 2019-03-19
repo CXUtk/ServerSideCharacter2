@@ -40,6 +40,8 @@ namespace ServerSideCharacter2.GUI.UI.Component
 
 		public bool Password { get; set; }
 
+		private bool _mouseDowned = false;
+
 
 		public UIAdvTextBox()
 		{
@@ -57,16 +59,16 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			textPanel.Left.Set(0, 0);
 			textPanel.Width.Set(0, 1);
 			textPanel.Height.Set(0, 1);
-			textPanel.OnClick += TextPanel_OnClick;
-
 			this.Append(textPanel);
 
 
 		}
 
-		private void TextPanel_OnClick(UIMouseEvent evt, UIElement listeningElement)
+
+		public override void Click(UIMouseEvent evt)
 		{
 			Focus();
+			base.Click(evt);
 		}
 
 
@@ -87,11 +89,22 @@ namespace ServerSideCharacter2.GUI.UI.Component
 
 		public override void Update(GameTime gameTime)
 		{
-			base.Update(gameTime);
-			if (!IsMouseHovering && Main.mouseLeft && Main.mouseLeftRelease)
+			if (Main.mouseLeft)
 			{
-				UnFocus();
+				_mouseDowned = true;
 			}
+			if (Main.mouseLeftRelease)
+			{
+				if (_mouseDowned)
+				{
+					if (!IsMouseHovering)
+					{
+						UnFocus();
+					}
+				}
+				_mouseDowned = false;
+			}
+
 			if (Focused)
 			{
 				if (textBlinkCount > 0)
@@ -102,6 +115,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 					textBlinking = !textBlinking;
 				}
 			}
+			base.Update(gameTime);
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)

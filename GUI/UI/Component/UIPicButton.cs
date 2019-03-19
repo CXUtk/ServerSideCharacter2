@@ -33,6 +33,8 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		/// </summary>
 		public string Tooltip { get; set; }
 
+		public bool CanDrag { get; set; }
+
 		public Rectangle? SourceRect
 		{
 			get;
@@ -50,6 +52,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		{
 			ButtonDefaultColor = Color.White;
 			SourceRect = null;
+			Tooltip = "";
 		}
 
 
@@ -99,7 +102,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 
 		public override void Update(GameTime gameTime)
 		{
-			if (_dragging)
+			if (CanDrag && _dragging)
 			{
 				Vector2 end = Main.MouseScreen;
 				Left.Set(end.X - _offset.X, 0f);

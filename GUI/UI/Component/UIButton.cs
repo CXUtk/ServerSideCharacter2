@@ -13,8 +13,8 @@ namespace ServerSideCharacter2.GUI.UI.Component
 	/// <summary>
 	/// 我写的垃圾代码，以后重构
 	/// </summary>
-    public class UIButton : UIElement
-    {
+    public class UIButton : ToggableElement
+	{
         /// <summary>
         /// 显现在按钮上的文本
         /// </summary>
@@ -46,7 +46,6 @@ namespace ServerSideCharacter2.GUI.UI.Component
 
 		public Texture2D BoxTexture { get; set; }
 		public Vector2 CornerSize { get; set; }
-		public bool Enabled { get; set; }
 
         private float _alpha;
 
@@ -101,7 +100,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 
 		public override void Update(GameTime gameTime)
 		{
-            if(Tooltip != "" && ContainsPoint(Main.MouseScreen))
+            if(Tooltip != "" && IsMouseHovering)
 			{
 				ServerSideCharacter2.ShowTooltip = Tooltip;
 			}

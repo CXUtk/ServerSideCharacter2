@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 using Terraria;
 using Terraria.ID;
 using Terraria.IO;
@@ -16,13 +17,14 @@ namespace ServerSideCharacter2.GUI
 {
 	public class TooltipLayer : GameInterfaceLayer
 	{
-		private TooltipLayer(string name, InterfaceScaleType scaleType) : base(name, scaleType)
+		public TooltipLayer(string name, InterfaceScaleType scaleType) : base(name, scaleType)
 		{
 
 		}
 
 		protected override bool DrawSelf()
 		{
+			if (ServerSideCharacter2.ShowTooltip == null) return true;
 			if (ServerSideCharacter2.ShowTooltip != "")
 			{
 				Vector2 size = Main.fontMouseText.MeasureString(ServerSideCharacter2.ShowTooltip);
@@ -32,11 +34,12 @@ namespace ServerSideCharacter2.GUI
 				if (drawPos.X > Main.screenWidth - size.X)
 					drawPos.X = Main.screenWidth - size.X - 30.0f;
 				Drawing.DrawBox(Main.spriteBatch, new Rectangle((int)drawPos.X - 5, (int)drawPos.Y - 10, (int)size.X + 10, (int)size.Y + 10),
-					Color.White, 0.8f, Drawing.Box2);
+					Color.White * 0.75f, 0.8f, ServerSideCharacter2.ModTexturesTable["Box2"]);
 				Drawing.DrawColorCodedString(Main.spriteBatch, Main.fontMouseText, ServerSideCharacter2.ShowTooltip, drawPos);
 			}
 			ServerSideCharacter2.ShowTooltip = "";
-			return true;
+
+			return base.DrawSelf();
 		}
 	}
 }

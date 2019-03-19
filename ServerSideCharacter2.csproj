@@ -109,6 +109,8 @@
     <Compile Include="Buffs\Locked.cs" />
     <Compile Include="Commands\SaveCommand.cs" />
     <Compile Include="GUI\MessageDisplayer.cs" />
+    <Compile Include="GUI\UI\Component\ToggableElement.cs" />
+    <Compile Include="GUI\UI\State\ToolBarState.cs" />
     <Compile Include="JsonData\CryptedUserInfo.cs" />
     <Compile Include="Crypto\RSACrypto.cs" />
     <Compile Include="Extensions\PlayerExtension.cs" />

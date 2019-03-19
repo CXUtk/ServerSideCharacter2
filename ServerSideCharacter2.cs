@@ -56,9 +56,9 @@ namespace ServerSideCharacter2
 
 		private MessageDisplayer messageDisplayer;
 
-		public void ChangeState()
+		public void ChangeState(SSCUIState state)
 		{
-			_manager.SwitchState();
+			_manager.ToggleState(state);
 		}
 
 		public ServerSideCharacter2()
@@ -176,6 +176,7 @@ namespace ServerSideCharacter2
 		{
 			if (Loaded) return;
 			//_messageChecker = new MessageChecker();
+			ShowTooltip = "";
 			_packetHandler = new PacketHandler();
 			_sscPacketHandler = new SSCPacketHandler();
 			if (!Main.dedServ)
@@ -212,8 +213,8 @@ namespace ServerSideCharacter2
 			int MouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
 			if(MouseTextIndex != -1)
 			{
-				layers.Insert(MouseTextIndex, new SSCLayer(_manager));
-				layers.Insert(MouseTextIndex + 1, new GameInterfaceLayer("SSC: Tooltip", InterfaceScaleType.UI));
+				layers.Insert(MouseTextIndex + 1, new SSCLayer(_manager));
+				layers.Add(new TooltipLayer("SSC: Tooltip", InterfaceScaleType.UI));
 			}
 			else
 			{

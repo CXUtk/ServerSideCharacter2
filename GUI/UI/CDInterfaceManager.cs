@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using Terraria;
 
-namespace MusicBox.UI
+namespace ServerSideCharacter2.GUI.UI
 {
 	public class CDInterfaceManager
 	{

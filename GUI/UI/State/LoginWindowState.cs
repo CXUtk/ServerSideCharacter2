@@ -91,7 +91,7 @@ namespace ServerSideCharacter2.GUI.UI
 			_submitFormButton.Enabled = false;
 			Main.NewText(info.ToString());
 			MessageSender.SendLoginPassword(info);
-			// ServerSideCharacter2.Instance.ShowMessage("已经提交", 120);
+			// ServerSideCharacter2.Instance.ShowMessage("已经提交AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 120, Color.White);
 			_relaxTimer = 180;
 		}
 
@@ -109,7 +109,7 @@ namespace ServerSideCharacter2.GUI.UI
 
 		protected override void OnClose(UIMouseEvent evt, UIElement listeningElement)
 		{
-			ServerSideCharacter2.Instance.ChangeState();
+			ServerSideCharacter2.Instance.ChangeState(SSCUIState.LoginWindow);
 		}
 
 		public void Relax()

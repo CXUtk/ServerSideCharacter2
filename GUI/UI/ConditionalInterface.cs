@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Terraria.UI;
 
-namespace MusicBox.UI
+namespace ServerSideCharacter2.GUI.UI
 {
 	public class ConditionalInterface : UserInterface
 	{

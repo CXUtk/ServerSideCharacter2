@@ -13,37 +13,55 @@ using Microsoft.Xna.Framework;
 
 namespace ServerSideCharacter2.GUI
 {
+	public enum SSCUIState
+	{
+		LoginWindow,	
+	}
 	public class GUIManager
 	{
 		private ServerSideCharacter2 _mod;
-		private UserInterface _userInterface;
-		private ToolButtonState _mainButtonState;
-		private LoginWindowState _mainWindow;
+
+		private UserInterface _mainInterface;
+		private LoginWindowState _loginWindowState;
+
+		private UserInterface _toolBarInterface;
+
+		private CDInterfaceManager _cdInterface;
+
+		private Dictionary<SSCUIState, bool> _canShowUITable = new Dictionary<SSCUIState, bool>();
+	
 
 		public GUIManager(ServerSideCharacter2 mod)
 		{
 			_mod = mod;
-			_mainButtonState = new ToolButtonState();
-			_userInterface = new UserInterface();
-			_mainWindow = new LoginWindowState();
-			//_mainWindow.setAnimation(new Animate.MoveIn(60, new Microsoft.Xna.Framework.Vector2(500, 0)));
-			_userInterface.SetState(_mainButtonState);
+			_mainInterface = new UserInterface();
+			_loginWindowState = new LoginWindowState();
+
+			_toolBarInterface = new UserInterface();
+			_toolBarInterface.SetState(new ToolBarState());
+
+
+			_canShowUITable.Add(SSCUIState.LoginWindow, false);
+
+			_cdInterface = new CDInterfaceManager();
+			ConditionalInterface loginWindow = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.LoginWindow]; });
+			loginWindow.SetState(_loginWindowState);
+			_cdInterface.Add(loginWindow);
+
+
 		}
 		
 		public void RelaxGUI()
 		{
-			_mainWindow.Relax();
+			_loginWindowState.Relax();
 		}
 
-		private void Draw_Main()
-		{
-			_userInterface.Draw(Main.spriteBatch, Main._drawInterfaceGameTime);
-		}
 		public void UpdateUI(GameTime gameTime) 
 		{
 			try
 			{
-				_userInterface.Update(gameTime);
+				_cdInterface.Update(gameTime);
+				_toolBarInterface.Update(gameTime);
 			}
 			catch (Exception ex)
 			{
@@ -54,7 +72,8 @@ namespace ServerSideCharacter2.GUI
 		{
 			try
 			{
-				Draw_Main();
+				_cdInterface.Draw(Main.spriteBatch);
+				_toolBarInterface.Draw(Main.spriteBatch, Main._drawInterfaceGameTime);
 			}
 			catch(Exception ex)
 			{
@@ -62,17 +81,15 @@ namespace ServerSideCharacter2.GUI
 			}
 		}
 
-		internal void SwitchState()
+		internal void ToggleState(SSCUIState state)
 		{
-			if (_userInterface.CurrentState.Equals(_mainButtonState))
-				_userInterface.SetState(_mainWindow);
-			else
-				_userInterface.SetState(_mainButtonState);
+			if (!_canShowUITable.ContainsKey(state)) throw new ArgumentException("不存在此UI状态");
+			_canShowUITable[state] ^= true;
 		}
 
 		internal void Reset()
 		{
-			_userInterface.SetState(_mainButtonState);
+
 		}
 	}
 }
