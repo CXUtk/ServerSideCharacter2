@@ -52,9 +52,11 @@ namespace ServerSideCharacter2
 										player.Value.ApplyLockBuffs();
 										NetMessage.SendChatMessageToClient(NetworkText.FromLiteral("Welcome! You have already created an account. Please type /login <password> to login!"), new Color(255, 255, 30, 30), playerID);
 									}
-									if (!player.Value.PrototypePlayer.active)
+									CommandBoardcast.ConsoleMessage(player.Value.HasPassword.ToString());
+									CommandBoardcast.ConsoleMessage(player.Value.IsLogin.ToString());
+									if (!player.Value.PrototypePlayer.active && player.Value.IsLogin)
 									{
-										player.Value.SetID(-1);
+										player.Value.SyncPlayerToInfo();
 									}
 								}
 							}
@@ -80,9 +82,12 @@ namespace ServerSideCharacter2
 		{
 			try
 			{
-				CommandBoardcast.ConsoleSaveInfo();
-				ServerSideCharacter2.PlayerDoc.SavePlayersData();
-				ConfigLoader.Save();
+				lock (ServerSideCharacter2.PlayerCollection)
+				{
+					CommandBoardcast.ConsoleSaveInfo();
+					ServerSideCharacter2.PlayerDoc.SavePlayersData();
+					ConfigLoader.Save();
+				}
 			}
 			catch (Exception ex)
 			{

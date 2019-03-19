@@ -1,4 +1,4 @@
-#define DEBUGMODE
+ï»¿#define DEBUGMODE
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -35,7 +35,7 @@ namespace ServerSideCharacter2
 
 		internal static PlayerCollection PlayerCollection;
 
-		internal static string APIVersion = "V0.1 ²âÊÔ";
+		internal static string APIVersion = "V0.1 æµ‹è¯•";
 
 		internal static ErrorLogger ErrorLogger;
 
@@ -153,7 +153,7 @@ namespace ServerSideCharacter2
 		{
 			try
 			{
-				// ´¦ÀíÔ­°æÏûÏ¢µÄµØ·½
+				// å¤„ç†åŸç‰ˆæ¶ˆæ¯çš„åœ°æ–¹
 				return _packetHandler.Handle(messageType, ref reader, playerNumber);
 			}
 			catch(Exception ex)
@@ -168,7 +168,7 @@ namespace ServerSideCharacter2
 		{
 			try
 			{
-				// ´¦Àí×Ô¶¨ÒåÏûÏ¢µÄµØ·½
+				// å¤„ç†è‡ªå®šä¹‰æ¶ˆæ¯çš„åœ°æ–¹
 				SSCMessageType type = (SSCMessageType)reader.ReadInt32();
 				_sscPacketHandler.Handle(type, reader, whoAmI);
 			}
@@ -187,7 +187,7 @@ namespace ServerSideCharacter2
 			_sscPacketHandler = new SSCPacketHandler();
 			if (!Main.dedServ)
 			{
-				// ¼ÓÔØ×ÊÔ´Ö»ÓĞÔÚ·Ç·şÎñÆ÷¶Ë²Å»áÖ´ĞĞ
+				// åŠ è½½èµ„æºåªæœ‰åœ¨éæœåŠ¡å™¨ç«¯æ‰ä¼šæ‰§è¡Œ
 				ToolBarServiceManager = new ToolBarServiceManager();
 				ResourceLoader.LoadAll();
 				_manager = new GUIManager(this);
@@ -195,7 +195,7 @@ namespace ServerSideCharacter2
 			}
 			else
 			{
-				// Éú³ÉÍæ¼Ò´æµµ£¬ÕâÀïÓÃjsonÎÄ¼ş´æ´¢Íæ¼ÒĞÅÏ¢
+				// ç”Ÿæˆç©å®¶å­˜æ¡£ï¼Œè¿™é‡Œç”¨jsonæ–‡ä»¶å­˜å‚¨ç©å®¶ä¿¡æ¯
 				PlayerCollection = new PlayerCollection();
 				PlayerDoc = new PlayersDocument("players.json");
 				PlayerDoc.ExtractPlayersData();
@@ -211,11 +211,11 @@ namespace ServerSideCharacter2
 			if (Main.dedServ)
 			{
 				Main.ServerSideCharacter = true;
-				// ´íÎó¼ÇÂ¼ÈÕÖ¾
+				// é”™è¯¯è®°å½•æ—¥å¿—
 				ErrorLogger = new ErrorLogger("SSC-Log.txt", false);
 				Console.WriteLine("[ServerSideCharacter Mod, Author: DXTsT	Version: " + APIVersion + "]");
 				
-				// ·şÎñÆ÷¶ËÉú³ÉRSAË½Ô¿
+				// æœåŠ¡å™¨ç«¯ç”ŸæˆRSAç§é’¥
 				RSACrypto.GenKey();
 			}
 			GameLanguage.LoadLanguage();

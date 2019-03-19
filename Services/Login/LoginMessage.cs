@@ -8,7 +8,7 @@ using Terraria;
 
 namespace ServerSideCharacter2.Services.Login
 {
-	public class LoginMessage : ISSCNetService
+	public class LoginMessage : ISSCNetHandler
 	{
 		private Color textColor; 
 		public LoginMessage(Color color)

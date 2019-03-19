@@ -7,7 +7,7 @@ using Terraria;
 
 namespace ServerSideCharacter2.Services
 {
-	public class NormalMessage : ISSCNetService
+	public class NormalMessage : ISSCNetHandler
 	{
 		public bool Handle(BinaryReader reader, int playerNumber)
 		{

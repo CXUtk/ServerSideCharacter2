@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
+using Terraria;
 
 namespace ServerSideCharacter2.Utils
 {
 	public static class CommandBoardcast
 	{
-
+		public const bool TEST_MODE = true;
 		public static void ConsoleSaveInfo()
 		{
 			Console.ForegroundColor = ConsoleColor.Yellow;
@@ -55,6 +57,12 @@ namespace ServerSideCharacter2.Utils
 		public static void LogInfo(string msg)
 		{
 			ServerSideCharacter2.ErrorLogger.WriteToFile(msg);
+		}
+
+		public static void ShowInWorldTest(string text)
+		{
+			if (TEST_MODE)
+				Main.NewText(text, Color.Yellow);
 		}
 
 		//public static void SendErrorToPlayer(int plr, string msg)

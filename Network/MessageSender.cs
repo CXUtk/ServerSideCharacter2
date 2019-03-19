@@ -356,6 +356,27 @@ namespace ServerSideCharacter2
 			}
 		}
 
+		public static void SendRequestOnlinePlayer()
+		{
+			if (Main.netMode == 1)
+			{
+				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				p.Write((int)SSCMessageType.RequestOnlinePlayers);
+				p.Send();
+			}
+		}
+
+		public static void SendOnlineInformation(int to, string data)
+		{
+			if (Main.netMode == 2)
+			{
+				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				p.Write((int)SSCMessageType.OnlinePlayersData);
+				p.Write(data);
+				p.Send(to);
+			}
+		}
+
 		//public static void SendChestCommand(ChestManager.Pending pending, int plr, string friendName = null)
 		//{
 		//	ModPacket pack = ServerSideCharacter.Instance.GetPacket();

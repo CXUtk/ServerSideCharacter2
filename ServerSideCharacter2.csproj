@@ -107,6 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Buffs\Locked.cs" />
+    <Compile Include="Commands\OnlinePlayerCommand.cs" />
     <Compile Include="Commands\SaveCommand.cs" />
     <Compile Include="GUI\MessageDisplayer.cs" />
     <Compile Include="GUI\UI\Component\ToggableElement.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="JsonData\ItemInfo.cs" />
     <Compile Include="JsonData\ConfigData.cs" />
     <Compile Include="JsonData\LanguageData.cs" />
+    <Compile Include="JsonData\PlayerOnlineInfo.cs" />
     <Compile Include="JsonData\ServerPlayerInfo.cs" />
     <Compile Include="MPlayer.cs" />
     <Compile Include="MWorld.cs" />
@@ -161,6 +163,8 @@
     <Compile Include="Services\Login\Authorization.cs" />
     <Compile Include="Services\Login\LoginMessage.cs" />
     <Compile Include="Services\Login\LoginService.cs" />
+    <Compile Include="Services\OnlinePlayer\OnlinePlayerHandler.cs" />
+    <Compile Include="Services\OnlinePlayer\RequestPlayersHandler.cs" />
     <Compile Include="Services\OnlinePlayer\OnlinePlayerService.cs" />
     <Compile Include="Services\ReceiveRSA.cs" />
     <Compile Include="Services\NormalMessage.cs" />

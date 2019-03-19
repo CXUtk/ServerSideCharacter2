@@ -39,7 +39,9 @@
 		RSAPublic,
 		SuccessLogin,
 		FailLogin,
-		WelcomeMessage
+		WelcomeMessage,
+		RequestOnlinePlayers,
+		OnlinePlayersData
 	}
 
 	public enum GenerationType

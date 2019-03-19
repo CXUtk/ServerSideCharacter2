@@ -1,26 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using Terraria.ID;
-using Terraria;
-using Terraria.IO;
-using Terraria.Localization;
-using Terraria.Chat;
-using ServerSideCharacter2.Utils;
-using Microsoft.Xna.Framework;
-using Terraria.ModLoader;
-using ServerSideCharacter2.Core;
-using ServerSideCharacter2.Crypto;
-using System.Windows.Forms;
+﻿using Microsoft.Xna.Framework;
 using ServerSideCharacter2.Services;
+using ServerSideCharacter2.Utils;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace ServerSideCharacter2.Network
 {
 	public class SSCPacketHandler
 	{
-		private Dictionary<SSCMessageType, ISSCNetService> _packethandler;
+		private Dictionary<SSCMessageType, ISSCNetHandler> _packethandler;
 		public SSCPacketHandler()
 		{
 			RegisterHandler();
@@ -30,7 +19,7 @@ namespace ServerSideCharacter2.Network
 		{
 			try
 			{
-				ISSCNetService method;
+				ISSCNetHandler method;
 				if (_packethandler.TryGetValue(msgType, out method))
 				{
 					return method.Handle(reader, playerNumber);
@@ -47,13 +36,15 @@ namespace ServerSideCharacter2.Network
 
 		private void RegisterHandler()
 		{
-			_packethandler = new Dictionary<SSCMessageType, ISSCNetService>()
+			_packethandler = new Dictionary<SSCMessageType, ISSCNetHandler>()
 			{
 				{SSCMessageType.LoginPassword,  new Services.Login.Authorization()},
 				{SSCMessageType.RSAPublic,  new ReceiveRSA()},
 				{SSCMessageType.SuccessLogin,  new Services.Login.LoginMessage(Color.Green)},
 				{SSCMessageType.FailLogin,  new Services.Login.LoginMessage(Color.Red)},
 				{SSCMessageType.WelcomeMessage,  new NormalMessage()},
+				{SSCMessageType.RequestOnlinePlayers, new Services.OnlinePlayer.RequestPlayersHandler() },
+				{SSCMessageType.OnlinePlayersData, new Services.OnlinePlayer.OnlinePlayerHandler() }
 			};
 		}
 	}

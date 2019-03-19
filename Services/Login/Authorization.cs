@@ -12,7 +12,7 @@ using Terraria.Localization;
 
 namespace ServerSideCharacter2.Services.Login
 {
-	public class Authorization : ISSCNetService
+	public class Authorization : ISSCNetHandler
 	{
 
 		private void successLogin(ServerPlayer player)

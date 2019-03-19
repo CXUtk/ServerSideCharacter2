@@ -70,6 +70,21 @@ namespace ServerSideCharacter2.Core
 			return JsonConvert.SerializeObject(info);
 		}
 
+		public PlayerOnlineInfo getOnlineInfo()
+		{
+			PlayerOnlineInfo ret = new PlayerOnlineInfo();
+
+			foreach (var player in Main.player)
+			{
+				if (player.active)
+				{
+					var serverPlayer = player.GetServerPlayer();
+					ret.Player.Add(serverPlayer.GetSimplified());
+				}
+			}
+			return ret;
+		}
+
 		public IEnumerator<KeyValuePair<string, ServerPlayer>> GetEnumerator()
 		{
 			return _playerList.GetEnumerator();

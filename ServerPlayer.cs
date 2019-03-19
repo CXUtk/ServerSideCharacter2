@@ -33,6 +33,7 @@ namespace ServerSideCharacter2
 		[JsonIgnore]
 		public Player PrototypePlayer { get { if (playerID == -1) return null; return Main.player[playerID]; } }
 
+
 		public string GetSerializedString()
 		{
 			return JsonConvert.SerializeObject(_info);
@@ -225,34 +226,33 @@ namespace ServerSideCharacter2
 
 		public void SyncPlayerToInfo()
 		{
-			if (PrototypePlayer.active)
+			if (!IsLogin) return;
+			if (!PrototypePlayer.active)
 			{
-				LifeMax = PrototypePlayer.statLifeMax;
-				StatLife = PrototypePlayer.statLife;
-				StatMana = PrototypePlayer.statMana;
-				ManaMax = PrototypePlayer.statManaMax;
-				inventory = PrototypePlayer.inventory;
-				armor = PrototypePlayer.armor;
-				dye = PrototypePlayer.dye;
-				miscEquips = PrototypePlayer.miscEquips;
-				miscDye = PrototypePlayer.miscDyes;
-				bank = PrototypePlayer.bank;
-				bank2 = PrototypePlayer.bank2;
-				bank3 = PrototypePlayer.bank3;
+				IsLogin = false;
+			}
+			LifeMax = PrototypePlayer.statLifeMax;
+			StatLife = PrototypePlayer.statLife;
+			StatMana = PrototypePlayer.statMana;
+			ManaMax = PrototypePlayer.statManaMax;
+			inventory = PrototypePlayer.inventory;
+			armor = PrototypePlayer.armor;
+			dye = PrototypePlayer.dye;
+			miscEquips = PrototypePlayer.miscEquips;
+			miscDye = PrototypePlayer.miscDyes;
+			bank = PrototypePlayer.bank;
+			bank2 = PrototypePlayer.bank2;
+			bank3 = PrototypePlayer.bank3;
 
-				ServerUtils.CopyToItemData(inventory, _info.inventory);
-				ServerUtils.CopyToItemData(armor, _info.armor);
-				ServerUtils.CopyToItemData(dye, _info.dye);
-				ServerUtils.CopyToItemData(miscEquips, _info.miscEquips);
-				ServerUtils.CopyToItemData(miscDye, _info.miscDye);
-				ServerUtils.CopyToItemData(bank.item, _info.bank);
-				ServerUtils.CopyToItemData(bank2.item, _info.bank2);
-				ServerUtils.CopyToItemData(bank3.item, _info.bank3);
-			}
-			else
-			{
-				throw new ArgumentException("Unable to syncronize player data, the player does not exist.");
-			}
+			ServerUtils.CopyToItemData(inventory, _info.inventory);
+			ServerUtils.CopyToItemData(armor, _info.armor);
+			ServerUtils.CopyToItemData(dye, _info.dye);
+			ServerUtils.CopyToItemData(miscEquips, _info.miscEquips);
+			ServerUtils.CopyToItemData(miscDye, _info.miscDye);
+			ServerUtils.CopyToItemData(bank.item, _info.bank);
+			ServerUtils.CopyToItemData(bank2.item, _info.bank2);
+			ServerUtils.CopyToItemData(bank3.item, _info.bank3);
+
 		}
 
 		public void ApplyToPlayer()
@@ -310,6 +310,17 @@ namespace ServerSideCharacter2
 		{
 			HasPassword = true;
 			_info.Password = info.Password;
+		}
+
+		public SimplifiedPlayerInfo GetSimplified()
+		{
+			return new SimplifiedPlayerInfo
+			{
+				Name = this.Name,
+				IsLogin = this.IsLogin,
+				PlayerID = this.PrototypePlayer.whoAmI,
+				PlayerInnerID = this._info.ID,
+			};
 		}
 	}
 }

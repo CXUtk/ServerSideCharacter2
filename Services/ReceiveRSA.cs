@@ -8,7 +8,7 @@ using Terraria;
 
 namespace ServerSideCharacter2.Services
 {
-	public class ReceiveRSA : ISSCNetService
+	public class ReceiveRSA : ISSCNetHandler
 	{
 		public bool Handle(BinaryReader reader, int playerNumber)
 		{
