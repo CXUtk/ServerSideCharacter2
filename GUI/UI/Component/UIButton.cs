@@ -67,7 +67,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			WithBox = withBox;
 			Tooltip = "";
 			Enabled = true;
-			CornerSize = new Vector2(10, 10);
+			CornerSize = new Vector2(12, 12);
 			BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
         }
 

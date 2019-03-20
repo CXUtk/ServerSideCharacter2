@@ -16,7 +16,8 @@ namespace ServerSideCharacter2.GUI
 	public enum SSCUIState
 	{
 		LoginWindow,	
-		PlayerOnlineWindow
+		PlayerOnlineWindow,
+		HomePage
 	}
 	public class GUIManager
 	{
@@ -24,6 +25,7 @@ namespace ServerSideCharacter2.GUI
 
 		private LoginWindowState _loginWindowState;
 		private PlayerOnlineWindow _playerOnlineWindow;
+		private HomePageState _homePageState;
 
 		private UserInterface _toolBarInterface;
 
@@ -65,6 +67,11 @@ namespace ServerSideCharacter2.GUI
 			ConditionalInterface playerOnlineWindow = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.PlayerOnlineWindow]; });
 			playerOnlineWindow.SetState(_playerOnlineWindow);
 			_cdInterface.Add(playerOnlineWindow);
+
+			_homePageState = new HomePageState();
+			ConditionalInterface hompage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.HomePage]; });
+			hompage.SetState(_homePageState);
+			_cdInterface.Add(hompage);
 		}
 		
 		public void RelaxGUI()
@@ -108,6 +115,17 @@ namespace ServerSideCharacter2.GUI
 		public void ShowMessage(string msg, int time, Color color)
 		{
 			_messageDisplayer.ShowMessage(msg, time, color);
+		}
+
+		public void AppendOnlinePlayers()
+		{
+			_playerOnlineWindow.AppendPlayers();
+		}
+
+		internal bool IsActive(SSCUIState state)
+		{
+			if (!_canShowUITable.ContainsKey(state)) throw new ArgumentException("不存在此UI状态");
+			return _canShowUITable[state];
 		}
 	}
 }

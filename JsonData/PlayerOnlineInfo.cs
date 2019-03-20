@@ -16,6 +16,8 @@ namespace ServerSideCharacter2.JsonData
 		public int PlayerInnerID { get; set; }
 
 		public int PlayerID { get; set; }
+
+		public bool IsFriend { get; set; }
 	}
 
 	[JsonObject]

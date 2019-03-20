@@ -14,7 +14,7 @@ namespace ServerSideCharacter2.Services.OnlinePlayer
 
 		public string Tooltip => "在线玩家窗口";
 
-		public string Name => "在线玩家";
+		public string Name => "SSC: 在线玩家";
 
 		public bool Enabled { get; set; }
 
@@ -26,6 +26,10 @@ namespace ServerSideCharacter2.Services.OnlinePlayer
 		public void OnButtonClicked(UIMouseEvent evt, UIElement listeningElement)
 		{
 			ServerSideCharacter2.Instance.ChangeState(SSCUIState.PlayerOnlineWindow);
+			if (ServerSideCharacter2.GuiManager.IsActive(SSCUIState.PlayerOnlineWindow))
+			{
+				ServerSideCharacter2.GuiManager.AppendOnlinePlayers();
+			}
 		}
 	}
 }

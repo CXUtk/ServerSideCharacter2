@@ -2,6 +2,7 @@
 using Terraria;
 using ServerSideCharacter2.Utils;
 using System;
+using Newtonsoft.Json;
 
 namespace ServerSideCharacter2.Commands
 {
@@ -14,7 +15,7 @@ namespace ServerSideCharacter2.Commands
 
 		public override CommandType Type
 		{
-			get { return CommandType.Chat; }
+			get { return CommandType.Console; }
 		}
 
 		public override string Description
@@ -26,15 +27,13 @@ namespace ServerSideCharacter2.Commands
 		{
 			try
 			{
-				if(Main.netMode != 1)
-				{
-					Main.NewText("仅在多人模式下有用");
-				}
-				else
-				{
-					CommandBoardcast.ShowInWorldTest("正在向服务器请求在线玩家信息");
-					MessageSender.SendRequestOnlinePlayer();
-				}
+
+				var info = ServerSideCharacter2.PlayerCollection.getOnlineInfo();
+				CommandBoardcast.ConsoleMessage(JsonConvert.SerializeObject(info, Formatting.Indented));
+				//{
+				//	CommandBoardcast.ShowInWorldTest("正在向服务器请求在线玩家信息");
+				//	MessageSender.SendRequestOnlinePlayer();
+				//}
 			}
 			catch(Exception ex)
 			{

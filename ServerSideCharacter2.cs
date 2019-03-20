@@ -47,13 +47,13 @@ namespace ServerSideCharacter2
 
 		internal static string ShowTooltip { get; set; }
 
+		internal static GUIManager GuiManager;
+
 		public static ToolBarServiceManager ToolBarServiceManager { get; set; }
 
 		private PacketHandler _packetHandler;
 
 		private SSCPacketHandler _sscPacketHandler;
-
-		private GUIManager _manager;
 
 		private bool Loaded { get; set; }
 
@@ -61,7 +61,7 @@ namespace ServerSideCharacter2
 
 		internal void ChangeState(SSCUIState state)
 		{
-			_manager.ToggleState(state);
+			GuiManager.ToggleState(state);
 		}
 
 		public ServerSideCharacter2()
@@ -188,7 +188,7 @@ namespace ServerSideCharacter2
 				// 加载资源只有在非服务器端才会执行
 				ToolBarServiceManager = new ToolBarServiceManager();
 				ResourceLoader.LoadAll();
-				_manager = new GUIManager(this);
+				GuiManager = new GUIManager(this);
 			}
 			else
 			{
@@ -222,7 +222,7 @@ namespace ServerSideCharacter2
 			int MouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
 			if(MouseTextIndex != -1)
 			{
-				layers.Insert(MouseTextIndex + 1, new SSCLayer(_manager));
+				layers.Insert(MouseTextIndex + 1, new SSCLayer(GuiManager));
 				layers.Add(new TooltipLayer("SSC: Tooltip", InterfaceScaleType.UI));
 			}
 			else
@@ -234,19 +234,19 @@ namespace ServerSideCharacter2
 		public override void UpdateUI(GameTime gameTime)
 		{
 
-			_manager.UpdateUI(gameTime);
+			GuiManager.UpdateUI(gameTime);
 			base.UpdateUI(gameTime);
 		}
 
 		public void ShowMessage(string msg, int time, Color color)
 		{
-			_manager.ShowMessage(msg, time, color);
+			GuiManager.ShowMessage(msg, time, color);
 		}
 
 
 		public void RelaxButton()
 		{
-			_manager.RelaxGUI();
+			GuiManager.RelaxGUI();
 		}
 
 	}

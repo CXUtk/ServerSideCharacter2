@@ -110,7 +110,10 @@
     <Compile Include="Commands\OnlinePlayerCommand.cs" />
     <Compile Include="Commands\SaveCommand.cs" />
     <Compile Include="GUI\MessageDisplayer.cs" />
+    <Compile Include="GUI\UI\Component\Special\UIFriendBar.cs" />
     <Compile Include="GUI\UI\Component\ToggableElement.cs" />
+    <Compile Include="GUI\UI\Component\UIListView.cs" />
+    <Compile Include="GUI\UI\State\HomePageState.cs" />
     <Compile Include="GUI\UI\State\PlayerOnlineWindow.cs" />
     <Compile Include="GUI\UI\State\ToolBarState.cs" />
     <Compile Include="GUI\UI\ToolBarServiceManager.cs" />
@@ -158,6 +161,7 @@
     <Compile Include="ErrorLogger.cs" />
     <Compile Include="ServerPlayer.cs" />
     <Compile Include="ServerSideCharacter2.cs" />
+    <Compile Include="Services\HomePage\HomePageService.cs" />
     <Compile Include="Services\ISSCNetService.cs" />
     <Compile Include="Services\ISSCToolBarService.cs" />
     <Compile Include="Services\Login\Authorization.cs" />

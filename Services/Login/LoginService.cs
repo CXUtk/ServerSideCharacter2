@@ -14,7 +14,7 @@ namespace ServerSideCharacter2.Services.Login
 
 		public string Tooltip => "登录窗口";
 
-		public string Name => "登录";
+		public string Name => "SSC: 登录";
 
 		public bool Enabled { get; set; }
 

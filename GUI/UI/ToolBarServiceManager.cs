@@ -64,6 +64,8 @@ namespace ServerSideCharacter2.GUI.UI
 				button.OnClick += s.OnButtonClicked;
 				button.Width.Set(35, 0f);
 				button.Height.Set(35, 0f);
+				button.ButtonDefaultColor = new Color(200, 200, 200);
+				button.ButtonChangeColor = Color.White;
 				button.Tooltip = s.Tooltip;
 				list.Add(button);
 			}
@@ -78,7 +80,7 @@ namespace ServerSideCharacter2.GUI.UI
 		{
 			Add(new Services.Login.LoginService());
 			Add(new Services.OnlinePlayer.OnlinePlayerService());
-			Add(new Services.OnlinePlayer.OnlinePlayerService());
+			Add(new Services.HomePage.HomePageService());
 			Add(new Services.OnlinePlayer.OnlinePlayerService());
 			Add(new Services.OnlinePlayer.OnlinePlayerService());
 			Add(new Services.OnlinePlayer.OnlinePlayerService());

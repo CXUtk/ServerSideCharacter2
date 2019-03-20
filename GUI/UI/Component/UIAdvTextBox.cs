@@ -60,8 +60,6 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			textPanel.Width.Set(0, 1);
 			textPanel.Height.Set(0, 1);
 			this.Append(textPanel);
-
-
 		}
 
 
