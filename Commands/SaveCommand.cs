@@ -2,6 +2,7 @@
 using Terraria;
 using ServerSideCharacter2.Utils;
 using System;
+using Terraria.IO;
 
 namespace ServerSideCharacter2.Commands
 {
@@ -28,6 +29,8 @@ namespace ServerSideCharacter2.Commands
 			{
 				Console.WriteLine(GameLanguage.GetText("savingText"));
 				ServerSideCharacter2.PlayerDoc.SavePlayersData();
+				ConfigLoader.Save();
+				WorldFile.saveWorld();
 				Console.WriteLine(GameLanguage.GetText("savedText"));
 			}
 			catch(Exception ex)

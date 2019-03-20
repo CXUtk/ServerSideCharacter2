@@ -27,10 +27,13 @@ namespace ServerSideCharacter2
 					ServerStarted = true;
 					foreach (var p in Main.player)
 					{
-						if (p.active && p.whoAmI != 255)
+						if (p.whoAmI != 255)
 						{
-							ServerPlayer player = p.GetServerPlayer();
-							player.SyncPlayerToInfo();
+							if (p.active)
+							{
+								ServerPlayer player = p.GetServerPlayer();
+								player.SyncPlayerToInfo();
+							}
 						}
 					}
 					if (Main.time % 180 < 1)
@@ -52,17 +55,15 @@ namespace ServerSideCharacter2
 										player.Value.ApplyLockBuffs();
 										NetMessage.SendChatMessageToClient(NetworkText.FromLiteral("Welcome! You have already created an account. Please type /login <password> to login!"), new Color(255, 255, 30, 30), playerID);
 									}
-									CommandBoardcast.ConsoleMessage(player.Value.HasPassword.ToString());
-									CommandBoardcast.ConsoleMessage(player.Value.IsLogin.ToString());
-									if (!player.Value.PrototypePlayer.active && player.Value.IsLogin)
-									{
-										player.Value.SyncPlayerToInfo();
-									}
+								}
+								else
+								{
+									player.Value.IsLogin = false;
 								}
 							}
 						}
 					}
-					if (Main.time % ServerSideCharacter2.Config.SaveInterval < 1)
+					if (ServerSideCharacter2.Config.AutoSave && Main.time % ServerSideCharacter2.Config.SaveInterval < 1)
 					{
 						ThreadPool.QueueUserWorkItem(Do_Save);
 					}
@@ -87,6 +88,7 @@ namespace ServerSideCharacter2
 					CommandBoardcast.ConsoleSaveInfo();
 					ServerSideCharacter2.PlayerDoc.SavePlayersData();
 					ConfigLoader.Save();
+					WorldFile.saveWorld();
 				}
 			}
 			catch (Exception ex)

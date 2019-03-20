@@ -29,6 +29,11 @@ namespace ServerSideCharacter2.Services.Login
 				string encrypted = reader.ReadString();
 				var info = CryptedUserInfo.GetDecrypted(encrypted);
 				var serverPlayer = Main.player[playerNumber].GetServerPlayer();
+				if (serverPlayer.IsLogin)
+				{
+					MessageSender.SendLoginSuccess(serverPlayer.PrototypePlayer.whoAmI, "你已经登录，请不要重复登录");
+					return false;
+				}
 				if (serverPlayer.HasPassword)
 				{
 					if (serverPlayer.CheckPassword(info))

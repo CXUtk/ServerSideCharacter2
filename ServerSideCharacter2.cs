@@ -57,7 +57,6 @@ namespace ServerSideCharacter2
 
 		private bool Loaded { get; set; }
 
-		private MessageDisplayer messageDisplayer;
 
 
 		internal void ChangeState(SSCUIState state)
@@ -78,7 +77,6 @@ namespace ServerSideCharacter2
 
 		public override void PreSaveAndQuit()
 		{
-			_manager.Reset();
 		}
 
 		public override bool HijackSendData(int whoAmI, int msgType, int remoteClient, int ignoreClient, NetworkText text, int number, float number2, float number3, float number4, int number5, int number6, int number7)
@@ -191,7 +189,6 @@ namespace ServerSideCharacter2
 				ToolBarServiceManager = new ToolBarServiceManager();
 				ResourceLoader.LoadAll();
 				_manager = new GUIManager(this);
-				messageDisplayer = new MessageDisplayer();
 			}
 			else
 			{
@@ -199,7 +196,8 @@ namespace ServerSideCharacter2
 				PlayerCollection = new PlayerCollection();
 				PlayerDoc = new PlayersDocument("players.json");
 				PlayerDoc.ExtractPlayersData();
-
+				// 服务器端生成RSA私钥
+				RSACrypto.GenKey();
 				ConfigLoader.Load();
 			}
 			Loaded = true;
@@ -215,8 +213,6 @@ namespace ServerSideCharacter2
 				ErrorLogger = new ErrorLogger("SSC-Log.txt", false);
 				Console.WriteLine("[ServerSideCharacter Mod, Author: DXTsT	Version: " + APIVersion + "]");
 				
-				// 服务器端生成RSA私钥
-				RSACrypto.GenKey();
 			}
 			GameLanguage.LoadLanguage();
 		}
@@ -237,20 +233,16 @@ namespace ServerSideCharacter2
 
 		public override void UpdateUI(GameTime gameTime)
 		{
-			messageDisplayer.Update(gameTime);
+
 			_manager.UpdateUI(gameTime);
 			base.UpdateUI(gameTime);
 		}
 
 		public void ShowMessage(string msg, int time, Color color)
 		{
-			messageDisplayer.ShowMessage(msg, time, color);
+			_manager.ShowMessage(msg, time, color);
 		}
 
-		public override void PostDrawInterface(SpriteBatch spriteBatch)
-		{
-			messageDisplayer.Draw(spriteBatch);
-		}
 
 		public void RelaxButton()
 		{

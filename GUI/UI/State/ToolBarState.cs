@@ -44,7 +44,7 @@ namespace ServerSideCharacter2.GUI.UI
 			{
 				estimatedWidth = TOOLBAR_INIT_WIDTH;
 			}
-			windowPanel.Left.Set(Main.screenWidth / 2 - 122f, 0f);
+			windowPanel.Left.Set(Main.screenWidth / 2 - estimatedWidth / 2, 0f);
 			windowPanel.Width.Set(estimatedWidth, 0f);
 		}
 

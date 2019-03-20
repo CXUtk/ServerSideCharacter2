@@ -16,7 +16,6 @@ namespace ServerSideCharacter2.Utils
 			if (!File.Exists("SSC/config.json"))
 			{
 				ServerSideCharacter2.Config = ConfigData.DefaultConfig();
-				Save();
 			}
 			else
 			{
@@ -32,10 +31,15 @@ namespace ServerSideCharacter2.Utils
 				}
 				catch(Exception ex)
 				{
-					CommandBoardcast.ConsoleError("读取配置文件出错");
+					CommandBoardcast.ConsoleError("读取配置文件出错，重置为默认配置");
 					CommandBoardcast.ConsoleError(ex);
+					ServerSideCharacter2.Config = ConfigData.DefaultConfig();
 				} 
 			}
+			CommandBoardcast.ConsoleMessage("配置文件已经加载");
+			CommandBoardcast.ConsoleMessage(string.Format("当前配置  自动保存: {0}，自动保存间隔：{1}s",
+				ServerSideCharacter2.Config.AutoSave ? "开" : "关", ServerSideCharacter2.Config.SaveInterval / 60f));
+			Save();
 		}
 
 		public static void Save()

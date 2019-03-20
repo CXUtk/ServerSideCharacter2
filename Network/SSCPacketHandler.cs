@@ -42,7 +42,7 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.RSAPublic,  new ReceiveRSA()},
 				{SSCMessageType.SuccessLogin,  new Services.Login.LoginMessage(Color.Green)},
 				{SSCMessageType.FailLogin,  new Services.Login.LoginMessage(Color.Red)},
-				{SSCMessageType.WelcomeMessage,  new NormalMessage()},
+				{SSCMessageType.WelcomeMessage,  new NormalMessage(240)},
 				{SSCMessageType.RequestOnlinePlayers, new Services.OnlinePlayer.RequestPlayersHandler() },
 				{SSCMessageType.OnlinePlayersData, new Services.OnlinePlayer.OnlinePlayerHandler() }
 			};

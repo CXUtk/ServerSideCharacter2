@@ -392,7 +392,14 @@ namespace ServerSideCharacter2.Network
 				{
 					player.IsLogin = false;
 					player.Lock();
-					MessageSender.SendWelcomeMessage(plr, GameLanguage.GetText("welcomenew"));
+					if (player.HasPassword)
+					{
+						MessageSender.SendWelcomeMessage(plr, GameLanguage.GetText("welcomeold"));
+					}
+					else
+					{
+						MessageSender.SendWelcomeMessage(plr, GameLanguage.GetText("welcomenew"));
+					}
 				}
 
 

@@ -26,13 +26,20 @@ namespace ServerSideCharacter2.GUI.UI.Component
 				Main.LocalPlayer.mouseInterface = true;
 				Main.LocalPlayer.showItemIcon = false;
 			}
+			base.DrawSelf(spriteBatch);
+			OnDraw(spriteBatch);
+
+		}
+
+		public override void Update(GameTime gameTime)
+		{
+			base.Update(gameTime);
 			if (_dragging)
 			{
-				WindowPanel.Left.Set(MousePosition.X - _offset.X, 0f);
-				WindowPanel.Top.Set(MousePosition.Y - _offset.Y, 0f);
+				WindowPanel.Left.Set(Main.MouseScreen.X - _offset.X, 0f);
+				WindowPanel.Top.Set(Main.MouseScreen.Y - _offset.Y, 0f);
 				Recalculate();
 			}
-			OnDraw(spriteBatch);
 		}
 
 		public sealed override void OnInitialize()

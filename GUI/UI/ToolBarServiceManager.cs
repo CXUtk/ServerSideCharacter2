@@ -78,6 +78,11 @@ namespace ServerSideCharacter2.GUI.UI
 		{
 			Add(new Services.Login.LoginService());
 			Add(new Services.OnlinePlayer.OnlinePlayerService());
+			Add(new Services.OnlinePlayer.OnlinePlayerService());
+			Add(new Services.OnlinePlayer.OnlinePlayerService());
+			Add(new Services.OnlinePlayer.OnlinePlayerService());
+			Add(new Services.OnlinePlayer.OnlinePlayerService());
+			Add(new Services.OnlinePlayer.OnlinePlayerService());
 		}
 	}
 }

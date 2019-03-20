@@ -87,8 +87,10 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		public override void Click(UIMouseEvent evt)
 		{
 			if (Enabled)
+			{
 				OnClick?.Invoke(evt, this);
-			base.Click(evt);
+				base.Click(evt);
+			}
 		}
 
 		public override void MouseUp(UIMouseEvent evt)
@@ -105,7 +107,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 				ServerSideCharacter2.ShowTooltip = Tooltip;
 			}
 
-			if (!IsMouseHovering)
+			if (!IsMouseHovering && Enabled)
 			{
 				if (_alpha > 0)
 					_alpha -= 0.05f;

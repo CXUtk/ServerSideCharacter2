@@ -29,6 +29,8 @@ namespace ServerSideCharacter2.GUI
 
 		private CDInterfaceManager _cdInterface;
 
+		private MessageDisplayer _messageDisplayer;
+
 		private Dictionary<SSCUIState, bool> _canShowUITable = new Dictionary<SSCUIState, bool>();
 	
 
@@ -36,7 +38,7 @@ namespace ServerSideCharacter2.GUI
 		{
 			_mod = mod;
 
-			
+			_messageDisplayer = new MessageDisplayer();
 
 			_toolBarInterface = new UserInterface();
 			_toolBarInterface.SetState(new ToolBarState());
@@ -76,6 +78,7 @@ namespace ServerSideCharacter2.GUI
 			{
 				_cdInterface.Update(gameTime);
 				_toolBarInterface.Update(gameTime);
+				_messageDisplayer.Update(gameTime);
 			}
 			catch (Exception ex)
 			{
@@ -88,6 +91,7 @@ namespace ServerSideCharacter2.GUI
 			{
 				_cdInterface.Draw(Main.spriteBatch);
 				_toolBarInterface.Draw(Main.spriteBatch, Main._drawInterfaceGameTime);
+				_messageDisplayer.Draw(Main.spriteBatch);
 			}
 			catch(Exception ex)
 			{
@@ -101,9 +105,9 @@ namespace ServerSideCharacter2.GUI
 			_canShowUITable[state] ^= true;
 		}
 
-		internal void Reset()
+		public void ShowMessage(string msg, int time, Color color)
 		{
-
+			_messageDisplayer.ShowMessage(msg, time, color);
 		}
 	}
 }

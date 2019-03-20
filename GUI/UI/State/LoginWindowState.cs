@@ -23,6 +23,8 @@ namespace ServerSideCharacter2.GUI.UI
 		private UIAdvTextBox _passwordText;
 		private UIButton _submitFormButton;
 		private int _relaxTimer;
+		private float _rotation;
+		private bool _showWaiting;
 
 		private const float LOGIN_WIDTH = 320;
 		private const float LOGIN_HEIGHT = 200;
@@ -81,6 +83,8 @@ namespace ServerSideCharacter2.GUI.UI
 			_submitFormButton.ButtonChangeColor = Color.White;
 			_submitFormButton.OnClick += _submitFormButton_OnClick;
 			WindowPanel.Append(_submitFormButton);
+
+			_showWaiting = false;
 		}
 
 		private void _submitFormButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
@@ -88,23 +92,55 @@ namespace ServerSideCharacter2.GUI.UI
 			var username = _usernameText.Text;
 			var password = _passwordText.Text;
 			CryptedUserInfo info = CryptedUserInfo.Create(username, password);
-			_submitFormButton.Enabled = false;
 			Main.NewText(info.ToString());
 			MessageSender.SendLoginPassword(info);
 			// ServerSideCharacter2.Instance.ShowMessage("已经提交AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 120, Color.White);
+			StartWaiting();
+		}
+
+		private void StartWaiting()
+		{
 			_relaxTimer = 180;
+			_submitFormButton.Enabled = false;
+			_showWaiting = true;
+			_rotation = 0f;
 		}
 
 		public override void Update(GameTime gameTime)
 		{
 			if (_relaxTimer > 0)
+			{
 				_relaxTimer--;
+				_rotation += 0.1f;
+			}
 			else
 			{
-				if(!_submitFormButton.Enabled)
-					Relax();
+				if (!_submitFormButton.Enabled)
+					_submitFormButton.Enabled = true;
+				_showWaiting = false;
 			}
 			base.Update(gameTime);
+		}
+
+		public override void Draw(SpriteBatch sb)
+		{
+			base.Draw(sb);
+			if (_showWaiting)
+			{
+				sb.End();
+				sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+				Texture2D refresh = ServerSideCharacter2.ModTexturesTable["Refresh"];
+				Vector2 drawPos = _submitFormButton.GetOuterDimensions().Center() + new Vector2(80, 0);
+				sb.Draw(refresh, drawPos, null, Color.Wheat, _rotation, refresh.Size() * 0.5f, 0.2f, SpriteEffects.None, 0f);
+				sb.End();
+				sb.Begin();
+			}
+		}
+
+		protected override void OnDraw(SpriteBatch sb)
+		{
+			base.OnDraw(sb);
+
 		}
 
 		protected override void OnClose(UIMouseEvent evt, UIElement listeningElement)
@@ -114,7 +150,8 @@ namespace ServerSideCharacter2.GUI.UI
 
 		public void Relax()
 		{
-			_submitFormButton.Enabled = true;
+			_showWaiting = false;
+			// _submitFormButton.Enabled = true;
 		}
 	}
 }

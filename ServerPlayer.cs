@@ -227,10 +227,7 @@ namespace ServerSideCharacter2
 		public void SyncPlayerToInfo()
 		{
 			if (!IsLogin) return;
-			if (!PrototypePlayer.active)
-			{
-				IsLogin = false;
-			}
+			if (PrototypePlayer == null || !PrototypePlayer.active) return;
 			LifeMax = PrototypePlayer.statLifeMax;
 			StatLife = PrototypePlayer.statLife;
 			StatMana = PrototypePlayer.statMana;

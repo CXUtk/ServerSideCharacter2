@@ -12,21 +12,26 @@ namespace ServerSideCharacter2.JsonData
 	public class ConfigData
 	{
 		public List<ItemInfo> startUpInventory;
+		public bool AutoSave { get; set; }
 		public int SaveInterval { get; set; }
 		public ConfigData()
 		{
+
 			startUpInventory = new List<ItemInfo>();
 		}
 
 		public static ConfigData DefaultConfig()
 		{
+			// 给玩家初始物品
 			ConfigData data = new ConfigData();
 			data.startUpInventory.Add(ItemInfo.CreateInfo(ItemID.IronShortsword));
 			data.startUpInventory.Add(ItemInfo.CreateInfo(ItemID.IronPickaxe));
 			data.startUpInventory.Add(ItemInfo.CreateInfo(ItemID.IronAxe));
 
+			// 开启自动保存
+			data.AutoSave = true;
 			// 一分钟的保存间隔
-			data.SaveInterval = 3600;
+			data.SaveInterval = 18000;
 			return data;
 		}
 	}
