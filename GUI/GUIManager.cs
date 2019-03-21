@@ -117,9 +117,14 @@ namespace ServerSideCharacter2.GUI
 			_messageDisplayer.ShowMessage(msg, time, color);
 		}
 
-		public void AppendOnlinePlayers()
+		public void AppendOnlinePlayers(JsonData.SimplifiedPlayerInfo info)
 		{
-			_playerOnlineWindow.AppendPlayers();
+			_playerOnlineWindow.AppendPlayers(info);
+		}
+
+		public void RefreshOnlinePlayers()
+		{
+			_playerOnlineWindow.RefreshOnlinePlayer();
 		}
 
 		internal bool IsActive(SSCUIState state)

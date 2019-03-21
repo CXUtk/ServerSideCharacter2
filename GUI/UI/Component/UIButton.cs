@@ -46,6 +46,9 @@ namespace ServerSideCharacter2.GUI.UI.Component
 
 		public Texture2D BoxTexture { get; set; }
 		public Vector2 CornerSize { get; set; }
+		public float Rotation { get; set; }
+		public bool UseRotation { get; set; }
+		public float TextureScale { get; set; }
 
         private float _alpha;
 
@@ -65,8 +68,11 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			_currentColor = ButtonDefaultColor;
             ButtonTextColor = Color.White;
 			WithBox = withBox;
+			Rotation = 0;
 			Tooltip = "";
 			Enabled = true;
+			TextureScale = 1f;
+			UseRotation = false;
 			CornerSize = new Vector2(12, 12);
 			BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
         }
@@ -133,7 +139,16 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			else
 			{
 				if (Texture != null)
-					sb.Draw(Texture, innerDimension.ToRectangle(), _currentColor);
+				{
+					if (!UseRotation)
+					{
+						sb.Draw(Texture, innerDimension.ToRectangle(), _currentColor);
+					}
+					else
+					{
+						sb.Draw(Texture, innerDimension.Center(), null, _currentColor, Rotation, Texture.Size() * 0.5f, TextureScale, 0, 0);
+					}
+				}
 			}
 			if (ButtonText != "")
 			{

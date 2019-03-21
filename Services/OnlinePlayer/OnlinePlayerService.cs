@@ -28,7 +28,7 @@ namespace ServerSideCharacter2.Services.OnlinePlayer
 			ServerSideCharacter2.Instance.ChangeState(SSCUIState.PlayerOnlineWindow);
 			if (ServerSideCharacter2.GuiManager.IsActive(SSCUIState.PlayerOnlineWindow))
 			{
-				ServerSideCharacter2.GuiManager.AppendOnlinePlayers();
+				ServerSideCharacter2.GuiManager.RefreshOnlinePlayers();
 			}
 		}
 	}

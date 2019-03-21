@@ -16,7 +16,7 @@ namespace ServerSideCharacter2
 	{
 		public static bool ServerStarted = false;
 
-
+		private static int Timer = 0;
 
 		public override void PostUpdate()
 		{
@@ -24,6 +24,8 @@ namespace ServerSideCharacter2
 			{
 				try
 				{
+					Timer++;
+					if (Timer > 10000000) Timer = 0;
 					ServerStarted = true;
 					foreach (var p in Main.player)
 					{
@@ -32,38 +34,46 @@ namespace ServerSideCharacter2
 							if (p.active)
 							{
 								ServerPlayer player = p.GetServerPlayer();
-								player.SyncPlayerToInfo();
+								if (player.IsLogin)
+									player.SyncPlayerToInfo();
 							}
 						}
 					}
-					if (Main.time % 180 < 1)
+					if (Timer % 180 < 1)
 					{
-						lock(ServerSideCharacter2.PlayerCollection)
+
+						foreach (var player in ServerSideCharacter2.PlayerCollection)
 						{
-							foreach (var player in ServerSideCharacter2.PlayerCollection)
+							if (player.Value.PrototypePlayer != null)
 							{
-								if (player.Value.PrototypePlayer != null)
+								int playerID = player.Value.PrototypePlayer.whoAmI;
+								if (!player.Value.HasPassword)
 								{
-									int playerID = player.Value.PrototypePlayer.whoAmI;
-									if (!player.Value.HasPassword)
-									{
-										player.Value.ApplyLockBuffs();
-										NetMessage.SendChatMessageToClient(NetworkText.FromLiteral("Welcome! You are new to here. Please use /register <password> to register an account!"), new Color(255, 255, 30, 30), playerID);
-									}
-									else if (player.Value.HasPassword && !player.Value.IsLogin)
-									{
-										player.Value.ApplyLockBuffs();
-										NetMessage.SendChatMessageToClient(NetworkText.FromLiteral("Welcome! You have already created an account. Please type /login <password> to login!"), new Color(255, 255, 30, 30), playerID);
-									}
+									player.Value.ApplyLockBuffs();
+									NetMessage.SendChatMessageToClient(NetworkText.FromLiteral("Welcome! You are new to here. Please use /register <password> to register an account!"), new Color(255, 255, 30, 30), playerID);
 								}
-								else
+								else if (player.Value.HasPassword && !player.Value.IsLogin)
 								{
-									player.Value.IsLogin = false;
+									player.Value.ApplyLockBuffs();
+									NetMessage.SendChatMessageToClient(NetworkText.FromLiteral("Welcome! You have already created an account. Please type /login <password> to login!"), new Color(255, 255, 30, 30), playerID);
 								}
 							}
+							else
+							{
+								player.Value.IsLogin = false;
+							}
+							if (player.Value.PrototypePlayer != null)
+							{
+								ServerSideCharacter2.ErrorLogger.WriteToFile(player.Key + " -> " + player.Value.PrototypePlayer.whoAmI);
+							}
+							else
+							{
+								ServerSideCharacter2.ErrorLogger.WriteToFile(player.Key + " 没有原型");
+							}
 						}
+
 					}
-					if (ServerSideCharacter2.Config.AutoSave && Main.time % ServerSideCharacter2.Config.SaveInterval < 1)
+					if (ServerSideCharacter2.Config.AutoSave && Timer % ServerSideCharacter2.Config.SaveInterval < 1)
 					{
 						ThreadPool.QueueUserWorkItem(Do_Save);
 					}
@@ -83,13 +93,13 @@ namespace ServerSideCharacter2
 		{
 			try
 			{
+				CommandBoardcast.ConsoleSaveInfo();
 				lock (ServerSideCharacter2.PlayerCollection)
 				{
-					CommandBoardcast.ConsoleSaveInfo();
 					ServerSideCharacter2.PlayerDoc.SavePlayersData();
-					ConfigLoader.Save();
-					WorldFile.saveWorld();
 				}
+				ConfigLoader.Save();
+				WorldFile.saveWorld();
 			}
 			catch (Exception ex)
 			{

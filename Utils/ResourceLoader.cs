@@ -14,6 +14,7 @@ namespace ServerSideCharacter2.Utils
 		public static void LoadAll()
 		{
 			if (Main.dedServ) return;
+			ServerSideCharacter2.ModTexturesTable.Clear();
 			LoadTextures();
 			Drawing.Box1 = ServerSideCharacter2.ModTexturesTable["Box"];
 			Drawing.Box2 = ServerSideCharacter2.ModTexturesTable["Box2"];
@@ -22,7 +23,9 @@ namespace ServerSideCharacter2.Utils
 
 		private static void LoadTexture(string name)
 		{
-			ServerSideCharacter2.ModTexturesTable.Add(name.Substring("Graphics/".Length), ServerSideCharacter2.Instance.GetTexture(name));
+			var name1 = name.Substring("Graphics/".Length);
+			if (ServerSideCharacter2.ModTexturesTable.ContainsKey(name1)) return;
+			ServerSideCharacter2.ModTexturesTable.Add(name1, ServerSideCharacter2.Instance.GetTexture(name));
 		}
 
 		private static void LoadTextures()

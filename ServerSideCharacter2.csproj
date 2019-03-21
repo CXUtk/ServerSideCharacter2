@@ -110,7 +110,7 @@
     <Compile Include="Commands\OnlinePlayerCommand.cs" />
     <Compile Include="Commands\SaveCommand.cs" />
     <Compile Include="GUI\MessageDisplayer.cs" />
-    <Compile Include="GUI\UI\Component\Special\UIFriendBar.cs" />
+    <Compile Include="GUI\UI\Component\Special\UINormalPlayerBar.cs" />
     <Compile Include="GUI\UI\Component\ToggableElement.cs" />
     <Compile Include="GUI\UI\Component\UIListView.cs" />
     <Compile Include="GUI\UI\State\HomePageState.cs" />
