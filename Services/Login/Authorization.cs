@@ -22,6 +22,24 @@ namespace ServerSideCharacter2.Services.Login
 			NetMessage.SendData(MessageID.PlayerBuffs, -1, -1, NetworkText.Empty, player.PrototypePlayer.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 		}
 
+		/// <summary>
+		/// 检测名字是否符合要求，如果名字长度小于2或者大于10就不合法
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns>如果过短返回-1，过长返回1，否则返回0</returns>
+		private int checkName(string name)
+		{
+			if (name.Length < 2)
+			{
+				return -1;
+			}
+			else if (name.Length > 10)
+			{
+				return 1;
+			}
+			return 0;
+		}
+
 		public bool Handle(BinaryReader reader, int playerNumber)
 		{
 			if (Main.netMode == 2)
@@ -44,14 +62,24 @@ namespace ServerSideCharacter2.Services.Login
 					}
 					else
 					{
+						// 如果忘记密码就要找管理员重置密码
 						MessageSender.SendLoginFailed(playerNumber, "密码错误！");
 					}
 				}
 				else
 				{
-					serverPlayer.SetPassword(info);
-					successLogin(serverPlayer);
-					MessageSender.SendLoginSuccess(serverPlayer.PrototypePlayer.whoAmI, "注册成功");
+					int result = checkName(Main.player[playerNumber].name);
+					if (result == 0)
+					{
+						serverPlayer.SetPassword(info);
+						successLogin(serverPlayer);
+						MessageSender.SendLoginSuccess(serverPlayer.PrototypePlayer.whoAmI, "注册成功");
+					}
+					else
+					{
+						MessageSender.SendLoginFailed(serverPlayer.PrototypePlayer.whoAmI, "无法注册玩家：用户名" +
+							(result == 1 ? "过长" : "过短") + "\n" + "用户名应为2-10个字符");
+					}
 				}
 			}
 			return false;

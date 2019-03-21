@@ -44,7 +44,8 @@ namespace ServerSideCharacter2.GUI
 			{
 				sb.Append(_message[i]);
 				string str = sb.ToString();
-				if (Main.fontMouseText.MeasureString(str).X >= MSG_MAX_WIDTH - MSG_PADDING_LEFT * 2)
+				if (_message[i] == '\n' && 
+					Main.fontMouseText.MeasureString(str).X >= MSG_MAX_WIDTH - MSG_PADDING_LEFT * 2)
 				{
 					_messageLine.Add(str);
 					sb.Clear();
@@ -54,11 +55,11 @@ namespace ServerSideCharacter2.GUI
 			{
 				_messageLine.Add(sb.ToString());
 			}
-			Main.NewText(_messageLine.Count);
-			for (int i = 0; i < _messageLine.Count; i++)
-			{
-				Main.NewText(_messageLine[i]);
-			}
+			//Main.NewText(_messageLine.Count);
+			//for (int i = 0; i < _messageLine.Count; i++)
+			//{
+			//	Main.NewText(_messageLine[i]);
+			//}
 		}
 
 		public MessageDisplayer()
