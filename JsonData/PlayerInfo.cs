@@ -42,9 +42,9 @@ namespace ServerSideCharacter2.JsonData
 
 		public ItemInfo[] bank = new ItemInfo[Chest.maxItems];
 
-		public ItemInfo[] bank2 = new ItemInfo[Chest.maxItems];
+		//public ItemInfo[] bank2 = new ItemInfo[Chest.maxItems];
 
-		public ItemInfo[] bank3 = new ItemInfo[Chest.maxItems];
+		//public ItemInfo[] bank3 = new ItemInfo[Chest.maxItems];
 
 		public PlayerInfo()
 		{
@@ -72,14 +72,14 @@ namespace ServerSideCharacter2.JsonData
 			{
 				bank[i] = new ItemInfo();
 			}
-			for (int i = 0; i < bank2.Length; i++)
-			{
-				bank2[i] = new ItemInfo();
-			}
-			for (int i = 0; i < bank3.Length; i++)
-			{
-				bank3[i] = new ItemInfo();
-			}
+			//for (int i = 0; i < bank2.Length; i++)
+			//{
+			//	bank2[i] = new ItemInfo();
+			//}
+			//for (int i = 0; i < bank3.Length; i++)
+			//{
+			//	bank3[i] = new ItemInfo();
+			//}
 
 		}
 	}

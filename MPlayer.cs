@@ -57,6 +57,11 @@ namespace ServerSideCharacter2
 			{
 				player.statLife = player.statLifeMax2;
 			}
+			//if (Main.myPlayer == player.whoAmI)
+			//{
+			//	Main.NewText(player.active);
+			//}
+
 		}
 
 		public override void OnEnterWorld(Player player)
@@ -66,6 +71,15 @@ namespace ServerSideCharacter2
 				// 给玩家一个很长世界的锁debuff，直到服务器解除
 				player.AddBuff(mod.BuffType("Locked"), 18000);
 			}
+			//ServerSideCharacter2.ErrorLogger = new ErrorLogger("SSC_log.txt", false)			foreach (var item in player.bank.item)
+			//{
+			//	ServerSideCharacter2.ErrorLogger.WriteToFile(item.Name);
+			//}
+			//ServerSideCharacter2.ErrorLogger.WriteToFile("---Bank2---");
+			//foreach (var item in player.bank2.item)
+			//{
+			//	ServerSideCharacter2.ErrorLogger.WriteToFile(item.Name);
+			//}
 			// ServerSideCharacter2.Instance.RelaxButton();
 		}
 

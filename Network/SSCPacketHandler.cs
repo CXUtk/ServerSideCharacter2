@@ -48,6 +48,7 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.FriendRequest, new Services.FriendSystem.FriendRequestHandler() },
 				{SSCMessageType.FriendsData, new Services.FriendSystem.FriendsDataHandler() },
 				{SSCMessageType.GetFriends, new Services.FriendSystem.GetFriendsHandler() },
+				{SSCMessageType.SyncPlayerBank, new Services.OnlinePlayer.PlayerBankHandler() },
 			};
 		}
 	}

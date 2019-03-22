@@ -26,6 +26,7 @@ namespace ServerSideCharacter2
 			_logWriter.WriteLine(text);
 			_logWriter.Flush();
 			_logWriter.Close();
+			_logWriter.Dispose();
 
 		}
 

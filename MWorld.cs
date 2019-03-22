@@ -41,26 +41,35 @@ namespace ServerSideCharacter2
 					}
 					if (Timer % 180 < 1)
 					{
-
-						foreach (var player in ServerSideCharacter2.PlayerCollection)
+						// 这个地方整个都需要改
+						foreach(var player in Main.player)
 						{
-							if (player.Value.PrototypePlayer != null)
+							if (player.active)
 							{
-								int playerID = player.Value.PrototypePlayer.whoAmI;
-								if (!player.Value.HasPassword)
+								ServerPlayer serverPlayer = player.GetServerPlayer();
+								int playerID = player.whoAmI;
+								if (!serverPlayer.HasPassword)
 								{
-									player.Value.ApplyLockBuffs();
+									serverPlayer.ApplyLockBuffs();
 									NetMessage.SendChatMessageToClient(NetworkText.FromLiteral("Welcome! You are new to here. Please use /register <password> to register an account!"), new Color(255, 255, 30, 30), playerID);
 								}
-								else if (player.Value.HasPassword && !player.Value.IsLogin)
+								else if (serverPlayer.HasPassword && !serverPlayer.IsLogin)
 								{
-									player.Value.ApplyLockBuffs();
+									serverPlayer.ApplyLockBuffs();
 									NetMessage.SendChatMessageToClient(NetworkText.FromLiteral("Welcome! You have already created an account. Please type /login <password> to login!"), new Color(255, 255, 30, 30), playerID);
 								}
 							}
 							else
 							{
+								// ServerSideCharacter2.ErrorLogger.WriteToFile(player.name + "不活跃");
+							}
+						}
+						foreach (var player in ServerSideCharacter2.PlayerCollection)
+						{
+							if (player.Value.PrototypePlayer == null || !player.Value.PrototypePlayer.active)
+							{
 								player.Value.IsLogin = false;
+								player.Value.SetID(-1);
 							}
 							if (player.Value.PrototypePlayer != null)
 							{

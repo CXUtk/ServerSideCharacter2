@@ -20,6 +20,11 @@ namespace ServerSideCharacter2.Items
 			item.useAnimation = 30;
 			item.useStyle = 4;
 		}
+		public override bool UseItem(Player player)
+		{
+
+			return true;
+		}
 
 		public override void SetStaticDefaults()
 		{

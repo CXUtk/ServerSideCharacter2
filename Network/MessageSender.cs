@@ -40,8 +40,8 @@ namespace ServerSideCharacter2
 			string name = Main.player[plr].name;
 			ServerPlayer player = ServerSideCharacter2.PlayerCollection.Get(name);
 			Main.player[plr].bank = (Chest)player.bank.Clone();
-			Main.player[plr].bank2 = (Chest)player.bank2.Clone();
-			Main.player[plr].bank3 = (Chest)player.bank3.Clone();
+			//Main.player[plr].bank2 = (Chest)player.bank2.Clone();
+			//Main.player[plr].bank3 = (Chest)player.bank3.Clone();
 			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.SyncPlayerBank);
 			p.Write((byte)plr);
@@ -51,18 +51,18 @@ namespace ServerSideCharacter2
 				p.Write((short)item.prefix);
 				p.Write((short)item.stack);
 			}
-			foreach (Item item in player.bank2.item)
-			{
-				p.Write(item.type);
-				p.Write((short)item.prefix);
-				p.Write((short)item.stack);
-			}
-			foreach (Item item in player.bank3.item)
-			{
-				p.Write(item.type);
-				p.Write((short)item.prefix);
-				p.Write((short)item.stack);
-			}
+			//foreach (Item item in player.bank2.item)
+			//{
+			//	p.Write(item.type);
+			//	p.Write((short)item.prefix);
+			//	p.Write((short)item.stack);
+			//}
+			//foreach (Item item in player.bank3.item)
+			//{
+			//	p.Write(item.type);
+			//	p.Write((short)item.prefix);
+			//	p.Write((short)item.stack);
+			//}
 			p.Send(to, from);
 		}
 

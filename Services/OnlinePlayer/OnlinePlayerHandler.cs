@@ -18,7 +18,7 @@ namespace ServerSideCharacter2.Services.OnlinePlayer
 			{
 				var data = reader.ReadString();
 				PlayerOnlineInfo onlineinfo = JsonConvert.DeserializeObject<PlayerOnlineInfo>(data);
-				Utils.CommandBoardcast.ShowInWorldTest(data);
+				// Utils.CommandBoardcast.ShowInWorldTest(data);
 				foreach(var info in onlineinfo.Player)
 				{
 					ServerSideCharacter2.GuiManager.AppendOnlinePlayers(info);

@@ -172,6 +172,7 @@
     <Compile Include="Services\Login\LoginMessage.cs" />
     <Compile Include="Services\Login\LoginService.cs" />
     <Compile Include="Services\OnlinePlayer\OnlinePlayerHandler.cs" />
+    <Compile Include="Services\OnlinePlayer\PlayerBankHandler.cs" />
     <Compile Include="Services\OnlinePlayer\RequestPlayersHandler.cs" />
     <Compile Include="Services\OnlinePlayer\OnlinePlayerService.cs" />
     <Compile Include="Services\ReceiveRSA.cs" />

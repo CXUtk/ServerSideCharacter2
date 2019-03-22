@@ -423,10 +423,26 @@ namespace ServerSideCharacter2.Network
 				{
 					NetMessage.SendData(MessageID.SyncEquipment, -1, -1, NetworkText.Empty, plr, 58 + Main.player[plr].armor.Length + Main.player[plr].dye.Length + Main.player[plr].miscEquips.Length + 1 + m, Main.player[plr].miscDyes[m].prefix, 0f, 0, 0, 0);
 				}
-				NetMessage.SendData(MessageID.SyncEquipment, -1, -1, NetworkText.FromLiteral(Main.player[plr].trashItem.Name),
+				for (int i = 0; i < Main.player[plr].bank.item.Length; i++)
+				{
+					NetMessage.SendData(MessageID.SyncEquipment, -1, -1, null, plr,
+						58 + Main.player[plr].armor.Length + Main.player[plr].dye.Length + Main.player[plr].miscEquips.Length + Main.player[plr].miscDyes.Length + 1 + i, Main.player[plr].bank.item[i].prefix, 0f, 0, 0, 0);
+				}
+				for (int i = 0; i < Main.player[plr].bank2.item.Length; i++)
+				{
+					NetMessage.SendData(MessageID.SyncEquipment, -1, -1, null, plr,
+						58 + Main.player[plr].armor.Length + Main.player[plr].dye.Length + Main.player[plr].miscEquips.Length + Main.player[plr].miscDyes.Length + Main.player[plr].bank.item.Length + 1 + i, Main.player[plr].bank2.item[i].prefix, 0f, 0, 0, 0);
+				}
+				NetMessage.SendData(MessageID.SyncEquipment, -1, -1, null,
 					plr, 58 + Main.player[plr].armor.Length + Main.player[plr].dye.Length +
-					Main.player[plr].miscEquips.Length + 7, Main.player[plr].trashItem.prefix);
-				//MessageSender.SyncPlayerBanks(plr, -1, -1);
+					Main.player[plr].miscEquips.Length + Main.player[plr].bank.item.Length + Main.player[plr].bank2.item.Length + 1, Main.player[plr].trashItem.prefix);
+
+				for (int i = 0; i < Main.player[plr].bank3.item.Length; i++)
+				{
+					NetMessage.SendData(MessageID.SyncEquipment, -1, -1, null, plr,
+						58 + Main.player[plr].armor.Length + Main.player[plr].dye.Length +
+					Main.player[plr].miscEquips.Length + Main.player[plr].bank.item.Length + Main.player[plr].bank2.item.Length + 2 + i, Main.player[plr].bank2.item[i].prefix, 0f, 0, 0, 0);
+				}
 				PlayerHooks.SyncPlayer(Main.player[plr], toWho, fromWho, false);
 				if (!Netplay.Clients[plr].IsAnnouncementCompleted)
 				{

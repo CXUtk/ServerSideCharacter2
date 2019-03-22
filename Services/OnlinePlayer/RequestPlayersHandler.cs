@@ -18,7 +18,7 @@ namespace ServerSideCharacter2.Services.OnlinePlayer
 			{
 				var info = ServerSideCharacter2.PlayerCollection.getOnlineInfo(playerNumber);
 				MessageSender.SendOnlineInformation(playerNumber, JsonConvert.SerializeObject(info, Formatting.Indented));
-				Utils.CommandBoardcast.ConsoleMessage("收到在线玩家请求");
+				Utils.CommandBoardcast.ConsoleMessage("收到玩家请求查看在线玩家");
 			}
 			return false;
 		}

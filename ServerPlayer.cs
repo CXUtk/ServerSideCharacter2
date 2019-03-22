@@ -26,8 +26,8 @@ namespace ServerSideCharacter2
 		public Item[] miscDye = new Item[5];
 
 		public Chest bank = new Chest(true);
-		public Chest bank2 = new Chest(true);
-		public Chest bank3 = new Chest(true);
+		//public Chest bank2 = new Chest(true);
+		//public Chest bank3 = new Chest(true);
 
 		private int playerID = -1;
 
@@ -149,14 +149,14 @@ namespace ServerSideCharacter2
 			{
 				bank.item[i] = new Item();
 			}
-			for (int i = 0; i < bank2.item.Length; i++)
-			{
-				bank2.item[i] = new Item();
-			}
-			for (int i = 0; i < bank3.item.Length; i++)
-			{
-				bank3.item[i] = new Item();
-			}
+			//for (int i = 0; i < bank2.item.Length; i++)
+			//{
+			//	bank2.item[i] = new Item();
+			//}
+			//for (int i = 0; i < bank3.item.Length; i++)
+			//{
+			//	bank3.item[i] = new Item();
+			//}
 
 		}
 
@@ -230,8 +230,8 @@ namespace ServerSideCharacter2
 			ServerUtils.InfoToItem(_info.miscEquips, miscEquips);
 			ServerUtils.InfoToItem(_info.miscDye, miscDye);
 			ServerUtils.InfoToItem(_info.bank, bank.item);
-			ServerUtils.InfoToItem(_info.bank2, bank2.item);
-			ServerUtils.InfoToItem(_info.bank3, bank3.item);
+			//ServerUtils.InfoToItem(_info.bank2, bank2.item);
+			//ServerUtils.InfoToItem(_info.bank3, bank3.item);
 		}
 
 		public void SyncPlayerToInfo()
@@ -248,8 +248,8 @@ namespace ServerSideCharacter2
 			miscEquips = PrototypePlayer.miscEquips;
 			miscDye = PrototypePlayer.miscDyes;
 			bank = PrototypePlayer.bank;
-			bank2 = PrototypePlayer.bank2;
-			bank3 = PrototypePlayer.bank3;
+			//bank2 = PrototypePlayer.bank2;
+			//bank3 = PrototypePlayer.bank3;
 
 			ServerUtils.CopyToItemData(inventory, _info.inventory);
 			ServerUtils.CopyToItemData(armor, _info.armor);
@@ -257,8 +257,8 @@ namespace ServerSideCharacter2
 			ServerUtils.CopyToItemData(miscEquips, _info.miscEquips);
 			ServerUtils.CopyToItemData(miscDye, _info.miscDye);
 			ServerUtils.CopyToItemData(bank.item, _info.bank);
-			ServerUtils.CopyToItemData(bank2.item, _info.bank2);
-			ServerUtils.CopyToItemData(bank3.item, _info.bank3);
+			//ServerUtils.CopyToItemData(bank2.item, _info.bank2);
+			//ServerUtils.CopyToItemData(bank3.item, _info.bank3);
 
 		}
 
@@ -277,8 +277,16 @@ namespace ServerSideCharacter2
 				dye.CopyTo(PrototypePlayer.dye, 0);
 				miscDye.CopyTo(PrototypePlayer.miscDyes, 0);
 				bank.item.CopyTo(PrototypePlayer.bank.item, 0);
-				bank2.item.CopyTo(PrototypePlayer.bank2.item, 0);
-				bank3.item.CopyTo(PrototypePlayer.bank3.item, 0);
+				foreach(var item in PrototypePlayer.bank2.item)
+				{
+					item.SetDefaults(0);
+				}
+				foreach (var item in PrototypePlayer.bank3.item)
+				{
+					item.SetDefaults(0);
+				}
+				//bank2.item.CopyTo(PrototypePlayer.bank2.item, 0);
+				//bank3.item.CopyTo(PrototypePlayer.bank3.item, 0);
 			}
 			else
 			{
@@ -327,7 +335,7 @@ namespace ServerSideCharacter2
 			{
 				Name = this.Name,
 				IsLogin = this.IsLogin,
-				PlayerID = this.PrototypePlayer.whoAmI,
+				PlayerID = 0,
 				PlayerInnerID = this._info.ID,
 				IsFriend = isFriend
 			};

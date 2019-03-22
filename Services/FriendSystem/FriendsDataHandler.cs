@@ -19,7 +19,7 @@ namespace ServerSideCharacter2.Services.FriendSystem
 			{
 				var data = reader.ReadString();
 				PlayerOnlineInfo friendsdata = JsonConvert.DeserializeObject<PlayerOnlineInfo>(data);
-				Utils.CommandBoardcast.ShowInWorldTest(data);
+				// Utils.CommandBoardcast.ShowInWorldTest(data);
 				foreach (var info in friendsdata.Player)
 				{
 					ServerSideCharacter2.GuiManager.AppendFriends(info);
