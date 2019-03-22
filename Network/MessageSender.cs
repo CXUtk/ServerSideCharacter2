@@ -377,6 +377,37 @@ namespace ServerSideCharacter2
 			}
 		}
 
+		public static void SendFriendRequest(string name)
+		{
+			if (Main.netMode == 1)
+			{
+				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				p.Write((int)SSCMessageType.FriendRequest);
+				p.Write(name);
+				p.Send();
+			}
+		}
+
+		public static void SendGetFriends()
+		{
+			if (Main.netMode == 1)
+			{
+				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				p.Write((int)SSCMessageType.GetFriends);
+				p.Send();
+			}
+		}
+
+		public static void SendFriendsData(int to, string data)
+		{
+			if (Main.netMode == 2)
+			{
+				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				p.Write((int)SSCMessageType.FriendsData);
+				p.Write(data);
+				p.Send(to);
+			}
+		}
 		//public static void SendChestCommand(ChestManager.Pending pending, int plr, string friendName = null)
 		//{
 		//	ModPacket pack = ServerSideCharacter.Instance.GetPacket();

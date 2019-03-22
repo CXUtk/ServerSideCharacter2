@@ -65,12 +65,15 @@ namespace ServerSideCharacter2.Core
 			ServerPlayerInfo info = new ServerPlayerInfo(data, CurrentID);
 			foreach (var p in _playerList)
 			{
-				data.Add(p.Key, p.Value.GetPlayerInfo());
+				if (p.Value.IsLogin || p.Value.HasPassword)
+				{
+					data.Add(p.Key, p.Value.GetPlayerInfo());
+				}
 			}
 			return JsonConvert.SerializeObject(info);
 		}
 
-		public PlayerOnlineInfo getOnlineInfo()
+		public PlayerOnlineInfo getOnlineInfo(int id)
 		{
 			PlayerOnlineInfo ret = new PlayerOnlineInfo();
 
@@ -79,7 +82,7 @@ namespace ServerSideCharacter2.Core
 				if (player.active)
 				{
 					var serverPlayer = player.GetServerPlayer();
-					ret.Player.Add(serverPlayer.GetSimplified());
+					ret.Player.Add(serverPlayer.GetSimplified(id));
 				}
 			}
 			return ret;

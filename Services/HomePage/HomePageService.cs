@@ -26,6 +26,10 @@ namespace ServerSideCharacter2.Services.HomePage
 		public void OnButtonClicked(UIMouseEvent evt, UIElement listeningElement)
 		{
 			ServerSideCharacter2.Instance.ChangeState(SSCUIState.HomePage);
+			if (ServerSideCharacter2.GuiManager.IsActive(SSCUIState.HomePage))
+			{
+				ServerSideCharacter2.GuiManager.RefreshFriends();
+			}
 		}
 	}
 }

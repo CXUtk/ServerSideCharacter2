@@ -110,9 +110,12 @@
     <Compile Include="Commands\OnlinePlayerCommand.cs" />
     <Compile Include="Commands\SaveCommand.cs" />
     <Compile Include="GUI\MessageDisplayer.cs" />
+    <Compile Include="GUI\UI\Component\Special\UIFriendBar.cs" />
     <Compile Include="GUI\UI\Component\Special\UINormalPlayerBar.cs" />
     <Compile Include="GUI\UI\Component\ToggableElement.cs" />
+    <Compile Include="GUI\UI\Component\UICDButton.cs" />
     <Compile Include="GUI\UI\Component\UIListView.cs" />
+    <Compile Include="GUI\UI\Component\UISlider.cs" />
     <Compile Include="GUI\UI\State\HomePageState.cs" />
     <Compile Include="GUI\UI\State\PlayerOnlineWindow.cs" />
     <Compile Include="GUI\UI\State\ToolBarState.cs" />
@@ -132,8 +135,6 @@
     <Compile Include="GUI\UI\Component\UIButton.cs" />
     <Compile Include="GUI\UI\Component\UIFixedImage.cs" />
     <Compile Include="GUI\UI\Component\UIPicButton.cs" />
-    <Compile Include="GUI\UI\Component\UISliderH.cs" />
-    <Compile Include="GUI\UI\Component\UISliderV.cs" />
     <Compile Include="GUI\UI\Component\UISlot.cs" />
     <Compile Include="GUI\UI\Component\UIAdvTextBox.cs" />
     <Compile Include="GUI\UI\Component\UITextButton.cs" />
@@ -161,6 +162,9 @@
     <Compile Include="ErrorLogger.cs" />
     <Compile Include="ServerPlayer.cs" />
     <Compile Include="ServerSideCharacter2.cs" />
+    <Compile Include="Services\FriendSystem\FriendsDataHandler.cs" />
+    <Compile Include="Services\FriendSystem\GetFriendsHandler.cs" />
+    <Compile Include="Services\FriendSystem\FriendRequestHandler.cs" />
     <Compile Include="Services\HomePage\HomePageService.cs" />
     <Compile Include="Services\ISSCNetService.cs" />
     <Compile Include="Services\ISSCToolBarService.cs" />

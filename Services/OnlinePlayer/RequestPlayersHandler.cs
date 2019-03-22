@@ -16,7 +16,7 @@ namespace ServerSideCharacter2.Services.OnlinePlayer
 			// 如果在服务器端
 			if (Main.netMode == 2)
 			{
-				var info = ServerSideCharacter2.PlayerCollection.getOnlineInfo();
+				var info = ServerSideCharacter2.PlayerCollection.getOnlineInfo(playerNumber);
 				MessageSender.SendOnlineInformation(playerNumber, JsonConvert.SerializeObject(info, Formatting.Indented));
 				Utils.CommandBoardcast.ConsoleMessage("收到在线玩家请求");
 			}

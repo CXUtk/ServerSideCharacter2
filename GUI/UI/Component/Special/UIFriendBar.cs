@@ -16,14 +16,14 @@ using System;
 
 namespace ServerSideCharacter2.GUI.UI.Component.Special
 {
-	public class UINormalPlayerBar : UIAdvPanel, IComparable
+	public class UIFriendBar : UIAdvPanel, IComparable
 	{
 		private SimplifiedPlayerInfo playerInfo;
 
 		private const float LABEL_MAX_WIDTH = 100;
 		private const float GENDER_ICON_SIZE = 25;
 
-		public UINormalPlayerBar(SimplifiedPlayerInfo info)
+		public UIFriendBar(SimplifiedPlayerInfo info)
 		{
 			playerInfo = info;
 			this.Width.Set(0, 1f);
@@ -36,6 +36,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			UIText nameLabel = new UIText(playerInfo.Name);
 			nameLabel.Top.Set(-10, 0.5f);
 			nameLabel.Left.Set(5, 0);
+			nameLabel.TextColor = playerInfo.IsLogin ? Color.Green : Color.Gray;
 			base.Append(nameLabel);
 
 			//bool male = Main.player[playerInfo.PlayerID].Male;
@@ -46,27 +47,19 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			//_genderImage.Height.Set(GENDER_ICON_SIZE, 0);
 			//_onlinePlayerPanel.Append(_genderImage);
 
-			if (!info.IsFriend)
-			{
-				UICDButton addFriendButton = new UICDButton(null, true);
-				addFriendButton.Top.Set(0f, 0f);
-				addFriendButton.Left.Set(-70f, 1f);
-				addFriendButton.Width.Set(70f, 0f);
-				addFriendButton.Height.Set(0f, 1f);
-				addFriendButton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack3"];
-				addFriendButton.ButtonDefaultColor = new Color(200, 200, 200);
-				addFriendButton.ButtonChangeColor = Color.White;
-				addFriendButton.CornerSize = new Vector2(12, 12);
-				addFriendButton.ButtonText = "+好友";
-				addFriendButton.OnClick += AddFriendButton_OnClick;
-				this.Append(addFriendButton);
-			}
 
 		}
 
+		//public override void Click(UIMouseEvent evt)
+		//{
+		//	this.Width.Set(100, 0f);
+		//	Recalculate();
+		//	base.Click(evt);
+		//}
+
 		public override int CompareTo(object obj)
 		{
-			UINormalPlayerBar other = obj as UINormalPlayerBar;
+			UIFriendBar other = obj as UIFriendBar;
 
 			return string.Compare(this.playerInfo.Name, other.playerInfo.Name);
 		}
@@ -74,9 +67,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 
 		private void AddFriendButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
-			//ServerSideCharacter2.Instance.ShowMessage("目前没有实现，等裙子有时间写", 120, Color.White);
-			MessageSender.SendFriendRequest(this.playerInfo.Name);
-			Main.NewText("Send");
+			ServerSideCharacter2.Instance.ShowMessage("目前没有实现，等裙子有时间写", 120, Color.White);
 		}
 	}
 }

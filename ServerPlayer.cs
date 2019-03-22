@@ -8,6 +8,7 @@ using ServerSideCharacter2.Utils;
 using Newtonsoft.Json;
 using Terraria.ModLoader;
 using ServerSideCharacter2.Core;
+using System.Collections.Generic;
 
 namespace ServerSideCharacter2
 {
@@ -110,6 +111,15 @@ namespace ServerSideCharacter2
 			set
 			{
 				_info.ManaMax = value;
+			}
+		}
+
+
+		public HashSet<string> Friends
+		{
+			get
+			{
+				return _info.Friends;
 			}
 		}
 
@@ -309,15 +319,19 @@ namespace ServerSideCharacter2
 			_info.Password = info.Password;
 		}
 
-		public SimplifiedPlayerInfo GetSimplified()
+		public SimplifiedPlayerInfo GetSimplified(int id)
 		{
+			bool isFriend = (id == 255) ||(id == this.playerID) 
+				|| (Main.player[id].GetServerPlayer().Friends.Contains(this.Name));
 			return new SimplifiedPlayerInfo
 			{
 				Name = this.Name,
 				IsLogin = this.IsLogin,
 				PlayerID = this.PrototypePlayer.whoAmI,
 				PlayerInnerID = this._info.ID,
+				IsFriend = isFriend
 			};
 		}
+
 	}
 }

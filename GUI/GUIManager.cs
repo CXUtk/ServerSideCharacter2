@@ -17,7 +17,8 @@ namespace ServerSideCharacter2.GUI
 	{
 		LoginWindow,	
 		PlayerOnlineWindow,
-		HomePage
+		HomePage,
+
 	}
 	public class GUIManager
 	{
@@ -122,10 +123,22 @@ namespace ServerSideCharacter2.GUI
 			_playerOnlineWindow.AppendPlayers(info);
 		}
 
+		public void AppendFriends(JsonData.SimplifiedPlayerInfo info)
+		{
+			_homePageState.AppendFriends(info);
+		}
+
+		public void RefreshFriends()
+		{
+			_homePageState.RefreshFriends();
+		}
+
 		public void RefreshOnlinePlayers()
 		{
 			_playerOnlineWindow.RefreshOnlinePlayer();
 		}
+
+
 
 		internal bool IsActive(SSCUIState state)
 		{

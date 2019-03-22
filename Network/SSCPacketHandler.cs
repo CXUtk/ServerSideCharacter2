@@ -44,7 +44,10 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.FailLogin,  new Services.Login.LoginMessage(Color.Red)},
 				{SSCMessageType.WelcomeMessage,  new NormalMessage(240)},
 				{SSCMessageType.RequestOnlinePlayers, new Services.OnlinePlayer.RequestPlayersHandler() },
-				{SSCMessageType.OnlinePlayersData, new Services.OnlinePlayer.OnlinePlayerHandler() }
+				{SSCMessageType.OnlinePlayersData, new Services.OnlinePlayer.OnlinePlayerHandler() },
+				{SSCMessageType.FriendRequest, new Services.FriendSystem.FriendRequestHandler() },
+				{SSCMessageType.FriendsData, new Services.FriendSystem.FriendsDataHandler() },
+				{SSCMessageType.GetFriends, new Services.FriendSystem.GetFriendsHandler() },
 			};
 		}
 	}

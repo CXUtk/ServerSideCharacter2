@@ -41,7 +41,10 @@
 		FailLogin,
 		WelcomeMessage,
 		RequestOnlinePlayers,
-		OnlinePlayersData
+		OnlinePlayersData,
+		FriendRequest,
+		GetFriends,
+		FriendsData,
 	}
 
 	public enum GenerationType

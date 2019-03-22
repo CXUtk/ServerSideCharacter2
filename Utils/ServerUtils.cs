@@ -10,6 +10,18 @@ namespace ServerSideCharacter2.Utils
 {
 	public class ServerUtils
 	{
+
+		public static string RandomGenString()
+		{
+			var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+			StringBuilder sb = new StringBuilder();
+			int n = 2 + Main.rand.Next(9);
+			for (int i = 0; i < n; i++)
+			{
+				sb.Append(chars[Main.rand.Next(chars.Length)]);
+			}
+			return sb.ToString();
+		}
 		public static void CopyToItemData(Item[] src, ItemInfo[] dest)
 		{
 			int size = src.Length;
