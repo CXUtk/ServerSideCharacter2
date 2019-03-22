@@ -118,10 +118,6 @@ namespace ServerSideCharacter2.GUI
 			_messageDisplayer.ShowMessage(msg, time, color);
 		}
 
-		public void AppendOnlinePlayers(JsonData.SimplifiedPlayerInfo info)
-		{
-			_playerOnlineWindow.AppendPlayers(info);
-		}
 
 		public void AppendFriends(JsonData.SimplifiedPlayerInfo info)
 		{
@@ -132,6 +128,12 @@ namespace ServerSideCharacter2.GUI
 		{
 			_homePageState.RefreshFriends();
 		}
+
+		public void AppendOnlinePlayers(JsonData.SimplifiedPlayerInfo info)
+		{
+			_playerOnlineWindow.AppendPlayers(info);
+		}
+
 
 		public void RefreshOnlinePlayers()
 		{

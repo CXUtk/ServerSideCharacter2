@@ -25,9 +25,9 @@ namespace ServerSideCharacter2.GUI.UI.Component
 
 		public override void Click(UIMouseEvent evt)
 		{
+			base.Click(evt);
 			coolDown = CoolDownCount;
 			this.Enabled = false;
-			base.Click(evt);
 		}
 
 

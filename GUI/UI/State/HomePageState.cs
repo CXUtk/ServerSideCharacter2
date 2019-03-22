@@ -103,7 +103,7 @@ namespace ServerSideCharacter2.GUI.UI
 
 			if (Main.netMode == 1)
 			{
-				MessageSender.SendRequestOnlinePlayer();
+				MessageSender.SendGetFriends();
 			}
 			else
 			{
