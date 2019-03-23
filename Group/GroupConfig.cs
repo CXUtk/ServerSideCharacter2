@@ -24,7 +24,7 @@ namespace ServerSideCharacter2.Group
 	}
 	public class GroupConfigManager
 	{
-		private ConfigConverter converter = new ConfigConverter();
+		private readonly ConfigConverter converter = new ConfigConverter();
 		public bool ConfigExist { get; }
 
 		public Dictionary<string, Group> Groups

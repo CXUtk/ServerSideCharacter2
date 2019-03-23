@@ -11,11 +11,14 @@ namespace ServerSideCharacter2.Core
 {
 	public class PlayerCollection : IEnumerable<KeyValuePair<string, ServerPlayer>>
 	{
-		[JsonRequired]
 		private Dictionary<string, ServerPlayer> _playerList;
 
-		[JsonProperty]
 		private int CurrentID = 0;
+
+		public int Count
+		{
+			get { return _playerList.Count; }
+		}
 
 		public int GetNextID()
 		{

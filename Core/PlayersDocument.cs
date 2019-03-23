@@ -35,35 +35,42 @@ namespace ServerSideCharacter2.Core
 
 		public void ExtractPlayersData()
 		{
-			if (!File.Exists(FileName))
+			try
 			{
-				CommandBoardcast.ConsoleMessage(GameLanguage.GetText("creatingPlayerDoc"));
-				ServerSideCharacter2.PlayerCollection = new PlayerCollection();
-				SavePlayersData();
-				return;
-			}
-
-			CommandBoardcast.ConsoleMessage(GameLanguage.GetText("readingPlayerDoc"));
-			string data;
-			using(StreamReader reader = new StreamReader(FileName, Encoding.UTF8))
-			{
-				data = reader.ReadToEnd();
-			}
-
-			var dict = JsonConvert.DeserializeObject<ServerPlayerInfo>(data);
-			if (dict.Playerdata.Count > 0)
-			{
-				foreach (var player in dict.Playerdata)
+				if (!File.Exists(FileName))
 				{
-					ServerPlayer p = new ServerPlayer();
-					p.SetPlayerInfo(player.Value);
-					p.SyncPlayerFromInfo();
-					ServerSideCharacter2.PlayerCollection.Add(p);
+					CommandBoardcast.ConsoleMessage(GameLanguage.GetText("creatingPlayerDoc"));
+					ServerSideCharacter2.PlayerCollection = new PlayerCollection();
+					SavePlayersData();
+					return;
 				}
-				ServerSideCharacter2.PlayerCollection.SetID(dict.CurrentID);
 
+				CommandBoardcast.ConsoleMessage(GameLanguage.GetText("readingPlayerDoc"));
+				string data;
+				using (StreamReader reader = new StreamReader(FileName, Encoding.UTF8))
+				{
+					data = reader.ReadToEnd();
+				}
+
+				var dict = JsonConvert.DeserializeObject<ServerPlayerInfo>(data);
+				if (dict.Playerdata.Count > 0)
+				{
+					foreach (var player in dict.Playerdata)
+					{
+						ServerPlayer p = new ServerPlayer();
+						p.SetPlayerInfo(player.Value);
+						p.SyncPlayerFromInfo();
+						ServerSideCharacter2.PlayerCollection.Add(p);
+					}
+					ServerSideCharacter2.PlayerCollection.SetID(dict.CurrentID);
+
+				}
+				CommandBoardcast.ConsoleMessage(GameLanguage.GetText("FinishReadPlayerDoc"));
 			}
-			CommandBoardcast.ConsoleMessage(GameLanguage.GetText("FinishReadPlayerDoc"));
+			catch (Exception ex)
+			{
+				CommandBoardcast.ConsoleError(ex);
+			}
 		}
 	}
 }

@@ -54,6 +54,8 @@ namespace ServerSideCharacter2.GUI.UI
 			_usernameText.Left.Set(-TEXTBOX_WIDTH / 2 + X_OFFSET, 0.5f);
 			_usernameText.Width.Set(TEXTBOX_WIDTH, 0f);
 			_usernameText.Height.Set(TEXTBOX_HEIGHT, 0f);
+			_usernameText.Text = "用户名即为玩家名字";
+			_usernameText.Enabled = false;
 			_usernameText.Append(label1);
 			WindowPanel.Append(_usernameText);
 

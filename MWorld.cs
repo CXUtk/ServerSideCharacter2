@@ -18,7 +18,7 @@ namespace ServerSideCharacter2
 
 		private static int Timer = 0;
 
-		public override void PostUpdate()
+		public override void PreUpdate()
 		{
 			if (Main.netMode == 2)
 			{
@@ -51,17 +51,13 @@ namespace ServerSideCharacter2
 								if (!serverPlayer.HasPassword)
 								{
 									serverPlayer.ApplyLockBuffs();
-									NetMessage.SendChatMessageToClient(NetworkText.FromLiteral("Welcome! You are new to here. Please use /register <password> to register an account!"), new Color(255, 255, 30, 30), playerID);
+									NetMessage.SendChatMessageToClient(NetworkText.FromLiteral("您还没有注册，请使用登录窗口注册哦~"), new Color(255, 255, 30, 30), playerID);
 								}
 								else if (serverPlayer.HasPassword && !serverPlayer.IsLogin)
 								{
 									serverPlayer.ApplyLockBuffs();
-									NetMessage.SendChatMessageToClient(NetworkText.FromLiteral("Welcome! You have already created an account. Please type /login <password> to login!"), new Color(255, 255, 30, 30), playerID);
+									NetMessage.SendChatMessageToClient(NetworkText.FromLiteral("您已注册，输入密码就可以登录了！"), new Color(255, 255, 30, 30), playerID);
 								}
-							}
-							else
-							{
-								// ServerSideCharacter2.ErrorLogger.WriteToFile(player.name + "不活跃");
 							}
 						}
 						foreach (var player in ServerSideCharacter2.PlayerCollection)

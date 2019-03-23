@@ -19,7 +19,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 	/// <summary>
 	/// 神奇的Textbox，输入法支持以及滚动字幕，还支持密码屏蔽
 	/// </summary>
-	public class UIAdvTextBox : UIElement
+	public class UIAdvTextBox : ToggableElement
 	{
 		private const int BLINK_INTERVAL = 20;
 		private const float TEXT_PADDING = 8;
@@ -119,13 +119,14 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		public override void Draw(SpriteBatch spriteBatch)
 		{
 			base.Draw(spriteBatch);
-			if (Focused)
+			if (Focused && Enabled)
 			{
 				PlayerInput.WritingText = true;
 				if (!Password)
 					Main.instance.HandleIME();
 				string oldText = Text;
 				Text = GetInputText(Text);
+				
 				
 				if (oldText != Text)
 				{
