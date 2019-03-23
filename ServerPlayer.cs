@@ -123,6 +123,16 @@ namespace ServerSideCharacter2
 			}
 		}
 
+		public Group.Group Group
+		{
+			get
+			{
+				return ServerSideCharacter2.GroupManager.Groups[_info.Group];
+			}
+		}
+
+	
+
 		private void SetupPlayer()
 		{
 			for (int i = 0; i < inventory.Length; i++)

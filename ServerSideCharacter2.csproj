@@ -109,6 +109,10 @@
     <Compile Include="Buffs\Locked.cs" />
     <Compile Include="Commands\OnlinePlayerCommand.cs" />
     <Compile Include="Commands\SaveCommand.cs" />
+    <Compile Include="Group\Group.cs" />
+    <Compile Include="Group\GroupConfig.cs" />
+    <Compile Include="Group\GroupManager.cs" />
+    <Compile Include="Group\Permission.cs" />
     <Compile Include="GUI\MessageDisplayer.cs" />
     <Compile Include="GUI\UI\Component\Special\UIFriendBar.cs" />
     <Compile Include="GUI\UI\Component\Special\UINormalPlayerBar.cs" />

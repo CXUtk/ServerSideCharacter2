@@ -30,6 +30,8 @@ namespace ServerSideCharacter2.JsonData
 
 		public HashSet<string> Friends = new HashSet<string>();
 
+		public string Group { get; set; }
+
 		public ItemInfo[] inventory = new ItemInfo[Main.maxInventory + 1];
 
 		public ItemInfo[] armor = new ItemInfo[20];

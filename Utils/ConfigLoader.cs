@@ -5,12 +5,15 @@ using System.Text;
 using System.IO;
 using ServerSideCharacter2.JsonData;
 using Newtonsoft.Json;
+using ServerSideCharacter2.Group;
 
 namespace ServerSideCharacter2.Utils
 {
 	public static class ConfigLoader
 	{
 		public static string defaultName = "SSC/config.json";
+		private static GroupConfigManager GroupConfigManager;
+
 		public static void Load()
 		{
 			if (!File.Exists("SSC/config.json"))
@@ -39,6 +42,9 @@ namespace ServerSideCharacter2.Utils
 			CommandBoardcast.ConsoleMessage("配置文件已经加载");
 			CommandBoardcast.ConsoleMessage(string.Format("当前配置  自动保存: {0}，自动保存间隔：{1}s",
 				ServerSideCharacter2.Config.AutoSave ? "开" : "关", ServerSideCharacter2.Config.SaveInterval / 60f));
+
+			GroupConfigManager = new GroupConfigManager();
+
 			Save();
 		}
 
@@ -49,6 +55,8 @@ namespace ServerSideCharacter2.Utils
 			{
 				writer.Write(data);
 			}
+
+			GroupConfigManager.Save();
 		}
 	}
 }

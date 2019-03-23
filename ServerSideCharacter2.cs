@@ -24,6 +24,7 @@ using ServerSideCharacter2.Core;
 using ServerSideCharacter2.Crypto;
 using System.Windows.Forms;
 using ServerSideCharacter2.GUI.UI;
+using ServerSideCharacter2.Group;
 
 namespace ServerSideCharacter2
 {
@@ -48,6 +49,8 @@ namespace ServerSideCharacter2
 		internal static string ShowTooltip { get; set; }
 
 		internal static GUIManager GuiManager;
+
+		internal static GroupManager GroupManager;
 
 		public static ToolBarServiceManager ToolBarServiceManager { get; set; }
 
@@ -196,6 +199,7 @@ namespace ServerSideCharacter2
 				PlayerCollection = new PlayerCollection();
 				PlayerDoc = new PlayersDocument("players.json");
 				PlayerDoc.ExtractPlayersData();
+				GroupManager = new GroupManager();
 				// 服务器端生成RSA私钥
 				RSACrypto.GenKey();
 				ConfigLoader.Load();
