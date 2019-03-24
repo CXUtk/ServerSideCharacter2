@@ -12,6 +12,9 @@ using ServerSideCharacter2.Utils;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 using ServerSideCharacter2.Groups;
+using Terraria.GameContent.NetModules;
+using Terraria.Net;
+using Terraria.GameContent.UI.Chat;
 
 namespace ServerSideCharacter2.Network
 {
@@ -52,11 +55,38 @@ namespace ServerSideCharacter2.Network
 				{
 					//Then deserialize the message from the reader
 					var msg = ChatMessage.Deserialize(reader);
-					Console.WriteLine(msg.Text);
-					return msg.Text.StartsWith("/", StringComparison.Ordinal);
+					var splayer = Main.player[playernumber].GetServerPlayer();
+
+					if (!splayer.IsLogin)
+					{
+						MessageSender.SendErrorMessage(playernumber, "你还没有登录，不能说话哦");
+						return true;
+					}
+					var text = string.Format("[{0}]{1}: {2}", splayer.Group.ChatPrefix, Main.player[(int)playernumber].name, msg.Text);
+					NetPacket packet = NetTextModule.SerializeServerMessage(NetworkText.FromLiteral(text),
+						splayer.Group.ChatColor, (byte)playernumber);
+					NetManager.Instance.Broadcast(packet, -1);
+					Console.WriteLine(text);
+					return true;
 				}
 			}
-
+			else if(Main.netMode == 1)
+			{
+				if (moduleId == Terraria.Net.NetManager.Instance.GetId<Terraria.GameContent.NetModules.NetTextModule>())
+				{
+					//Then deserialize the message from the reader
+					byte b = reader.ReadByte();
+					string text = NetworkText.Deserialize(reader).ToString();
+					Color c = reader.ReadRGB();
+					if (b < 255)
+					{
+						Main.player[(int)b].chatOverhead.NewMessage(text, Main.chatLength / 2);
+						// text = NameTagHandler.GenerateTag(Main.player[(int)b].name) + " " + text;
+					}
+					Main.NewTextMultiline(text, false, c, -1);
+					return true;
+				}
+			}
 			return false;
 		}
 
@@ -548,7 +578,7 @@ namespace ServerSideCharacter2.Network
 			_packethandler = new Dictionary<int, PacketHandlerDelegate>()
 			{
 				{ MessageID.SpawnPlayer, PlayerSpawn },
-				// { MessageID.ChatText, ChatText },
+				{ MessageID.ChatText, ChatText },
 				{ MessageID.NetModules, HandleNetModules },
 				//{ MessageID.TileChange, TileChange },
 				{ MessageID.PlayerControls, PlayerControls },

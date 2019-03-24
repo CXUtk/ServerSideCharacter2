@@ -158,6 +158,8 @@
     <Compile Include="JsonData\ServerPlayerInfo.cs" />
     <Compile Include="MPlayer.cs" />
     <Compile Include="MWorld.cs" />
+    <Compile Include="Network\NetTextModulePlus.cs" />
+    <Compile Include="Network\SSCNameTagHandler.cs" />
     <Compile Include="Network\SSCPacketHandler.cs" />
     <Compile Include="Network\PacketHandler.cs" />
     <Compile Include="Core\PlayersDocument.cs" />

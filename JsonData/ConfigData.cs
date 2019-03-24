@@ -14,6 +14,7 @@ namespace ServerSideCharacter2.JsonData
 		public List<ItemInfo> startUpInventory;
 		public bool AutoSave { get; set; }
 		public int SaveInterval { get; set; }
+		public bool EnableTombstone { get; set; }
 		public ConfigData()
 		{
 
@@ -32,6 +33,8 @@ namespace ServerSideCharacter2.JsonData
 			data.AutoSave = true;
 			// 一分钟的保存间隔
 			data.SaveInterval = 18000;
+			// 禁止墓碑生成
+			data.EnableTombstone = false;
 			return data;
 		}
 	}
