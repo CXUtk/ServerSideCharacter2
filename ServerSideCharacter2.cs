@@ -54,6 +54,8 @@ namespace ServerSideCharacter2
 
 		public static ToolBarServiceManager ToolBarServiceManager { get; set; }
 
+		public bool IsLoginClientSide { get; set; }
+
 		private PacketHandler _packetHandler;
 
 		private SSCPacketHandler _sscPacketHandler;
@@ -65,6 +67,11 @@ namespace ServerSideCharacter2
 		internal void ChangeState(SSCUIState state)
 		{
 			GuiManager.ToggleState(state);
+		}
+
+		internal void TurnOffAllState()
+		{
+			GuiManager.TurnOffAll();
 		}
 
 		public ServerSideCharacter2()
@@ -192,6 +199,7 @@ namespace ServerSideCharacter2
 				ToolBarServiceManager = new ToolBarServiceManager();
 				ResourceLoader.LoadAll();
 				GuiManager = new GUIManager(this);
+				IsLoginClientSide = false;
 			}
 			else
 			{

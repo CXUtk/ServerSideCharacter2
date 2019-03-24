@@ -263,11 +263,11 @@ namespace ServerSideCharacter2
 			p.Send();
 		}
 
-		public static void SendSSC()
+		public static void SendLoginIn(int to)
 		{
 			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
-			p.Write((int)SSCMessageType.ServerSideCharacter);
-			p.Send();
+			p.Write((int)SSCMessageType.NotifyLogin);
+			p.Send(to);
 		}
 
 		public static void SendToggleExpert()

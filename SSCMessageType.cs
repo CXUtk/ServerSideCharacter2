@@ -32,7 +32,7 @@
 		TeleportPalyer,
 		ToggleGodMode,
 		SetGodMode,
-		ServerSideCharacter,
+		NotifyLogin,
 		GenResources,
 		ChestCommand,
 		TPProtect,

@@ -24,7 +24,7 @@ namespace ServerSideCharacter2.Services.FriendSystem
 					var friend = ServerSideCharacter2.PlayerCollection.Get(f);
 					ret.Player.Add(friend.GetSimplified(playerNumber));
 				}
-				var data = JsonConvert.SerializeObject(ret, Formatting.Indented);
+				var data = JsonConvert.SerializeObject(ret, Formatting.None);
 				MessageSender.SendFriendsData(playerNumber, data);
 			}
 			return false;

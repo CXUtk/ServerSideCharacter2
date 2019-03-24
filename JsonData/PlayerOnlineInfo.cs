@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ServerSideCharacter2.Groups;
+using Microsoft.Xna.Framework;
 
 namespace ServerSideCharacter2.JsonData
 {
@@ -12,6 +14,12 @@ namespace ServerSideCharacter2.JsonData
 		public string Name { get; set; }
 
 		public bool IsLogin { get; set; }
+
+		public string GroupName { get; set; }
+
+		public string ChatPrefix { get; set; }
+
+		public Color ChatColor { get; set; }
 
 		public int PlayerInnerID { get; set; }
 

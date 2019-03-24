@@ -147,5 +147,13 @@ namespace ServerSideCharacter2.GUI
 			if (!_canShowUITable.ContainsKey(state)) throw new ArgumentException("不存在此UI状态");
 			return _canShowUITable[state];
 		}
+
+		internal void TurnOffAll()
+		{
+			foreach (var type in typeof(SSCUIState).GetEnumValues())
+			{
+				_canShowUITable[(SSCUIState)type] = false;
+			}
+		}
 	}
 }

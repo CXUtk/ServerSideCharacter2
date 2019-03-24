@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ServerSideCharacter2.GUI;
+using Terraria;
 using Terraria.UI;
 
 namespace ServerSideCharacter2.Services.OnlinePlayer
@@ -25,6 +27,11 @@ namespace ServerSideCharacter2.Services.OnlinePlayer
 
 		public void OnButtonClicked(UIMouseEvent evt, UIElement listeningElement)
 		{
+			if (Main.netMode != 0 && !ServerSideCharacter2.Instance.IsLoginClientSide)
+			{
+				Main.NewText("您还没有登录，请先登录", Color.Red);
+				return;
+			}
 			ServerSideCharacter2.Instance.ChangeState(SSCUIState.PlayerOnlineWindow);
 			if (ServerSideCharacter2.GuiManager.IsActive(SSCUIState.PlayerOnlineWindow))
 			{
