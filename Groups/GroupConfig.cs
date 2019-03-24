@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace ServerSideCharacter2.Group
+namespace ServerSideCharacter2.Groups
 {
 
 	public class GroupConfigData

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ServerSideCharacter2.Group
+namespace ServerSideCharacter2.Groups
 {
 	public class PermissionList
 	{

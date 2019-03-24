@@ -11,6 +11,7 @@ using Terraria.Chat;
 using ServerSideCharacter2.Utils;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
+using ServerSideCharacter2.Groups;
 
 namespace ServerSideCharacter2.Network
 {
@@ -51,7 +52,7 @@ namespace ServerSideCharacter2.Network
 				{
 					//Then deserialize the message from the reader
 					var msg = ChatMessage.Deserialize(reader);
-
+					Console.WriteLine(msg.Text);
 					return msg.Text.StartsWith("/", StringComparison.Ordinal);
 				}
 			}
@@ -547,12 +548,50 @@ namespace ServerSideCharacter2.Network
 			_packethandler = new Dictionary<int, PacketHandlerDelegate>()
 			{
 				{ MessageID.SpawnPlayer, PlayerSpawn },
-				//{ MessageID.ChatText, ChatText },
+				// { MessageID.ChatText, ChatText },
 				{ MessageID.NetModules, HandleNetModules },
 				//{ MessageID.TileChange, TileChange },
 				{ MessageID.PlayerControls, PlayerControls },
 				//{ MessageID.RequestChestOpen, RequestChestOpen }
 			};
+		}
+
+		private bool ChatText(ref BinaryReader reader, int playerNumber)
+		{
+			int playerID = reader.ReadByte();
+			if (Main.netMode == 2)
+			{
+				playerID = playerNumber;
+			}
+			Color c = reader.ReadRGB();
+			if (Main.netMode == 2)
+			{
+				c = new Color(255, 255, 255);
+			}
+			string text = reader.ReadString();
+			if (Main.netMode == 1)
+			{
+				string text2 = text.Substring(text.IndexOf('>') + 1);
+				if (playerID < 255)
+				{
+					Main.player[playerID].chatOverhead.NewMessage(text2, Main.chatLength / 2);
+				}
+				Main.NewTextMultiline(text, false, c, -1);
+			}
+			else
+			{
+				Player p = Main.player[playerID];
+				ServerPlayer player = p.GetServerPlayer();
+				Group group = player.Group;
+				string prefix = "[" + group.ChatPrefix + "] ";
+				c = group.ChatColor;
+				NetMessage.SendData(25, -1, -1, NetworkText.FromLiteral(prefix + "<" + p.name + "> " + text), playerID, (float)c.R, (float)c.G, (float)c.B, 0, 0, 0);
+				if (Main.dedServ)
+				{
+					Console.WriteLine("{0}<" + Main.player[playerID].name + "> " + text, prefix);
+				}
+			}
+			return true;
 		}
 	}
 }

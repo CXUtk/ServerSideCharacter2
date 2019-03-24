@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace ServerSideCharacter2.Group
+namespace ServerSideCharacter2.Groups
 {
 	public class GroupManager
 	{

@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using ServerSideCharacter2.JsonData;
 using Newtonsoft.Json;
-using ServerSideCharacter2.Group;
+using ServerSideCharacter2.Groups;
 
 namespace ServerSideCharacter2.Utils
 {

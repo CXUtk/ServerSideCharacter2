@@ -24,7 +24,7 @@ using ServerSideCharacter2.Core;
 using ServerSideCharacter2.Crypto;
 using System.Windows.Forms;
 using ServerSideCharacter2.GUI.UI;
-using ServerSideCharacter2.Group;
+using ServerSideCharacter2.Groups;
 
 namespace ServerSideCharacter2
 {

@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Terraria.ModLoader;
 using ServerSideCharacter2.Core;
 using System.Collections.Generic;
+using ServerSideCharacter2.Groups;
 
 namespace ServerSideCharacter2
 {
@@ -122,7 +123,7 @@ namespace ServerSideCharacter2
 			}
 		}
 
-		public Group.Group Group
+		public Group Group
 		{
 			get
 			{
