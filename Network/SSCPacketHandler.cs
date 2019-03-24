@@ -40,6 +40,7 @@ namespace ServerSideCharacter2.Network
 			{
 				{SSCMessageType.LoginPassword,  new Services.Login.Authorization()},
 				{SSCMessageType.RSAPublic,  new ReceiveRSA()},
+				{SSCMessageType.LockPlayer,  new Services.Misc.LockHandler()},
 				{SSCMessageType.NotifyLogin,  new Services.Login.NotifyLoginClient()},
 				{SSCMessageType.SuccessLogin,  new Services.Login.LoginMessage(Color.Green)},
 				{SSCMessageType.FailLogin,  new Services.Login.LoginMessage(Color.Red)},

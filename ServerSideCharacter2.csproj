@@ -107,6 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Buffs\Locked.cs" />
+    <Compile Include="Commands\LockCommand.cs" />
     <Compile Include="Commands\OnlinePlayerCommand.cs" />
     <Compile Include="Commands\SaveCommand.cs" />
     <Compile Include="Groups\Group.cs" />
@@ -182,6 +183,7 @@
     <Compile Include="Services\Login\LoginService.cs" />
     <Compile Include="Services\ErrorMessage.cs" />
     <Compile Include="Services\Login\NotifyLoginClient.cs" />
+    <Compile Include="Services\Misc\LockHandler.cs" />
     <Compile Include="Services\OnlinePlayer\OnlinePlayerHandler.cs" />
     <Compile Include="Services\OnlinePlayer\PlayerBankHandler.cs" />
     <Compile Include="Services\OnlinePlayer\RequestPlayersHandler.cs" />

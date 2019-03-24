@@ -137,7 +137,6 @@ namespace ServerSideCharacter2
 
 		public static void SendLockCommand(int plr, int target, int time)
 		{
-			string name = Main.player[plr].name;
 			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.LockPlayer);
 			p.Write((byte)plr);

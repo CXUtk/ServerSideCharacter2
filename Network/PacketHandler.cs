@@ -57,6 +57,7 @@ namespace ServerSideCharacter2.Network
 					var msg = ChatMessage.Deserialize(reader);
 					var splayer = Main.player[playernumber].GetServerPlayer();
 
+					if (msg.Text.StartsWith("/", StringComparison.Ordinal)) return true;
 					if (!splayer.IsLogin)
 					{
 						MessageSender.SendErrorMessage(playernumber, "你还没有登录，不能说话哦");
@@ -75,12 +76,12 @@ namespace ServerSideCharacter2.Network
 				if (moduleId == Terraria.Net.NetManager.Instance.GetId<Terraria.GameContent.NetModules.NetTextModule>())
 				{
 					//Then deserialize the message from the reader
-					byte b = reader.ReadByte();
+					byte id = reader.ReadByte();
 					string text = NetworkText.Deserialize(reader).ToString();
 					Color c = reader.ReadRGB();
-					if (b < 255)
+					if (id < 255 && text.Contains(':'))
 					{
-						Main.player[(int)b].chatOverhead.NewMessage(text, Main.chatLength / 2);
+						Main.player[id].chatOverhead.NewMessage(text.Substring(text.IndexOf(':') + 1), Main.chatLength / 2);
 						// text = NameTagHandler.GenerateTag(Main.player[(int)b].name) + " " + text;
 					}
 					Main.NewTextMultiline(text, false, c, -1);
