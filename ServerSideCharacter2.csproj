@@ -157,6 +157,7 @@
     <Compile Include="JsonData\PlayerOnlineInfo.cs" />
     <Compile Include="JsonData\ServerPlayerInfo.cs" />
     <Compile Include="MPlayer.cs" />
+    <Compile Include="MProjectiles.cs" />
     <Compile Include="MWorld.cs" />
     <Compile Include="Network\NetTextModulePlus.cs" />
     <Compile Include="Network\SSCNameTagHandler.cs" />

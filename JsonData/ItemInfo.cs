@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Default;
+using Terraria.ModLoader.IO;
 
 namespace ServerSideCharacter2.JsonData
 {
@@ -63,8 +65,15 @@ namespace ServerSideCharacter2.JsonData
 				}
 				else
 				{
-					item.netDefaults(ServerSideCharacter2.Instance.ItemType<FailedItem>());
-					((FailedItem)item.modItem).SetUp(FullName);
+					TagCompound tag = new TagCompound()
+					{
+						{"mod", modName},
+						{"name", itemName }
+					};
+					item.netDefaults(ModLoader.GetMod("ModLoader").ItemType("MysteryItem"));
+					var msitem = (MysteryItem)item.modItem;
+					var setup = typeof(MysteryItem).GetMethod("Setup", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+					setup.Invoke(msitem, new TagCompound[] { tag });
 					// MOD物品数据会丢失
 				}
 			}

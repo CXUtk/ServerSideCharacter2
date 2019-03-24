@@ -41,7 +41,6 @@ namespace ServerSideCharacter2
 					}
 					if (Timer % 180 < 1)
 					{
-						// 这个地方整个都需要改
 						foreach(var player in Main.player)
 						{
 							if (player.active)
@@ -91,7 +90,6 @@ namespace ServerSideCharacter2
 					Terraria.Social.SocialAPI.Shutdown();
 				}
 			}
-
 		}
 
 		private void Do_Save(object state)
