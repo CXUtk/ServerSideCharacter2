@@ -14,7 +14,6 @@ namespace ServerSideCharacter2
 {
 	public class ServerPlayer
 	{
-		private static int _NextID = 0;
 
 		[JsonRequired]
 		private PlayerInfo _info;
@@ -208,7 +207,7 @@ namespace ServerSideCharacter2
 				Name = p.name,
 				ID = ServerSideCharacter2.PlayerCollection.GetNextID(),
 				HasPassword = false,
-				TPProtect = true,
+				IsMuted = false,
 				Password = "",
 				LifeMax = 100,
 				StatLife = 100,

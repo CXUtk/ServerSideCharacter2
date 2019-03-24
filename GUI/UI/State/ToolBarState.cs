@@ -88,7 +88,7 @@ namespace ServerSideCharacter2.GUI.UI
 
 		}
 
-		private void swapButtonTexture()
+		private void SwapButtonTexture()
 		{
 			if (_collapseOn)
 			{
@@ -105,7 +105,7 @@ namespace ServerSideCharacter2.GUI.UI
 		internal void OpenPanel_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
 			_collapseOn ^= true;
-			swapButtonTexture();
+			SwapButtonTexture();
 			windowPanel.Color = Color.White;
 		}
 

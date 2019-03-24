@@ -7,20 +7,15 @@ using Terraria;
 
 namespace ServerSideCharacter2.Services
 {
-	public class NormalMessage : ISSCNetHandler
+	public class InfoMessage : ISSCNetHandler
 	{
-		private readonly int time;
-		public NormalMessage(int time)
+		public InfoMessage()
 		{
-			this.time = time;
 		}
 		public bool Handle(BinaryReader reader, int playerNumber)
 		{
-			if (Main.netMode == 1)
-			{
-				string msg = reader.ReadString();
-				ServerSideCharacter2.Instance.ShowMessage(msg, time, Color.White);
-			}
+			string msg = reader.ReadString();
+			Main.NewText(msg, Color.Yellow);
 			return false;
 		}
 	}

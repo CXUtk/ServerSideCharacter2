@@ -76,7 +76,7 @@ namespace ServerSideCharacter2.Core
 			return JsonConvert.SerializeObject(info);
 		}
 
-		public PlayerOnlineInfo getOnlineInfo(int id)
+		public PlayerOnlineInfo GetOnlineInfo(int id)
 		{
 			PlayerOnlineInfo ret = new PlayerOnlineInfo();
 

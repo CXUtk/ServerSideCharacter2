@@ -119,31 +119,35 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		public override void Draw(SpriteBatch spriteBatch)
 		{
 			base.Draw(spriteBatch);
-			if (Focused && Enabled)
+			if (Focused)
 			{
 				PlayerInput.WritingText = true;
-				if (!Password)
-					Main.instance.HandleIME();
-				string oldText = Text;
-				Text = GetInputText(Text);
-				
-				
-				if (oldText != Text)
+				if (Enabled)
 				{
-					// 按键事件
-				}
-				if (!Password && Platform.Current.Ime.CompositionString.Length > 0)
-				{
-					Main.instance.DrawWindowsIMEPanel(new Vector2(98f, (float)(Main.screenHeight - 36)), 0f);
-				}
-				if (Main.inputText.IsKeyDown(Keys.Escape))
-				{
-					UnFocus();
+					if (!Password)
+						Main.instance.HandleIME();
+					string oldText = Text;
+					Text = GetInputText(Text);
+					if (oldText != Text)
+					{
+						// 按键事件
+					}
+					if (!Password && Platform.Current.Ime.CompositionString.Length > 0)
+					{
+						Main.instance.DrawWindowsIMEPanel(new Vector2(98f, (float)(Main.screenHeight - 36)), 0f);
+					}
+					if (Main.inputText.IsKeyDown(Keys.Escape))
+					{
+						UnFocus();
+					}
 				}
 			}
 
+
 			AdjustAppearText();
+
 			var dim = GetInnerDimensions();
+
 			Vector2 strSize = Font.MeasureString(appearedText);
 			DynamicSpriteFontExtensionMethods.DrawString(spriteBatch, Font, appearedText, new Vector2(dim.Position().X + TEXT_PADDING, dim.Center().Y - strSize.Y / 2 + 4), ForegroundColor);
 		}
@@ -152,6 +156,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		private void AdjustAppearText()
 		{
 			appearedText = Text;
+			if (!Enabled) return;
 			if (Focused) appearedText += Platform.Current.Ime.CompositionString;
 			if (Password)
 			{

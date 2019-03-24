@@ -28,7 +28,7 @@ namespace ServerSideCharacter2.Commands
 			try
 			{
 
-				var info = ServerSideCharacter2.PlayerCollection.getOnlineInfo(255);
+				var info = ServerSideCharacter2.PlayerCollection.GetOnlineInfo(255);
 				CommandBoardcast.ConsoleMessage(JsonConvert.SerializeObject(info, Formatting.Indented));
 				//{
 				//	CommandBoardcast.ShowInWorldTest("正在向服务器请求在线玩家信息");

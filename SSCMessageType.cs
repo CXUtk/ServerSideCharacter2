@@ -45,6 +45,8 @@
 		FriendRequest,
 		GetFriends,
 		FriendsData,
+		ErrorMessage,
+		InfoMessage
 	}
 
 	public enum GenerationType

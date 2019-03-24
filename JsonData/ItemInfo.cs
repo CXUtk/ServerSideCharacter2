@@ -10,7 +10,7 @@ namespace ServerSideCharacter2.JsonData
 {
 	public class ItemInfo
 	{
-		public bool isMod { get; set; }
+		public bool IsMod { get; set; }
 		public int ID { get; set; }
 		public string FullName { get; set; }
 		public int Stack { get; set; }
@@ -19,7 +19,7 @@ namespace ServerSideCharacter2.JsonData
 
 		public ItemInfo()
 		{
-			isMod = false;
+			IsMod = false;
 			ID = 0;
 		}
 
@@ -28,7 +28,7 @@ namespace ServerSideCharacter2.JsonData
 			ItemInfo info = new ItemInfo();
 			if(item.type > Main.maxItemTypes || item.modItem != null)
 			{
-				info.isMod = true;
+				info.IsMod = true;
 				info.FullName = item.modItem.GetType().FullName;
 			}
 			else
@@ -52,7 +52,7 @@ namespace ServerSideCharacter2.JsonData
 		public Item ToItem()
 		{
 			Item item = new Item();
-			if (isMod)
+			if (IsMod)
 			{
 				string modName = FullName.Substring(0, FullName.IndexOf('.'));
 				string itemName = FullName.Substring(FullName.LastIndexOf('.') + 1);

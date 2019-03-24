@@ -113,6 +113,7 @@
     <Compile Include="Group\GroupConfig.cs" />
     <Compile Include="Group\GroupManager.cs" />
     <Compile Include="Group\Permission.cs" />
+    <Compile Include="Group\PermissionList.cs" />
     <Compile Include="GUI\MessageDisplayer.cs" />
     <Compile Include="GUI\UI\Component\Special\UIFriendBar.cs" />
     <Compile Include="GUI\UI\Component\Special\UINormalPlayerBar.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="ErrorLogger.cs" />
     <Compile Include="ServerPlayer.cs" />
     <Compile Include="ServerSideCharacter2.cs" />
+    <Compile Include="Services\InfoMessage.cs" />
     <Compile Include="Services\FriendSystem\FriendsDataHandler.cs" />
     <Compile Include="Services\FriendSystem\GetFriendsHandler.cs" />
     <Compile Include="Services\FriendSystem\FriendRequestHandler.cs" />
@@ -175,6 +177,7 @@
     <Compile Include="Services\Login\Authorization.cs" />
     <Compile Include="Services\Login\LoginMessage.cs" />
     <Compile Include="Services\Login\LoginService.cs" />
+    <Compile Include="Services\ErrorMessage.cs" />
     <Compile Include="Services\OnlinePlayer\OnlinePlayerHandler.cs" />
     <Compile Include="Services\OnlinePlayer\PlayerBankHandler.cs" />
     <Compile Include="Services\OnlinePlayer\RequestPlayersHandler.cs" />

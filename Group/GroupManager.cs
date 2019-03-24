@@ -9,6 +9,7 @@ namespace ServerSideCharacter2.Group
 		[JsonIgnore]
 		public readonly Dictionary<string, Group> DefaultGroups = new Dictionary<string, Group>();
 		public Dictionary<string, Group> Groups = new Dictionary<string, Group>();
+		public PermissionList PermissionList;
 
 		private void AddToGroup(Group g)
 		{
@@ -17,60 +18,61 @@ namespace ServerSideCharacter2.Group
 
 		public GroupManager()
 		{
-			Group crminalGroup = new Group("criminal")
+			PermissionList = new PermissionList();
+		}
+
+		public void SetGroups()
+		{
+			Group crminalGroup = new Group("罪犯")
 			{
 				ChatColor = Color.Gray,
-				ChatPrefix = "Criminal"
+				ChatPrefix = "罪犯"
 			};
-			Group defaultGroup = new Group("default")
+			Group defaultGroup = new Group("公民")
 			{
-				ChatPrefix = "Default"
+				ChatPrefix = "公民"
 			};
-			defaultGroup.permissions.Add(new Permission("tp", "Teleport player"));
-			defaultGroup.permissions.Add(new Permission("ls", "List online player's info"));
-			defaultGroup.permissions.Add(new Permission("auth", "Authorize as super admin"));
-			Group admin = new Group("admin")
+			defaultGroup.AddPermission("ls");
+			defaultGroup.AddPermission("friend");
+			Group admin = new Group("管理员")
 			{
 				ChatColor = Color.Red,
-				ChatPrefix = "Admin",
-				permissions = new HashSet<Permission>(defaultGroup.permissions)
-				{
-					new Permission("time", "Changing times"),
-					new Permission("butcher", "Kill all monsters"),
-					new Permission("ls -al", "List all player's info"),
-					new Permission("lock", "Lock a player"),
-					new Permission("sm", "Summon monsters"),
-					new Permission("tphere", "Force teleport a player to your place"),
-					new Permission("region", "Manage regions"),
-					new Permission("region-create", "Create region"),
-					new Permission("region-remove", "Remove regions"),
-					new Permission("expert", "toggle expert"),
-					new Permission("hardmode", "toggle hardmode"),
-					new Permission("region-share", "Share regions"),
-					new Permission("ban-item", "Ban certain item"),
-					new Permission("chest", "Open locked chest"),
-					new Permission("gen-res", "Generate world resources")
-				}
+				ChatPrefix = "管理",
+
 			};
-			Group superAdmin = new Group("spadmin")
+			admin.UnitePermission(defaultGroup);
+			admin.AddPermission("time");
+			admin.AddPermission("butcher");
+			admin.AddPermission("mute");
+			admin.AddPermission("tp");
+			admin.AddPermission("sm");
+			admin.AddPermission("tphere");
+			admin.AddPermission("lock");
+			admin.AddPermission("hardmode");
+			admin.AddPermission("expert");
+			Group superAdmin = new Group("超级管理员")
 			{
 				ChatColor = Color.Cyan,
-				ChatPrefix = "Super Admin",
+				ChatPrefix = "超管",
 				IsSuperAdmin = true
 			};
 
-			DefaultGroups.Add("default", defaultGroup);
-			DefaultGroups.Add("criminal", crminalGroup);
-			DefaultGroups.Add("admin", admin);
-			DefaultGroups.Add("spadmin", superAdmin);
+			DefaultGroups.Add(defaultGroup.GroupName, defaultGroup);
+			DefaultGroups.Add(crminalGroup.GroupName, crminalGroup);
+			DefaultGroups.Add(admin.GroupName, admin);
+			DefaultGroups.Add(superAdmin.GroupName, superAdmin);
 		}
 
 		internal void AddDefaults()
 		{
-			AddToGroup(DefaultGroups["default"]);
-			AddToGroup(DefaultGroups["criminal"]);
-			AddToGroup(DefaultGroups["admin"]);
-			AddToGroup(DefaultGroups["spadmin"]);
+			foreach(var g in DefaultGroups)
+			{
+				AddToGroup(g.Value);
+			}
+			//AddToGroup(DefaultGroups["公民"]);
+			//AddToGroup(DefaultGroups["罪犯"]);
+			//AddToGroup(DefaultGroups["管理员"]);
+			//AddToGroup(DefaultGroups["超级管理员"]);
 		}
 	}
 }

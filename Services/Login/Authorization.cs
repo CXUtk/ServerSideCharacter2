@@ -15,7 +15,7 @@ namespace ServerSideCharacter2.Services.Login
 	public class Authorization : ISSCNetHandler
 	{
 
-		private void successLogin(ServerPlayer player)
+		private void SuccessLogin(ServerPlayer player)
 		{
 			player.IsLogin = true;
 			player.ClearAllBuffs();
@@ -27,7 +27,7 @@ namespace ServerSideCharacter2.Services.Login
 		/// </summary>
 		/// <param name="name"></param>
 		/// <returns>如果过短返回-1，过长返回1，否则返回0</returns>
-		private int checkName(string name)
+		private int CheckName(string name)
 		{
 			if (name.Length < 2)
 			{
@@ -56,7 +56,7 @@ namespace ServerSideCharacter2.Services.Login
 				{
 					if (serverPlayer.CheckPassword(info))
 					{
-						successLogin(serverPlayer);
+						SuccessLogin(serverPlayer);
 						MessageSender.SendLoginSuccess(serverPlayer.PrototypePlayer.whoAmI, "认证成功");
 						CommandBoardcast.ConsoleMessage("玩家 " + serverPlayer.Name + " 认证成功");
 					}
@@ -68,11 +68,11 @@ namespace ServerSideCharacter2.Services.Login
 				}
 				else
 				{
-					int result = checkName(Main.player[playerNumber].name);
+					int result = CheckName(Main.player[playerNumber].name);
 					if (result == 0)
 					{
 						serverPlayer.SetPassword(info);
-						successLogin(serverPlayer);
+						SuccessLogin(serverPlayer);
 						MessageSender.SendLoginSuccess(serverPlayer.PrototypePlayer.whoAmI, "注册成功");
 					}
 					else

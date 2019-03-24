@@ -200,6 +200,7 @@ namespace ServerSideCharacter2
 				PlayerDoc = new PlayersDocument("players.json");
 				PlayerDoc.ExtractPlayersData();
 				GroupManager = new GroupManager();
+				GroupManager.SetGroups();
 				// 服务器端生成RSA私钥
 				RSACrypto.GenKey();
 				ConfigLoader.Load();
