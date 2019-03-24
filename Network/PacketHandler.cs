@@ -579,7 +579,7 @@ namespace ServerSideCharacter2.Network
 			_packethandler = new Dictionary<int, PacketHandlerDelegate>()
 			{
 				{ MessageID.SpawnPlayer, PlayerSpawn },
-				{ MessageID.ChatText, ChatText },
+				// { MessageID.ChatText, ChatText },
 				{ MessageID.NetModules, HandleNetModules },
 				//{ MessageID.TileChange, TileChange },
 				{ MessageID.PlayerControls, PlayerControls },

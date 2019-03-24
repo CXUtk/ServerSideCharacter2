@@ -1,1 +1,1 @@
-People can use /help to discover the commands they can use in the server
+一个强制开荒的服务器向模组，使用时注意请不要往保险箱里存东西
