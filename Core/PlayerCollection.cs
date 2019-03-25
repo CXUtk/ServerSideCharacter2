@@ -53,6 +53,18 @@ namespace ServerSideCharacter2.Core
 			return _playerList[name];
 		}
 
+		public ServerPlayer Get(int guid)
+		{
+			foreach(var p in _playerList)
+			{
+				if(p.Value.GUID == guid)
+				{
+					return p.Value;
+				}
+			}
+			return null;
+		}
+
 		public void SyncPlayers()
 		{
 			foreach(var p in _playerList)

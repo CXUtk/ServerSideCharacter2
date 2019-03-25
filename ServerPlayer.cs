@@ -58,6 +58,14 @@ namespace ServerSideCharacter2
 			}
 		}
 
+		public int GUID
+		{
+			get
+			{
+				return _info.ID;
+			}
+		}
+
 
 		public bool IsLogin { get; set; }
 
@@ -363,7 +371,7 @@ namespace ServerSideCharacter2
 				Name = this.Name,
 				IsLogin = this.IsLogin,
 				PlayerID = 0,
-				PlayerInnerID = this._info.ID,
+				GUID = this._info.ID,
 				ChatColor = Group.ChatColor,
 				ChatPrefix = Group.ChatPrefix,
 				GroupName = Group.GroupName,

@@ -32,7 +32,8 @@ namespace ServerSideCharacter2.Services.Misc
 				else
 				{
 					target1.ApplyLockBuffs(time);
-					NetMessage.SendChatMessageToClient(NetworkText.FromLiteral(string.Format("你成功的锁住了 {0} 持续 {1} 帧", target1.Name, time)), new Color(255, 50, 255, 50), plr);
+					NetMessage.SendChatMessageToClient(NetworkText.FromLiteral(string.Format("你成功的锁住了 {0} 持续 {1:N2} 秒", target1.Name, time / 60.0f)), new Color(255, 50, 255, 50), plr);
+					MessageSender.SendInfoMessage(target0.whoAmI, string.Format("你被管理员锁住了，持续 {0:N2} 秒", time / 60f), Color.Red);
 				}
 			}
 			return false;

@@ -221,13 +221,11 @@ namespace ServerSideCharacter2
 		}
 
 
-		public static void SendSetGroup(int plr, int uuid, string group)
+		public static void SendSetGroup(string id, string group)
 		{
-			string name = Main.player[plr].name;
 			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.RequestSetGroup);
-			p.Write((byte)plr);
-			p.Write(uuid);
+			p.Write(id);
 			p.Write(group);
 			p.Send();
 		}
@@ -416,11 +414,12 @@ namespace ServerSideCharacter2
 			p.Send(to);
 		}
 
-		public static void SendInfoMessage(int to, string msg)
+		public static void SendInfoMessage(int to, string msg, Color c)
 		{
 			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.InfoMessage);
 			p.Write(msg);
+			p.WriteRGB(c);
 			p.Send(to);
 		}
 		//public static void SendChestCommand(ChestManager.Pending pending, int plr, string friendName = null)

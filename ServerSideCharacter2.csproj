@@ -107,6 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Buffs\Locked.cs" />
+    <Compile Include="Commands\GroupCommand.cs" />
     <Compile Include="Commands\LockCommand.cs" />
     <Compile Include="Commands\OnlinePlayerCommand.cs" />
     <Compile Include="Commands\SaveCommand.cs" />

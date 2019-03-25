@@ -21,7 +21,7 @@ namespace ServerSideCharacter2.JsonData
 
 		public Color ChatColor { get; set; }
 
-		public int PlayerInnerID { get; set; }
+		public int GUID { get; set; }
 
 		public int PlayerID { get; set; }
 

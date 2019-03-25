@@ -50,6 +50,7 @@ namespace ServerSideCharacter2.Groups
 			admin.AddPermission("lock");
 			admin.AddPermission("hardmode");
 			admin.AddPermission("expert");
+			admin.AddPermission("changetile");
 			Group superAdmin = new Group("超级管理员")
 			{
 				ChatColor = Color.Cyan,

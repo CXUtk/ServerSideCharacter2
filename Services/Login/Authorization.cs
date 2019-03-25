@@ -22,6 +22,8 @@ namespace ServerSideCharacter2.Services.Login
 			NetMessage.SendData(MessageID.PlayerBuffs, -1, -1, NetworkText.Empty, player.PrototypePlayer.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 		}
 
+		private static string bannedchars = "$%^&*!@#:?|";
+
 		/// <summary>
 		/// 检测名字是否符合要求，如果名字长度小于2或者大于10就不合法
 		/// </summary>
@@ -36,6 +38,11 @@ namespace ServerSideCharacter2.Services.Login
 			else if (name.Length > 10)
 			{
 				return 1;
+			}
+			foreach(var c in name)
+			{
+				if (bannedchars.Contains(c))
+					return 2;
 			}
 			return 0;
 		}
@@ -79,8 +86,15 @@ namespace ServerSideCharacter2.Services.Login
 					}
 					else
 					{
-						MessageSender.SendLoginFailed(serverPlayer.PrototypePlayer.whoAmI, "无法注册玩家：用户名" +
-							(result == 1 ? "过长" : "过短") + "\n" + "用户名应为2-10个字符");
+						if (result == 1 || result == -1)
+						{
+							MessageSender.SendLoginFailed(serverPlayer.PrototypePlayer.whoAmI, "无法注册玩家：用户名" +
+								(result == 1 ? "过长" : "过短") + "\n" + "用户名应为2-10个字符");
+						}
+						else
+						{
+							MessageSender.SendLoginFailed(serverPlayer.PrototypePlayer.whoAmI, "无法注册玩家：用户名不能含有下列特殊字符：$%^&*!@#:?|");
+						}
 					}
 				}
 			}

@@ -581,11 +581,58 @@ namespace ServerSideCharacter2.Network
 				{ MessageID.SpawnPlayer, PlayerSpawn },
 				// { MessageID.ChatText, ChatText },
 				{ MessageID.NetModules, HandleNetModules },
-				//{ MessageID.TileChange, TileChange },
+				{ MessageID.TileChange, TileChange },
 				{ MessageID.PlayerControls, PlayerControls },
 				//{ MessageID.RequestChestOpen, RequestChestOpen }
 			};
 		}
+
+		private bool TileChange(ref BinaryReader reader, int playerNumber)
+		{
+			if (Main.netMode == 2)
+			{
+				try
+				{
+					Player p = Main.player[playerNumber];
+					ServerPlayer player = p.GetServerPlayer();
+					int action = reader.ReadByte();
+					short X = reader.ReadInt16();
+					short Y = reader.ReadInt16();
+					short type = reader.ReadInt16();
+					int style = reader.ReadByte();
+					if (!player.Group.HasPermission("changetile"))
+					{
+						MessageSender.SendErrorMessage(playerNumber, "你没有权限改变这个物块");
+						NetMessage.SendTileSquare(-1, X, Y, 4);
+						return true;
+					}
+					//if (ServerSideCharacter.CheckSpawn(X, Y) && player.PermissionGroup.GroupName != "spadmin")
+					//{
+					//	player.SendErrorInfo("Warning: Spawn is protected from change");
+					//	NetMessage.SendTileSquare(-1, X, Y, 4);
+					//	return true;
+					//}
+					//else if (ServerSideCharacter.RegionManager.CheckRegion(X, Y, player))
+					//{
+					//	player.SendErrorInfo("Warning: You don't have permission to change this tile");
+					//	NetMessage.SendTileSquare(-1, X, Y, 4);
+					//	return true;
+					//}
+					//else if (player.PermissionGroup.GroupName == "criminal")
+					//{
+					//	player.SendErrorInfo("Warning: Criminals cannot change tiles");
+					//	NetMessage.SendTileSquare(-1, X, Y, 4);
+					//	return true;
+					//}
+				}
+				catch (Exception ex)
+				{
+					CommandBoardcast.ConsoleError(ex);
+				}
+			}
+			return false;
+		}
+
 
 		private bool ChatText(ref BinaryReader reader, int playerNumber)
 		{
