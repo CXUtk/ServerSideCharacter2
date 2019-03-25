@@ -16,6 +16,8 @@ namespace ServerSideCharacter2
 	{
 		public static bool ServerStarted = false;
 
+		internal static int[] TileMessageCD = new int[Main.maxPlayers];
+
 		private static int Timer = 0;
 
 		public override void PreUpdate()
@@ -37,6 +39,13 @@ namespace ServerSideCharacter2
 								if (player.IsLogin)
 									player.SyncPlayerToInfo();
 							}
+						}
+					}
+					for(int i = 0; i < Main.maxPlayers; i++)
+					{
+						if(TileMessageCD[i] > 0)
+						{
+							TileMessageCD[i]--;
 						}
 					}
 					if (Timer % 180 < 1)
