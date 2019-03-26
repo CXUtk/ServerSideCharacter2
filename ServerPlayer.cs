@@ -139,6 +139,20 @@ namespace ServerSideCharacter2
 			}
 		}
 
+		public bool RealPlayer
+		{
+			get { return playerID >= 0 && playerID < Main.maxNetPlayers && Main.player[playerID] != null; }
+		}
+
+		public bool ConnectionAlive
+		{
+			get
+			{
+				return (Netplay.Clients[playerID] != null && Netplay.Clients[playerID].IsActive && !Netplay.Clients[playerID].PendingTermination);
+			}
+		}
+
+
 
 		public void SetGroup(string name)
 		{
@@ -387,6 +401,17 @@ namespace ServerSideCharacter2
 				GroupName = Group.GroupName,
 				IsFriend = isFriend
 			};
+		}
+
+		public void SyncGroupInfo()
+		{
+			if (RealPlayer && ConnectionAlive)
+			{
+				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				p.Write((int)SSCMessageType.SyncGroupInfoToClient);
+				p.Write(JsonConvert.SerializeObject(Group, Formatting.None));
+				p.Send(playerID);
+			}
 		}
 
 	}

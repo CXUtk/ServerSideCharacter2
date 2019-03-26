@@ -46,7 +46,8 @@
 		GetFriends,
 		FriendsData,
 		ErrorMessage,
-		InfoMessage
+		InfoMessage,
+		SyncGroupInfoToClient,
 	}
 
 	public enum GenerationType

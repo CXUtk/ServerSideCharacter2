@@ -56,6 +56,8 @@ namespace ServerSideCharacter2
 
 		public bool IsLoginClientSide { get; set; }
 
+		internal static Group MainPlayerGroup;
+
 		private PacketHandler _packetHandler;
 
 		private SSCPacketHandler _sscPacketHandler;
@@ -200,6 +202,7 @@ namespace ServerSideCharacter2
 				ResourceLoader.LoadAll();
 				GuiManager = new GUIManager(this);
 				IsLoginClientSide = false;
+				MainPlayerGroup = new Group("default");
 			}
 			else
 			{

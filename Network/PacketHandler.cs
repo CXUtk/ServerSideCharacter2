@@ -407,7 +407,6 @@ namespace ServerSideCharacter2.Network
 				ServerPlayer player = ServerSideCharacter2.PlayerCollection.Get(name);
 				player.SetID(plr);
 				player.ApplyToPlayer();
-				player.ClearAllBuffs();
 				Main.player[plr].trashItem = new Item();
 
 				NetMessage.SendData(MessageID.PlayerActive, -1, -1, NetworkText.Empty, plr, active, 0f, 0f, 0, 0, 0);
@@ -424,6 +423,7 @@ namespace ServerSideCharacter2.Network
 				{
 					player.IsLogin = false;
 					player.Lock();
+					player.ClearAllBuffs();
 					if (player.HasPassword)
 					{
 						MessageSender.SendWelcomeMessage(plr, GameLanguage.GetText("welcomeold"));

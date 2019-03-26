@@ -34,6 +34,7 @@ namespace ServerSideCharacter2.GUI.UI
 		private const float FRIENDLIST_WIDTH = 400;
 		private const float FRIENDLIST_HEIGHT = 360;
 		private const float FRIENDLIST_OFFSET_LEFT = 0;
+		private const float FRIENDLIST_OFFSET_TOP = 35;
 		private const float Y_OFFSET = 20;
 		private const float X_OFFSET = 20;
 		private const float BUTTON_WIDTH = 80;
@@ -52,21 +53,21 @@ namespace ServerSideCharacter2.GUI.UI
 			WindowPanel.Color = Color.White * 0.8f;
 
 			_onlinePlayerPanel = new UIPanel();
-			_onlinePlayerPanel.Top.Set(-FRIENDLIST_HEIGHT / 2, 0.5f);
-			_onlinePlayerPanel.Left.Set(-FRIENDLIST_WIDTH / 2 - FRIENDLIST_OFFSET_LEFT, 0.5f);
+			_onlinePlayerPanel.Top.Set(-FRIENDLIST_HEIGHT / 2 + FRIENDLIST_OFFSET_TOP, 0.5f);
+			_onlinePlayerPanel.Left.Set(-FRIENDLIST_WIDTH / 2 + FRIENDLIST_OFFSET_LEFT, 0.5f);
 			_onlinePlayerPanel.Width.Set(FRIENDLIST_WIDTH, 0f);
 			_onlinePlayerPanel.Height.Set(FRIENDLIST_HEIGHT, 0f);
 
 			UIText onlinelabel = new UIText("在线玩家");
-			onlinelabel.Top.Set(-35, 0f);
+			onlinelabel.Top.Set(-40, 0f);
 			Vector2 texSize = Main.fontMouseText.MeasureString(onlinelabel.Text);
-			onlinelabel.Left.Set(-texSize.X / 2, 0.5f);
+			onlinelabel.Left.Set(0, 0f);
 			_onlinePlayerPanel.Append(onlinelabel);
 			WindowPanel.Append(_onlinePlayerPanel);
 
 			refreshButton = new UIButton(ServerSideCharacter2.ModTexturesTable["Refresh"], false);
-			refreshButton.Top.Set(-50, 1f);
-			refreshButton.Left.Set(-FRIENDLIST_OFFSET_LEFT - 35 / 2, 0.5f);
+			refreshButton.Top.Set(55, 0f);
+			refreshButton.Left.Set(-35 / 2 - 65, 1f);
 			refreshButton.Width.Set(35, 0f);
 			refreshButton.Height.Set(35, 0f);
 			refreshButton.OnClick += RefreshButton_OnClick;
@@ -78,8 +79,8 @@ namespace ServerSideCharacter2.GUI.UI
 			WindowPanel.Append(refreshButton);
 
 			changeSortModeButton = new UIButton(ServerSideCharacter2.ModTexturesTable["Home"], false);
-			changeSortModeButton.Top.Set(-50, 1f);
-			changeSortModeButton.Left.Set(-FRIENDLIST_OFFSET_LEFT - 35 / 2 - 50, 0.5f);
+			changeSortModeButton.Top.Set(55, 0f);
+			changeSortModeButton.Left.Set(-35 / 2 - 50 - 65, 1f);
 			changeSortModeButton.Width.Set(35, 0f);
 			changeSortModeButton.Height.Set(35, 0f);
 			changeSortModeButton.OnClick += ChangeSortModeButton_OnClick;

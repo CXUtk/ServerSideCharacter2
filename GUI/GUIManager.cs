@@ -155,5 +155,10 @@ namespace ServerSideCharacter2.GUI
 				_canShowUITable[(SSCUIState)type] = false;
 			}
 		}
+
+		internal void CheckGroup()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

@@ -125,7 +125,9 @@ namespace ServerSideCharacter2.GUI.UI.Component
 				if (Enabled)
 				{
 					if (!Password)
+					{
 						Main.instance.HandleIME();
+					}
 					string oldText = Text;
 					Text = GetInputText(Text);
 					if (oldText != Text)

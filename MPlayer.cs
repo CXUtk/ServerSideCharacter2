@@ -15,6 +15,8 @@ namespace ServerSideCharacter2
 
 		public bool GodMode = false;
 
+
+
 		public override void ResetEffects()
 		{
 			Locked = false;

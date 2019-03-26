@@ -414,6 +414,7 @@ namespace ServerSideCharacter2
 			p.WriteRGB(c);
 			p.Send(to);
 		}
+
 		//public static void SendChestCommand(ChestManager.Pending pending, int plr, string friendName = null)
 		//{
 		//	ModPacket pack = ServerSideCharacter.Instance.GetPacket();

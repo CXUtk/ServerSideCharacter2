@@ -181,6 +181,7 @@
     <Compile Include="ServerSideCharacter2.cs" />
     <Compile Include="Services\Misc\GodModeHandler.cs" />
     <Compile Include="Services\Misc\ItemHandler.cs" />
+    <Compile Include="Services\Misc\SyncGroupHandler.cs" />
     <Compile Include="Services\Misc\TPHandler.cs" />
     <Compile Include="Services\Misc\SummonHandler.cs" />
     <Compile Include="Services\Misc\HardmodeHandler.cs" />

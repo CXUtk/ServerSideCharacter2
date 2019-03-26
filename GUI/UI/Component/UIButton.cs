@@ -95,7 +95,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			if (Enabled)
 			{
 				OnClick?.Invoke(evt, this);
-				base.Click(evt);
+				// base.Click(evt);
 			}
 		}
 
