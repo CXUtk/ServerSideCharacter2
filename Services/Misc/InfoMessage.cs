@@ -5,19 +5,18 @@ using System.Linq;
 using System.Text;
 using Terraria;
 
-namespace ServerSideCharacter2.Services
+namespace ServerSideCharacter2.Services.Misc
 {
 	public class InfoMessage : ISSCNetHandler
 	{
 		public InfoMessage()
 		{
 		}
-		public bool Handle(BinaryReader reader, int playerNumber)
+		public void Handle(BinaryReader reader, int playerNumber)
 		{
 			string msg = reader.ReadString();
 			Color c = reader.ReadRGB();
 			Main.NewText(msg, c);
-			return false;
 		}
 	}
 }

@@ -6,18 +6,17 @@ using System.Linq;
 using System.Text;
 using Terraria;
 
-namespace ServerSideCharacter2.Services
+namespace ServerSideCharacter2.Services.Misc
 {
 	public class ReceiveRSA : ISSCNetHandler
 	{
-		public bool Handle(BinaryReader reader, int playerNumber)
+		public void Handle(BinaryReader reader, int playerNumber)
 		{
 			if (Main.netMode == 1)
 			{
 				string publicKey = reader.ReadString();
 				RSACrypto.SetPublicKey(publicKey);
 			}
-			return false;
 		}
 	}
 }

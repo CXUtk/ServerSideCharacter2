@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using Terraria;
 
-namespace ServerSideCharacter2.Services
+namespace ServerSideCharacter2.Services.Misc
 {
 	public class NormalMessage : ISSCNetHandler
 	{
@@ -14,14 +14,13 @@ namespace ServerSideCharacter2.Services
 		{
 			this.time = time;
 		}
-		public bool Handle(BinaryReader reader, int playerNumber)
+		public void Handle(BinaryReader reader, int playerNumber)
 		{
 			if (Main.netMode == 1)
 			{
 				string msg = reader.ReadString();
 				ServerSideCharacter2.Instance.ShowMessage(msg, time, Color.White);
 			}
-			return false;
 		}
 	}
 }

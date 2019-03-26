@@ -269,7 +269,6 @@ namespace ServerSideCharacter2
 		{
 			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.ToggleExpert);
-			p.Write((byte)Main.myPlayer);
 			p.Send();
 		}
 

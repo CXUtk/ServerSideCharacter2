@@ -11,6 +11,6 @@ namespace ServerSideCharacter2.Services
 	/// </summary>
 	public interface ISSCNetHandler
 	{
-		bool Handle(BinaryReader reader, int playerNumber);
+		void Handle(BinaryReader reader, int playerNumber);
 	}
 }

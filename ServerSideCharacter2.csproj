@@ -107,6 +107,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Buffs\Locked.cs" />
+    <Compile Include="Commands\ButcherCommand - 复制%282%29.cs" />
+    <Compile Include="Commands\ButcherCommand - 复制%283%29.cs" />
+    <Compile Include="Commands\ButcherCommand - 复制%284%29.cs" />
+    <Compile Include="Commands\ExpertCommand.cs" />
     <Compile Include="Commands\ButcherCommand.cs" />
     <Compile Include="Commands\GroupCommand.cs" />
     <Compile Include="Commands\LockCommand.cs" />
@@ -173,7 +177,7 @@
     <Compile Include="ErrorLogger.cs" />
     <Compile Include="ServerPlayer.cs" />
     <Compile Include="ServerSideCharacter2.cs" />
-    <Compile Include="Services\InfoMessage.cs" />
+    <Compile Include="Services\Misc\InfoMessage.cs" />
     <Compile Include="Services\FriendSystem\FriendsDataHandler.cs" />
     <Compile Include="Services\FriendSystem\GetFriendsHandler.cs" />
     <Compile Include="Services\FriendSystem\FriendRequestHandler.cs" />
@@ -183,16 +187,18 @@
     <Compile Include="Services\Login\Authorization.cs" />
     <Compile Include="Services\Login\LoginMessage.cs" />
     <Compile Include="Services\Login\LoginService.cs" />
-    <Compile Include="Services\ErrorMessage.cs" />
+    <Compile Include="Services\Misc\ErrorMessage.cs" />
     <Compile Include="Services\Login\NotifyLoginClient.cs" />
+    <Compile Include="Services\Misc\ExpertModeHandler.cs" />
     <Compile Include="Services\Misc\ButcherHandler.cs" />
     <Compile Include="Services\Misc\LockHandler.cs" />
     <Compile Include="Services\OnlinePlayer\OnlinePlayerHandler.cs" />
     <Compile Include="Services\OnlinePlayer\PlayerBankHandler.cs" />
     <Compile Include="Services\OnlinePlayer\RequestPlayersHandler.cs" />
     <Compile Include="Services\OnlinePlayer\OnlinePlayerService.cs" />
-    <Compile Include="Services\ReceiveRSA.cs" />
-    <Compile Include="Services\NormalMessage.cs" />
+    <Compile Include="Services\Misc\ReceiveRSA.cs" />
+    <Compile Include="Services\Misc\NormalMessage.cs" />
+    <Compile Include="Services\SSCCommandHandler.cs" />
     <Compile Include="SSCException.cs" />
     <Compile Include="SSCMessageType.cs" />
     <Compile Include="Utils\CommandBoardcast.cs" />

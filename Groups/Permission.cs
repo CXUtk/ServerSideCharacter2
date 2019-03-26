@@ -28,5 +28,10 @@ namespace ServerSideCharacter2.Groups
 			var other = obj as Permission;
 			return Name.Equals(other.Name);
 		}
+
+		public static bool CheckPermission(ServerPlayer p, string permission)
+		{
+			return p.IsLogin && p.Group.HasPermission(permission);
+		}
 	}
 }

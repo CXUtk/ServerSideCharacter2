@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using ServerSideCharacter2.Services;
+using ServerSideCharacter2.Services.Misc;
 using ServerSideCharacter2.Utils;
 using System;
 using System.Collections.Generic;
@@ -15,21 +16,20 @@ namespace ServerSideCharacter2.Network
 			RegisterHandler();
 		}
 
-		public bool Handle(SSCMessageType msgType, BinaryReader reader, int playerNumber)
+		public void Handle(SSCMessageType msgType, BinaryReader reader, int playerNumber)
 		{
 			try
 			{
 				ISSCNetHandler method;
 				if (_packethandler.TryGetValue(msgType, out method))
 				{
-					return method.Handle(reader, playerNumber);
+					method.Handle(reader, playerNumber);
 				}
 			}
 			catch (Exception ex)
 			{
 				CommandBoardcast.ConsoleError(ex);
 			}
-			return false;
 		}
 
 
@@ -40,7 +40,7 @@ namespace ServerSideCharacter2.Network
 			{
 				{SSCMessageType.LoginPassword,  new Services.Login.Authorization()},
 				{SSCMessageType.RSAPublic,  new ReceiveRSA()},
-				{SSCMessageType.LockPlayer,  new Services.Misc.LockHandler()},
+				{SSCMessageType.LockPlayer,  new LockHandler()},
 				{SSCMessageType.NotifyLogin,  new Services.Login.NotifyLoginClient()},
 				{SSCMessageType.SuccessLogin,  new Services.Login.LoginMessage(Color.Green)},
 				{SSCMessageType.FailLogin,  new Services.Login.LoginMessage(Color.Red)},
@@ -53,7 +53,8 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.SyncPlayerBank, new Services.OnlinePlayer.PlayerBankHandler() },
 				{SSCMessageType.ErrorMessage, new ErrorMessage() },
 				{SSCMessageType.InfoMessage, new InfoMessage() },
-				{SSCMessageType.ButcherCommand, new Services.Misc.ButcherHandler() },
+				{SSCMessageType.ButcherCommand, new ButcherHandler() },
+				{SSCMessageType.ToggleExpert, new ExpertModeHandler() },
 			};
 		}
 	}

@@ -47,7 +47,7 @@ namespace ServerSideCharacter2.Services.Login
 			return 0;
 		}
 
-		public bool Handle(BinaryReader reader, int playerNumber)
+		public void Handle(BinaryReader reader, int playerNumber)
 		{
 			if (Main.netMode == 2)
 			{
@@ -57,7 +57,7 @@ namespace ServerSideCharacter2.Services.Login
 				if (serverPlayer.IsLogin)
 				{
 					MessageSender.SendLoginSuccess(serverPlayer.PrototypePlayer.whoAmI, "你已经登录，请不要重复登录");
-					return false;
+					return;
 				}
 				if (serverPlayer.HasPassword)
 				{
@@ -72,6 +72,7 @@ namespace ServerSideCharacter2.Services.Login
 					{
 						// 如果忘记密码就要找管理员重置密码
 						MessageSender.SendLoginFailed(playerNumber, "密码错误！");
+						CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 认证失败：密码错误.");
 					}
 				}
 				else
@@ -83,6 +84,7 @@ namespace ServerSideCharacter2.Services.Login
 						SuccessLogin(serverPlayer);
 						MessageSender.SendLoginSuccess(serverPlayer.PrototypePlayer.whoAmI, "注册成功");
 						MessageSender.SendLoginIn(serverPlayer.PrototypePlayer.whoAmI);
+						CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册成功.");
 					}
 					else
 					{
@@ -98,7 +100,6 @@ namespace ServerSideCharacter2.Services.Login
 					}
 				}
 			}
-			return false;
 		}
 	}
 }

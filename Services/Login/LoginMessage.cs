@@ -15,7 +15,7 @@ namespace ServerSideCharacter2.Services.Login
 		{
 			textColor = color;
 		}
-		public bool Handle(BinaryReader reader, int playerNumber)
+		public void Handle(BinaryReader reader, int playerNumber)
 		{
 			if (Main.netMode == 1)
 			{
@@ -23,7 +23,6 @@ namespace ServerSideCharacter2.Services.Login
 				ServerSideCharacter2.Instance.ShowMessage(msg, 120, textColor);
 				ServerSideCharacter2.Instance.RelaxButton();
 			}
-			return false;
 		}
 	}
 }
