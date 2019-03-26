@@ -55,6 +55,12 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.InfoMessage, new InfoMessage() },
 				{SSCMessageType.ButcherCommand, new ButcherHandler() },
 				{SSCMessageType.ToggleExpert, new ExpertModeHandler() },
+				{SSCMessageType.ToggleHardMode, new HardmodeHandler() },
+				{SSCMessageType.SummonCommand, new SummonHandler() },
+				{SSCMessageType.ToggleGodMode, new GodModeHandler() },
+				{SSCMessageType.SetGodMode, new SetGodModeHandler() },
+				{SSCMessageType.TPCommand, new TPHandler() },
+				{SSCMessageType.TeleportPalyer, new SetGodModeHandler() },
 			};
 		}
 	}

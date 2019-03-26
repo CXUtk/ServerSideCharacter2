@@ -94,6 +94,8 @@ namespace ServerSideCharacter2.GUI.UI
 			var username = _usernameText.Text;
 			var password = _passwordText.Text;
 			CryptedUserInfo info = CryptedUserInfo.Create(username, password);
+			Main.NewText(username);
+			Main.NewText("'" + password + "'(长度:" + password.Length);
 			Main.NewText(info.ToString());
 			MessageSender.SendLoginPassword(info);
 			// ServerSideCharacter2.Instance.ShowMessage("已经提交AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 120, Color.White);

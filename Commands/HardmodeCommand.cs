@@ -6,11 +6,11 @@ using Newtonsoft.Json;
 
 namespace ServerSideCharacter2.Commands
 {
-	public class ButcherCommand : ModCommand
+	public class HardmodeCommand : ModCommand
 	{
 		public override string Command
 		{
-			get { return "butcher"; }
+			get { return "hardmode"; }
 		}
 
 		public override CommandType Type
@@ -20,17 +20,17 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Description
 		{
-			get { return "斩杀所有怪物"; }
+			get { return "切换肉山前后"; }
 		}
 
 		public override string Usage
 		{
-			get { return "/butcher"; }
+			get { return "/hardmode"; }
 		}
 
 		public override void Action(CommandCaller caller, string input, string[] args)
 		{
-			MessageSender.SendButcherCommand();
+			MessageSender.SendToggleHardmode();
 		}
 	}
 }

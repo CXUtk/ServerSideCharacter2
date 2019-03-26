@@ -71,7 +71,7 @@ namespace ServerSideCharacter2
 			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.TeleportPalyer);
 			p.WriteVector2(pos);
-			p.Send(plr, -1);
+			p.Send(plr);
 		}
 
 		public static void SendRequestSave(int plr)
@@ -163,12 +163,10 @@ namespace ServerSideCharacter2
 			p.Send();
 		}
 
-		public static void SendTeleportCommand(int plr, int target)
+		public static void SendTeleportCommand(int target)
 		{
-			string name = Main.player[plr].name;
 			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.TPCommand);
-			p.Write((byte)plr);
 			p.Write((byte)target);
 			p.Send();
 		}
@@ -208,11 +206,10 @@ namespace ServerSideCharacter2
 			p.Send();
 		}
 
-		public static void SendSummonCommand(int plr, int type, int number)
+		public static void SendSummonCommand(int type, int number)
 		{
 			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.SummonCommand);
-			p.Write((byte)plr);
 			p.Write(type);
 			p.Write(number);
 			p.Send();
@@ -276,7 +273,6 @@ namespace ServerSideCharacter2
 		{
 			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.ToggleHardMode);
-			p.Write((byte)Main.myPlayer);
 			p.Send();
 		}
 

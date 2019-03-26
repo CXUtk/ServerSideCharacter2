@@ -71,6 +71,7 @@ namespace ServerSideCharacter2
 				// 给玩家一个很长世界的锁debuff，直到服务器解除
 				player.AddBuff(mod.BuffType("Locked"), 18000);
 			}
+			GodMode = false;
 			ServerSideCharacter2.Instance.TurnOffAllState();
 			ServerSideCharacter2.Instance.IsLoginClientSide = false;
 			//ServerSideCharacter2.ErrorLogger = new ErrorLogger("SSC_log.txt", false)			foreach (var item in player.bank.item)

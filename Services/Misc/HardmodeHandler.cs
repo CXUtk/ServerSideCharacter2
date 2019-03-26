@@ -13,18 +13,25 @@ using Terraria.Localization;
 
 namespace ServerSideCharacter2.Services.Misc
 {
-	public class ExpertModeHandler : SSCCommandHandler
+	public class HardmodeHandler : SSCCommandHandler
 	{
-		public override string PermissionName => "expert";
+		public override string PermissionName => "hardmode";
 
 		public override void HandleCommand(BinaryReader reader, int playerNumber)
 		{
 			// 服务器端
 			if (Main.netMode == 2)
 			{
-				Main.expertMode ^= true;
-				NetMessage.SendData(MessageID.WorldData);
-				string s = $"玩家 {Main.player[playerNumber].name} {(Main.expertMode ? "开启" : "关闭")}了专家模式";
+				string s = $"玩家 {Main.player[playerNumber].name} {(!Main.hardMode ? "开启" : "关闭")}了肉山后模式";
+				if (Main.hardMode)
+				{
+					Main.hardMode = false;
+					NetMessage.SendData(MessageID.WorldData);
+				}
+				else
+				{
+					WorldGen.StartHardmode();
+				}
 				ServerPlayer.SendInfoMessageToAll(s);
 				CommandBoardcast.ConsoleMessage(s);
 			}

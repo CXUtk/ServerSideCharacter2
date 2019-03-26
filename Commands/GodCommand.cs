@@ -6,11 +6,11 @@ using Newtonsoft.Json;
 
 namespace ServerSideCharacter2.Commands
 {
-	public class ButcherCommand : ModCommand
+	public class GodCommand : ModCommand
 	{
 		public override string Command
 		{
-			get { return "butcher"; }
+			get { return "god"; }
 		}
 
 		public override CommandType Type
@@ -20,17 +20,19 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Description
 		{
-			get { return "斩杀所有怪物"; }
+			get { return "Toggle player's god mode"; }
 		}
 
 		public override string Usage
 		{
-			get { return "/butcher"; }
+			get { return "/god"; }
 		}
 
 		public override void Action(CommandCaller caller, string input, string[] args)
 		{
-			MessageSender.SendButcherCommand();
+			ModPacket pack = ServerSideCharacter2.Instance.GetPacket();
+			pack.Write((int)SSCMessageType.ToggleGodMode);
+			pack.Send();
 		}
 	}
 }

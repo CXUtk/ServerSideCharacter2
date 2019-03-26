@@ -12,7 +12,7 @@ namespace ServerSideCharacter2.Services.FriendSystem
 {
 	public class FriendRequestHandler : ISSCNetHandler
 	{
-		public bool Handle(BinaryReader reader, int playerNumber)
+		public void Handle(BinaryReader reader, int playerNumber)
 		{
 			// 服务器端
 			if (Main.netMode == 2)
@@ -26,12 +26,12 @@ namespace ServerSideCharacter2.Services.FriendSystem
 					if (target.Name.Equals(src.Name))
 					{
 						MessageSender.SendLoginFailed(playerNumber, "你不能添加自己为好友！");
-						return false;
+						return;
 					}
 					if (src.Friends.Contains(target.Name))
 					{
 						MessageSender.SendLoginFailed(playerNumber, "你已经是" + target.Name + "的好友了");
-						return false;
+						return;
 					}
 					src.Friends.Add(target.Name);
 					MessageSender.SendLoginSuccess(playerNumber, "添加好友成功！");
@@ -41,7 +41,6 @@ namespace ServerSideCharacter2.Services.FriendSystem
 					MessageSender.SendLoginFailed(playerNumber, "玩家不存在！");
 				}
 			}
-			return false;
 		}
 	}
 }

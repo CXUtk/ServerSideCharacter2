@@ -12,7 +12,7 @@ namespace ServerSideCharacter2.Services.OnlinePlayer
 {
 	public class OnlinePlayerHandler : ISSCNetHandler
 	{
-		public bool Handle(BinaryReader reader, int playerNumber)
+		public void Handle(BinaryReader reader, int playerNumber)
 		{
 			if (Main.netMode == 1)
 			{
@@ -24,7 +24,6 @@ namespace ServerSideCharacter2.Services.OnlinePlayer
 					ServerSideCharacter2.GuiManager.AppendOnlinePlayers(info);
 				}
 			}
-			return false;
 		}
 	}
 }

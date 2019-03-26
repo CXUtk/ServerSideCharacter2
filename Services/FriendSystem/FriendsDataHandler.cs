@@ -12,7 +12,7 @@ namespace ServerSideCharacter2.Services.FriendSystem
 {
 	public class FriendsDataHandler : ISSCNetHandler
 	{
-		public bool Handle(BinaryReader reader, int playerNumber)
+		public void Handle(BinaryReader reader, int playerNumber)
 		{
 			// 服务器端
 			if (Main.netMode == 1)
@@ -25,7 +25,6 @@ namespace ServerSideCharacter2.Services.FriendSystem
 					ServerSideCharacter2.GuiManager.AppendFriends(info);
 				}
 			}
-			return false;
 		}
 	}
 }

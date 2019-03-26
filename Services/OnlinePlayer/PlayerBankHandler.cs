@@ -11,7 +11,7 @@ namespace ServerSideCharacter2.Services.OnlinePlayer
 {
 	public class PlayerBankHandler : ISSCNetHandler
 	{
-		public bool Handle(BinaryReader reader, int playerNumber)
+		public void Handle(BinaryReader reader, int playerNumber)
 		{
 			// 如果在服务器端
 			if (Main.netMode == 1)
@@ -19,7 +19,7 @@ namespace ServerSideCharacter2.Services.OnlinePlayer
 				int id = reader.ReadByte();
 				if (!Main.ServerSideCharacter && !Main.player[id].IsStackingItems())
 				{
-					return false;
+					return;
 				}
 				Player player = Main.LocalPlayer;
 				lock (player)
@@ -35,7 +35,6 @@ namespace ServerSideCharacter2.Services.OnlinePlayer
 					}
 				}
 			}
-			return false;
 		}
 	}
 }

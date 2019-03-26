@@ -21,6 +21,7 @@ namespace ServerSideCharacter2.Services
 				ServerPlayer player = Main.player[playerNumber].GetServerPlayer();
 				if (!Permission.CheckPermission(player, PermissionName))
 				{
+					player.SendErrorInfo("你没有权限使用这个指令");
 					return;
 				}
 			}

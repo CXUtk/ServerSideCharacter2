@@ -11,7 +11,7 @@ namespace ServerSideCharacter2.Services.OnlinePlayer
 {
 	public class RequestPlayersHandler : ISSCNetHandler
 	{
-		public bool Handle(BinaryReader reader, int playerNumber)
+		public void Handle(BinaryReader reader, int playerNumber)
 		{
 			// 如果在服务器端
 			if (Main.netMode == 2)
@@ -20,7 +20,6 @@ namespace ServerSideCharacter2.Services.OnlinePlayer
 				MessageSender.SendOnlineInformation(playerNumber, JsonConvert.SerializeObject(info, Formatting.None));
 				Utils.CommandBoardcast.ConsoleMessage("收到玩家请求查看在线玩家");
 			}
-			return false;
 		}
 	}
 }
