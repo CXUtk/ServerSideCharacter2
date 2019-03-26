@@ -362,6 +362,16 @@ namespace ServerSideCharacter2
 			}
 		}
 
+		public void SendInfoMessage(string msg)
+		{
+			MessageSender.SendInfoMessage(playerID, msg, Color.Yellow);
+		}
+
+		public static void SendInfoMessageToAll(string msg)
+		{
+			MessageSender.SendInfoMessage(-1, msg, Color.Yellow);
+		}
+
 		public SimplifiedPlayerInfo GetSimplified(int id)
 		{
 			bool isFriend = (id == 255) ||(id == this.playerID) 

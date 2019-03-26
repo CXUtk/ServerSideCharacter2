@@ -75,14 +75,6 @@ namespace ServerSideCharacter2
 								player.Value.IsLogin = false;
 								player.Value.SetID(-1);
 							}
-							if (player.Value.PrototypePlayer != null)
-							{
-								ServerSideCharacter2.ErrorLogger.WriteToFile(player.Key + " -> " + player.Value.PrototypePlayer.whoAmI);
-							}
-							else
-							{
-								ServerSideCharacter2.ErrorLogger.WriteToFile(player.Key + " 没有原型");
-							}
 						}
 
 					}

@@ -192,12 +192,10 @@ namespace ServerSideCharacter2
 			p.Send();
 		}
 
-		public static void SendButcherCommand(int plr)
+		public static void SendButcherCommand()
 		{
-			string name = Main.player[plr].name;
 			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.ButcherCommand);
-			p.Write((byte)plr);
 			p.Send();
 		}
 

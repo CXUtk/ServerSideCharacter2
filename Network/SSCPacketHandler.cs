@@ -53,6 +53,7 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.SyncPlayerBank, new Services.OnlinePlayer.PlayerBankHandler() },
 				{SSCMessageType.ErrorMessage, new ErrorMessage() },
 				{SSCMessageType.InfoMessage, new InfoMessage() },
+				{SSCMessageType.ButcherCommand, new Services.Misc.ButcherHandler() },
 			};
 		}
 	}

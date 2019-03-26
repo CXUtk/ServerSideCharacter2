@@ -1,5 +1,6 @@
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
@@ -22,7 +23,10 @@ namespace ServerSideCharacter2.Items
 		}
 		public override bool UseItem(Player player)
 		{
-
+			//foreach(var item in player.armor)
+			//{
+			//	item.Prefix(PrefixID.Quick2);
+			//}
 			return true;
 		}
 
