@@ -61,6 +61,7 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.SetGodMode, new SetGodModeHandler() },
 				{SSCMessageType.TPCommand, new TPHandler() },
 				{SSCMessageType.TeleportPalyer, new TPPlayerHandler() },
+				{SSCMessageType.RequestItem, new ItemHandler() },
 			};
 		}
 	}

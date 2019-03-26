@@ -17,6 +17,7 @@ namespace ServerSideCharacter2.Groups
 		public bool AddPermission(string name)
 		{
 			Permission perm = ServerSideCharacter2.GroupManager.PermissionList.GetPermission(name);
+			Console.WriteLine(perm.Name);
 			if (perm == null) throw new SSCException("不存在这个权限名字：" + name);
 			return permissions.Add(name);
 		}
@@ -25,6 +26,10 @@ namespace ServerSideCharacter2.Groups
 		{
 			if (IsSuperAdmin) return true;
 			Permission perm = ServerSideCharacter2.GroupManager.PermissionList.GetPermission(name);
+			foreach(var p in permissions)
+			{
+				Console.WriteLine(p);
+			}
 			if (perm == null) return false;
 			return permissions.Contains(name);
 		}

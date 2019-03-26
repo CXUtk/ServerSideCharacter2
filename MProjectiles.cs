@@ -15,14 +15,6 @@ namespace ServerSideCharacter2
 	{
 		public override void SetDefaults(Projectile projectile)
 		{
-			if (Main.instance.IsActive)
-			{
-
-			}
-		}
-
-		public override bool PreAI(Projectile projectile)
-		{
 			if (Main.netMode == 2)
 			{
 				// 清除所有墓碑
@@ -38,7 +30,8 @@ namespace ServerSideCharacter2
 			{
 				projectile.SetDefaults(0);
 			}
-			return base.PreAI(projectile);
 		}
+
+
 	}
 }

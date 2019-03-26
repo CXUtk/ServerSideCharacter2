@@ -380,7 +380,7 @@ namespace ServerSideCharacter2
 			{
 				Name = this.Name,
 				IsLogin = this.IsLogin,
-				PlayerID = 0,
+				PlayerID = playerID,
 				GUID = this._info.ID,
 				ChatColor = Group.ChatColor,
 				ChatPrefix = Group.ChatPrefix,

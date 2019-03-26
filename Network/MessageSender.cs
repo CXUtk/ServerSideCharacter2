@@ -149,7 +149,6 @@ namespace ServerSideCharacter2
 		{
 			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.RequestItem);
-			p.Write((byte)Main.myPlayer);
 			p.Write(type);
 			p.Send();
 		}

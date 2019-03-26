@@ -18,11 +18,12 @@ namespace ServerSideCharacter2.Groups
 
 		public GroupManager()
 		{
-			PermissionList = new PermissionList();
+			
 		}
 
 		public void SetGroups()
 		{
+			PermissionList = new PermissionList();
 			Group crminalGroup = new Group("罪犯")
 			{
 				ChatColor = Color.Gray,
@@ -37,7 +38,7 @@ namespace ServerSideCharacter2.Groups
 			Group admin = new Group("管理员")
 			{
 				ChatColor = Color.Red,
-				ChatPrefix = "管理",
+				ChatPrefix = "管理员",
 
 			};
 			admin.UnitePermission(defaultGroup);
@@ -52,6 +53,7 @@ namespace ServerSideCharacter2.Groups
 			admin.AddPermission("expert");
 			admin.AddPermission("changetile");
 			admin.AddPermission("god");
+			admin.AddPermission("item");
 			Group superAdmin = new Group("超级管理员")
 			{
 				ChatColor = Color.Cyan,
