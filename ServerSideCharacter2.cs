@@ -198,11 +198,12 @@ namespace ServerSideCharacter2
 			if (!Main.dedServ)
 			{
 				// 加载资源只有在非服务器端才会执行
+				MainPlayerGroup = new Group("default");
 				ToolBarServiceManager = new ToolBarServiceManager();
 				ResourceLoader.LoadAll();
 				GuiManager = new GUIManager(this);
 				IsLoginClientSide = false;
-				MainPlayerGroup = new Group("default");
+
 			}
 			else
 			{

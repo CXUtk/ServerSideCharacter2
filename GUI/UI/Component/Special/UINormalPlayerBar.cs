@@ -14,6 +14,7 @@ using Terraria.UI.Chat;
 using ServerSideCharacter2.JsonData;
 using System;
 using Terraria.Graphics;
+using System.Collections.Generic;
 
 namespace ServerSideCharacter2.GUI.UI.Component.Special
 {
@@ -25,10 +26,13 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 
 		private const float LABEL_MAX_WIDTH = 100;
 		private const float GENDER_ICON_SIZE = 25;
+		private const float EXTRA_BUTTON_MARGIN_LEFT = 5f;
+		private const float EXTRA_BUTTON_MARGIN_RIGHT = 20f;
 
 		internal static Color DefaultUIBlue = new Color(73, 94, 171);
 		private Texture2D dividerTexture;
 		private UICDButton addFriendButton;
+		private List<UICDButton> extraButtons = new List<UICDButton>();
 
 		public UINormalPlayerBar(SimplifiedPlayerInfo info)
 		{
@@ -39,7 +43,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			this.CornerSize = new Vector2(8, 8);
 			base.MainTexture = ServerSideCharacter2.ModTexturesTable["Box"];
 			base.SetPadding(6f);
-			this.OverflowHidden = true;
+			// this.OverflowHidden = true;
 
 
 			UIText nameLabel = new UIText(playerInfo.Name);
@@ -61,7 +65,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 				addFriendButton.Top.Set(0f, 0f);
 				addFriendButton.Left.Set(-70f, 1f);
 				addFriendButton.Width.Set(70f, 0f);
-				addFriendButton.Height.Set(38f, 0f);
+				addFriendButton.Height.Set(38f, 1f);
 				addFriendButton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack3"];
 				addFriendButton.ButtonDefaultColor = new Color(200, 200, 200);
 				addFriendButton.ButtonChangeColor = Color.White;
@@ -71,7 +75,45 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 				this.Append(addFriendButton);
 			}
 
+			if (Main.netMode == 0 || ServerSideCharacter2.MainPlayerGroup.HasPermission("tp"))
+			{
+				var tpbutton = new UICDButton(null, true);
+				tpbutton.Width.Set(70f, 0f);
+				tpbutton.Height.Set(38f, 0f);
+				tpbutton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
+				tpbutton.ButtonDefaultColor = new Color(200, 200, 200);
+				tpbutton.ButtonChangeColor = Color.White;
+				tpbutton.CornerSize = new Vector2(12, 12);
+				tpbutton.ButtonText = "传送";
+				tpbutton.OnClick += Tpbutton_OnClick;
+				extraButtons.Add(tpbutton);
+			}
+			SetUpExtraButtons();
+
 		}
+
+		private void SetUpExtraButtons()
+		{
+			if (extraButtons.Count == 0) return;
+			float currentLeft = EXTRA_BUTTON_MARGIN_LEFT;
+			for (int i = 0; i < extraButtons.Count; i++)
+			{
+				var but = extraButtons[i];
+				but.Top.Set(50, 0f);
+				but.Left.Set(currentLeft, 0f);
+				base.Append(but);
+				currentLeft += but.Width.Pixels + EXTRA_BUTTON_MARGIN_RIGHT;
+			}
+		}
+
+		private void Tpbutton_OnClick(UIMouseEvent evt, UIElement listeningElement)
+		{
+			if (Main.player[playerInfo.PlayerID].active)
+			{
+				MessageSender.SendTeleportCommand(playerInfo.PlayerID);
+			}
+		}
+
 
 		public override int CompareTo(object obj)
 		{
