@@ -43,13 +43,12 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			this.CornerSize = new Vector2(8, 8);
 			base.MainTexture = ServerSideCharacter2.ModTexturesTable["Box"];
 			base.SetPadding(6f);
-			// this.OverflowHidden = true;
 
 
 			UIText nameLabel = new UIText(playerInfo.Name);
 			nameLabel.Top.Set(10, 0f);
 			nameLabel.Left.Set(5, 0);
-			base.Append(nameLabel);
+			Append(nameLabel);
 
 			//bool male = Main.player[playerInfo.PlayerID].Male;
 			//UIImage _genderImage = new UIImage(ServerSideCharacter2.ModTexturesTable[male ? "Male" : "Female"]);
@@ -65,14 +64,14 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 				addFriendButton.Top.Set(0f, 0f);
 				addFriendButton.Left.Set(-70f, 1f);
 				addFriendButton.Width.Set(70f, 0f);
-				addFriendButton.Height.Set(38f, 1f);
+				addFriendButton.Height.Set(38f, 0f);
 				addFriendButton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack3"];
 				addFriendButton.ButtonDefaultColor = new Color(200, 200, 200);
 				addFriendButton.ButtonChangeColor = Color.White;
 				addFriendButton.CornerSize = new Vector2(12, 12);
 				addFriendButton.ButtonText = "+好友";
 				addFriendButton.OnClick += AddFriendButton_OnClick;
-				this.Append(addFriendButton);
+				Append(addFriendButton);
 			}
 
 			if (Main.netMode == 0 || ServerSideCharacter2.MainPlayerGroup.HasPermission("tp"))
@@ -101,7 +100,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 				var but = extraButtons[i];
 				but.Top.Set(50, 0f);
 				but.Left.Set(currentLeft, 0f);
-				base.Append(but);
+				Append(but);
 				currentLeft += but.Width.Pixels + EXTRA_BUTTON_MARGIN_RIGHT;
 			}
 		}
@@ -148,18 +147,91 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			}
 			base.Click(evt);
 		}
-
-		public override void Draw(SpriteBatch spriteBatch)
+		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
-			base.Draw(spriteBatch);
+			
+			base.DrawSelf(spriteBatch);
 			if (_expanded)
 			{
 				CalculatedStyle innerDimensions = base.GetInnerDimensions();
 				Vector2 position = new Vector2(innerDimensions.X + 5f, innerDimensions.Y + 40);
-				spriteBatch.Draw(this.dividerTexture, position, null, Color.White, 0f, Vector2.Zero, 
+				spriteBatch.Draw(this.dividerTexture, position, null, Color.White, 0f, Vector2.Zero,
 					new Vector2((innerDimensions.Width - 10f) / 8f, 1f), SpriteEffects.None, 0f);
 			}
 		}
+
+		protected override void DrawChildren(SpriteBatch spriteBatch)
+		{
+			base.DrawChildren(spriteBatch);
+		}
+		public Rectangle GetRectIntersections(Rectangle r1, Rectangle r2)
+		{
+			int xmin = Math.Max(r1.X, r2.X);
+			int xmax1 = r1.X + r1.Width;
+			int xmax2 = r2.X + r2.Width;
+			int xmax = Math.Min(xmax1, xmax2);
+			if (xmax > xmin)
+			{
+				int ymin = Math.Max(r1.Y, r2.Y);
+				int ymax1 = r1.Y + r1.Height;
+				int ymax2 = r2.Y + r2.Height;
+				int ymax = Math.Min(ymax1, ymax2);
+				if (ymax > ymin)
+				{
+					Rectangle outrect = new Rectangle
+					{
+						X = xmin,
+						Y = ymin,
+						Width = xmax - xmin,
+						Height = ymax - ymin
+					};
+					return outrect;
+				}
+			}
+			return new Rectangle();
+		}
+
+		public override void Draw(SpriteBatch spriteBatch)
+		{
+			bool overflowHidden = true;
+			bool useImmediateMode = this._useImmediateMode;
+			RasterizerState rasterizerState = spriteBatch.GraphicsDevice.RasterizerState;
+			Rectangle scissorRectangle = spriteBatch.GraphicsDevice.ScissorRectangle;
+			SamplerState anisotropicClamp = SamplerState.AnisotropicClamp;
+
+			var mystate = new RasterizerState
+			{
+				CullMode = CullMode.None,
+				ScissorTestEnable = true
+			};
+			if (useImmediateMode)
+			{
+				spriteBatch.End();
+				spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, anisotropicClamp, DepthStencilState.None, mystate, null, Main.UIScaleMatrix);
+				this.DrawSelf(spriteBatch);
+				spriteBatch.End();
+				spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, anisotropicClamp, DepthStencilState.None, mystate, null, Main.UIScaleMatrix);
+			}
+			else
+			{
+				this.DrawSelf(spriteBatch);
+			}
+			if (overflowHidden)
+			{
+				spriteBatch.End();
+				Rectangle clippingRectangle = this.GetClippingRectangle(spriteBatch);
+				spriteBatch.GraphicsDevice.ScissorRectangle = GetRectIntersections(scissorRectangle, clippingRectangle);
+				spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, anisotropicClamp, DepthStencilState.None, mystate, null, Main.UIScaleMatrix);
+			}
+			this.DrawChildren(spriteBatch);
+			if (overflowHidden)
+			{
+				spriteBatch.End();
+				spriteBatch.GraphicsDevice.ScissorRectangle = scissorRectangle;
+				spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, anisotropicClamp, DepthStencilState.None, rasterizerState, null, Main.UIScaleMatrix);
+			}
+		}
+
 
 
 		private void AddFriendButton_OnClick(UIMouseEvent evt, UIElement listeningElement)

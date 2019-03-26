@@ -93,6 +93,7 @@ namespace ServerSideCharacter2.GUI.UI
 			_onlinePlayerList.Width.Set(-25f, 1f);
 			_onlinePlayerList.Height.Set(0f, 1f);
 			_onlinePlayerList.ListPadding = 5f;
+			_onlinePlayerList.OverflowHidden = true;
 			_onlinePlayerPanel.Append(_onlinePlayerList);
 
 			// ScrollBar设定
