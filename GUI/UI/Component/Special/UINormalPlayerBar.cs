@@ -74,6 +74,20 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 				Append(addFriendButton);
 			}
 
+			if (Main.netMode == 0)
+			{
+				var profilebutton = new UICDButton(null, true);
+				profilebutton.Width.Set(70f, 0f);
+				profilebutton.Height.Set(38f, 0f);
+				profilebutton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
+				profilebutton.ButtonDefaultColor = new Color(200, 200, 200);
+				profilebutton.ButtonChangeColor = Color.White;
+				profilebutton.CornerSize = new Vector2(12, 12);
+				profilebutton.ButtonText = "资料";
+				profilebutton.OnClick += Profilebutton_OnClick;
+				extraButtons.Add(profilebutton);
+			}
+
 			if (Main.netMode == 0 || ServerSideCharacter2.MainPlayerGroup.HasPermission("tp"))
 			{
 				var tpbutton = new UICDButton(null, true);
@@ -89,6 +103,11 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			}
 			SetUpExtraButtons();
 
+		}
+
+		private void Profilebutton_OnClick(UIMouseEvent evt, UIElement listeningElement)
+		{
+			ServerSideCharacter2.Instance.ShowMessage("没有实现这个功能", 120, Color.White);
 		}
 
 		private void SetUpExtraButtons()
@@ -107,6 +126,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 
 		private void Tpbutton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
+			if (Main.netMode == 0) return;
 			if (Main.player[playerInfo.PlayerID].active)
 			{
 				MessageSender.SendTeleportCommand(playerInfo.PlayerID);
@@ -117,7 +137,6 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		public override int CompareTo(object obj)
 		{
 			UINormalPlayerBar other = obj as UINormalPlayerBar;
-
 			return string.Compare(this.playerInfo.Name, other.playerInfo.Name);
 		}
 
@@ -193,6 +212,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 
 		public override void Draw(SpriteBatch spriteBatch)
 		{
+			// 傻逼原版程序员不好好写剪裁效果，连矩形相交都不判
 			bool overflowHidden = true;
 			bool useImmediateMode = this._useImmediateMode;
 			RasterizerState rasterizerState = spriteBatch.GraphicsDevice.RasterizerState;

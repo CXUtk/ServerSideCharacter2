@@ -112,18 +112,20 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			{
 				ServerSideCharacter2.ShowTooltip = Tooltip;
 			}
-
-			if (!IsMouseHovering && Enabled)
+			if (Enabled)
 			{
-				if (_alpha > 0)
-					_alpha -= 0.05f;
-				_currentColor = Color.Lerp(ButtonDefaultColor, ButtonChangeColor, _alpha);
-			}
-			else
-			{
-				if (_alpha < 1.0f)
-					_alpha += 0.05f;
-				_currentColor = Color.Lerp(ButtonDefaultColor, ButtonChangeColor, _alpha);
+				if (!IsMouseHovering)
+				{
+					if (_alpha > 0)
+						_alpha -= 0.05f;
+					_currentColor = Color.Lerp(ButtonDefaultColor, ButtonChangeColor, _alpha);
+				}
+				else
+				{
+					if (_alpha < 1.0f)
+						_alpha += 0.05f;
+					_currentColor = Color.Lerp(ButtonDefaultColor, ButtonChangeColor, _alpha);
+				}
 			}
 			base.Update(gameTime);
 		}
