@@ -32,6 +32,8 @@ namespace ServerSideCharacter2.JsonData
 
 		public string Group { get; set; }
 
+		public string Union { get; set; }
+
 		public ItemInfo[] inventory = new ItemInfo[Main.maxInventory + 1];
 
 		public ItemInfo[] armor = new ItemInfo[20];

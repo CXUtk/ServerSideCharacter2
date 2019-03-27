@@ -130,6 +130,7 @@
     <Compile Include="GUI\UI\Component\UICDButton.cs" />
     <Compile Include="GUI\UI\Component\UIListView.cs" />
     <Compile Include="GUI\UI\Component\UISlider.cs" />
+    <Compile Include="GUI\UI\State\UnionPageState.cs" />
     <Compile Include="GUI\UI\State\HomePageState.cs" />
     <Compile Include="GUI\UI\State\PlayerOnlineWindow.cs" />
     <Compile Include="GUI\UI\State\ToolBarState.cs" />
@@ -207,8 +208,12 @@
     <Compile Include="Services\Misc\ReceiveRSA.cs" />
     <Compile Include="Services\Misc\NormalMessage.cs" />
     <Compile Include="Services\SSCCommandHandler.cs" />
+    <Compile Include="Services\Union\UnionPageService.cs" />
     <Compile Include="SSCException.cs" />
     <Compile Include="SSCMessageType.cs" />
+    <Compile Include="Unions\Union.cs" />
+    <Compile Include="Unions\UnionData.cs" />
+    <Compile Include="Unions\UnionManager.cs" />
     <Compile Include="Utils\CommandBoardcast.cs" />
     <Compile Include="Utils\ConfigLoader.cs" />
     <Compile Include="Utils\Drawing.cs" />

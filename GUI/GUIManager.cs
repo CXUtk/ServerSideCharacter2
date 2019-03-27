@@ -18,7 +18,7 @@ namespace ServerSideCharacter2.GUI
 		LoginWindow,	
 		PlayerOnlineWindow,
 		HomePage,
-
+		UnionPage
 	}
 	public class GUIManager
 	{

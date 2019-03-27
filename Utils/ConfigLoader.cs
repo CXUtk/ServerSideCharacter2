@@ -13,6 +13,7 @@ namespace ServerSideCharacter2.Utils
 	{
 		public static string defaultName = "SSC/config.json";
 		private static GroupConfigManager GroupConfigManager;
+		private static Unions.UnionDataManager UnionDataManager;
 
 		public static void Load()
 		{
@@ -44,6 +45,7 @@ namespace ServerSideCharacter2.Utils
 				ServerSideCharacter2.Config.AutoSave ? "开" : "关", ServerSideCharacter2.Config.SaveInterval / 60f));
 
 			GroupConfigManager = new GroupConfigManager();
+			UnionDataManager = new Unions.UnionDataManager();
 
 			Save();
 		}
@@ -57,6 +59,7 @@ namespace ServerSideCharacter2.Utils
 			}
 
 			GroupConfigManager.Save();
+			UnionDataManager.Save();
 		}
 	}
 }

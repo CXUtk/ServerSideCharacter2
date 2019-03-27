@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 using ServerSideCharacter2.Core;
 using System.Collections.Generic;
 using ServerSideCharacter2.Groups;
+using ServerSideCharacter2.Unions;
 
 namespace ServerSideCharacter2
 {
@@ -135,9 +136,26 @@ namespace ServerSideCharacter2
 		{
 			get
 			{
-				return ServerSideCharacter2.GroupManager.Groups[_info.Group];
+				if (ServerSideCharacter2.GroupManager.Groups.ContainsKey(_info.Group))
+				{
+					return ServerSideCharacter2.GroupManager.Groups[_info.Group];
+				}
+				return null;
 			}
 		}
+
+		public Union Union
+		{
+			get
+			{
+				if (ServerSideCharacter2.UnionManager.Unions.ContainsKey(_info.Union))
+				{
+					return ServerSideCharacter2.UnionManager.Unions[_info.Union];
+				}
+				return null;
+			}
+		}
+
 
 		public bool RealPlayer
 		{
@@ -219,6 +237,11 @@ namespace ServerSideCharacter2
 		public void SetID(int id)
 		{
 			playerID = id;
+		}
+
+		public void SetUnion(string name)
+		{
+			_info.Union = name;
 		}
 
 		public void ApplyLockBuffs(int time = 180)

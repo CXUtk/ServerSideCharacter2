@@ -25,6 +25,7 @@ using ServerSideCharacter2.Crypto;
 using System.Windows.Forms;
 using ServerSideCharacter2.GUI.UI;
 using ServerSideCharacter2.Groups;
+using ServerSideCharacter2.Unions;
 
 namespace ServerSideCharacter2
 {
@@ -51,6 +52,8 @@ namespace ServerSideCharacter2
 		internal static GUIManager GuiManager;
 
 		internal static GroupManager GroupManager;
+
+		internal static UnionManager UnionManager;
 
 		public static ToolBarServiceManager ToolBarServiceManager { get; set; }
 
@@ -213,6 +216,7 @@ namespace ServerSideCharacter2
 				PlayerDoc.ExtractPlayersData();
 				GroupManager = new GroupManager();
 				GroupManager.SetGroups();
+				UnionManager = new UnionManager();
 				// 服务器端生成RSA私钥
 				RSACrypto.GenKey();
 				ConfigLoader.Load();
