@@ -201,6 +201,7 @@ namespace ServerSideCharacter2
 			if (!Main.dedServ)
 			{
 				// 加载资源只有在非服务器端才会执行
+				// MethodSwapper.SwapMethods();
 				MainPlayerGroup = new Group("default");
 				ToolBarServiceManager = new ToolBarServiceManager();
 				ResourceLoader.LoadAll();
@@ -222,6 +223,15 @@ namespace ServerSideCharacter2
 				ConfigLoader.Load();
 			}
 			Loaded = true;
+		}
+
+		public override void Unload()
+		{
+			base.Unload();
+			//if (!Main.dedServ)
+			//{
+			//	MethodSwapper.SwapMethods();
+			//}
 		}
 
 		public override void Load()

@@ -18,21 +18,23 @@ using System.Collections.Generic;
 
 namespace ServerSideCharacter2.GUI.UI.Component.Special
 {
-	public class UINormalPlayerBar : UIAdvPanel, IComparable
+	public class UINormalPlayerBar : UIAdvPanel
 	{
-		private SimplifiedPlayerInfo playerInfo;
-
 		private bool _expanded = false;
 
 		private const float LABEL_MAX_WIDTH = 100;
 		private const float GENDER_ICON_SIZE = 25;
 		private const float EXTRA_BUTTON_MARGIN_LEFT = 5f;
-		private const float EXTRA_BUTTON_MARGIN_RIGHT = 20f;
+		private const float EXTRA_BUTTON_MARGIN_RIGHT = 10f;
 
 		internal static Color DefaultUIBlue = new Color(73, 94, 171);
 		private Texture2D dividerTexture;
 		private UICDButton addFriendButton;
+
 		private List<UICDButton> extraButtons = new List<UICDButton>();
+
+		protected UIText nameLabel;
+		protected SimplifiedPlayerInfo playerInfo;
 
 		public UINormalPlayerBar(SimplifiedPlayerInfo info)
 		{
@@ -43,9 +45,10 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			this.CornerSize = new Vector2(8, 8);
 			base.MainTexture = ServerSideCharacter2.ModTexturesTable["Box"];
 			base.SetPadding(6f);
+			this.OverflowHidden = true;
 
 
-			UIText nameLabel = new UIText(playerInfo.Name);
+			nameLabel = new UIText(playerInfo.Name);
 			nameLabel.Top.Set(10, 0f);
 			nameLabel.Left.Set(5, 0);
 			Append(nameLabel);
@@ -74,6 +77,14 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 				Append(addFriendButton);
 			}
 
+			AddExtraButtons(extraButtons);
+
+			SetUpExtraButtons();
+
+		}
+
+		protected virtual void AddExtraButtons(List<UICDButton> buttons)
+		{
 			if (Main.netMode == 0)
 			{
 				var profilebutton = new UICDButton(null, true);
@@ -85,8 +96,9 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 				profilebutton.CornerSize = new Vector2(12, 12);
 				profilebutton.ButtonText = "资料";
 				profilebutton.OnClick += Profilebutton_OnClick;
-				extraButtons.Add(profilebutton);
+				buttons.Add(profilebutton);
 			}
+			
 
 			if (Main.netMode == 0 || ServerSideCharacter2.MainPlayerGroup.HasPermission("tp"))
 			{
@@ -99,10 +111,8 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 				tpbutton.CornerSize = new Vector2(12, 12);
 				tpbutton.ButtonText = "传送";
 				tpbutton.OnClick += Tpbutton_OnClick;
-				extraButtons.Add(tpbutton);
+				buttons.Add(tpbutton);
 			}
-			SetUpExtraButtons();
-
 		}
 
 		private void Profilebutton_OnClick(UIMouseEvent evt, UIElement listeningElement)
@@ -134,11 +144,11 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		}
 
 
-		public override int CompareTo(object obj)
-		{
-			UINormalPlayerBar other = obj as UINormalPlayerBar;
-			return string.Compare(this.playerInfo.Name, other.playerInfo.Name);
-		}
+		//public override int CompareTo(object obj)
+		//{
+		//	UINormalPlayerBar other = obj as UINormalPlayerBar;
+		//	return string.Compare(this.playerInfo.Name, other.playerInfo.Name);
+		//}
 
 		public override void MouseOver(UIMouseEvent evt)
 		{
@@ -152,9 +162,12 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			this.Color = DefaultUIBlue * 0.7f;
 			base.MouseOut(evt);
 		}
+		
 
 		public override void Click(UIMouseEvent evt)
 		{
+			Main.NewText(this.GetClippingRectangle(Main.spriteBatch));
+
 			_expanded ^= true;
 			if (_expanded)
 			{
@@ -164,11 +177,13 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			{
 				this.Height.Set(50f, 0f);
 			}
+			Recalculate();
+			
 			base.Click(evt);
 		}
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
-			
+			// spriteBatch.Draw(Main.magicPixel, spriteBatch.GraphicsDevice.ScissorRectangle, Color.Blue * 0.4f);
 			base.DrawSelf(spriteBatch);
 			if (_expanded)
 			{
@@ -177,12 +192,9 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 				spriteBatch.Draw(this.dividerTexture, position, null, Color.White, 0f, Vector2.Zero,
 					new Vector2((innerDimensions.Width - 10f) / 8f, 1f), SpriteEffects.None, 0f);
 			}
+			
 		}
 
-		protected override void DrawChildren(SpriteBatch spriteBatch)
-		{
-			base.DrawChildren(spriteBatch);
-		}
 		public Rectangle GetRectIntersections(Rectangle r1, Rectangle r2)
 		{
 			int xmin = Math.Max(r1.X, r2.X);
@@ -207,50 +219,50 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 					return outrect;
 				}
 			}
-			return new Rectangle();
+			return new Rectangle(0, 0, -1, -1);
 		}
 
-		public override void Draw(SpriteBatch spriteBatch)
-		{
-			// 傻逼原版程序员不好好写剪裁效果，连矩形相交都不判
-			bool overflowHidden = true;
-			bool useImmediateMode = this._useImmediateMode;
-			RasterizerState rasterizerState = spriteBatch.GraphicsDevice.RasterizerState;
-			Rectangle scissorRectangle = spriteBatch.GraphicsDevice.ScissorRectangle;
-			SamplerState anisotropicClamp = SamplerState.AnisotropicClamp;
+		//public override void Draw(SpriteBatch spriteBatch)
+		//{
+		//	// 傻逼原版程序员不好好写剪裁效果，连矩形相交都不判
+		//	bool overflowHidden = this.OverflowHidden;
+		//	bool useImmediateMode = this._useImmediateMode;
+		//	RasterizerState rasterizerState = spriteBatch.GraphicsDevice.RasterizerState;
+		//	Rectangle scissorRectangle = spriteBatch.GraphicsDevice.ScissorRectangle;
+		//	SamplerState anisotropicClamp = SamplerState.AnisotropicClamp;
 
-			var mystate = new RasterizerState
-			{
-				CullMode = CullMode.None,
-				ScissorTestEnable = true
-			};
-			if (useImmediateMode)
-			{
-				spriteBatch.End();
-				spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, anisotropicClamp, DepthStencilState.None, mystate, null, Main.UIScaleMatrix);
-				this.DrawSelf(spriteBatch);
-				spriteBatch.End();
-				spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, anisotropicClamp, DepthStencilState.None, mystate, null, Main.UIScaleMatrix);
-			}
-			else
-			{
-				this.DrawSelf(spriteBatch);
-			}
-			if (overflowHidden)
-			{
-				spriteBatch.End();
-				Rectangle clippingRectangle = this.GetClippingRectangle(spriteBatch);
-				spriteBatch.GraphicsDevice.ScissorRectangle = GetRectIntersections(scissorRectangle, clippingRectangle);
-				spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, anisotropicClamp, DepthStencilState.None, mystate, null, Main.UIScaleMatrix);
-			}
-			this.DrawChildren(spriteBatch);
-			if (overflowHidden)
-			{
-				spriteBatch.End();
-				spriteBatch.GraphicsDevice.ScissorRectangle = scissorRectangle;
-				spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, anisotropicClamp, DepthStencilState.None, rasterizerState, null, Main.UIScaleMatrix);
-			}
-		}
+		//	var mystate = new RasterizerState
+		//	{
+		//		CullMode = CullMode.None,
+		//		ScissorTestEnable = true
+		//	};
+		//	if (useImmediateMode)
+		//	{
+		//		spriteBatch.End();
+		//		spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, anisotropicClamp, DepthStencilState.None, mystate, null, Main.UIScaleMatrix);
+		//		this.DrawSelf(spriteBatch);
+		//		spriteBatch.End();
+		//		spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, anisotropicClamp, DepthStencilState.None, mystate, null, Main.UIScaleMatrix);
+		//	}
+		//	else
+		//	{
+		//		this.DrawSelf(spriteBatch);
+		//	}
+		//	if (overflowHidden)
+		//	{
+		//		spriteBatch.End();
+		//		Rectangle clippingRectangle = this.GetClippingRectangle(spriteBatch);
+		//		spriteBatch.GraphicsDevice.ScissorRectangle = GetRectIntersections(scissorRectangle, clippingRectangle);
+		//		spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, anisotropicClamp, DepthStencilState.None, mystate, null, Main.UIScaleMatrix);
+		//	}
+		//	this.DrawChildren(spriteBatch);
+		//	if (overflowHidden)
+		//	{
+		//		spriteBatch.End();
+		//		spriteBatch.GraphicsDevice.ScissorRectangle = scissorRectangle;
+		//		spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, anisotropicClamp, DepthStencilState.None, rasterizerState, null, Main.UIScaleMatrix);
+		//	}
+		//}
 
 
 

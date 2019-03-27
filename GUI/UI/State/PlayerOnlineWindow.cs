@@ -23,9 +23,9 @@ namespace ServerSideCharacter2.GUI.UI
 		private int _relaxTimer;
 		private float _rotation;
 		private List<UINormalPlayerBar> uIPlayerBars;
-		private UIList _onlinePlayerList;
+		private UIAdvList _onlinePlayerList;
 
-		private UIPanel _onlinePlayerPanel;
+		private UIAdvPanel _onlinePlayerPanel;
 		private UIButton refreshButton;
 		private UIButton changeSortModeButton;
 
@@ -52,11 +52,14 @@ namespace ServerSideCharacter2.GUI.UI
 			WindowPanel.Height.Set(WINDOW_HEIGHT, 0f);
 			WindowPanel.Color = Color.White * 0.8f;
 
-			_onlinePlayerPanel = new UIPanel();
+			_onlinePlayerPanel = new UIAdvPanel(ServerSideCharacter2.ModTexturesTable["Box"]);
+			_onlinePlayerPanel.CornerSize = new Vector2(8, 8);
+			_onlinePlayerPanel.OverflowHidden = true;
 			_onlinePlayerPanel.Top.Set(-FRIENDLIST_HEIGHT / 2 + FRIENDLIST_OFFSET_TOP, 0.5f);
 			_onlinePlayerPanel.Left.Set(-FRIENDLIST_WIDTH / 2 + FRIENDLIST_OFFSET_LEFT, 0.5f);
 			_onlinePlayerPanel.Width.Set(FRIENDLIST_WIDTH, 0f);
 			_onlinePlayerPanel.Height.Set(FRIENDLIST_HEIGHT, 0f);
+			_onlinePlayerPanel.SetPadding(10f);
 
 			UIText onlinelabel = new UIText("在线玩家");
 			onlinelabel.Top.Set(-40, 0f);
@@ -89,7 +92,7 @@ namespace ServerSideCharacter2.GUI.UI
 			changeSortModeButton.Tooltip = "根据首字母排序";
 			WindowPanel.Append(changeSortModeButton);
 
-			_onlinePlayerList = new UIList();
+			_onlinePlayerList = new UIAdvList();
 			_onlinePlayerList.Width.Set(-25f, 1f);
 			_onlinePlayerList.Height.Set(0f, 1f);
 			_onlinePlayerList.ListPadding = 5f;
@@ -98,7 +101,7 @@ namespace ServerSideCharacter2.GUI.UI
 
 			// ScrollBar设定
 			UIScrollbar uiscrollbar = new UIScrollbar();
-			uiscrollbar.SetView(100f, 1000f);
+			// uiscrollbar.SetView(100f, 1000f);
 			uiscrollbar.Height.Set(0f, 1f);
 			uiscrollbar.HAlign = 1f;
 			_onlinePlayerPanel.Append(uiscrollbar);

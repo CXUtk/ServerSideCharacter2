@@ -23,7 +23,7 @@ namespace ServerSideCharacter2.GUI.UI
 		private int _relaxTimer;
 		private float _rotation;
 		private List<UIFriendBar> uIFriendBars;
-		private UIList _onlinePlayerList;
+		private UIAdvList _friendList;
 
 		private UIPanel _onlinePlayerPanel;
 		private UIButton refreshButton;
@@ -76,11 +76,11 @@ namespace ServerSideCharacter2.GUI.UI
 			refreshButton.OnClick += RefreshButton_OnClick;
 			WindowPanel.Append(refreshButton);
 
-			_onlinePlayerList = new UIList();
-			_onlinePlayerList.Width.Set(-25f, 1f);
-			_onlinePlayerList.Height.Set(0f, 1f);
-			_onlinePlayerList.ListPadding = 5f;
-			_onlinePlayerPanel.Append(_onlinePlayerList);
+			_friendList = new UIAdvList();
+			_friendList.Width.Set(-25f, 1f);
+			_friendList.Height.Set(0f, 1f);
+			_friendList.ListPadding = 5f;
+			_onlinePlayerPanel.Append(_friendList);
 
 			// ScrollBar设定
 			UIScrollbar uiscrollbar = new UIScrollbar();
@@ -88,7 +88,7 @@ namespace ServerSideCharacter2.GUI.UI
 			uiscrollbar.Height.Set(0f, 1f);
 			uiscrollbar.HAlign = 1f;
 			_onlinePlayerPanel.Append(uiscrollbar);
-			_onlinePlayerList.SetScrollbar(uiscrollbar);
+			_friendList.SetScrollbar(uiscrollbar);
 		}
 
 		private void RefreshButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
@@ -99,7 +99,7 @@ namespace ServerSideCharacter2.GUI.UI
 		public void RefreshFriends()
 		{
 			uIFriendBars.Clear();
-			_onlinePlayerList.Clear();
+			_friendList.Clear();
 
 			if (Main.netMode == 1)
 			{
@@ -115,7 +115,7 @@ namespace ServerSideCharacter2.GUI.UI
 					};
 					var bar = new UIFriendBar(testinfo);
 					uIFriendBars.Add(bar);
-					_onlinePlayerList.Add(bar);
+					_friendList.Add(bar);
 				}
 			}
 			_relaxTimer = 180;
@@ -143,7 +143,7 @@ namespace ServerSideCharacter2.GUI.UI
 		{
 			UIFriendBar bar = new UIFriendBar(info);
 			uIFriendBars.Add(bar);
-			_onlinePlayerList.Add(bar);
+			_friendList.Add(bar);
 		}
 
 

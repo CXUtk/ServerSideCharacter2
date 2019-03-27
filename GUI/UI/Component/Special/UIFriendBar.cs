@@ -13,43 +13,24 @@ using Microsoft.Xna.Framework.Input;
 using Terraria.UI.Chat;
 using ServerSideCharacter2.JsonData;
 using System;
+using System.Collections.Generic;
 
 namespace ServerSideCharacter2.GUI.UI.Component.Special
 {
-	public class UIFriendBar : UIAdvPanel, IComparable
+	public class UIFriendBar : UINormalPlayerBar
 	{
-		private SimplifiedPlayerInfo playerInfo;
-
 		private const float LABEL_MAX_WIDTH = 100;
 		private const float GENDER_ICON_SIZE = 25;
 
-		public UIFriendBar(SimplifiedPlayerInfo info)
+		public UIFriendBar(SimplifiedPlayerInfo info) : base(info)
 		{
-			playerInfo = info;
-			this.Width.Set(0, 1f);
-			this.Height.Set(50f, 0f);
-			base.MainTexture = ServerSideCharacter2.ModTexturesTable["Box2"];
-			base.Color = Color.White;
-			base.SetPadding(6f);
-
-
-			UIText nameLabel = new UIText(playerInfo.Name);
-			nameLabel.Top.Set(-10, 0.5f);
-			nameLabel.Left.Set(5, 0);
-			nameLabel.TextColor = playerInfo.IsLogin ? Color.Green : Color.Gray;
-			base.Append(nameLabel);
-
-			//bool male = Main.player[playerInfo.PlayerID].Male;
-			//UIImage _genderImage = new UIImage(ServerSideCharacter2.ModTexturesTable[male ? "Male" : "Female"]);
-			//_genderImage.Top.Set(-GENDER_ICON_SIZE / 2, 0.5f);
-			//_genderImage.Left.Set(LABEL_MAX_WIDTH + 10, 0);
-			//_genderImage.Width.Set(GENDER_ICON_SIZE, 0);
-			//_genderImage.Height.Set(GENDER_ICON_SIZE, 0);
-			//_onlinePlayerPanel.Append(_genderImage);
-
-
+			nameLabel.TextColor = info.IsLogin ? Color.LimeGreen : new Color(180, 180, 180);
 		}
 
+		protected override void AddExtraButtons(List<UICDButton> buttons)
+		{
+			base.AddExtraButtons(buttons);
+		}
 		//public override void Click(UIMouseEvent evt)
 		//{
 		//	this.Width.Set(100, 0f);
