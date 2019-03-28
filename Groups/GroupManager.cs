@@ -24,19 +24,19 @@ namespace ServerSideCharacter2.Groups
 		public void SetGroups()
 		{
 			PermissionList = new PermissionList();
-			Group crminalGroup = new Group("罪犯")
+			Group crminalGroup = new Group("criminal")
 			{
 				ChatColor = Color.Gray,
 				ChatPrefix = "罪犯"
 			};
-			Group defaultGroup = new Group("公民")
+			Group defaultGroup = new Group("default")
 			{
 				ChatPrefix = "公民"
 			};
 			defaultGroup.AddPermission("ls");
 			defaultGroup.AddPermission("friend");
 			defaultGroup.AddPermission("pvp");
-			Group admin = new Group("管理员")
+			Group admin = new Group("admin")
 			{
 				ChatColor = Color.Red,
 				ChatPrefix = "管理员",
@@ -56,7 +56,7 @@ namespace ServerSideCharacter2.Groups
 			admin.AddPermission("god");
 			admin.AddPermission("item");
 			admin.AddPermission("forcepvp");
-			Group superAdmin = new Group("超级管理员")
+			Group superAdmin = new Group("superadmin")
 			{
 				ChatColor = Color.Cyan,
 				ChatPrefix = "超管",

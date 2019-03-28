@@ -28,12 +28,7 @@ namespace ServerSideCharacter2.Services.Misc
 				MPlayer mPlayer = p.GetModPlayer<MPlayer>();
 				mPlayer.GodMode ^= true;
 
-				ModPacket pack = ServerSideCharacter2.Instance.GetPacket();
-				pack.Write((int)SSCMessageType.ModPlayerInfo);
-				pack.Write((byte)playerNumber);
-				pack.Write(mPlayer.GodMode);
-				pack.Send(playerNumber);
-
+				MessageSender.SyncModPlayerInfo(-1, -1, mPlayer);
 				player.SendInfoMessage($"你成功{(mPlayer.GodMode ? "开启" : "关闭")}了无敌模式");
 				CommandBoardcast.ConsoleMessage($"玩家 {player.Name} {(mPlayer.GodMode ? "开启" : "关闭")}了无敌模式");
 			}

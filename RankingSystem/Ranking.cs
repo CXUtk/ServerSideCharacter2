@@ -20,19 +20,19 @@ namespace ServerSideCharacter2.RankingSystem
 		{
 			if(rank > 2600)
 			{
-				return 20 + Main.rand.Next(10) - 4;
+				return 20 + Main.rand.Next(10) - 5;
 			}
 			else if(rank > 2200)
 			{
-				return 32 + Main.rand.Next(12) - 5;
+				return 32 + Main.rand.Next(10) - 5;
 			}
 			else if (rank > 1900)
 			{
-				return 40 + Main.rand.Next(12) - 5;
+				return 40 + Main.rand.Next(10) - 5;
 			}
 			else
 			{
-				return 48 + Main.rand.Next(20) - 8;
+				return 48 + Main.rand.Next(10) - 5;
 			}
 		}
 

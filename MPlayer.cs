@@ -22,12 +22,7 @@ namespace ServerSideCharacter2
 
 		public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
 		{
-			ModPacket pack = ServerSideCharacter2.Instance.GetPacket();
-			pack.Write((int)SSCMessageType.ModPlayerInfo);
-			pack.Write((byte)player.whoAmI);
-			pack.Write(GodMode);
-			pack.Write(Rank);
-			pack.Send(toWho, fromWho);
+			MessageSender.SyncModPlayerInfo(toWho, fromWho, this);
 		}
 
 		public override void ResetEffects()
@@ -73,7 +68,11 @@ namespace ServerSideCharacter2
 			}
 			if(Main.netMode == 2)
 			{
-				Rank = player.GetServerPlayer().Rank;
+				if (Rank != player.GetServerPlayer().Rank)
+				{
+					Rank = player.GetServerPlayer().Rank;
+					MessageSender.SyncModPlayerInfo(-1, -1, this);
+				}
 			}
 
 			//if (Main.myPlayer == player.whoAmI)
@@ -143,7 +142,7 @@ namespace ServerSideCharacter2
 
 		public override void ModifyDrawLayers(List<PlayerLayer> layers)
 		{
-			if (info.position != info.drawPlayer.position) return;
+
 			layers.Add(new PlayerLayer(mod.Name, "SSC: Lock", (info) =>
 			{
 				if (Locked && !player.dead)
@@ -159,14 +158,14 @@ namespace ServerSideCharacter2
 			}));
 			layers.Add(new PlayerLayer(mod.Name, "SSC: Rank", (info) =>
 			{
-				if (info.position != info.drawPlayer.position) return;
+				if (info.shadow != 0) return;
 				if (Rank >= 0 && !player.dead)
 				{
 					var type = Ranking.GetRankType(info.drawPlayer.GetModPlayer<MPlayer>().Rank);
 					Texture2D rankTex = ServerSideCharacter2.ModTexturesTable[type.ToString()];
 					DrawData dd = new DrawData(rankTex,
-						new Vector2(info.drawPlayer.Center.X - Main.screenPosition.X,
-						info.drawPlayer.position.Y + info.drawPlayer.gfxOffY - 25 - Main.screenPosition.Y),
+						new Vector2(info.position.X + info.drawPlayer.width / 2 - Main.screenPosition.X,
+						info.position.Y + info.drawPlayer.gfxOffY - 25 - Main.screenPosition.Y),
 						null, Color.White, 0f, rankTex.Size() * 0.5f, 0.8f + Main.essScale * 0.8f, SpriteEffects.None, 0);
 					Main.playerDrawData.Add(dd);
 				}
