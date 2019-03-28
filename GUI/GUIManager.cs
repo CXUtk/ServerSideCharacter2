@@ -18,7 +18,8 @@ namespace ServerSideCharacter2.GUI
 		LoginWindow,	
 		PlayerOnlineWindow,
 		HomePage,
-		UnionPage
+		UnionPage,
+		ItemPage
 	}
 	public class GUIManager
 	{
@@ -28,6 +29,7 @@ namespace ServerSideCharacter2.GUI
 		private PlayerOnlineWindow _playerOnlineWindow;
 		private HomePageState _homePageState;
 		private UnionPageState _unionPageState;
+		private ItemState _getitemState;
 
 		private UserInterface _toolBarInterface;
 		private CDInterfaceManager _cdInterface;
@@ -77,6 +79,11 @@ namespace ServerSideCharacter2.GUI
 			ConditionalInterface unionpage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.UnionPage]; });
 			unionpage.SetState(_unionPageState);
 			_cdInterface.Add(unionpage);
+
+			_getitemState = new ItemState();
+			ConditionalInterface itempage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.ItemPage]; });
+			itempage.SetState(_getitemState);
+			_cdInterface.Add(itempage);
 		}
 		
 

@@ -102,7 +102,7 @@ namespace ServerSideCharacter2.GUI.UI
 			_onlinePlayerPanel.Append(_onlinePlayerList);
 
 			// ScrollBar设定
-			UIScrollbar uiscrollbar = new UIScrollbar();
+			UIAdvScrollBar uiscrollbar = new UIAdvScrollBar();
 			// uiscrollbar.SetView(100f, 1000f);
 			uiscrollbar.Height.Set(0f, 1f);
 			uiscrollbar.HAlign = 1f;

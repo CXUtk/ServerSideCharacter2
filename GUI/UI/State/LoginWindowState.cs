@@ -18,7 +18,6 @@ namespace ServerSideCharacter2.GUI.UI
 {
 	public class LoginWindowState : AdvWindowUIState
 	{
-		private UIPages _pageList;
 		private UIAdvTextBox _usernameText;
 		private UIAdvTextBox _passwordText;
 		private UIButton _submitFormButton;

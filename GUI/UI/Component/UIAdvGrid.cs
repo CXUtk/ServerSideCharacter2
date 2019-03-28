@@ -8,11 +8,12 @@ using Terraria.UI;
 
 namespace ServerSideCharacter2.GUI.UI.Component
 {
-	// Token: 0x020003F4 RID: 1012
-	public class UIAdvList : UIAdvElement
+
+	// Token: 0x020002BB RID: 699
+	public class UIAdvGrid : UIElement
 	{
-		// Token: 0x17000289 RID: 649
-		// (get) Token: 0x060023A5 RID: 9125 RVA: 0x000192E1 File Offset: 0x000174E1
+		// Token: 0x170001C9 RID: 457
+		// (get) Token: 0x06001B79 RID: 7033 RVA: 0x00013BF0 File Offset: 0x00011DF0
 		public int Count
 		{
 			get
@@ -21,8 +22,8 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			}
 		}
 
-		// Token: 0x060023A6 RID: 9126 RVA: 0x00479FF0 File Offset: 0x004781F0
-		public UIAdvList()
+		// Token: 0x06001B7A RID: 7034 RVA: 0x00431028 File Offset: 0x0042F228
+		public UIAdvGrid()
 		{
 			this._innerList.OverflowHidden = false;
 			this._innerList.Width.Set(0f, 1f);
@@ -31,26 +32,30 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			base.Append(this._innerList);
 		}
 
-		// Token: 0x060023A7 RID: 9127 RVA: 0x000192EE File Offset: 0x000174EE
+		// Token: 0x06001B7B RID: 7035 RVA: 0x00013BFD File Offset: 0x00011DFD
 		public float GetTotalHeight()
 		{
 			return this._innerListHeight;
 		}
 
-		// Token: 0x060023A8 RID: 9128 RVA: 0x0047A078 File Offset: 0x00478278
-		public void Goto(UIList.ElementSearchMethod searchMethod)
-		{
-			for (int i = 0; i < this._items.Count; i++)
-			{
-				if (searchMethod(this._items[i]))
-				{
-					this._scrollbar.ViewPosition = this._items[i].Top.Pixels;
-					return;
-				}
-			}
-		}
+		//// Token: 0x06001B7C RID: 7036 RVA: 0x004310B0 File Offset: 0x0042F2B0
+		//public void Goto(UIGrid.ElementSearchMethod searchMethod, bool center = false)
+		//{
+		//	for (int i = 0; i < this._items.Count; i++)
+		//	{
+		//		if (searchMethod(this._items[i]))
+		//		{
+		//			this._scrollbar.ViewPosition = this._items[i].Top.Pixels;
+		//			if (center)
+		//			{
+		//				this._scrollbar.ViewPosition = this._items[i].Top.Pixels - base.GetInnerDimensions().Height / 2f + this._items[i].GetOuterDimensions().Height / 2f;
+		//			}
+		//			return;
+		//		}
+		//	}
+		//}
 
-		// Token: 0x060023A9 RID: 9129 RVA: 0x000192F6 File Offset: 0x000174F6
+		// Token: 0x06001B7D RID: 7037 RVA: 0x00013C05 File Offset: 0x00011E05
 		public virtual void Add(UIElement item)
 		{
 			this._items.Add(item);
@@ -59,7 +64,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			this._innerList.Recalculate();
 		}
 
-		// Token: 0x060023AA RID: 9130 RVA: 0x0047A0D4 File Offset: 0x004782D4
+		// Token: 0x06001B7E RID: 7038 RVA: 0x00431164 File Offset: 0x0042F364
 		public virtual void AddRange(IEnumerable<UIElement> items)
 		{
 			this._items.AddRange(items);
@@ -71,7 +76,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			this._innerList.Recalculate();
 		}
 
-		// Token: 0x060023AB RID: 9131 RVA: 0x00019321 File Offset: 0x00017521
+		// Token: 0x06001B7F RID: 7039 RVA: 0x00013C30 File Offset: 0x00011E30
 		public virtual bool Remove(UIElement item)
 		{
 			this._innerList.RemoveChild(item);
@@ -79,21 +84,21 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			return this._items.Remove(item);
 		}
 
-		// Token: 0x060023AC RID: 9132 RVA: 0x00019341 File Offset: 0x00017541
+		// Token: 0x06001B80 RID: 7040 RVA: 0x00013C50 File Offset: 0x00011E50
 		public virtual void Clear()
 		{
 			this._innerList.RemoveAllChildren();
 			this._items.Clear();
 		}
 
-		// Token: 0x060023AD RID: 9133 RVA: 0x00019359 File Offset: 0x00017559
+		// Token: 0x06001B81 RID: 7041 RVA: 0x00013C68 File Offset: 0x00011E68
 		public override void Recalculate()
 		{
 			base.Recalculate();
 			this.UpdateScrollbar();
 		}
 
-		// Token: 0x060023AE RID: 9134 RVA: 0x00019367 File Offset: 0x00017567
+		// Token: 0x06001B82 RID: 7042 RVA: 0x00013C76 File Offset: 0x00011E76
 		public override void ScrollWheel(UIScrollWheelEvent evt)
 		{
 			base.ScrollWheel(evt);
@@ -103,21 +108,34 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			}
 		}
 
-		// Token: 0x060023AF RID: 9135 RVA: 0x0047A140 File Offset: 0x00478340
+		// Token: 0x06001B83 RID: 7043 RVA: 0x004311D0 File Offset: 0x0042F3D0
 		public override void RecalculateChildren()
 		{
+			float width = base.GetInnerDimensions().Width;
 			base.RecalculateChildren();
 			float num = 0f;
+			float num2 = 0f;
+			float num3 = 0f;
 			for (int i = 0; i < this._items.Count; i++)
 			{
-				this._items[i].Top.Set(num, 0f);
-				this._items[i].Recalculate();
-				num += this._items[i].GetOuterDimensions().Height + this.ListPadding;
+				UIElement uielement = this._items[i];
+				CalculatedStyle outerDimensions = uielement.GetOuterDimensions();
+				if (num2 + outerDimensions.Width > width && num2 > 0f)
+				{
+					num += num3 + this.ListPadding;
+					num2 = 0f;
+					num3 = 0f;
+				}
+				num3 = Math.Max(num3, outerDimensions.Height);
+				uielement.Left.Set(num2, 0f);
+				num2 += outerDimensions.Width + this.ListPadding;
+				uielement.Top.Set(num, 0f);
+				uielement.Recalculate();
 			}
-			this._innerListHeight = num;
+			this._innerListHeight = num + num3;
 		}
 
-		// Token: 0x060023B0 RID: 9136 RVA: 0x00019391 File Offset: 0x00017591
+		// Token: 0x06001B84 RID: 7044 RVA: 0x00013CA0 File Offset: 0x00011EA0
 		private void UpdateScrollbar()
 		{
 			if (this._scrollbar == null)
@@ -127,27 +145,27 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			this._scrollbar.SetView(base.GetInnerDimensions().Height, this._innerListHeight);
 		}
 
-		// Token: 0x060023B1 RID: 9137 RVA: 0x000193B8 File Offset: 0x000175B8
-		public void SetScrollbar(UIAdvScrollBar scrollbar)
+		// Token: 0x06001B85 RID: 7045 RVA: 0x00013CC7 File Offset: 0x00011EC7
+		public void SetScrollbar(UIScrollbar scrollbar)
 		{
 			this._scrollbar = scrollbar;
 			this.UpdateScrollbar();
 		}
 
-		// Token: 0x060023B2 RID: 9138 RVA: 0x000193C7 File Offset: 0x000175C7
+		// Token: 0x06001B86 RID: 7046 RVA: 0x00013CD6 File Offset: 0x00011ED6
 		public void UpdateOrder()
 		{
 			this._items.Sort(new Comparison<UIElement>(this.SortMethod));
 			this.UpdateScrollbar();
 		}
 
-		// Token: 0x060023B3 RID: 9139 RVA: 0x00013CF5 File Offset: 0x00011EF5
+		// Token: 0x06001B87 RID: 7047 RVA: 0x00013CF5 File Offset: 0x00011EF5
 		public int SortMethod(UIElement item1, UIElement item2)
 		{
 			return item1.CompareTo(item2);
 		}
 
-		// Token: 0x060023B4 RID: 9140 RVA: 0x0047A1C4 File Offset: 0x004783C4
+		// Token: 0x06001B88 RID: 7048 RVA: 0x004312B8 File Offset: 0x0042F4B8
 		public override List<SnapPoint> GetSnapPoints()
 		{
 			List<SnapPoint> list = new List<SnapPoint>();
@@ -163,7 +181,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			return list;
 		}
 
-		// Token: 0x060023B5 RID: 9141 RVA: 0x000193E6 File Offset: 0x000175E6
+		// Token: 0x06001B89 RID: 7049 RVA: 0x00013CFE File Offset: 0x00011EFE
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
 			if (this._scrollbar != null)
@@ -171,42 +189,37 @@ namespace ServerSideCharacter2.GUI.UI.Component
 				this._innerList.Top.Set(-this._scrollbar.GetValue(), 0f);
 			}
 			this.Recalculate();
-			
 		}
 
-		// Token: 0x04003FE7 RID: 16359
+		// Token: 0x0400188D RID: 6285
 		public List<UIElement> _items = new List<UIElement>();
 
-		// Token: 0x04003FE8 RID: 16360
-		protected UIAdvScrollBar _scrollbar;
+		// Token: 0x0400188E RID: 6286
+		protected UIScrollbar _scrollbar;
 
-		// Token: 0x04003FE9 RID: 16361
-		internal UIElement _innerList = new UIAdvList.UIInnerList();
+		// Token: 0x0400188F RID: 6287
+		internal UIElement _innerList = new UIInnerList();
 
-		// Token: 0x04003FEA RID: 16362
+		// Token: 0x04001890 RID: 6288
 		private float _innerListHeight;
 
-		// Token: 0x04003FEB RID: 16363
+		// Token: 0x04001891 RID: 6289
 		public float ListPadding = 5f;
 
-		// Token: 0x020003F5 RID: 1013
-		// (Invoke) Token: 0x060023B7 RID: 9143
+		// Token: 0x020002BC RID: 700
+		// (Invoke) Token: 0x06001B8B RID: 7051
 		public delegate bool ElementSearchMethod(UIElement element);
 
-		// Token: 0x020003F6 RID: 1014
-		private class UIInnerList : UIAdvElement
+		// Token: 0x020002BD RID: 701
+		private class UIInnerList : UIElement
 		{
-			// Token: 0x060023BA RID: 9146 RVA: 0x00008CF7 File Offset: 0x00006EF7
+			// Token: 0x06001B8E RID: 7054 RVA: 0x00008CF7 File Offset: 0x00006EF7
 			public override bool ContainsPoint(Vector2 point)
 			{
 				return true;
 			}
-			//public override void Click(UIMouseEvent evt)
-			//{
-				
-			//	base.Click(evt);
-			//}
-			// Token: 0x060023BB RID: 9147 RVA: 0x00431328 File Offset: 0x0042F528
+
+			// Token: 0x06001B8F RID: 7055 RVA: 0x00431328 File Offset: 0x0042F528
 			protected override void DrawChildren(SpriteBatch spriteBatch)
 			{
 				Vector2 position = this.Parent.GetDimensions().Position();
@@ -221,6 +234,8 @@ namespace ServerSideCharacter2.GUI.UI.Component
 					}
 				}
 			}
+
 		}
 	}
+
 }

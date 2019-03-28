@@ -82,9 +82,23 @@ namespace ServerSideCharacter2.GUI.UI
 			Add(new Services.OnlinePlayer.OnlinePlayerService());
 			Add(new Services.HomePage.HomePageService());
 			Add(new Services.Union.UnionPageService());
-			Add(new Services.OnlinePlayer.OnlinePlayerService());
-			Add(new Services.OnlinePlayer.OnlinePlayerService());
-			Add(new Services.OnlinePlayer.OnlinePlayerService());
+			if(Main.netMode == 0)
+			{
+				Add(new Services.Misc.ItemServices());
+			}
+			//Add(new Services.OnlinePlayer.OnlinePlayerService());
+			//Add(new Services.OnlinePlayer.OnlinePlayerService());
+			//Add(new Services.OnlinePlayer.OnlinePlayerService());
+		}
+
+		internal void ResetDefault()
+		{
+			_services.Clear();
+			SetUpDefault();
+			if (Main.netMode == 0 || ServerSideCharacter2.MainPlayerGroup.HasPermission("item"))
+			{
+				Add(new Services.Misc.ItemServices());
+			}
 		}
 	}
 }
