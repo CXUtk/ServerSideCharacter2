@@ -4,6 +4,8 @@ using Terraria.DataStructures;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using ServerSideCharacter2.Utils;
+using System;
 
 namespace ServerSideCharacter2
 {
@@ -14,6 +16,8 @@ namespace ServerSideCharacter2
 		public bool Locked = false;
 
 		public bool GodMode = false;
+
+		public int LastInteractionPVP = -1;
 
 
 
@@ -93,6 +97,32 @@ namespace ServerSideCharacter2
 		public override void PostUpdate()
 		{
 			playerCounter++;
+		}
+
+		public override void OnHitPvpWithProj(Projectile proj, Player target, int damage, bool crit)
+		{
+			LastInteractionPVP = target.whoAmI;
+			base.OnHitPvpWithProj(proj, target, damage, crit);
+		}
+
+		public override void OnHitPvp(Item item, Player target, int damage, bool crit)
+		{
+			LastInteractionPVP = target.whoAmI;
+			base.OnHitPvp(item, target, damage, crit);
+		}
+
+		public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
+		{
+			if(Main.netMode == 1)
+			{
+				Main.NewText("客户端玩家死亡");
+			}
+			else if(Main.netMode == 2)
+			{
+				CommandBoardcast.ConsoleNormalText("服务器端玩家死亡");
+			}
+			Main.NewText(damageSource.SourcePlayerIndex);
+			base.Kill(damage, hitDirection, pvp, damageSource);
 		}
 
 		public override void ModifyDrawLayers(List<PlayerLayer> layers)

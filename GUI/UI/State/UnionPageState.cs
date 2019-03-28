@@ -149,7 +149,7 @@ namespace ServerSideCharacter2.GUI.UI
 
 		protected override void OnClose(UIMouseEvent evt, UIElement listeningElement)
 		{
-			ServerSideCharacter2.Instance.ChangeState(SSCUIState.HomePage);
+			ServerSideCharacter2.Instance.ChangeState(SSCUIState.UnionPage);
 		}
 	}
 }

@@ -11,21 +11,25 @@ namespace ServerSideCharacter2.JsonData
 	[JsonObject]
 	public struct SimplifiedPlayerInfo
 	{
-		public string Name { get; set; }
+		public string Name;
 
-		public bool IsLogin { get; set; }
+		public bool IsLogin;
 
-		public string GroupName { get; set; }
+		public string GroupName;
 
-		public string ChatPrefix { get; set; }
+		public string ChatPrefix;
 
-		public Color ChatColor { get; set; }
+		public Color ChatColor;
 
-		public int GUID { get; set; }
+		public int GUID;
 
-		public int PlayerID { get; set; }
+		public int PlayerID;
 
-		public bool IsFriend { get; set; }
+		public bool IsFriend;
+		
+		public int Rank;
+
+		public int KillCount;
 	}
 
 	[JsonObject]

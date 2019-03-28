@@ -10,29 +10,33 @@ namespace ServerSideCharacter2.JsonData
 	[JsonObject]
 	public class PlayerInfo
 	{
-		public string Name { get; set; }
+		public string Name;
 
-		public int ID { get; set; }
+		public int ID;
 
-		public string Password { get; set; }
+		public string Password;
 
-		public bool HasPassword { get; set; }
+		public bool HasPassword;
 
-		public bool IsMuted { get; set; }
+		public bool IsMuted;
 
-		public int LifeMax { get; set; }
+		public int LifeMax;
 
-		public int StatLife { get; set; }
+		public int StatLife;
 
-		public int ManaMax { get; set; }
+		public int ManaMax;
 
-		public int StatMana { get; set; }
+		public int StatMana;
 
 		public HashSet<string> Friends = new HashSet<string>();
 
-		public string Group { get; set; }
+		public string Group;
 
-		public string Union { get; set; }
+		public string Union;
+
+		public int Rank;
+
+		public int KillCount;
 
 		public ItemInfo[] inventory = new ItemInfo[Main.maxInventory + 1];
 

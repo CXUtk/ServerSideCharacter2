@@ -267,11 +267,14 @@ namespace ServerSideCharacter2
 				HasPassword = false,
 				IsMuted = false,
 				Group = "公民",
+				Union = null,
 				Password = "",
 				LifeMax = 100,
 				StatLife = 100,
 				ManaMax = 20,
-				StatMana = 20
+				StatMana = 20,
+				KillCount = 0,
+				Rank = 1500
 			};
 			int i = 0;
 			foreach (var item in ServerSideCharacter2.Config.startUpInventory)

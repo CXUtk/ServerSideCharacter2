@@ -1,4 +1,4 @@
-displayName = ServerSideCharacter2
+﻿displayName = 强制开荒v2
 author = DXTsT
 version = 0.12
 hideResources = true

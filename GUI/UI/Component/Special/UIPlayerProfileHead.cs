@@ -15,6 +15,7 @@ using ServerSideCharacter2.JsonData;
 using System;
 using Terraria.Graphics;
 using System.Collections.Generic;
+using ServerSideCharacter2.RankingSystem;
 
 namespace ServerSideCharacter2.GUI.UI.Component.Special
 {
@@ -63,10 +64,15 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 				GetDimensions().Position() + new Vector2(2, 2) + Main.screenPosition, 0f, Vector2.Zero, 0f);
 		}
 
-		public void SetName(string name)
+		public void SetPlayer(SimplifiedPlayerInfo info)
 		{
-			textName.SetText(name);
-			Recalculate();
+			textName.SetText(info.Name);
+			var type = Ranking.GetRankType(info.Rank);
+			var range = Ranking.GetRankRange(type);
+			rankLabel.SetText($"{info.Rank} / {range.Item2}");
+
+			var percent = (info.Rank - range.Item1) / (float)(range.Item2 - range.Item1);
+			rankBar.Value = percent;
 		}
 	}
 }

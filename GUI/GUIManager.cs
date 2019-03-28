@@ -27,11 +27,10 @@ namespace ServerSideCharacter2.GUI
 		private LoginWindowState _loginWindowState;
 		private PlayerOnlineWindow _playerOnlineWindow;
 		private HomePageState _homePageState;
+		private UnionPageState _unionPageState;
 
 		private UserInterface _toolBarInterface;
-
 		private CDInterfaceManager _cdInterface;
-
 		private MessageDisplayer _messageDisplayer;
 
 		private Dictionary<SSCUIState, bool> _canShowUITable = new Dictionary<SSCUIState, bool>();
@@ -73,8 +72,18 @@ namespace ServerSideCharacter2.GUI
 			ConditionalInterface hompage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.HomePage]; });
 			hompage.SetState(_homePageState);
 			_cdInterface.Add(hompage);
+
+			_unionPageState = new UnionPageState();
+			ConditionalInterface unionpage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.UnionPage]; });
+			unionpage.SetState(_unionPageState);
+			_cdInterface.Add(unionpage);
 		}
 		
+
+
+
+
+
 		public void RelaxGUI()
 		{
 			_loginWindowState.Relax();

@@ -149,7 +149,17 @@ namespace ServerSideCharacter2.GUI.UI
 		public override void Update(GameTime gameTime)
 		{
 			base.Update(gameTime);
-			uIPlayerProfileHead.SetName(Main.LocalPlayer.name);
+			if (Main.netMode == 0)
+			{
+				JsonData.SimplifiedPlayerInfo info = new JsonData.SimplifiedPlayerInfo
+				{
+					Name = Main.LocalPlayer.name,
+					IsFriend = true,
+					IsLogin = true,
+					Rank = 1500
+				};
+				uIPlayerProfileHead.SetPlayer(info);
+			}
 			if (_relaxTimer > 0)
 			{
 				_relaxTimer--;
@@ -170,6 +180,7 @@ namespace ServerSideCharacter2.GUI.UI
 			uIFriendBars.Add(bar);
 			_friendList.Add(bar);
 		}
+
 
 
 
