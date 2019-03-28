@@ -29,7 +29,7 @@ namespace ServerSideCharacter2.Services.Misc
 				mPlayer.GodMode ^= true;
 
 				ModPacket pack = ServerSideCharacter2.Instance.GetPacket();
-				pack.Write((int)SSCMessageType.SetGodMode);
+				pack.Write((int)SSCMessageType.ModPlayerInfo);
 				pack.Write((byte)playerNumber);
 				pack.Write(mPlayer.GodMode);
 				pack.Send(playerNumber);
@@ -40,14 +40,5 @@ namespace ServerSideCharacter2.Services.Misc
 		}
 	}
 
-	public class SetGodModeHandler : ISSCNetHandler
-	{
-		public void Handle(BinaryReader reader, int playerNumber)
-		{
-			int plr = reader.ReadByte();
-			MPlayer mPlayer = Main.player[plr].GetModPlayer<MPlayer>();
-			mPlayer.GodMode = reader.ReadBoolean();
-		}
 
-	}
 }

@@ -58,7 +58,7 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.ToggleHardMode, new HardmodeHandler() },
 				{SSCMessageType.SummonCommand, new SummonHandler() },
 				{SSCMessageType.ToggleGodMode, new GodModeHandler() },
-				{SSCMessageType.SetGodMode, new SetGodModeHandler() },
+				{SSCMessageType.ModPlayerInfo, new ModPlayerInfoHandler() },
 				{SSCMessageType.TPCommand, new TPHandler() },
 				{SSCMessageType.TeleportPalyer, new TPPlayerHandler() },
 				{SSCMessageType.RequestItem, new ItemHandler() },

@@ -250,6 +250,7 @@ namespace ServerSideCharacter2
 
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
 		{
+			int cursorIndex = Math.Max(0, layers.FindIndex((GameInterfaceLayer layer) => layer.Name == "Vanilla: Cursor"));
 			int MouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
 			if(MouseTextIndex != -1)
 			{

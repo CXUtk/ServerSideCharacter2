@@ -610,7 +610,7 @@ namespace ServerSideCharacter2.Network
 						if (MWorld.TileMessageCD[playerNumber] == 0)
 						{
 							MessageSender.SendErrorMessage(playerNumber, "你没有权限改变这个物块");
-							MWorld.TileMessageCD[playerNumber] = 30;
+							MWorld.TileMessageCD[playerNumber] = 60;
 						}
 						NetMessage.SendTileSquare(-1, X, Y, 4);
 						return true;

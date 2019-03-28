@@ -193,6 +193,7 @@
     <Compile Include="Services\Misc\GodModeHandler.cs" />
     <Compile Include="Services\Misc\ForcePVPHandler.cs" />
     <Compile Include="Services\Misc\ItemHandler.cs" />
+    <Compile Include="Services\Misc\ModPlayerInfoHandler.cs" />
     <Compile Include="Services\Misc\SyncGroupHandler.cs" />
     <Compile Include="Services\Misc\TPHandler.cs" />
     <Compile Include="Services\Misc\SummonHandler.cs" />

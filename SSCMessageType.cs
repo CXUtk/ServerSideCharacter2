@@ -31,7 +31,7 @@
 		LockPlayer,
 		TeleportPalyer,
 		ToggleGodMode,
-		SetGodMode,
+		ModPlayerInfo,
 		NotifyLogin,
 		GenResources,
 		ChestCommand,

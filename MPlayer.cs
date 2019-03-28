@@ -18,17 +18,18 @@ namespace ServerSideCharacter2
 
 		public bool GodMode = false;
 
-		public int LastInteractionPVP = -1;
-
+		public int Rank = 1500;
 
 		public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
 		{
 			ModPacket pack = ServerSideCharacter2.Instance.GetPacket();
-			pack.Write((int)SSCMessageType.SetGodMode);
+			pack.Write((int)SSCMessageType.ModPlayerInfo);
 			pack.Write((byte)player.whoAmI);
 			pack.Write(GodMode);
+			pack.Write(Rank);
 			pack.Send(toWho, fromWho);
 		}
+
 		public override void ResetEffects()
 		{
 			Locked = false;
@@ -48,7 +49,7 @@ namespace ServerSideCharacter2
 				player.controlThrow = false;
 				player.controlHook = false;
 				player.controlMount = false;
-				//player.controlInv = false; // With this the users will not be abble to exit the server without login first (Exept by pressing ALT + F4). This is not a good thing
+				player.controlInv = false;
 				player.gravDir = 0f;
 				player.position = player.oldPosition;
 			}
@@ -70,6 +71,11 @@ namespace ServerSideCharacter2
 			{
 				player.statLife = player.statLifeMax2;
 			}
+			if(Main.netMode == 2)
+			{
+				Rank = player.GetServerPlayer().Rank;
+			}
+
 			//if (Main.myPlayer == player.whoAmI)
 			//{
 			//	Main.NewText(player.active);
@@ -100,22 +106,9 @@ namespace ServerSideCharacter2
 		}
 
 
-	
 		public override void PostUpdate()
 		{
 			playerCounter++;
-		}
-
-		public override void OnHitPvpWithProj(Projectile proj, Player target, int damage, bool crit)
-		{
-			LastInteractionPVP = target.whoAmI;
-			base.OnHitPvpWithProj(proj, target, damage, crit);
-		}
-
-		public override void OnHitPvp(Item item, Player target, int damage, bool crit)
-		{
-			LastInteractionPVP = target.whoAmI;
-			base.OnHitPvp(item, target, damage, crit);
 		}
 
 		public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
@@ -150,16 +143,31 @@ namespace ServerSideCharacter2
 
 		public override void ModifyDrawLayers(List<PlayerLayer> layers)
 		{
+			if (info.position != info.drawPlayer.position) return;
 			layers.Add(new PlayerLayer(mod.Name, "SSC: Lock", (info) =>
 			{
-				if (Locked)
+				if (Locked && !player.dead)
 				{
-					Texture2D dizzyTex = ServerSideCharacter2.ModTexturesTable["Lock"];
-					var dd = new DrawData(dizzyTex,
+					Texture2D lockTex = ServerSideCharacter2.ModTexturesTable["Lock"];
+					var dd = new DrawData(lockTex,
 						new Vector2(player.Center.X - Main.screenPosition.X,
 						player.Center.Y - Main.screenPosition.Y),
-						null, Color.White, 0f, dizzyTex.Size() * 0.5f, 0.75f + Main.essScale * 0.6f, SpriteEffects.None, 0
+						null, Color.White, 0f, lockTex.Size() * 0.5f, 0.75f + Main.essScale * 0.6f, SpriteEffects.None, 0
 					);
+					Main.playerDrawData.Add(dd);
+				}
+			}));
+			layers.Add(new PlayerLayer(mod.Name, "SSC: Rank", (info) =>
+			{
+				if (info.position != info.drawPlayer.position) return;
+				if (Rank >= 0 && !player.dead)
+				{
+					var type = Ranking.GetRankType(info.drawPlayer.GetModPlayer<MPlayer>().Rank);
+					Texture2D rankTex = ServerSideCharacter2.ModTexturesTable[type.ToString()];
+					DrawData dd = new DrawData(rankTex,
+						new Vector2(info.drawPlayer.Center.X - Main.screenPosition.X,
+						info.drawPlayer.position.Y + info.drawPlayer.gfxOffY - 25 - Main.screenPosition.Y),
+						null, Color.White, 0f, rankTex.Size() * 0.5f, 0.8f + Main.essScale * 0.8f, SpriteEffects.None, 0);
 					Main.playerDrawData.Add(dd);
 				}
 			}));
