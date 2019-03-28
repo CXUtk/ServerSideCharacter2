@@ -275,6 +275,14 @@ namespace ServerSideCharacter2
 			p.Send();
 		}
 
+
+		public static void SendToggleForcePVP()
+		{
+			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			p.Write((int)SSCMessageType.ForcePVP);
+			p.Send();
+		}
+
 		public static void SendToggleXmas()
 		{
 			ModPacket p = ServerSideCharacter2.Instance.GetPacket();

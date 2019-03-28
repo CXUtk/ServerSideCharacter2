@@ -8,6 +8,12 @@ using Terraria;
 
 namespace ServerSideCharacter2.JsonData
 {
+	public enum PVPMode
+	{
+		Normal, 
+		Never,
+		Always
+	}
 	[JsonObject]
 	public class ConfigData
 	{
@@ -15,9 +21,9 @@ namespace ServerSideCharacter2.JsonData
 		public bool AutoSave { get; set; }
 		public int SaveInterval { get; set; }
 		public bool EnableTombstone { get; set; }
+		public PVPMode PvpMode { get; set; }
 		public ConfigData()
 		{
-
 			startUpInventory = new List<ItemInfo>();
 		}
 
@@ -35,6 +41,8 @@ namespace ServerSideCharacter2.JsonData
 			data.SaveInterval = 18000;
 			// 禁止墓碑生成
 			data.EnableTombstone = false;
+
+			data.PvpMode = PVPMode.Normal;
 			return data;
 		}
 	}

@@ -432,6 +432,11 @@ namespace ServerSideCharacter2.Network
 					{
 						MessageSender.SendWelcomeMessage(plr, GameLanguage.GetText("welcomenew"));
 					}
+					if(ServerSideCharacter2.Config.PvpMode == JsonData.PVPMode.Always)
+					{
+						player.PrototypePlayer.hostile = true;
+						NetMessage.SendData(MessageID.PlayerPvP, -1, -1, NetworkText.FromLiteral(""), player.PrototypePlayer.whoAmI);
+					}
 				}
 
 
@@ -579,7 +584,7 @@ namespace ServerSideCharacter2.Network
 			_packethandler = new Dictionary<int, PacketHandlerDelegate>()
 			{
 				{ MessageID.SpawnPlayer, PlayerSpawn },
-				// { MessageID.ChatText, ChatText },
+				{ MessageID.PlayerPvP, PlayerPVP },
 				{ MessageID.NetModules, HandleNetModules },
 				{ MessageID.TileChange, TileChange },
 				{ MessageID.PlayerControls, PlayerControls },
@@ -638,42 +643,20 @@ namespace ServerSideCharacter2.Network
 		}
 
 
-		private bool ChatText(ref BinaryReader reader, int playerNumber)
+		private bool PlayerPVP(ref BinaryReader reader, int playerNumber)
 		{
 			int playerID = reader.ReadByte();
-			if (Main.netMode == 2)
+			bool pvp = reader.ReadBoolean();
+			if(Main.netMode == 2)
 			{
-				playerID = playerNumber;
-			}
-			Color c = reader.ReadRGB();
-			if (Main.netMode == 2)
-			{
-				c = new Color(255, 255, 255);
-			}
-			string text = reader.ReadString();
-			if (Main.netMode == 1)
-			{
-				string text2 = text.Substring(text.IndexOf('>') + 1);
-				if (playerID < 255)
+				if(ServerSideCharacter2.Config.PvpMode != JsonData.PVPMode.Normal)
 				{
-					Main.player[playerID].chatOverhead.NewMessage(text2, Main.chatLength / 2);
-				}
-				Main.NewTextMultiline(text, false, c, -1);
-			}
-			else
-			{
-				Player p = Main.player[playerID];
-				ServerPlayer player = p.GetServerPlayer();
-				Group group = player.Group;
-				string prefix = "[" + group.ChatPrefix + "] ";
-				c = group.ChatColor;
-				NetMessage.SendData(25, -1, -1, NetworkText.FromLiteral(prefix + "<" + p.name + "> " + text), playerID, (float)c.R, (float)c.G, (float)c.B, 0, 0, 0);
-				if (Main.dedServ)
-				{
-					Console.WriteLine("{0}<" + Main.player[playerID].name + "> " + text, prefix);
+					NetMessage.SendData(MessageID.PlayerPvP, playerNumber, -1, NetworkText.FromLiteral(""), playerNumber);
+					return true;
 				}
 			}
-			return true;
+			
+			return false;
 		}
 	}
 }

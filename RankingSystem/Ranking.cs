@@ -18,13 +18,17 @@ namespace ServerSideCharacter2.RankingSystem
 
 		private static int getR(int rank)
 		{
-			if(rank > 2200)
+			if(rank > 2600)
 			{
-				return 32 + Main.rand.Next(10) - 5;
+				return 20 + Main.rand.Next(10) - 4;
 			}
-			else if(rank > 1900)
+			else if(rank > 2200)
 			{
-				return 42 + Main.rand.Next(12) - 5;
+				return 32 + Main.rand.Next(12) - 5;
+			}
+			else if (rank > 1900)
+			{
+				return 40 + Main.rand.Next(12) - 5;
 			}
 			else
 			{

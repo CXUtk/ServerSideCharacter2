@@ -35,6 +35,7 @@ namespace ServerSideCharacter2.Groups
 			};
 			defaultGroup.AddPermission("ls");
 			defaultGroup.AddPermission("friend");
+			defaultGroup.AddPermission("pvp");
 			Group admin = new Group("管理员")
 			{
 				ChatColor = Color.Red,
@@ -54,6 +55,7 @@ namespace ServerSideCharacter2.Groups
 			admin.AddPermission("changetile");
 			admin.AddPermission("god");
 			admin.AddPermission("item");
+			admin.AddPermission("forcepvp");
 			Group superAdmin = new Group("超级管理员")
 			{
 				ChatColor = Color.Cyan,

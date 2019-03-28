@@ -100,7 +100,7 @@ namespace ServerSideCharacter2
 		}
 
 
-
+	
 		public override void PostUpdate()
 		{
 			playerCounter++;
@@ -126,6 +126,11 @@ namespace ServerSideCharacter2
 				{
 					ServerPlayer winplayer = Main.player[damageSource.SourcePlayerIndex].GetServerPlayer();
 					ServerPlayer loseplayer = player.GetServerPlayer();
+					if (!loseplayer.IsLogin)
+					{
+						MessageSender.SendInfoMessage(winplayer.PrototypePlayer.whoAmI, "杀死没有登录的玩家不算分", Color.Yellow);
+						return;
+					}
 					var changes = Ranking.ComputeRank(winplayer, loseplayer);
 					winplayer.ChangeRank(changes.Item1);
 					loseplayer.ChangeRank(changes.Item2);

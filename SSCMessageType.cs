@@ -48,6 +48,7 @@
 		ErrorMessage,
 		InfoMessage,
 		SyncGroupInfoToClient,
+		ForcePVP
 	}
 
 	public enum GenerationType

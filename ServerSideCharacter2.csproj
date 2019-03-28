@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="Buffs\Locked.cs" />
     <Compile Include="Commands\GodCommand.cs" />
+    <Compile Include="Commands\ForcePVPCommand.cs" />
     <Compile Include="Commands\ItemCommand.cs" />
     <Compile Include="Commands\RankCommand.cs" />
     <Compile Include="Commands\TPCommand.cs" />
@@ -190,6 +191,7 @@
     <Compile Include="ServerPlayer.cs" />
     <Compile Include="ServerSideCharacter2.cs" />
     <Compile Include="Services\Misc\GodModeHandler.cs" />
+    <Compile Include="Services\Misc\ForcePVPHandler.cs" />
     <Compile Include="Services\Misc\ItemHandler.cs" />
     <Compile Include="Services\Misc\SyncGroupHandler.cs" />
     <Compile Include="Services\Misc\TPHandler.cs" />
