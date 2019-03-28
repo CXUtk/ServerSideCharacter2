@@ -22,7 +22,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 	public class UIPlayerProfileHead : UIElement
 	{
 		private UIText textName;
-		private UISimpleBar rankBar;
+		private UIBar rankBar;
 		private UIImageResizable rankimage;
 		private UIText rankLabel;
 
@@ -38,7 +38,12 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			textName.Left.Set(RANK_LEFT_OFFSET + 32, 0f);
 			Append(textName);
 
-			rankBar = new UISimpleBar();
+			rankBar = new UIBar();
+			rankBar.BarFrameTex = ServerSideCharacter2.ModTexturesTable["BarFrameRank"];
+			rankBar.BarFillTex = Main.magicPixel;
+			rankBar.BarFrameTexCornerSize = new Vector2(6, 6);
+			rankBar.FillerDrawOffset = new Vector2(6, 6);
+			rankBar.FillerSize = new Vector2(RANK_BAR_WIDTH - 12, RANK_BAR_HEIGHT - 12);
 			rankBar.Top.Set(20f, 0f);
 			rankBar.Left.Set(RANK_LEFT_OFFSET, 0f);
 			rankBar.Width.Set(RANK_BAR_WIDTH, 0f);

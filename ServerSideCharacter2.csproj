@@ -110,6 +110,7 @@
     <Compile Include="Buffs\Locked.cs" />
     <Compile Include="Commands\GodCommand.cs" />
     <Compile Include="Commands\ItemCommand.cs" />
+    <Compile Include="Commands\RankCommand.cs" />
     <Compile Include="Commands\TPCommand.cs" />
     <Compile Include="Commands\SummonCommand.cs" />
     <Compile Include="Commands\HardmodeCommand.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="GUI\UI\Component\ToggableElement.cs" />
     <Compile Include="GUI\UI\Component\UIAdvElement.cs" />
     <Compile Include="GUI\UI\Component\UIAdvList.cs" />
+    <Compile Include="GUI\UI\Component\UIBar.cs" />
     <Compile Include="GUI\UI\Component\UICDButton.cs" />
     <Compile Include="GUI\UI\Component\UIListView.cs" />
     <Compile Include="GUI\UI\Component\UISlider.cs" />

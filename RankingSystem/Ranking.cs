@@ -43,27 +43,27 @@ namespace ServerSideCharacter2.RankingSystem
 
 		public static RankType GetRankType(int score)
 		{
-			if(score > S_CHALLENGER)
+			if(score >= S_CHALLENGER)
 			{
 				return RankType.Challenger;
 			}
-			else if(score > S_MASTER)
+			else if(score >= S_MASTER)
 			{
 				return RankType.Master;
 			}
-			else if (score > S_DIAMOND)
+			else if (score >= S_DIAMOND)
 			{
 				return RankType.Diamond;
 			}
-			else if (score > S_PLATINUM)
+			else if (score >= S_PLATINUM)
 			{
 				return RankType.Platinum;
 			}
-			else if (score > S_GOLD)
+			else if (score >= S_GOLD)
 			{
 				return RankType.Gold;
 			}
-			else if (score > S_SILVER)
+			else if (score >= S_SILVER)
 			{
 				return RankType.Silver;
 			}
