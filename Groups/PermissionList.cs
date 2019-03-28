@@ -28,6 +28,7 @@ namespace ServerSideCharacter2.Groups
 			AddPermission(new Permission("changetile", "玩家可不可以改变物块"));
 			AddPermission(new Permission("god", "玩家可不可以进入无敌模式"));
 			AddPermission(new Permission("item", "玩家可不可以刷物品"));
+			AddPermission(new Permission("tpfriend", "玩家可不可以TP到朋友身边"));
 		}
 
 		public void AddPermission(Permission permission)

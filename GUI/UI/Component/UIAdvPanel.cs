@@ -13,6 +13,8 @@ namespace ServerSideCharacter2.GUI.UI.Component
 	public delegate void UIDrawEventHandler(UIElement sender, SpriteBatch sb);
 	public class UIAdvPanel : UIAdvElement
 	{
+		public event UIDrawEventHandler PostDraw;
+		
 		public Vector2 CornerSize
 		{
 			get;
@@ -49,6 +51,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
 			this.DrawPanel(spriteBatch, MainTexture, Color);
+			PostDraw?.Invoke(this, spriteBatch);
 			base.DrawSelf(spriteBatch);
 		}
 

@@ -25,19 +25,25 @@ namespace ServerSideCharacter2.GUI.UI
 		private List<UIFriendBar> uIFriendBars;
 		private UIAdvList _friendList;
 
-		private UIPanel _onlinePlayerPanel;
+		private UIAdvPanel _onlinePlayerPanel;
 		private UIButton refreshButton;
 		private UIButton changeSortModeButton;
+		private UIPlayerProfileHead uIPlayerProfileHead;
 
-		private const float WINDOW_WIDTH = 600;
+
+		private const float WINDOW_WIDTH = 720;
 		private const float WINDOW_HEIGHT = 480;
 		private const float FRIENDLIST_WIDTH = 320;
 		private const float FRIENDLIST_HEIGHT = 360;
-		private const float FRIENDLIST_OFFSET_RIGHT = 120;
+		private const float FRIENDLIST_OFFSET_RIGHT = 170;
+		private const float FRIENDLIST_OFFSET_TOP = 30;
 		private const float Y_OFFSET = 20;
 		private const float X_OFFSET = 20;
 		private const float BUTTON_WIDTH = 80;
 		private const float BUTTON_HEIGHT = 35;
+		private const float PLAYER_IMAGE_OFFSET_X = 64;
+		private const float PLAYER_IMAGE_OFFSET_Y = 82;
+
 
 
 		protected override void Initialize(UIAdvPanel WindowPanel)
@@ -50,22 +56,25 @@ namespace ServerSideCharacter2.GUI.UI
 			WindowPanel.Height.Set(WINDOW_HEIGHT, 0f);
 			WindowPanel.Color = Color.White * 0.8f;
 
-			_onlinePlayerPanel = new UIPanel();
-			_onlinePlayerPanel.Top.Set(-FRIENDLIST_HEIGHT / 2, 0.5f);
+			_onlinePlayerPanel = new UIAdvPanel(ServerSideCharacter2.ModTexturesTable["Box"]);
+			_onlinePlayerPanel.CornerSize = new Vector2(8, 8);
+			_onlinePlayerPanel.OverflowHidden = true;
+			_onlinePlayerPanel.SetPadding(10f);
+			_onlinePlayerPanel.Top.Set(-FRIENDLIST_HEIGHT / 2 + FRIENDLIST_OFFSET_TOP, 0.5f);
 			_onlinePlayerPanel.Left.Set(-FRIENDLIST_WIDTH / 2 + FRIENDLIST_OFFSET_RIGHT, 0.5f);
 			_onlinePlayerPanel.Width.Set(FRIENDLIST_WIDTH, 0f);
 			_onlinePlayerPanel.Height.Set(FRIENDLIST_HEIGHT, 0f);
 
 			UIText onlinelabel = new UIText("好友列表");
-			onlinelabel.Top.Set(-35, 0f);
+			onlinelabel.Top.Set(35 + FRIENDLIST_OFFSET_TOP, 0f);
 			Vector2 texSize = Main.fontMouseText.MeasureString(onlinelabel.Text);
-			onlinelabel.Left.Set(-texSize.X / 2, 0.5f);
-			_onlinePlayerPanel.Append(onlinelabel);
+			onlinelabel.Left.Set(-FRIENDLIST_WIDTH / 2 + FRIENDLIST_OFFSET_RIGHT, 0.5f);
+			WindowPanel.Append(onlinelabel);
 			WindowPanel.Append(_onlinePlayerPanel);
 
 			refreshButton = new UIButton(ServerSideCharacter2.ModTexturesTable["Refresh"], false);
-			refreshButton.Top.Set(-50, 1f);
-			refreshButton.Left.Set(FRIENDLIST_OFFSET_RIGHT - 35 / 2, 0.5f);
+			refreshButton.Top.Set(47f, 0f);
+			refreshButton.Left.Set(FRIENDLIST_OFFSET_RIGHT + FRIENDLIST_WIDTH / 2 - 35, 0.5f);
 			refreshButton.Width.Set(35, 0f);
 			refreshButton.Height.Set(35, 0f);
 			refreshButton.ButtonDefaultColor = new Color(200, 200, 200);
@@ -89,12 +98,27 @@ namespace ServerSideCharacter2.GUI.UI
 			uiscrollbar.HAlign = 1f;
 			_onlinePlayerPanel.Append(uiscrollbar);
 			_friendList.SetScrollbar(uiscrollbar);
+
+			uIPlayerProfileHead = new UIPlayerProfileHead();
+			uIPlayerProfileHead.Top.Set(PLAYER_IMAGE_OFFSET_Y, 0f);
+			uIPlayerProfileHead.Left.Set(PLAYER_IMAGE_OFFSET_X, 0f);
+			uIPlayerProfileHead.Width.Set(300, 0f);
+			uIPlayerProfileHead.Height.Set(60, 0f);
+			WindowPanel.Append(uIPlayerProfileHead);
+		}
+
+		public override void Draw(SpriteBatch spriteBatch)
+		{
+			base.Draw(spriteBatch);
+			
 		}
 
 		private void RefreshButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
 			RefreshFriends();
 		}
+
+		
 
 		public void RefreshFriends()
 		{
@@ -125,6 +149,7 @@ namespace ServerSideCharacter2.GUI.UI
 		public override void Update(GameTime gameTime)
 		{
 			base.Update(gameTime);
+			uIPlayerProfileHead.SetName(Main.LocalPlayer.name);
 			if (_relaxTimer > 0)
 			{
 				_relaxTimer--;
@@ -145,6 +170,7 @@ namespace ServerSideCharacter2.GUI.UI
 			uIFriendBars.Add(bar);
 			_friendList.Add(bar);
 		}
+
 
 
 		protected override void OnClose(UIMouseEvent evt, UIElement listeningElement)

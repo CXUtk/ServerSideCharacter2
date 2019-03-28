@@ -52,9 +52,11 @@ namespace ServerSideCharacter2.GUI.UI
 			WindowPanel.Height.Set(WINDOW_HEIGHT, 0f);
 			WindowPanel.Color = Color.White * 0.8f;
 
-			_onlinePlayerPanel = new UIAdvPanel(ServerSideCharacter2.ModTexturesTable["Box"]);
-			_onlinePlayerPanel.CornerSize = new Vector2(8, 8);
-			_onlinePlayerPanel.OverflowHidden = true;
+			_onlinePlayerPanel = new UIAdvPanel(ServerSideCharacter2.ModTexturesTable["Box"])
+			{
+				CornerSize = new Vector2(8, 8),
+				OverflowHidden = true
+			};
 			_onlinePlayerPanel.Top.Set(-FRIENDLIST_HEIGHT / 2 + FRIENDLIST_OFFSET_TOP, 0.5f);
 			_onlinePlayerPanel.Left.Set(-FRIENDLIST_WIDTH / 2 + FRIENDLIST_OFFSET_LEFT, 0.5f);
 			_onlinePlayerPanel.Width.Set(FRIENDLIST_WIDTH, 0f);
@@ -106,6 +108,7 @@ namespace ServerSideCharacter2.GUI.UI
 			uiscrollbar.HAlign = 1f;
 			_onlinePlayerPanel.Append(uiscrollbar);
 			_onlinePlayerList.SetScrollbar(uiscrollbar);
+
 		}
 
 		private void ChangeSortModeButton_OnClick(UIMouseEvent evt, UIElement listeningElement)

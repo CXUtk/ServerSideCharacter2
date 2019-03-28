@@ -166,8 +166,6 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 
 		public override void Click(UIMouseEvent evt)
 		{
-			Main.NewText(this.GetClippingRectangle(Main.spriteBatch));
-
 			_expanded ^= true;
 			if (_expanded)
 			{

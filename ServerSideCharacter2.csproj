@@ -92,6 +92,7 @@
     <Content Include="Graphics\Box.png" />
     <Content Include="Graphics\Box2.png" />
     <Content Include="Graphics\CloseButton.png" />
+    <Content Include="Graphics\Crown.png" />
     <Content Include="Items\RegionItem.png" />
     <Content Include="Items\FailedItem.png" />
     <Content Include="Libraries\Microsoft.Xna.Framework.dll" />
@@ -127,6 +128,7 @@
     <Compile Include="GUI\UI\Component\Special\UIFriendBar.cs" />
     <Compile Include="GUI\UI\Component\Special\UINormalPlayerBar.cs" />
     <Compile Include="GUI\UI\Component\Special\UIPlayerInfo.cs" />
+    <Compile Include="GUI\UI\Component\Special\UIPlayerProfileHead.cs" />
     <Compile Include="GUI\UI\Component\ToggableElement.cs" />
     <Compile Include="GUI\UI\Component\UIAdvElement.cs" />
     <Compile Include="GUI\UI\Component\UIAdvList.cs" />
@@ -149,7 +151,7 @@
     <Compile Include="GUI\UI\Component\Drawing.cs" />
     <Compile Include="GUI\UI\Component\UIAdvPanel.cs" />
     <Compile Include="GUI\UI\Component\UIAdvText.cs" />
-    <Compile Include="GUI\UI\Component\UIBar.cs" />
+    <Compile Include="GUI\UI\Component\UISimpleBar.cs" />
     <Compile Include="GUI\UI\Component\UIButton.cs" />
     <Compile Include="GUI\UI\Component\UIFixedImage.cs" />
     <Compile Include="GUI\UI\Component\UIPicButton.cs" />

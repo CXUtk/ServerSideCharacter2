@@ -34,8 +34,12 @@ namespace ServerSideCharacter2.GUI.UI.Component
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
+			spriteBatch.End();
+			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
 			CalculatedStyle dimensions = base.GetDimensions();
 			spriteBatch.Draw(this._texture, dimensions.Position(), null, Color.White, 0f, Vector2.Zero, this.ImageScale, SpriteEffects.None, 0f);
+			spriteBatch.End();
+			spriteBatch.Begin();
 		}
 	}
 }
