@@ -62,6 +62,7 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.TPCommand, new TPHandler() },
 				{SSCMessageType.TeleportPalyer, new TPPlayerHandler() },
 				{SSCMessageType.RequestItem, new ItemHandler() },
+				{SSCMessageType.SyncGroupInfoToClient, new SyncGroupHandler() },
 			};
 		}
 	}

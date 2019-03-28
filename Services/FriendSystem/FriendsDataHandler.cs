@@ -14,7 +14,7 @@ namespace ServerSideCharacter2.Services.FriendSystem
 	{
 		public void Handle(BinaryReader reader, int playerNumber)
 		{
-			// 服务器端
+			// 客户端
 			if (Main.netMode == 1)
 			{
 				var data = reader.ReadString();
@@ -22,7 +22,14 @@ namespace ServerSideCharacter2.Services.FriendSystem
 				// Utils.CommandBoardcast.ShowInWorldTest(data);
 				foreach (var info in friendsdata.Player)
 				{
-					ServerSideCharacter2.GuiManager.AppendFriends(info);
+					if (info.PlayerID != Main.myPlayer)
+					{
+						ServerSideCharacter2.GuiManager.AppendFriends(info);
+					}
+					else
+					{
+						ServerSideCharacter2.GuiManager.SetPlayerProfile(info);
+					}
 				}
 			}
 		}

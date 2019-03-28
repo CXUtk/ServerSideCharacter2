@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Terraria;
 
 namespace ServerSideCharacter2.Groups
 {
@@ -24,8 +25,11 @@ namespace ServerSideCharacter2.Groups
 		public bool HasPermission(string name)
 		{
 			if (IsSuperAdmin) return true;
-			Permission perm = ServerSideCharacter2.GroupManager.PermissionList.GetPermission(name);
-			if (perm == null) return false;
+			if (Main.netMode == 2)
+			{
+				Permission perm = ServerSideCharacter2.GroupManager.PermissionList.GetPermission(name);
+				if (perm == null) return false;
+			}
 			return permissions.Contains(name);
 		}
 

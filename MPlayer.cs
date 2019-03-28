@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using ServerSideCharacter2.Utils;
 using System;
+using ServerSideCharacter2.RankingSystem;
 
 namespace ServerSideCharacter2
 {
@@ -20,12 +21,18 @@ namespace ServerSideCharacter2
 		public int LastInteractionPVP = -1;
 
 
-
+		public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
+		{
+			ModPacket pack = ServerSideCharacter2.Instance.GetPacket();
+			pack.Write((int)SSCMessageType.SetGodMode);
+			pack.Write((byte)player.whoAmI);
+			pack.Write(GodMode);
+			pack.Send(toWho, fromWho);
+		}
 		public override void ResetEffects()
 		{
 			Locked = false;
 		}
-
 
 		public override void SetControls()
 		{
@@ -113,16 +120,27 @@ namespace ServerSideCharacter2
 
 		public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
 		{
-			if(Main.netMode == 1)
+			if (Main.netMode == 2)
 			{
-				Main.NewText("客户端玩家死亡");
+				if (pvp && damageSource.SourcePlayerIndex != -1)
+				{
+					ServerPlayer winplayer = Main.player[damageSource.SourcePlayerIndex].GetServerPlayer();
+					ServerPlayer loseplayer = player.GetServerPlayer();
+					var changes = Ranking.ComputeRank(winplayer, loseplayer);
+					winplayer.ChangeRank(changes.Item1);
+					loseplayer.ChangeRank(changes.Item2);
+
+					string winmsg = $"你击杀了 {loseplayer.Name} 并且获得 {changes.Item1} 点积分";
+					MessageSender.SendInfoMessage(winplayer.PrototypePlayer.whoAmI, winmsg, Color.LimeGreen);
+
+					string losemsg = $"你被 {winplayer.Name} 击杀了，为此你的积分降低了 {-changes.Item2}";
+					MessageSender.SendInfoMessage(loseplayer.PrototypePlayer.whoAmI, losemsg, Color.OrangeRed);
+
+					string servermsg = $"玩家 {winplayer.Name} (+{changes.Item1}) 击杀了 {loseplayer.Name} ((-{changes.Item2}))\n" +
+						$"双方的排位积分分别为 {winplayer.Rank} 和 {loseplayer.Rank}";
+					CommandBoardcast.ConsoleMessage(servermsg);
+				}
 			}
-			else if(Main.netMode == 2)
-			{
-				CommandBoardcast.ConsoleNormalText("服务器端玩家死亡");
-			}
-			Main.NewText(damageSource.SourcePlayerIndex);
-			base.Kill(damage, hitDirection, pvp, damageSource);
 		}
 
 		public override void ModifyDrawLayers(List<PlayerLayer> layers)

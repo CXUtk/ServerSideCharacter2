@@ -46,6 +46,8 @@ namespace ServerSideCharacter2.Commands
 				try
 				{
 					player.SetGroup(args[1]);
+					player.SyncGroupInfo();
+					player.SendInfoMessage($"你已经被系统设置为权限组 {args[1]}");
 					CommandBoardcast.ConsoleMessage("成功设置玩家" + player.Name + "为组" + args[1]);
 				}
 				catch (Exception ex)

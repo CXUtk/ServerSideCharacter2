@@ -11,6 +11,7 @@ using ServerSideCharacter2.Core;
 using System.Collections.Generic;
 using ServerSideCharacter2.Groups;
 using ServerSideCharacter2.Unions;
+using ServerSideCharacter2.RankingSystem;
 
 namespace ServerSideCharacter2
 {
@@ -156,6 +157,22 @@ namespace ServerSideCharacter2
 			}
 		}
 
+		public int Rank
+		{
+			get
+			{
+				return _info.Rank;
+			}
+		}
+
+
+		public int KillCount
+		{
+			get
+			{
+				return _info.KillCount;
+			}
+		}
 
 		public bool RealPlayer
 		{
@@ -289,8 +306,11 @@ namespace ServerSideCharacter2
 
 		public void SendErrorInfo(string msg)
 		{
-			NetMessage.SendChatMessageToClient(NetworkText.FromLiteral(msg), 
-				new Color(255, 20, 20, 0), PrototypePlayer.whoAmI);
+			if (RealPlayer && ConnectionAlive)
+			{
+				NetMessage.SendChatMessageToClient(NetworkText.FromLiteral(msg),
+					new Color(255, 20, 20, 0), PrototypePlayer.whoAmI);
+			}
 		}
 
 		public void SyncPlayerFromInfo()
@@ -356,6 +376,7 @@ namespace ServerSideCharacter2
 				{
 					item.SetDefaults(0);
 				}
+				SyncGroupInfo();
 				//bank2.item.CopyTo(PrototypePlayer.bank2.item, 0);
 				//bank3.item.CopyTo(PrototypePlayer.bank3.item, 0);
 			}
@@ -404,7 +425,10 @@ namespace ServerSideCharacter2
 
 		public void SendInfoMessage(string msg)
 		{
-			MessageSender.SendInfoMessage(playerID, msg, Color.Yellow);
+			if (RealPlayer && ConnectionAlive)
+			{
+				MessageSender.SendInfoMessage(playerID, msg, Color.Yellow);
+			}
 		}
 
 		public static void SendInfoMessageToAll(string msg)
@@ -425,7 +449,9 @@ namespace ServerSideCharacter2
 				ChatColor = Group.ChatColor,
 				ChatPrefix = Group.ChatPrefix,
 				GroupName = Group.GroupName,
-				IsFriend = isFriend
+				IsFriend = isFriend,
+				Rank = this.Rank,
+				KillCount = this.KillCount,
 			};
 		}
 
@@ -440,5 +466,25 @@ namespace ServerSideCharacter2
 			}
 		}
 
+
+		public void ChangeRank(int rank)
+		{
+			var type = Ranking.GetRankType(_info.Rank);
+			var range = Ranking.GetRankRange(type);
+			if(_info.Rank + rank < 0)
+			{
+				_info.Rank = 0;
+				return;
+			}
+			if(_info.Rank + rank < range.Item1)
+			{
+				SendInfoMessage($"很遗憾，你的段位由 {Ranking.GetName(type)} 掉到了 {Ranking.GetName(Ranking.GetRankType(_info.Rank + rank))}");
+			}
+			else if(_info.Rank + rank > range.Item2)
+			{
+				SendInfoMessage($"恭喜，你从 {Ranking.GetName(type)} 晋级到了 {Ranking.GetName(Ranking.GetRankType(_info.Rank + rank))}");
+			}
+			_info.Rank += rank;
+		}
 	}
 }

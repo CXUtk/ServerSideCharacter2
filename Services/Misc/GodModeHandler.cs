@@ -30,6 +30,7 @@ namespace ServerSideCharacter2.Services.Misc
 
 				ModPacket pack = ServerSideCharacter2.Instance.GetPacket();
 				pack.Write((int)SSCMessageType.SetGodMode);
+				pack.Write((byte)playerNumber);
 				pack.Write(mPlayer.GodMode);
 				pack.Send(playerNumber);
 
@@ -43,11 +44,9 @@ namespace ServerSideCharacter2.Services.Misc
 	{
 		public void Handle(BinaryReader reader, int playerNumber)
 		{
-			if(Main.netMode == 1)
-			{
-				MPlayer mPlayer = Main.LocalPlayer.GetModPlayer<MPlayer>();
-				mPlayer.GodMode = reader.ReadBoolean();
-			}
+			int plr = reader.ReadByte();
+			MPlayer mPlayer = Main.player[plr].GetModPlayer<MPlayer>();
+			mPlayer.GodMode = reader.ReadBoolean();
 		}
 
 	}

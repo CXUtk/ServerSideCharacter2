@@ -13,6 +13,7 @@ namespace ServerSideCharacter2.RankingSystem
 		Platinum,
 		Diamond,
 		Master,
-		Challenger
+		Challenger,
+		Crown
 	}
 }

@@ -118,6 +118,11 @@ namespace ServerSideCharacter2.GUI.UI
 			RefreshFriends();
 		}
 
+		public void SetProfile(JsonData.SimplifiedPlayerInfo info)
+		{
+			uIPlayerProfileHead.SetPlayer(info);
+		}
+
 		
 
 		public void RefreshFriends()

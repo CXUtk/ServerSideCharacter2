@@ -29,6 +29,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		private const float RANK_BAR_WIDTH = 192;
 		private const float RANK_BAR_HEIGHT = 18;
 		private const float RANK_LEFT_OFFSET = 60;
+		private Vector2 center;
 
 		public UIPlayerProfileHead()
 		{
@@ -47,8 +48,10 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 
 
 			rankimage = new UIImageResizable(ServerSideCharacter2.ModTexturesTable["Crown"]);
-			rankimage.Top.Set(-12, 0f);
+			rankimage.Top.Set(-10, 0f);
 			rankimage.Left.Set(RANK_LEFT_OFFSET, 0f);
+			rankimage.UsePosition = false;
+			center = new Vector2(RANK_LEFT_OFFSET + 16f, 6);
 			Append(rankimage);
 
 			rankLabel = new UIText("300/1000");
@@ -73,6 +76,11 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 
 			var percent = (info.Rank - range.Item1) / (float)(range.Item2 - range.Item1);
 			rankBar.Value = percent;
+
+			rankimage.SetImage(ServerSideCharacter2.ModTexturesTable[type.ToString()]);
+			rankimage.Left.Set(center.X - rankimage.Width.Pixels / 2, 0);
+			rankimage.Top.Set(center.Y - rankimage.Height.Pixels / 2, 0);
+			rankimage.Tooltip = Ranking.GetName(type);
 		}
 	}
 }

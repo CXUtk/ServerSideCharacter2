@@ -150,6 +150,11 @@ namespace ServerSideCharacter2.GUI
 		}
 
 
+		public void SetPlayerProfile(JsonData.SimplifiedPlayerInfo info)
+		{
+			_homePageState.SetProfile(info);
+		}
+
 
 		internal bool IsActive(SSCUIState state)
 		{
@@ -167,7 +172,14 @@ namespace ServerSideCharacter2.GUI
 
 		internal void CheckGroup()
 		{
-			throw new NotImplementedException();
+			if (_canShowUITable[SSCUIState.PlayerOnlineWindow])
+			{
+				RefreshOnlinePlayers();
+			}
+			if (_canShowUITable[SSCUIState.HomePage])
+			{
+				RefreshFriends();
+			}
 		}
 	}
 }
