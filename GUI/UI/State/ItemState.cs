@@ -153,8 +153,10 @@ namespace ServerSideCharacter2.GUI.UI
 
 		private void _searchTextBox_OnTextChange(string oldString, string curString)
 		{
-			if(curString == "")
+			curString = curString.Trim(' ');
+			if (curString == "")
 			{
+				_itemGrid.Clear();
 				_itemGrid.AddRange(uISlots);
 				return;
 			}

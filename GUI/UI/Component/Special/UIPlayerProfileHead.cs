@@ -25,11 +25,13 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		private UIBar rankBar;
 		private UIImageResizable rankimage;
 		private UIText rankLabel;
+		private UIList infoList;
 
 		private const float RANK_BAR_WIDTH = 192;
 		private const float RANK_BAR_HEIGHT = 18;
 		private const float RANK_LEFT_OFFSET = 60;
 		private Vector2 center;
+		private SimplifiedPlayerInfo _info;
 
 		public UIPlayerProfileHead()
 		{
@@ -63,17 +65,37 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			rankLabel.Top.Set(20 + RANK_BAR_HEIGHT + 2f, 0f);
 			rankLabel.Left.Set(RANK_LEFT_OFFSET, 0f);
 			Append(rankLabel);
+
+			var infopanel = new UIPanel();
+			infopanel.Top.Set(20 + RANK_BAR_HEIGHT + 30f, 0f);
+			infopanel.Left.Set(0f, 0f);
+			infopanel.Width.Set(260, 0f);
+			infopanel.Height.Set(340, 0f);
+			infopanel.SetPadding(10f);
+
+			infoList = new UIList();
+			infoList.ListPadding = 5f;
+			infoList.Width.Set(0f, 1f);
+			infoList.Height.Set(0f, 1f);
+			infopanel.Append(infoList);
+			Append(infopanel);
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)
 		{
 			base.Draw(spriteBatch);
-			Main.instance.DrawPlayer(Main.LocalPlayer,
+			var player = Main.player[_info.PlayerID];
+			Item item = player.inventory[player.selectedItem];
+			player.inventory[player.selectedItem] = new Item();
+			Main.instance.DrawPlayer(player,
 				GetDimensions().Position() + new Vector2(2, 2) + Main.screenPosition, 0f, Vector2.Zero, 0f);
+			player.inventory[player.selectedItem] = item;
 		}
 
 		public void SetPlayer(SimplifiedPlayerInfo info)
 		{
+			_info = info;
+			infoList.Clear();
 			textName.SetText(info.Name);
 			var type = Ranking.GetRankType(info.Rank);
 			var range = Ranking.GetRankRange(type);
@@ -86,6 +108,12 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			rankimage.Left.Set(center.X - rankimage.Width.Pixels / 2, 0);
 			rankimage.Top.Set(center.Y - rankimage.Height.Pixels / 2, 0);
 			rankimage.Tooltip = Ranking.GetName(type);
+
+			UIText killcountText = new UIText($"击杀数：{_info.KillCount}");
+			infoList.Add(killcountText);
+
+			UIText grouptext = new UIText($"权限组：{_info.ChatPrefix}");
+			infoList.Add(grouptext);
 		}
 	}
 }

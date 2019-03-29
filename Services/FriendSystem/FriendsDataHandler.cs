@@ -28,7 +28,7 @@ namespace ServerSideCharacter2.Services.FriendSystem
 					}
 					else
 					{
-						ServerSideCharacter2.GuiManager.SetPlayerProfile(info);
+						ServerSideCharacter2.GuiManager.SetMyPlayerProfile(info);
 					}
 				}
 			}

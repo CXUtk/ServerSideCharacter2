@@ -161,7 +161,9 @@ namespace ServerSideCharacter2.GUI.UI
 					Name = Main.LocalPlayer.name,
 					IsFriend = true,
 					IsLogin = true,
-					Rank = 1500
+					Rank = 1500,
+					KillCount = 50,
+					ChatPrefix = "公民"
 				};
 				uIPlayerProfileHead.SetPlayer(info);
 			}

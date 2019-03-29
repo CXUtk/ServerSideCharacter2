@@ -19,7 +19,8 @@ namespace ServerSideCharacter2.GUI
 		PlayerOnlineWindow,
 		HomePage,
 		UnionPage,
-		ItemPage
+		ItemPage,
+		ProfilePage
 	}
 	public class GUIManager
 	{
@@ -30,6 +31,7 @@ namespace ServerSideCharacter2.GUI
 		private HomePageState _homePageState;
 		private UnionPageState _unionPageState;
 		private ItemState _getitemState;
+		private PlayerProfileState _playerProfileState;
 
 		private UserInterface _toolBarInterface;
 		private CDInterfaceManager _cdInterface;
@@ -86,6 +88,11 @@ namespace ServerSideCharacter2.GUI
 			ConditionalInterface itempage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.ItemPage]; });
 			itempage.SetState(_getitemState);
 			_cdInterface.Add(itempage);
+
+			_playerProfileState = new PlayerProfileState();
+			ConditionalInterface profileinterface = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.ProfilePage]; });
+			profileinterface.SetState(_playerProfileState);
+			_cdInterface.Add(profileinterface);
 		}
 		
 
@@ -159,7 +166,7 @@ namespace ServerSideCharacter2.GUI
 		}
 
 
-		public void SetPlayerProfile(JsonData.SimplifiedPlayerInfo info)
+		public void SetMyPlayerProfile(JsonData.SimplifiedPlayerInfo info)
 		{
 			_homePageState.SetProfile(info);
 		}
@@ -170,6 +177,17 @@ namespace ServerSideCharacter2.GUI
 			if (!_canShowUITable.ContainsKey(state)) throw new ArgumentException("不存在此UI状态");
 			return _canShowUITable[state];
 		}
+
+		public void OpenProfile(JsonData.SimplifiedPlayerInfo info)
+		{
+			if (!_canShowUITable[SSCUIState.ProfilePage])
+			{
+				_canShowUITable[SSCUIState.ProfilePage] = true;
+			}
+			_playerProfileState.SetProfile(info);
+		}
+
+
 
 		internal void TurnOffAll()
 		{

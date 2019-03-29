@@ -70,6 +70,8 @@ namespace ServerSideCharacter2.GUI.UI.Component
 
 		public override void Update(GameTime gameTime)
 		{
+			if (Value < 0) Value = 0;
+			else if (Value > 1) Value = 1;
 			base.Update(gameTime);
 		}
 

@@ -85,20 +85,19 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 
 		protected virtual void AddExtraButtons(List<UICDButton> buttons)
 		{
-			if (Main.netMode == 0)
-			{
-				var profilebutton = new UICDButton(null, true);
-				profilebutton.Width.Set(70f, 0f);
-				profilebutton.Height.Set(38f, 0f);
-				profilebutton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
-				profilebutton.ButtonDefaultColor = new Color(200, 200, 200);
-				profilebutton.ButtonChangeColor = Color.White;
-				profilebutton.CornerSize = new Vector2(12, 12);
-				profilebutton.ButtonText = "资料";
-				profilebutton.OnClick += Profilebutton_OnClick;
-				buttons.Add(profilebutton);
-			}
-			
+
+			var profilebutton = new UICDButton(null, true);
+			profilebutton.Width.Set(70f, 0f);
+			profilebutton.Height.Set(38f, 0f);
+			profilebutton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
+			profilebutton.ButtonDefaultColor = new Color(200, 200, 200);
+			profilebutton.ButtonChangeColor = Color.White;
+			profilebutton.CornerSize = new Vector2(12, 12);
+			profilebutton.ButtonText = "资料";
+			profilebutton.OnClick += Profilebutton_OnClick;
+			buttons.Add(profilebutton);
+
+
 
 			if (Main.netMode == 0 || ServerSideCharacter2.MainPlayerGroup.HasPermission("tp"))
 			{
@@ -115,9 +114,11 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			}
 		}
 
+
+
 		private void Profilebutton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
-			ServerSideCharacter2.Instance.ShowMessage("没有实现这个功能", 120, Color.White);
+			ServerSideCharacter2.GuiManager.OpenProfile(playerInfo);
 		}
 
 		private void SetUpExtraButtons()

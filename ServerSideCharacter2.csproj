@@ -139,6 +139,7 @@
     <Compile Include="GUI\UI\Component\UIBar.cs" />
     <Compile Include="GUI\UI\Component\UICDButton.cs" />
     <Compile Include="GUI\UI\Component\UISlider.cs" />
+    <Compile Include="GUI\UI\State\PlayerProfileState.cs" />
     <Compile Include="GUI\UI\State\ItemState.cs" />
     <Compile Include="GUI\UI\State\UnionPageState.cs" />
     <Compile Include="GUI\UI\State\HomePageState.cs" />

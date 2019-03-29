@@ -123,6 +123,7 @@ namespace ServerSideCharacter2
 						MessageSender.SendInfoMessage(winplayer.PrototypePlayer.whoAmI, "杀死没有登录的玩家不算分", Color.Yellow);
 						return;
 					}
+					winplayer.KillCount++;
 					var changes = Ranking.ComputeRank(winplayer, loseplayer);
 					winplayer.ChangeRank(changes.Item1);
 					loseplayer.ChangeRank(changes.Item2);

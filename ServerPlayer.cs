@@ -172,6 +172,10 @@ namespace ServerSideCharacter2
 			{
 				return _info.KillCount;
 			}
+			set
+			{
+				_info.KillCount = value;
+			}
 		}
 
 		public bool RealPlayer
@@ -310,6 +314,14 @@ namespace ServerSideCharacter2
 			{
 				NetMessage.SendChatMessageToClient(NetworkText.FromLiteral(msg),
 					new Color(255, 20, 20, 0), PrototypePlayer.whoAmI);
+			}
+		}
+
+		public void SendMessageBox(string msg, Color c)
+		{
+			if (RealPlayer && ConnectionAlive)
+			{
+				MessageSender.SendInfoMessage(playerID, msg, c);
 			}
 		}
 
@@ -482,6 +494,7 @@ namespace ServerSideCharacter2
 			}
 			else if(_info.Rank + rank > range.Item2)
 			{
+				Projectile.NewProjectile(PrototypePlayer.Center, new Vector2(0, -5f), ProjectileID.RocketFireworkRed, 100, 10, playerID);
 				SendInfoMessage($"恭喜，你从 {Ranking.GetName(type)} 晋级到了 {Ranking.GetName(Ranking.GetRankType(_info.Rank + rank))}");
 			}
 			_info.Rank += rank;
