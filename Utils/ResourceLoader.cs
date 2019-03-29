@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ServerSideCharacter2.GUI.UI.Component;
 using System;
 using System.Collections.Generic;
 using System.Linq;

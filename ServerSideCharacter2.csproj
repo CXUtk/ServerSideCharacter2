@@ -228,9 +228,9 @@
     <Compile Include="Unions\UnionManager.cs" />
     <Compile Include="Utils\CommandBoardcast.cs" />
     <Compile Include="Utils\ConfigLoader.cs" />
-    <Compile Include="Utils\Drawing.cs" />
     <Compile Include="Utils\GameLanguage.cs" />
     <Compile Include="Core\PlayerCollection.cs" />
+    <Compile Include="Utils\KMP.cs" />
     <Compile Include="Utils\MethodSwapper.cs" />
     <Compile Include="Utils\ResourceLoader.cs" />
     <Compile Include="Utils\ServerUtils.cs" />

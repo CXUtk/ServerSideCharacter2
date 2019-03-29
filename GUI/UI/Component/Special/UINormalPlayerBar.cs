@@ -193,32 +193,6 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			
 		}
 
-		public Rectangle GetRectIntersections(Rectangle r1, Rectangle r2)
-		{
-			int xmin = Math.Max(r1.X, r2.X);
-			int xmax1 = r1.X + r1.Width;
-			int xmax2 = r2.X + r2.Width;
-			int xmax = Math.Min(xmax1, xmax2);
-			if (xmax > xmin)
-			{
-				int ymin = Math.Max(r1.Y, r2.Y);
-				int ymax1 = r1.Y + r1.Height;
-				int ymax2 = r2.Y + r2.Height;
-				int ymax = Math.Min(ymax1, ymax2);
-				if (ymax > ymin)
-				{
-					Rectangle outrect = new Rectangle
-					{
-						X = xmin,
-						Y = ymin,
-						Width = xmax - xmin,
-						Height = ymax - ymin
-					};
-					return outrect;
-				}
-			}
-			return new Rectangle(0, 0, -1, -1);
-		}
 
 		//public override void Draw(SpriteBatch spriteBatch)
 		//{

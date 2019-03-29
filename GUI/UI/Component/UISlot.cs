@@ -8,28 +8,29 @@
 //using Terraria.ModLoader;
 //using Terraria.UI;
 //using ReLogic.Graphics;
+//using ServerSideCharacter2.Utils;
 
-//namespace MusicBox.UI
+//namespace ServerSideCharacter2.GUI.UI.Component
 //{
 //	public delegate bool CheckPutSlotCondition(Item mouseItem);
 //	public delegate void ExchangeItemHandler(UIElement target);
 
 //	public class UISlot : UIElement
-//    {
+//	{
 //		public Texture2D SlotBackTexture { get; set; }
 //		public CheckPutSlotCondition CanPutInSlot { get; set; }
 //		public CheckPutSlotCondition CanTakeOutSlot { get; set; }
-//		public Item ContainedItem { get; set; }
+//		public int ItemType { get; set; }
 //		public Vector2 CornerSize { get; set; }
 //		public Color DrawColor { get; set; }
 //		public string Tooltip { get; set; }
 //		public event ExchangeItemHandler PostExchangeItem;
 
-//		public UISlot(Texture2D texture = default(Texture2D))
-//        {
+//		public UISlot()
+//		{
 //			ContainedItem = new Item();
 //			CanPutInSlot = null;
-//			SlotBackTexture = texture == default(Texture2D) ? Drawing.Box1 : texture;
+//			SlotBackTexture = ServerSideCharacter2.ModTexturesTable["Box"];
 //			DrawColor = Drawing.DefaultBoxColor * 0.75f;
 //			CornerSize = new Vector2(10, 10);
 //			Tooltip = "";
@@ -37,67 +38,59 @@
 
 //		public override void Click(UIMouseEvent evt)
 //		{
-//            if (Main.mouseItem.type == 0 && ContainedItem.type != 0)
-//            {
-//                if (CanTakeOutSlot == null || CanTakeOutSlot(ContainedItem))
-//                {
-//					if (ContainedItem.GetGlobalItem<FSItem>().ScrollData != null && ModHelper.LocalModPlayer.EquippedScrolls.Contains(ContainedItem.GetGlobalItem<FSItem>().ScrollData))
-//						ContainedItem.GetGlobalItem<FSItem>().ScrollData.UnEquipe(Main.LocalPlayer);
-//					Main.mouseItem = ContainedItem.Clone();
-//                    ContainedItem = new Item();
-//                    ContainedItem.SetDefaults(0, true);
-//                }
-//            }
-//            else if (Main.mouseItem.type != 0 && ContainedItem.type == 0)
-//            {
-//                if (CanPutInSlot == null || CanPutInSlot(Main.mouseItem))
-//                {
-//                    ContainedItem = Main.mouseItem.Clone();
-//                    Main.mouseItem = new Item();
-//                    Main.mouseItem.SetDefaults(0, true);
-//                }
-//            }
-//            else if (Main.mouseItem.type != 0 && ContainedItem.type != 0)
-//            {
-//                if (Main.mouseItem.type == ContainedItem.type)
-//                {
-//                    ContainedItem.stack += Main.mouseItem.stack;
-//					if(ContainedItem.stack > ContainedItem.maxStack)
-//					{
-//						int exceed = ContainedItem.stack - ContainedItem.maxStack;
-//						ContainedItem.stack = ContainedItem.maxStack;
-//						Main.mouseItem.stack = exceed;
-//					}
-//					else
-//					{
-//						Main.mouseItem = new Item();
-//					}
-//                }
-//                else if ((CanPutInSlot == null || CanPutInSlot(Main.mouseItem))
-//                    && (CanTakeOutSlot == null || CanTakeOutSlot(ContainedItem)))
-//                {
-//                    Item tmp = Main.mouseItem.Clone();
-//                    Main.mouseItem = ContainedItem;
-//                    ContainedItem = tmp;
-//                }
-//            }
-//            else
-//				return;
-//            Main.PlaySound(7, -1, -1, 1, 1f, 0.0f);
-//            if (PostExchangeItem != null)
-//            {
-//                PostExchangeItem(this);
-//            }
-//		}
-
-
-//		public override void Update(GameTime gameTime)
-//		{
-//			if(Tooltip != "" && ContainsPoint(Main.MouseScreen) && ContainedItem.type == 0)
+//			base.Click(evt);
+//			if(Main.mouseItem.type != 0)
 //			{
-//				MusicBox.ShowTooltip = Tooltip;
+//				return;
 //			}
+//			Main.PlaySound(7, -1, -1, 1, 1f, 0.0f);
+//			Main.mouseItem = new Item();
+//			Main.mouseItem.SetDefaults(ContainedItem.type, true);
+//			//if (Main.mouseItem.type == 0 && ContainedItem.type != 0)
+//			//{
+//			//	Main.mouseItem = ContainedItem.Clone();
+//			//	ContainedItem = new Item();
+//			//	ContainedItem.SetDefaults(0, true);
+//			//}
+//			//else if (Main.mouseItem.type != 0 && ContainedItem.type == 0)
+//			//{
+//			//	ContainedItem = Main.mouseItem.Clone();
+//			//	Main.mouseItem = new Item();
+//			//	Main.mouseItem.SetDefaults(0, true);
+//			//}
+//			//else if (Main.mouseItem.type != 0 && ContainedItem.type != 0)
+//			//{
+//			//	if (Main.mouseItem.type == ContainedItem.type)
+//			//	{
+//			//		ContainedItem.stack += Main.mouseItem.stack;
+//			//		if (ContainedItem.stack > ContainedItem.maxStack)
+//			//		{
+//			//			int exceed = ContainedItem.stack - ContainedItem.maxStack;
+//			//			ContainedItem.stack = ContainedItem.maxStack;
+//			//			Main.mouseItem.stack = exceed;
+//			//		}
+//			//		else
+//			//		{
+//			//			Main.mouseItem = new Item();
+//			//		}
+//			//	}
+//			//	else if ((CanPutInSlot == null || CanPutInSlot(Main.mouseItem))
+//			//		&& (CanTakeOutSlot == null || CanTakeOutSlot(ContainedItem)))
+//			//	{
+//			//		Item tmp = Main.mouseItem.Clone();
+//			//		Main.mouseItem = ContainedItem;
+//			//		ContainedItem = tmp;
+//			//	}
+//			//}
+//			//else
+//			//	return;
+
+//			//if (PostExchangeItem != null)
+//			//{
+//			//	PostExchangeItem(this);
+//			//}
 //		}
+
 
 //		protected override void DrawSelf(SpriteBatch sb)
 //		{
@@ -121,7 +114,7 @@
 //					texScale = 0.7f / texScale;
 //					size *= texScale;
 //				}
-//                sb.Draw(Main.itemTexture[ContainedItem.type], new Vector2(DrawRectangle.X + DrawRectangle.Width / 2 - (size.X) / 2,
+//				sb.Draw(Main.itemTexture[ContainedItem.type], new Vector2(DrawRectangle.X + DrawRectangle.Width / 2 - (size.X) / 2,
 //					DrawRectangle.Y + DrawRectangle.Height / 2 - (size.Y) / 2), new Rectangle?(frame), Color.White, 0, Vector2.Zero, texScale, 0, 0);
 //				if (ContainedItem.stack > 1)
 //				{
@@ -129,5 +122,5 @@
 //				}
 //			}
 //		}
-//    }
+//	}
 //}

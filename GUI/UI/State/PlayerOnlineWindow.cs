@@ -193,7 +193,7 @@ namespace ServerSideCharacter2.GUI.UI
 		public override void Update(GameTime gameTime)
 		{
 			base.Update(gameTime);
-			if(_relaxTimer > 0)
+			if (_relaxTimer > 0)
 			{
 				_relaxTimer--;
 				_rotation += 0.1f;

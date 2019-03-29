@@ -95,7 +95,7 @@ namespace ServerSideCharacter2.GUI.UI
 		{
 			_services.Clear();
 			SetUpDefault();
-			if (Main.netMode == 0 || ServerSideCharacter2.MainPlayerGroup.HasPermission("item"))
+			if (ServerSideCharacter2.MainPlayerGroup.HasPermission("item"))
 			{
 				Add(new Services.Misc.ItemServices());
 			}

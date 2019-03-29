@@ -34,6 +34,7 @@ namespace ServerSideCharacter2.GUI
 		private UserInterface _toolBarInterface;
 		private CDInterfaceManager _cdInterface;
 		private MessageDisplayer _messageDisplayer;
+		private ToolBarState _toolBarState;
 
 		private Dictionary<SSCUIState, bool> _canShowUITable = new Dictionary<SSCUIState, bool>();
 	
@@ -45,7 +46,8 @@ namespace ServerSideCharacter2.GUI
 			_messageDisplayer = new MessageDisplayer();
 
 			_toolBarInterface = new UserInterface();
-			_toolBarInterface.SetState(new ToolBarState());
+			_toolBarState = new ToolBarState();
+			_toolBarInterface.SetState(_toolBarState);
 
 			foreach (var type in typeof(SSCUIState).GetEnumValues())
 			{
@@ -187,6 +189,9 @@ namespace ServerSideCharacter2.GUI
 			{
 				RefreshFriends();
 			}
+			ServerSideCharacter2.ToolBarServiceManager.ResetDefault();
+			_toolBarState.SetUpButtons();
+			_toolBarState.ShowButtons();
 		}
 	}
 }

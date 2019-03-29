@@ -49,7 +49,7 @@ namespace ServerSideCharacter2.GUI.UI
 		}
 
 
-		private void SetUpButtons()
+		internal void SetUpButtons()
 		{
 			ServerSideCharacter2.ToolBarServiceManager.GetButtons(_toolButtons);
 		}

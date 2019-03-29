@@ -60,7 +60,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		{
 			this._items.Add(item);
 			this._innerList.Append(item);
-			this.UpdateOrder();
+			// this.UpdateOrder();
 			this._innerList.Recalculate();
 		}
 
@@ -72,7 +72,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			{
 				this._innerList.Append(element);
 			}
-			this.UpdateOrder();
+			// this.UpdateOrder();
 			this._innerList.Recalculate();
 		}
 
@@ -80,7 +80,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		public virtual bool Remove(UIElement item)
 		{
 			this._innerList.RemoveChild(item);
-			this.UpdateOrder();
+			// this.UpdateOrder();
 			return this._items.Remove(item);
 		}
 
@@ -146,18 +146,18 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		}
 
 		// Token: 0x06001B85 RID: 7045 RVA: 0x00013CC7 File Offset: 0x00011EC7
-		public void SetScrollbar(UIScrollbar scrollbar)
+		public void SetScrollbar(UIAdvScrollBar scrollbar)
 		{
 			this._scrollbar = scrollbar;
 			this.UpdateScrollbar();
 		}
 
-		// Token: 0x06001B86 RID: 7046 RVA: 0x00013CD6 File Offset: 0x00011ED6
-		public void UpdateOrder()
-		{
-			this._items.Sort(new Comparison<UIElement>(this.SortMethod));
-			this.UpdateScrollbar();
-		}
+		//// Token: 0x06001B86 RID: 7046 RVA: 0x00013CD6 File Offset: 0x00011ED6
+		//public void UpdateOrder()
+		//{
+		//	this._items.Sort(new Comparison<UIElement>(this.SortMethod));
+		//	this.UpdateScrollbar();
+		//}
 
 		// Token: 0x06001B87 RID: 7047 RVA: 0x00013CF5 File Offset: 0x00011EF5
 		public int SortMethod(UIElement item1, UIElement item2)
@@ -195,7 +195,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		public List<UIElement> _items = new List<UIElement>();
 
 		// Token: 0x0400188E RID: 6286
-		protected UIScrollbar _scrollbar;
+		protected UIAdvScrollBar _scrollbar;
 
 		// Token: 0x0400188F RID: 6287
 		internal UIElement _innerList = new UIInnerList();

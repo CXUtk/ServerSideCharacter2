@@ -254,7 +254,7 @@ namespace ServerSideCharacter2
 			int MouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
 			if(MouseTextIndex != -1)
 			{
-				layers.Insert(MouseTextIndex + 1, new SSCLayer(GuiManager));
+				layers.Insert(MouseTextIndex, new SSCLayer(GuiManager));
 				layers.Add(new TooltipLayer("SSC: Tooltip", InterfaceScaleType.UI));
 			}
 			else
@@ -265,7 +265,6 @@ namespace ServerSideCharacter2
 
 		public override void UpdateUI(GameTime gameTime)
 		{
-
 			GuiManager.UpdateUI(gameTime);
 			base.UpdateUI(gameTime);
 		}

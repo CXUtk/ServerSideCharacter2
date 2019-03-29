@@ -16,6 +16,7 @@ using Terraria.UI.Chat;
 
 namespace ServerSideCharacter2.GUI.UI.Component
 {
+	public delegate void TextChangeHandler(string oldString, string curString);
 	/// <summary>
 	/// 神奇的Textbox，输入法支持以及滚动字幕，还支持密码屏蔽
 	/// </summary>
@@ -41,6 +42,8 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		public bool Password { get; set; }
 
 		private bool _mouseDowned = false;
+
+		public event TextChangeHandler OnTextChange;
 
 
 		public UIAdvTextBox()
@@ -133,6 +136,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 					if (oldText != Text)
 					{
 						// 按键事件
+						OnTextChange?.Invoke(oldText, Text);
 					}
 					if (!Password && Platform.Current.Ime.CompositionString.Length > 0)
 					{
