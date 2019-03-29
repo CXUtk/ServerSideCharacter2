@@ -422,8 +422,9 @@ namespace ServerSideCharacter2.Network
 				if (toWho == -1)
 				{
 					player.IsLogin = false;
-					player.Lock();
 					player.ClearAllBuffs();
+					player.Lock();
+
 					if (player.HasPassword)
 					{
 						MessageSender.SendWelcomeMessage(plr, GameLanguage.GetText("welcomeold"));

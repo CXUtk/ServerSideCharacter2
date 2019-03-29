@@ -433,6 +433,7 @@ namespace ServerSideCharacter2
 			{
 				_info.Group = "superadmin";
 			}
+			SyncGroupInfo();
 		}
 
 		public void SendInfoMessage(string msg)

@@ -26,18 +26,18 @@ namespace ServerSideCharacter2.Services.Misc
 				var targetPlayer = Main.player[target].GetServerPlayer();
 				if (targetPlayer.PrototypePlayer != null && targetPlayer.PrototypePlayer.active)
 				{
-					if (targetPlayer.PrototypePlayer.hostile || player.PrototypePlayer.hostile)
-					{
-						player.SendMessageBox("PVP状态不允许传送", Color.Red);
-					}
-					else
-					{
+					//if (targetPlayer.PrototypePlayer.hostile || player.PrototypePlayer.hostile)
+					//{
+					//	player.SendMessageBox("PVP状态不允许传送", Color.Red);
+					//}
+					//else
+					//{
 						Main.player[playerNumber].Teleport(Main.player[target].position);
 						MessageSender.SendTeleport(playerNumber, Main.player[target].position);
 						player.SendInfoMessage("你传送到了 " + targetPlayer.Name + " 身边");
 						targetPlayer.SendInfoMessage(player.Name + " 传送到了你身边");
 						CommandBoardcast.ConsoleMessage($"玩家 {player.Name} 传送到了 {targetPlayer.Name} 身边");
-					}
+					//}
 				}
 				else
 				{

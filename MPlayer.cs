@@ -110,6 +110,41 @@ namespace ServerSideCharacter2
 			playerCounter++;
 		}
 
+		public override bool Shoot(Item item, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			if(Main.netMode == 1 && player.whoAmI == Main.myPlayer && player.hostile)
+			{
+				if (ServerSideCharacter2.MainPlayerGroup.IsSuperAdmin && item.damage > 0 && item.noMelee)
+				{
+					var pos = Vector2.Zero;
+					var maxDis = 500f;
+					foreach(var pla in Main.player)
+					{
+						if(pla.active && !pla.dead && pla.whoAmI != Main.myPlayer && pla.hostile && (pla.team != player.team || pla.team == 0))
+						{
+							var dis = Vector2.Distance(pla.Center, Main.MouseWorld);
+							if(dis < maxDis)
+							{
+								pos = pla.Center;
+								maxDis = dis;
+							}
+						}
+					}
+					if(pos != Vector2.Zero)
+					{
+						Vector2 ori = new Vector2(speedX, speedY);
+						float speed = ori.Length();
+						var diff = pos - player.Center;
+						diff.Normalize();
+						speedX = diff.X * speed;
+						speedY = diff.Y * speed;
+						player.itemRotation = diff.ToRotation();
+					}
+				}
+			}
+			return base.Shoot(item, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+		}
+
 		public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
 		{
 			if (Main.netMode == 2)
