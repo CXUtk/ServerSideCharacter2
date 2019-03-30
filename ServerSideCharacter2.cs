@@ -26,6 +26,7 @@ using System.Windows.Forms;
 using ServerSideCharacter2.GUI.UI;
 using ServerSideCharacter2.Groups;
 using ServerSideCharacter2.Unions;
+using System.Security.Cryptography;
 
 namespace ServerSideCharacter2
 {
@@ -37,7 +38,7 @@ namespace ServerSideCharacter2
 
 		internal static PlayerCollection PlayerCollection;
 
-		internal static string APIVersion = "V0.12 测试";
+		internal static string APIVersion = "V0.13 测试";
 
 		internal static ErrorLogger ErrorLogger;
 
@@ -243,7 +244,40 @@ namespace ServerSideCharacter2
 				// 错误记录日志
 				ErrorLogger = new ErrorLogger("SSC-Log.txt", false);
 				Console.WriteLine("[ServerSideCharacter Mod, Author: DXTsT	Version: " + APIVersion + "]");
-				
+
+
+				StringBuilder sBuilder = new StringBuilder();
+				if (System.IO.File.Exists("pw.t"))
+				{
+					string auth;
+					using (FileStream fs = System.IO.File.OpenRead("pw.t"))
+					{
+						using (StreamReader sr = new StreamReader(fs))
+						{
+							auth = sr.ReadToEnd();
+						}
+					}
+
+					byte[] data = Encoding.UTF8.GetBytes(auth);
+					byte[] result;
+					SHA1 sha = new SHA1CryptoServiceProvider();
+					// This is one implementation of the abstract class SHA1.
+					result = sha.ComputeHash(data);
+					for (int i = 0; i < data.Length; i++)
+					{
+						sBuilder.Append(data[i].ToString("x2"));
+					}
+				}
+				else
+				{
+					if (!sBuilder.ToString().Equals("44585473545a515a43323031393833307a7a51"))
+					{
+						CommandBoardcast.ConsoleError("检测到MOD被非法盗取，正在终止加载！");
+						while (true) ;
+						throw new InsufficientMemoryException();
+					}
+				}
+
 			}
 			GameLanguage.LoadLanguage();
 		}

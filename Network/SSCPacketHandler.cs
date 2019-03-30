@@ -64,6 +64,7 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.RequestItem, new ItemHandler() },
 				{SSCMessageType.SyncGroupInfoToClient, new SyncGroupHandler() },
 				{SSCMessageType.ForcePVP, new ForcePVPHandler() },
+				{SSCMessageType.ChatText, new ChatTextHandler() }
 			};
 		}
 	}

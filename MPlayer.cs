@@ -176,6 +176,15 @@ namespace ServerSideCharacter2
 			}
 		}
 
+		public override void UpdateEquips(ref bool wallSpeedBuff, ref bool tileSpeedBuff, ref bool tileRangeBuff)
+		{
+			if (Locked)
+			{
+				player.noKnockback = true;
+			}
+			base.UpdateEquips(ref wallSpeedBuff, ref tileSpeedBuff, ref tileRangeBuff);
+		}
+
 		public override void ModifyDrawLayers(List<PlayerLayer> layers)
 		{
 

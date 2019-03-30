@@ -433,6 +433,18 @@ namespace ServerSideCharacter2
 			pack.Send(to, from);
 		}
 
+		public static void SendChatMessageToClient(int plr, string playername, string msg, Groups.Group group)
+		{
+			ModPacket pack = ServerSideCharacter2.Instance.GetPacket();
+			pack.Write((int)SSCMessageType.ChatText);
+			pack.Write((byte)plr);
+			pack.Write(playername);
+			pack.Write(msg);
+			pack.Write(group.ChatPrefix);
+			pack.WriteRGB(group.ChatColor);
+			pack.Send();
+		}
+
 		//public static void SendChestCommand(ChestManager.Pending pending, int plr, string friendName = null)
 		//{
 		//	ModPacket pack = ServerSideCharacter.Instance.GetPacket();

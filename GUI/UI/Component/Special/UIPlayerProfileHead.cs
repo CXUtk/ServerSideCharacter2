@@ -84,12 +84,22 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		public override void Draw(SpriteBatch spriteBatch)
 		{
 			base.Draw(spriteBatch);
-			var player = Main.player[_info.PlayerID];
-			Item item = player.inventory[player.selectedItem];
-			player.inventory[player.selectedItem] = new Item();
-			Main.instance.DrawPlayer(player,
-				GetDimensions().Position() + new Vector2(2, 2) + Main.screenPosition, 0f, Vector2.Zero, 0f);
-			player.inventory[player.selectedItem] = item;
+			Player player = null;
+			if (_info.PlayerID >= 0 && _info.PlayerID < 255)
+			{
+				player = Main.player[_info.PlayerID];
+				Item item = player.inventory[player.selectedItem];
+				player.inventory[player.selectedItem] = new Item();
+				Main.instance.DrawPlayer(player,
+					GetDimensions().Position() + new Vector2(2, 2) + Main.screenPosition, 0f, Vector2.Zero, 0f);
+				player.inventory[player.selectedItem] = item;
+			}
+			else
+			{
+				player = new Player();
+				Main.instance.DrawPlayer(player,
+					GetDimensions().Position() + new Vector2(2, 2) + Main.screenPosition, 0f, Vector2.Zero, 0f);
+			}
 		}
 
 		public void SetPlayer(SimplifiedPlayerInfo info)
@@ -108,6 +118,12 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			rankimage.Left.Set(center.X - rankimage.Width.Pixels / 2, 0);
 			rankimage.Top.Set(center.Y - rankimage.Height.Pixels / 2, 0);
 			rankimage.Tooltip = Ranking.GetName(type);
+
+			if (Main.netMode == 0 || ServerSideCharacter2.MainPlayerGroup.IsSuperAdmin)
+			{
+				UIText guidText = new UIText($"GUID：{_info.GUID}");
+				infoList.Add(guidText);
+			}
 
 			UIText killcountText = new UIText($"击杀数：{_info.KillCount}");
 			infoList.Add(killcountText);

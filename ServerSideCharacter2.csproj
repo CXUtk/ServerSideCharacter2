@@ -195,6 +195,7 @@
     <Compile Include="Services\Misc\ItemHandler.cs" />
     <Compile Include="Services\Misc\ItemService.cs" />
     <Compile Include="Services\Misc\ModPlayerInfoHandler.cs" />
+    <Compile Include="Services\Misc\ChatTextHandler.cs" />
     <Compile Include="Services\Misc\SyncGroupHandler.cs" />
     <Compile Include="Services\Misc\TPHandler.cs" />
     <Compile Include="Services\Misc\SummonHandler.cs" />

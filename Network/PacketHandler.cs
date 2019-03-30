@@ -63,31 +63,32 @@ namespace ServerSideCharacter2.Network
 						MessageSender.SendErrorMessage(playernumber, "你还没有登录，不能说话哦");
 						return true;
 					}
-					var text = string.Format("[{0}]{1}: {2}", splayer.Group.ChatPrefix, Main.player[(int)playernumber].name, msg.Text);
-					NetPacket packet = NetTextModule.SerializeServerMessage(NetworkText.FromLiteral(text),
-						splayer.Group.ChatColor, (byte)playernumber);
-					NetManager.Instance.Broadcast(packet, -1);
+					var text = msg.Text;/*$"<{splayer.Group.ChatPrefix}>{Main.player[(int)playernumber].name}: {msg.Text}";*/
+					//NetPacket packet = NetTextModule.SerializeServerMessage(NetworkText.FromLiteral(text),
+					//	splayer.Group.ChatColor, (byte)playernumber);
+					//NetManager.Instance.Broadcast(packet, -1);
+					MessageSender.SendChatMessageToClient(playernumber, Main.player[(int)playernumber].name, msg.Text, splayer.Group);
 					Console.WriteLine(text);
 					return true;
 				}
 			}
-			else if(Main.netMode == 1)
-			{
-				if (moduleId == Terraria.Net.NetManager.Instance.GetId<Terraria.GameContent.NetModules.NetTextModule>())
-				{
-					//Then deserialize the message from the reader
-					byte id = reader.ReadByte();
-					string text = NetworkText.Deserialize(reader).ToString();
-					Color c = reader.ReadRGB();
-					if (id < 255 && text.Contains(':'))
-					{
-						Main.player[id].chatOverhead.NewMessage(text.Substring(text.IndexOf(':') + 1), Main.chatLength / 2);
-						// text = NameTagHandler.GenerateTag(Main.player[(int)b].name) + " " + text;
-					}
-					Main.NewTextMultiline(text, false, c, -1);
-					return true;
-				}
-			}
+			//else if(Main.netMode == 1)
+			//{
+			//	if (moduleId == Terraria.Net.NetManager.Instance.GetId<Terraria.GameContent.NetModules.NetTextModule>())
+			//	{
+			//		//Then deserialize the message from the reader
+			//		byte id = reader.ReadByte();
+			//		string text = NetworkText.Deserialize(reader).ToString();
+			//		Color c = reader.ReadRGB();
+			//		if (id < 255 && text.Contains(':'))
+			//		{
+			//			Main.player[id].chatOverhead.NewMessage(text.Substring(text.IndexOf(':') + 1), Main.chatLength / 2);
+			//			// text = NameTagHandler.GenerateTag(Main.player[(int)b].name) + " " + text;
+			//		}
+			//		Main.NewTextMultiline(text, false, c, -1);
+			//		return true;
+			//	}
+			//}
 			return false;
 		}
 
