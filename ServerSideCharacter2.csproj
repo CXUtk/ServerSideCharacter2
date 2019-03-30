@@ -111,6 +111,7 @@
     <Compile Include="Commands\GodCommand.cs" />
     <Compile Include="Commands\ForcePVPCommand.cs" />
     <Compile Include="Commands\ItemCommand.cs" />
+    <Compile Include="Commands\ResetPWCommand.cs" />
     <Compile Include="Commands\RankCommand.cs" />
     <Compile Include="Commands\TPCommand.cs" />
     <Compile Include="Commands\SummonCommand.cs" />

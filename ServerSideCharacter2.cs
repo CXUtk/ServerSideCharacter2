@@ -32,6 +32,8 @@ namespace ServerSideCharacter2
 {
 	public class ServerSideCharacter2 : Mod
 	{
+		public const bool DEBUGMODE = true;
+
 		internal static ServerSideCharacter2 Instance;
 
 		internal static Dictionary<string, Texture2D> ModTexturesTable = new Dictionary<string, Texture2D>();

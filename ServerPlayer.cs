@@ -462,6 +462,15 @@ namespace ServerSideCharacter2
 			MessageSender.SendInfoMessage(-1, msg, Color.Yellow);
 		}
 
+		public void Kick(string msg = "")
+		{
+			if (RealPlayer && ConnectionAlive)
+			{
+				NetMessage.SendData(2, playerID, -1, 
+					((msg == "") ? NetworkText.FromKey("CLI.KickMessage", new object[0]): NetworkText.FromLiteral(msg)), 0, 0f, 0f, 0f, 0, 0, 0);
+			}
+		}
+
 		public SimplifiedPlayerInfo GetSimplified(int id)
 		{
 			bool isFriend = (id == 255) ||(id == this.playerID) 
