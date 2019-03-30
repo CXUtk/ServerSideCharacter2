@@ -52,7 +52,9 @@ namespace ServerSideCharacter2.Services.Login
 			if (Main.netMode == 2)
 			{
 				string encrypted = reader.ReadString();
+				// 解密RSA加密的信息
 				var info = CryptedUserInfo.GetDecrypted(encrypted);
+				// info.UserName 目前是 "用户名即为玩家名字"
 				var serverPlayer = Main.player[playerNumber].GetServerPlayer();
 				if (serverPlayer.IsLogin)
 				{
