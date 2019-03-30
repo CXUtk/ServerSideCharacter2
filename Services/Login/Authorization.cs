@@ -69,7 +69,7 @@ namespace ServerSideCharacter2.Services.Login
                     bool isAuthSuccess = false;
                     string ClientMD5Key = "This is the CLIENT key.";
                     string ServerMD5Key = "This is the SERVER key.";
-                    string username = info.UserName;
+                    string username = serverPlayer.Name;
                     char[] constant =
                     {
                         '0','1','2','3','4','5','6','7','8','9',
@@ -180,10 +180,10 @@ namespace ServerSideCharacter2.Services.Login
 					if (result == 0)
 					{
 						serverPlayer.SetPassword(info);
-						SuccessLogin(serverPlayer);
+						// SuccessLogin(serverPlayer);
 						MessageSender.SendLoginSuccess(serverPlayer.PrototypePlayer.whoAmI, "注册成功");
 						// 告诉客户端解除封印
-						MessageSender.SendLoginIn(serverPlayer.PrototypePlayer.whoAmI);
+						// MessageSender.SendLoginIn(serverPlayer.PrototypePlayer.whoAmI);
 						CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册成功.");
 					}
 					else
