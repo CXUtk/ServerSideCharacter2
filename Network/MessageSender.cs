@@ -170,6 +170,8 @@ namespace ServerSideCharacter2
 			p.Send();
 		}
 
+
+
 		//public static void SendListCommand(int plr, ListType type, bool all)
 		//{
 		//	string name = Main.player[plr].name;
@@ -444,6 +446,22 @@ namespace ServerSideCharacter2
 			pack.Write(group.ChatPrefix);
 			pack.WriteRGB(group.ChatColor);
 			pack.Send();
+		}
+
+		public static void SendSpawnRate(int val)
+		{
+			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			p.Write((int)SSCMessageType.SpawnRate);
+			p.Write(val);
+			p.Send();
+		}
+
+		public static void SendMaxSpawnCount(int val)
+		{
+			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			p.Write((int)SSCMessageType.MaxSpawnCount);
+			p.Write(val);
+			p.Send();
 		}
 
 		//public static void SendChestCommand(ChestManager.Pending pending, int plr, string friendName = null)

@@ -49,7 +49,9 @@
 		InfoMessage,
 		SyncGroupInfoToClient,
 		ForcePVP,
-		ChatText
+		ChatText,
+		SpawnRate,
+		MaxSpawnCount
 	}
 
 	public enum GenerationType

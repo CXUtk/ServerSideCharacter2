@@ -62,6 +62,7 @@ namespace ServerSideCharacter2
 
 		public bool IsLoginClientSide { get; set; }
 
+
 		internal static Group MainPlayerGroup;
 
 		private PacketHandler _packetHandler;

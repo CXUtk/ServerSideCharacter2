@@ -113,6 +113,7 @@
     <Compile Include="Commands\ItemCommand.cs" />
     <Compile Include="Commands\ResetPWCommand.cs" />
     <Compile Include="Commands\RankCommand.cs" />
+    <Compile Include="Commands\SpawnControlCommand.cs" />
     <Compile Include="Commands\TPCommand.cs" />
     <Compile Include="Commands\SummonCommand.cs" />
     <Compile Include="Commands\HardmodeCommand.cs" />
@@ -219,6 +220,7 @@
     <Compile Include="Services\Misc\ExpertModeHandler.cs" />
     <Compile Include="Services\Misc\ButcherHandler.cs" />
     <Compile Include="Services\Misc\LockHandler.cs" />
+    <Compile Include="Services\NPC\SpawnControlHandler.cs" />
     <Compile Include="Services\OnlinePlayer\OnlinePlayerHandler.cs" />
     <Compile Include="Services\OnlinePlayer\PlayerBankHandler.cs" />
     <Compile Include="Services\OnlinePlayer\RequestPlayersHandler.cs" />

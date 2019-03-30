@@ -64,7 +64,9 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.RequestItem, new ItemHandler() },
 				{SSCMessageType.SyncGroupInfoToClient, new SyncGroupHandler() },
 				{SSCMessageType.ForcePVP, new ForcePVPHandler() },
-				{SSCMessageType.ChatText, new ChatTextHandler() }
+				{SSCMessageType.ChatText, new ChatTextHandler() },
+				{SSCMessageType.SpawnRate, new SpawnControlHandler1() },
+				{SSCMessageType.MaxSpawnCount, new SpawnControlHandler2() }
 			};
 		}
 	}
