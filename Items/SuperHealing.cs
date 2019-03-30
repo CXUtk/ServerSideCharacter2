@@ -51,7 +51,7 @@ namespace ServerSideCharacter2.Items
 			if (!p.channel || (projectile.frameCounter % 6 == 0 && !p.CheckMana(1, true)))
 			{
 				projectile.Kill();
-				p.reuseDelay = 4;
+				p.reuseDelay = 24;
 			}
 
 			Player target = TargetPlayer == -1 ? null : Main.player[TargetPlayer];

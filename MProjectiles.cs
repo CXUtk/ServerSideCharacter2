@@ -18,8 +18,7 @@ namespace ServerSideCharacter2
 			if (Main.netMode == 2)
 			{
 				// 清除所有墓碑
-				if (!ServerSideCharacter2.Config.EnableTombstone
-					&& (projectile.type == ProjectileID.Tombstone || (projectile.type >= ProjectileID.GraveMarker && projectile.type <= 205)
+				if ((projectile.type == ProjectileID.Tombstone || (projectile.type >= ProjectileID.GraveMarker && projectile.type <= 205)
 					|| (projectile.type >= ProjectileID.RichGravestone1 && projectile.type <= ProjectileID.RichGravestone5)))
 				{
 					projectile.SetDefaults(0);
