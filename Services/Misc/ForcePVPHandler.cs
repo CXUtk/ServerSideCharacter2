@@ -22,23 +22,20 @@ namespace ServerSideCharacter2.Services.Misc
 			// 服务器端
 			if (Main.netMode == 2)
 			{
-				string s = $"玩家 {Main.player[playerNumber].name} {(ServerSideCharacter2.Config.PvpMode != PVPMode.Always ? "开启" : "关闭")}了强制pvp模式";
-				if (ServerSideCharacter2.Config.PvpMode != PVPMode.Always)
+				PVPMode mode = (PVPMode)reader.ReadByte();
+				string s = $"玩家 {Main.player[playerNumber].name} 将PVP模式设置为 {mode.ToString()}";
+
+				ServerSideCharacter2.Config.PvpMode = mode;
+
+				foreach (var player in Main.player)
 				{
-					ServerSideCharacter2.Config.PvpMode = PVPMode.Always;
-					foreach(var player in Main.player)
+					if (player.active)
 					{
-						if (player.active)
-						{
-							player.hostile = true;
-						}
-						NetMessage.SendData(MessageID.PlayerPvP, -1, -1, NetworkText.FromLiteral(""), player.whoAmI);
+						player.hostile = (mode == PVPMode.Always ? true : false);
 					}
+					NetMessage.SendData(MessageID.PlayerPvP, -1, -1, NetworkText.FromLiteral(""), player.whoAmI);
 				}
-				else
-				{
-					ServerSideCharacter2.Config.PvpMode = PVPMode.Normal;
-				}
+
 				ServerPlayer.SendInfoMessageToAll(s);
 				CommandBoardcast.ConsoleMessage(s);
 			}
