@@ -62,7 +62,6 @@ namespace ServerSideCharacter2
 
 		public bool IsLoginClientSide { get; set; }
 
-
 		internal static Group MainPlayerGroup;
 
 		private PacketHandler _packetHandler;
@@ -71,7 +70,8 @@ namespace ServerSideCharacter2
 
 		private bool Loaded { get; set; }
 
-
+		public static Vector2 TilePos1 { get; internal set; }
+		public static Vector2 TilePos2 { get; internal set; }
 
 		internal void ChangeState(SSCUIState state)
 		{

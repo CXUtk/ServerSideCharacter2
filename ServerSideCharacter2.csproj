@@ -87,14 +87,17 @@
     <Content Include="build.txt" />
     <None Include="ChangeLog.md" />
     <Content Include="description.txt" />
+    <Content Include="Dusts\HealDust.png" />
     <Content Include="Graphics\Cog.png" />
     <Content Include="Graphics\Bar.png" />
     <Content Include="Graphics\Box.png" />
     <Content Include="Graphics\Box2.png" />
     <Content Include="Graphics\CloseButton.png" />
     <Content Include="Graphics\Crown.png" />
+    <Content Include="Items\HealingStaff.png" />
     <Content Include="Items\RegionItem.png" />
     <Content Include="Items\FailedItem.png" />
+    <Content Include="Items\SuperHealing.png" />
     <Content Include="Libraries\Microsoft.Xna.Framework.dll" />
     <Content Include="Libraries\Microsoft.Xna.Framework.Game.dll" />
     <Content Include="Libraries\Microsoft.Xna.Framework.Graphics.dll" />
@@ -123,6 +126,7 @@
     <Compile Include="Commands\LockCommand.cs" />
     <Compile Include="Commands\OnlinePlayerCommand.cs" />
     <Compile Include="Commands\SaveCommand.cs" />
+    <Compile Include="Dusts\HealDust.cs" />
     <Compile Include="Groups\Group.cs" />
     <Compile Include="Groups\GroupConfig.cs" />
     <Compile Include="Groups\GroupManager.cs" />
@@ -150,6 +154,8 @@
     <Compile Include="GUI\UI\State\PlayerOnlineWindow.cs" />
     <Compile Include="GUI\UI\State\ToolBarState.cs" />
     <Compile Include="GUI\UI\ToolBarServiceManager.cs" />
+    <Compile Include="Items\HealingStaff.cs" />
+    <Compile Include="Items\SuperHealing.cs" />
     <Compile Include="JsonData\CryptedUserInfo.cs" />
     <Compile Include="Crypto\RSACrypto.cs" />
     <Compile Include="Extensions\PlayerExtension.cs" />

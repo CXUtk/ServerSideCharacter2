@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Terraria.Localization;
+using Terraria.ID;
 
 namespace ServerSideCharacter2.Items
 {
@@ -33,23 +34,26 @@ namespace ServerSideCharacter2.Items
 		{
 			return true;
 		}
-		//public override bool UseItem(Player player)
-		//{
-			
-		//	if (player.altFunctionUse != 2 && Main.mouseLeftRelease)
-		//	{
-		//		Vector2 tilePos = new Vector2(Player.tileTargetX, Player.tileTargetY);
-		//		ServerSideCharacter2.TilePos1 = tilePos;
-		//		Main.NewText(string.Format("Selected tile positon 1 at ({0}, {1})", tilePos.X, tilePos.Y));
-		//	}
-		//	else if (player.altFunctionUse == 2 && Main.mouseRightRelease)
-		//	{
-		//		Vector2 tilePos = new Vector2(Player.tileTargetX, Player.tileTargetY);
-		//		ServerSideCharacter2.TilePos2 = tilePos;
-		//		Main.NewText(string.Format("Selected tile positon 2 at ({0}, {1})", tilePos.X, tilePos.Y));
-		//	}
-		//	return true;
-		//}
+		public override bool UseItem(Player player)
+		{
+			foreach(var item in player.armor)
+			{
+				item.Prefix(PrefixID.Quick2); 
+			}
+			if (player.altFunctionUse != 2 && Main.mouseLeftRelease)
+			{
+				Vector2 tilePos = new Vector2(Player.tileTargetX, Player.tileTargetY);
+				ServerSideCharacter2.TilePos1 = tilePos;
+				Main.NewText(string.Format("Selected tile positon 1 at ({0}, {1})", tilePos.X, tilePos.Y));
+			}
+			else if (player.altFunctionUse == 2 && Main.mouseRightRelease)
+			{
+				Vector2 tilePos = new Vector2(Player.tileTargetX, Player.tileTargetY);
+				ServerSideCharacter2.TilePos2 = tilePos;
+				Main.NewText(string.Format("Selected tile positon 2 at ({0}, {1})", tilePos.X, tilePos.Y));
+			}
+			return true;
+		}
 
 	}
 }
