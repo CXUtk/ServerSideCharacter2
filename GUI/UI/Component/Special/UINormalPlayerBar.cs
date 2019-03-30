@@ -170,7 +170,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		public override int CompareTo(object obj)
 		{
 			UINormalPlayerBar other = obj as UINormalPlayerBar;
-			return string.Compare(this.playerInfo.Name, other.playerInfo.Name);
+			return this.playerInfo.Rank.CompareTo(other.playerInfo.Rank);
 		}
 
 		public override void MouseOver(UIMouseEvent evt)

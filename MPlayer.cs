@@ -65,6 +65,7 @@ namespace ServerSideCharacter2
 			if (GodMode)
 			{
 				player.statLife = player.statLifeMax2;
+				player.statMana = player.statManaMax2;
 			}
 			if(Main.netMode == 2)
 			{

@@ -28,6 +28,7 @@ namespace ServerSideCharacter2.GUI.UI
 		private UIAdvPanel _onlinePlayerPanel;
 		private UIButton refreshButton;
 		private UIButton changeSortModeButton;
+		private UIText onlinelabel;
 
 		private const float WINDOW_WIDTH = 480;
 		private const float WINDOW_HEIGHT = 480;
@@ -63,11 +64,11 @@ namespace ServerSideCharacter2.GUI.UI
 			_onlinePlayerPanel.Height.Set(FRIENDLIST_HEIGHT, 0f);
 			_onlinePlayerPanel.SetPadding(10f);
 
-			UIText onlinelabel = new UIText("在线玩家");
-			onlinelabel.Top.Set(-40, 0f);
+			onlinelabel = new UIText("在线玩家  人数: 0");
+			onlinelabel.Top.Set(-FRIENDLIST_HEIGHT / 2 + FRIENDLIST_OFFSET_TOP - 25f, 0.5f);
 			Vector2 texSize = Main.fontMouseText.MeasureString(onlinelabel.Text);
-			onlinelabel.Left.Set(0, 0f);
-			_onlinePlayerPanel.Append(onlinelabel);
+			onlinelabel.Left.Set(-FRIENDLIST_WIDTH / 2 + FRIENDLIST_OFFSET_LEFT, 0.5f);
+			WindowPanel.Append(onlinelabel);
 			WindowPanel.Append(_onlinePlayerPanel);
 
 			refreshButton = new UIButton(ServerSideCharacter2.ModTexturesTable["Refresh"], false);
@@ -91,7 +92,7 @@ namespace ServerSideCharacter2.GUI.UI
 			changeSortModeButton.OnClick += ChangeSortModeButton_OnClick;
 			changeSortModeButton.ButtonDefaultColor = new Color(200, 200, 200);
 			changeSortModeButton.ButtonChangeColor = Color.White;
-			changeSortModeButton.Tooltip = "根据首字母排序";
+			changeSortModeButton.Tooltip = "根据段位排序";
 			WindowPanel.Append(changeSortModeButton);
 
 			_onlinePlayerList = new UIAdvList();
@@ -143,6 +144,7 @@ namespace ServerSideCharacter2.GUI.UI
 					var bar = new UINormalPlayerBar(testinfo);
 					uIPlayerBars.Add(bar);
 					_onlinePlayerList.Add(bar);
+					onlinelabel.SetText($"在线玩家  人数: {uIPlayerBars.Count}");
 				}
 			}
 			_relaxTimer = 180;
@@ -213,6 +215,8 @@ namespace ServerSideCharacter2.GUI.UI
 			UINormalPlayerBar bar = new UINormalPlayerBar(info);
 			uIPlayerBars.Add(bar);
 			_onlinePlayerList.Add(bar);
+
+			onlinelabel.SetText($"在线玩家  人数: {uIPlayerBars.Count}");
 		}
 
 
