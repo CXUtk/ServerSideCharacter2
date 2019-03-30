@@ -38,6 +38,8 @@ namespace ServerSideCharacter2.JsonData
 
 		public int KillCount;
 
+		public DateTime RegisteredTime;
+
 		public ItemInfo[] inventory = new ItemInfo[Main.maxInventory + 1];
 
 		public ItemInfo[] armor = new ItemInfo[20];

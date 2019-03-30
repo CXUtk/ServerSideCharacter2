@@ -101,9 +101,9 @@ namespace ServerSideCharacter2.GUI.UI
 
 			uIPlayerProfileHead = new UIPlayerProfileHead();
 			uIPlayerProfileHead.Top.Set(PLAYER_IMAGE_OFFSET_Y, 0f);
-			uIPlayerProfileHead.Left.Set(PLAYER_IMAGE_OFFSET_X, 0f);
-			uIPlayerProfileHead.Width.Set(300, 0f);
-			uIPlayerProfileHead.Height.Set(60, 0f);
+			uIPlayerProfileHead.Left.Set(PLAYER_IMAGE_OFFSET_X - 20, 0f);
+			uIPlayerProfileHead.Width.Set(280, 0f);
+			uIPlayerProfileHead.Height.Set(300, 0f);
 			WindowPanel.Append(uIPlayerProfileHead);
 		}
 
@@ -163,7 +163,9 @@ namespace ServerSideCharacter2.GUI.UI
 					IsLogin = true,
 					Rank = 1500,
 					KillCount = 50,
-					ChatPrefix = "公民"
+					ChatPrefix = "公民",
+					ChatColor = Color.Red,
+					RegistedTime = DateTime.Now
 				};
 				uIPlayerProfileHead.SetPlayer(info);
 			}

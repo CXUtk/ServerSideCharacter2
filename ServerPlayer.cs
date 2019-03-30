@@ -191,6 +191,18 @@ namespace ServerSideCharacter2
 			}
 		}
 
+		public DateTime RegistedTime
+		{
+			get
+			{
+				return _info.RegisteredTime;
+			}
+			set
+			{
+				_info.RegisteredTime = value;
+			}
+		}
+
 
 
 		public void SetGroup(string name)
@@ -433,6 +445,7 @@ namespace ServerSideCharacter2
 			{
 				_info.Group = "superadmin";
 			}
+			RegistedTime = DateTime.Now;
 			SyncGroupInfo();
 		}
 
@@ -465,6 +478,7 @@ namespace ServerSideCharacter2
 				IsFriend = isFriend,
 				Rank = this.Rank,
 				KillCount = this.KillCount,
+				RegistedTime = this.RegistedTime,
 			};
 		}
 

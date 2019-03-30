@@ -25,7 +25,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		private UIBar rankBar;
 		private UIImageResizable rankimage;
 		private UIText rankLabel;
-		private UIList infoList;
+		private UIAdvList infoList;
 
 		private const float RANK_BAR_WIDTH = 192;
 		private const float RANK_BAR_HEIGHT = 18;
@@ -69,12 +69,13 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			var infopanel = new UIPanel();
 			infopanel.Top.Set(20 + RANK_BAR_HEIGHT + 30f, 0f);
 			infopanel.Left.Set(0f, 0f);
-			infopanel.Width.Set(260, 0f);
-			infopanel.Height.Set(340, 0f);
+			infopanel.Width.Set(300f, 0f);
+			infopanel.Height.Set(500f, 0f);
 			infopanel.SetPadding(10f);
 
-			infoList = new UIList();
-			infoList.ListPadding = 5f;
+			infoList = new UIAdvList();
+			infoList.StartPadding = 5f;
+			infoList.ListPadding = 10f;
 			infoList.Width.Set(0f, 1f);
 			infoList.Height.Set(0f, 1f);
 			infopanel.Append(infoList);
@@ -128,8 +129,14 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			UIText killcountText = new UIText($"击杀数：{_info.KillCount}");
 			infoList.Add(killcountText);
 
-			UIText grouptext = new UIText($"权限组：{_info.ChatPrefix}");
+			UIText grouptext = new UIText($"权限组：[c/{_info.ChatColor.Hex3()}:{_info.ChatPrefix}]");
 			infoList.Add(grouptext);
+
+			UIText sexText = new UIText($"性别：{((Main.player[_info.PlayerID].Male) ? "男" : "女")}");
+			infoList.Add(sexText);
+
+			UIText regTimeText = new UIText($"注册时间：{_info.RegistedTime.ToString("g")}");
+			infoList.Add(regTimeText);
 		}
 	}
 }

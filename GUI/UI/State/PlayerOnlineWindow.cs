@@ -220,11 +220,11 @@ namespace ServerSideCharacter2.GUI.UI
 		private void SortPlayers()
 		{
 			uIPlayerBars.Sort();
-			_onlinePlayerList.Clear();
-			foreach (var ui in uIPlayerBars)
-			{
-				_onlinePlayerList.Add(ui);
-			}
+			_onlinePlayerList.Sort();
+			//foreach (var ui in uIPlayerBars)
+			//{
+			//	_onlinePlayerList.Add(ui);
+			//}
 		}
 
 		protected override void OnClose(UIMouseEvent evt, UIElement listeningElement)

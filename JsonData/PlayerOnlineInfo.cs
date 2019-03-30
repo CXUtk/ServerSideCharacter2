@@ -30,6 +30,8 @@ namespace ServerSideCharacter2.JsonData
 		public int Rank;
 
 		public int KillCount;
+
+		public DateTime RegistedTime;
 	}
 
 	[JsonObject]

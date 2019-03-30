@@ -31,6 +31,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			set;
 		}
 
+
 		public UIAdvPanel(Texture2D texture = null)
 		{
 			CornerSize = new Vector2(12, 12);

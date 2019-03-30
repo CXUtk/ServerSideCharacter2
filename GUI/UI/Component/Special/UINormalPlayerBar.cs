@@ -112,9 +112,31 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 				tpbutton.OnClick += Tpbutton_OnClick;
 				buttons.Add(tpbutton);
 			}
+
+
+			if (Main.netMode == 0 || ServerSideCharacter2.MainPlayerGroup.HasPermission("lock"))
+			{
+				var lockButton = new UICDButton(null, true);
+				lockButton.Width.Set(70f, 0f);
+				lockButton.Height.Set(38f, 0f);
+				lockButton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
+				lockButton.ButtonDefaultColor = new Color(200, 200, 200);
+				lockButton.ButtonChangeColor = Color.White;
+				lockButton.CornerSize = new Vector2(12, 12);
+				lockButton.ButtonText = "锁住";
+				lockButton.OnClick += LockButton_OnClick;
+				buttons.Add(lockButton);
+			}
 		}
 
-
+		private void LockButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
+		{
+			if (Main.netMode == 0) return;
+			if (Main.player[playerInfo.PlayerID].active)
+			{
+				MessageSender.SendLockCommand(Main.myPlayer, playerInfo.PlayerID, 3600);
+			}
+		}
 
 		private void Profilebutton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
@@ -145,11 +167,11 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		}
 
 
-		//public override int CompareTo(object obj)
-		//{
-		//	UINormalPlayerBar other = obj as UINormalPlayerBar;
-		//	return string.Compare(this.playerInfo.Name, other.playerInfo.Name);
-		//}
+		public override int CompareTo(object obj)
+		{
+			UINormalPlayerBar other = obj as UINormalPlayerBar;
+			return string.Compare(this.playerInfo.Name, other.playerInfo.Name);
+		}
 
 		public override void MouseOver(UIMouseEvent evt)
 		{

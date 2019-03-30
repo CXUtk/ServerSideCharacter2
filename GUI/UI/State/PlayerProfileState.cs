@@ -28,7 +28,7 @@ namespace ServerSideCharacter2.GUI.UI
 
 		private const float WINDOW_WIDTH = 360;
 		private const float WINDOW_HEIGHT = 480;
-		private const float FRIENDLIST_WIDTH = 320;
+		private const float FRIENDLIST_WIDTH = 360;
 		private const float FRIENDLIST_HEIGHT = 360;
 		private const float FRIENDLIST_OFFSET_RIGHT = 170;
 		private const float FRIENDLIST_OFFSET_TOP = 30;
@@ -53,9 +53,9 @@ namespace ServerSideCharacter2.GUI.UI
 
 			uIPlayerProfileHead = new UIPlayerProfileHead();
 			uIPlayerProfileHead.Top.Set(PLAYER_IMAGE_OFFSET_Y, 0f);
-			uIPlayerProfileHead.Left.Set(PLAYER_IMAGE_OFFSET_X, 0f);
+			uIPlayerProfileHead.Left.Set(PLAYER_IMAGE_OFFSET_X - 20, 0f);
 			uIPlayerProfileHead.Width.Set(300, 0f);
-			uIPlayerProfileHead.Height.Set(60, 0f);
+			uIPlayerProfileHead.Height.Set(300, 0f);
 			WindowPanel.Append(uIPlayerProfileHead);
 		}
 

@@ -21,6 +21,8 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			}
 		}
 
+		public float StartPadding { get; set; }
+
 		// Token: 0x060023A6 RID: 9126 RVA: 0x00479FF0 File Offset: 0x004781F0
 		public UIAdvList()
 		{
@@ -107,7 +109,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		public override void RecalculateChildren()
 		{
 			base.RecalculateChildren();
-			float num = 0f;
+			float num = StartPadding;
 			for (int i = 0; i < this._items.Count; i++)
 			{
 				this._items[i].Top.Set(num, 0f);
@@ -137,8 +139,13 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		// Token: 0x060023B2 RID: 9138 RVA: 0x000193C7 File Offset: 0x000175C7
 		public void UpdateOrder()
 		{
-			this._items.Sort(new Comparison<UIElement>(this.SortMethod));
+			//this._items.Sort(new Comparison<UIElement>(this.SortMethod));
 			this.UpdateScrollbar();
+		}
+
+		public void Sort()
+		{
+			this._items.Sort(new Comparison<UIElement>(this.SortMethod));
 		}
 
 		// Token: 0x060023B3 RID: 9139 RVA: 0x00013CF5 File Offset: 0x00011EF5
