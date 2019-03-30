@@ -15,53 +15,56 @@ using System.Security.Cryptography;
 using ServerSideCharacter2.Core;
 using ServerSideCharacter2.GUI.UI.Component.Special;
 using Terraria.ModLoader.UI.Elements;
+using System.Windows.Forms;
 
 namespace ServerSideCharacter2.GUI.UI
 {
 	
 
-	public class ItemState : AdvWindowUIState
+	public class NPCUIState : AdvWindowUIState
 	{
 
 		private class UISimpleSlot : UIElement
 		{
-			public int ItemType { get; set; }
-			public Item Item { get; set; }
-			
+			public int NPCType { get; set; }
+			public NPC Npc { get; set; }
+
 			public UISimpleSlot(int type)
 			{
-				ItemType = type;
-				Item = new Item();
-				Item.SetDefaults(type);
+				NPCType = type;
+				Npc = new NPC();
+				Npc.SetDefaults(type);
 			}
 
 			public override void Click(UIMouseEvent evt)
 			{
 				base.Click(evt);
 				Main.PlaySound(7, -1, -1, 1, 1f, 0.0f);
-				if (Main.mouseItem.type != 0)
+				if(Main.netMode == 1)
 				{
-					return;
+					MessageSender.SendSummonCommand(NPCType, 1);
 				}
-				Main.playerInventory = true;
-				Main.mouseItem = new Item();
-				Main.mouseItem.SetDefaults(ItemType);
-				Main.mouseItem.stack = Main.mouseItem.maxStack;
+				else
+				{
+					var player = Main.LocalPlayer;
+					int x = (int)player.Bottom.X + player.direction * 200;
+					int y = (int)player.Bottom.Y;
+					int index = NPC.NewNPC(x, y, NPCType, 0, 0f, 0f, 0f, 0f, 255);
+				}
+				//Main.playerInventory = true;
+				//Main.mouseItem = new Item();
+				//Main.mouseItem.SetDefaults(ItemType);
+				//Main.mouseItem.stack = Main.mouseItem.maxStack;
 			}
 
-			public override void Update(GameTime gameTime)
-			{
-				base.Update(gameTime);
-
-			}
 			protected override void DrawSelf(SpriteBatch spriteBatch)
 			{
 				base.DrawSelf(spriteBatch);
+				Main.instance.LoadNPC(NPCType);
 				if (IsMouseHovering)
 				{
-					Main.hoverItemName = Item.Name;
-					Main.HoverItem = Item.Clone();
-					Main.HoverItem.SetNameOverride(Main.HoverItem.Name + ((Main.HoverItem.modItem != null) ? (" [" + Main.HoverItem.modItem.mod.Name + "]") : ""));
+					ServerSideCharacter2.ShowTooltip = Lang.GetNPCNameValue(Npc.netID)
+						+ ((Npc.modNPC != null) ? (" [" + Npc.modNPC.mod.Name + "]") : "");
 				}
 				var slotbackTex = ServerSideCharacter2.ModTexturesTable["Box"];
 				CalculatedStyle DrawRectangle = GetDimensions();
@@ -69,26 +72,26 @@ namespace ServerSideCharacter2.GUI.UI
 					(int)DrawRectangle.Width, (int)DrawRectangle.Height,
 					Drawing.DefaultBoxColor, slotbackTex, new Vector2(8, 8));
 
-				var frame = Main.itemAnimations[ItemType] != null ? Main.itemAnimations[ItemType].GetFrame(Main.itemTexture[ItemType]) : Main.itemTexture[ItemType].Frame(1, 1, 0, 0);
+				var frame = new Rectangle(0, 0, Main.npcTexture[NPCType].Width, Main.npcTexture[NPCType].Height / Main.npcFrameCount[NPCType]);
 				var size = frame.Size();
 				float texScale = 1f;
 				if (size.X > DrawRectangle.Width || size.Y > DrawRectangle.Height)
 				{
 					texScale = size.X > size.Y ? size.X / DrawRectangle.Width : size.Y / DrawRectangle.Height;
-					texScale = 0.7f / texScale;
+					texScale = 0.75f / texScale;
 					size *= texScale;
 				}
-				spriteBatch.Draw(Main.itemTexture[ItemType], new Vector2(DrawRectangle.X + DrawRectangle.Width / 2 - (size.X) / 2,
-					DrawRectangle.Y + DrawRectangle.Height / 2 - (size.Y) / 2), new Rectangle?(frame), Color.White, 0, Vector2.Zero, texScale, 0, 0);
+				spriteBatch.Draw(Main.npcTexture[NPCType], new Vector2(DrawRectangle.X + DrawRectangle.Width / 2 - (size.X) / 2,
+					DrawRectangle.Y + DrawRectangle.Height / 2 - (size.Y) / 2), frame, Color.White, 0, Vector2.Zero, texScale, 0, 0);
 
 			}
 		}
 
-		private UIAdvGrid _itemGrid;
+		private UIAdvGrid _npcGrid;
 		private UIPanel _itemPanel;
 		private UIAdvTextBox _searchTextBox;
 
-		private UISimpleSlot[] uISlots;
+		private List<UISimpleSlot> uISlots;
 
 		private const float WINDOW_WIDTH = 540;
 		private const float WINDOW_HEIGHT = 480;
@@ -96,6 +99,8 @@ namespace ServerSideCharacter2.GUI.UI
 		private const float ITEM_BROWSER_OFFSETX = 20f;
 		private const float SEARCH_BAR_WIDTH = 165;
 		private const float SEARCH_BAR_HEIGHT= 30f;
+
+		private const int NEGATIVE_SLOTS = 65;
 
 		protected override void Initialize(UIAdvPanel WindowPanel)
 		{
@@ -114,23 +119,30 @@ namespace ServerSideCharacter2.GUI.UI
 			_itemPanel.Width.Set(-2 * ITEM_BROWSER_OFFSETX, 1f);
 			_itemPanel.Height.Set(-20 - ITEM_BROWSER_OFFSETY, 1f);
 
-			_itemGrid = new UIAdvGrid();
-			_itemGrid.Width.Set(-25f, 1f);
-			_itemGrid.Height.Set(0f, 1f);
-			_itemGrid.ListPadding = 5f;
-			_itemPanel.Append(_itemGrid);
+			_npcGrid = new UIAdvGrid();
+			_npcGrid.Width.Set(-25f, 1f);
+			_npcGrid.Height.Set(0f, 1f);
+			_npcGrid.ListPadding = 5f;
+			_itemPanel.Append(_npcGrid);
 
 
-			uISlots = new UISimpleSlot[Main.itemTexture.Length - 1];
-			for (int i = 1; i < Main.itemTexture.Length; i++)
+			uISlots = new List<UISimpleSlot>();
+			for (int i = 1; i < Main.npcTexture.Length; i++)
 			{
-				var simpleslot = new UISimpleSlot(i);
-				
-				simpleslot.Width.Set(40f, 0f);
-				simpleslot.Height.Set(40f, 0f);
-				uISlots[i - 1] = simpleslot;
+				try
+				{
+					var simpleslot = new UISimpleSlot(i);
+
+					simpleslot.Width.Set(40f, 0f);
+					simpleslot.Height.Set(40f, 0f);
+					uISlots.Add(simpleslot);
+				}
+				catch(Exception ex)
+				{
+					// ignored
+				}
 			}
-			_itemGrid.AddRange(uISlots);
+			_npcGrid.AddRange(uISlots);
 
 			// ScrollBar设定
 			UIAdvScrollBar uiscrollbar = new UIAdvScrollBar();
@@ -138,7 +150,7 @@ namespace ServerSideCharacter2.GUI.UI
 			uiscrollbar.Height.Set(0f, 1f);
 			uiscrollbar.HAlign = 1f;
 			_itemPanel.Append(uiscrollbar);
-			_itemGrid.SetScrollbar(uiscrollbar);
+			_npcGrid.SetScrollbar(uiscrollbar);
 
 			WindowPanel.Append(_itemPanel);
 
@@ -156,21 +168,21 @@ namespace ServerSideCharacter2.GUI.UI
 			curString = curString.Trim(' ');
 			if (curString == "")
 			{
-				_itemGrid.Clear();
-				_itemGrid.AddRange(uISlots);
+				_npcGrid.Clear();
+				_npcGrid.AddRange(uISlots);
 				return;
 			}
 			KMP kmp = new KMP(curString.ToLower());
-			_itemGrid.Clear();
+			_npcGrid.Clear();
 			List<UISimpleSlot> slots = new List<UISimpleSlot>();
-			for (int i = 1; i < Main.itemTexture.Length; i++)
+			for (int i = 0; i < uISlots.Count; i++)
 			{
-				if (kmp.Match(uISlots[i - 1].Item.Name.ToLower()))
+				if (kmp.Match(Lang.GetNPCNameValue(uISlots[i].Npc.netID).ToLower()))
 				{
-					slots.Add(uISlots[i - 1]);
+					slots.Add(uISlots[i]);
 				}
 			}
-			_itemGrid.AddRange(slots);
+			_npcGrid.AddRange(slots);
 
 		}
 
@@ -185,7 +197,7 @@ namespace ServerSideCharacter2.GUI.UI
 
 		protected override void OnClose(UIMouseEvent evt, UIElement listeningElement)
 		{
-			ServerSideCharacter2.Instance.ChangeState(SSCUIState.ItemPage);
+			ServerSideCharacter2.Instance.ChangeState(SSCUIState.NPCPage);
 		}
 	}
 }

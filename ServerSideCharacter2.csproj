@@ -141,8 +141,9 @@
     <Compile Include="GUI\UI\Component\UICDButton.cs" />
     <Compile Include="GUI\UI\Component\UISimpleList.cs" />
     <Compile Include="GUI\UI\Component\UISlider.cs" />
+    <Compile Include="GUI\UI\State\NPCUIState.cs" />
     <Compile Include="GUI\UI\State\PlayerProfileState.cs" />
-    <Compile Include="GUI\UI\State\ItemState.cs" />
+    <Compile Include="GUI\UI\State\ItemUIState.cs" />
     <Compile Include="GUI\UI\State\UnionPageState.cs" />
     <Compile Include="GUI\UI\State\HomePageState.cs" />
     <Compile Include="GUI\UI\State\PlayerOnlineWindow.cs" />
@@ -195,6 +196,7 @@
     <Compile Include="Services\Misc\GodModeHandler.cs" />
     <Compile Include="Services\Misc\ForcePVPHandler.cs" />
     <Compile Include="Services\Misc\ItemHandler.cs" />
+    <Compile Include="Services\Misc\NPCService.cs" />
     <Compile Include="Services\Misc\ItemService.cs" />
     <Compile Include="Services\Misc\ModPlayerInfoHandler.cs" />
     <Compile Include="Services\Misc\ChatTextHandler.cs" />

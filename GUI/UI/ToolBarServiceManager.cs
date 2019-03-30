@@ -85,6 +85,7 @@ namespace ServerSideCharacter2.GUI.UI
 			if(Main.netMode == 0)
 			{
 				Add(new Services.Misc.ItemServices());
+				Add(new Services.Misc.NPCService());
 			}
 			//Add(new Services.OnlinePlayer.OnlinePlayerService());
 			//Add(new Services.OnlinePlayer.OnlinePlayerService());
@@ -98,6 +99,10 @@ namespace ServerSideCharacter2.GUI.UI
 			if (ServerSideCharacter2.MainPlayerGroup.HasPermission("item"))
 			{
 				Add(new Services.Misc.ItemServices());
+			}
+			if (ServerSideCharacter2.MainPlayerGroup.HasPermission("sm"))
+			{
+				Add(new Services.Misc.NPCService());
 			}
 		}
 	}

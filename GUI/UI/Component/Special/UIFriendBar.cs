@@ -46,9 +46,5 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		}
 
 
-		private void AddFriendButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
-		{
-			ServerSideCharacter2.Instance.ShowMessage("目前没有实现，等裙子有时间写", 120, Color.White);
-		}
 	}
 }

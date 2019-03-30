@@ -10,17 +10,17 @@ using Terraria.UI;
 
 namespace ServerSideCharacter2.Services.Misc
 {
-	public class ItemServices : ISSCToolBarService
+	public class NPCService : ISSCToolBarService
 	{
 		public Texture2D Texture => ServerSideCharacter2.ModTexturesTable["Cog"];
 
-		public string Tooltip => "刷物品窗口";
+		public string Tooltip => "刷NPC窗口";
 
-		public string Name => "SSC: 物品";
+		public string Name => "SSC: NPC";
 
 		public bool Enabled { get; set; }
 
-		public ItemServices()
+		public NPCService()
 		{
 			Enabled = true;
 		}
@@ -32,7 +32,7 @@ namespace ServerSideCharacter2.Services.Misc
 				Main.NewText("您还没有登录，请先登录", Color.Red);
 				return;
 			}
-			ServerSideCharacter2.Instance.ChangeState(SSCUIState.ItemPage);
+			ServerSideCharacter2.Instance.ChangeState(SSCUIState.NPCPage);
 		}
 
 	}

@@ -20,7 +20,8 @@ namespace ServerSideCharacter2.GUI
 		HomePage,
 		UnionPage,
 		ItemPage,
-		ProfilePage
+		ProfilePage,
+		NPCPage
 	}
 	public class GUIManager
 	{
@@ -30,8 +31,9 @@ namespace ServerSideCharacter2.GUI
 		private PlayerOnlineWindow _playerOnlineWindow;
 		private HomePageState _homePageState;
 		private UnionPageState _unionPageState;
-		private ItemState _getitemState;
+		private ItemUIState _getitemState;
 		private PlayerProfileState _playerProfileState;
+		private NPCUIState _getnpcState;
 
 		private UserInterface _toolBarInterface;
 		private CDInterfaceManager _cdInterface;
@@ -57,12 +59,10 @@ namespace ServerSideCharacter2.GUI
 			}
 
 			_cdInterface = new CDInterfaceManager();
-
 			SetWindows();
-
 		}
 
-		private void SetWindows()
+		internal void SetWindows()
 		{
 			_loginWindowState = new LoginWindowState();
 			ConditionalInterface loginWindow = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.LoginWindow]; });
@@ -84,7 +84,7 @@ namespace ServerSideCharacter2.GUI
 			unionpage.SetState(_unionPageState);
 			_cdInterface.Add(unionpage);
 
-			_getitemState = new ItemState();
+			_getitemState = new ItemUIState();
 			ConditionalInterface itempage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.ItemPage]; });
 			itempage.SetState(_getitemState);
 			_cdInterface.Add(itempage);
@@ -93,6 +93,11 @@ namespace ServerSideCharacter2.GUI
 			ConditionalInterface profileinterface = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.ProfilePage]; });
 			profileinterface.SetState(_playerProfileState);
 			_cdInterface.Add(profileinterface);
+
+			_getnpcState = new NPCUIState();
+			ConditionalInterface uinpcinterface = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.NPCPage]; });
+			uinpcinterface.SetState(_getnpcState);
+			_cdInterface.Add(uinpcinterface);
 		}
 		
 
