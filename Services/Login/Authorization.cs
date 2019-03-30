@@ -65,6 +65,7 @@ namespace ServerSideCharacter2.Services.Login
 					{
 						SuccessLogin(serverPlayer);
 						MessageSender.SendLoginSuccess(serverPlayer.PrototypePlayer.whoAmI, "认证成功");
+						// 告诉客户端解除封印
 						MessageSender.SendLoginIn(serverPlayer.PrototypePlayer.whoAmI);
 						CommandBoardcast.ConsoleMessage("玩家 " + serverPlayer.Name + " 认证成功");
 					}
@@ -83,6 +84,7 @@ namespace ServerSideCharacter2.Services.Login
 						serverPlayer.SetPassword(info);
 						SuccessLogin(serverPlayer);
 						MessageSender.SendLoginSuccess(serverPlayer.PrototypePlayer.whoAmI, "注册成功");
+						// 告诉客户端解除封印
 						MessageSender.SendLoginIn(serverPlayer.PrototypePlayer.whoAmI);
 						CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册成功.");
 					}
