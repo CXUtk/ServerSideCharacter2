@@ -30,6 +30,10 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		protected override void AddExtraButtons(List<UICDButton> buttons)
 		{
 			base.AddExtraButtons(buttons);
+			if(buttons.Last().ButtonText == "踢掉")
+			{
+				buttons.RemoveAt(buttons.Count - 1);
+			}
 		}
 		//public override void Click(UIMouseEvent evt)
 		//{

@@ -127,6 +127,29 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 				lockButton.OnClick += LockButton_OnClick;
 				buttons.Add(lockButton);
 			}
+
+			if (Main.netMode == 0 || ServerSideCharacter2.MainPlayerGroup.HasPermission("kick"))
+			{
+				var kickButton = new UICDButton(null, true);
+				kickButton.Width.Set(70f, 0f);
+				kickButton.Height.Set(38f, 0f);
+				kickButton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
+				kickButton.ButtonDefaultColor = new Color(200, 200, 200);
+				kickButton.ButtonChangeColor = Color.White;
+				kickButton.CornerSize = new Vector2(12, 12);
+				kickButton.ButtonText = "踢掉";
+				kickButton.OnClick += KickButton_OnClick;
+				buttons.Add(kickButton);
+			}
+		}
+
+		private void KickButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
+		{
+			if (Main.netMode == 0) return;
+			if (Main.player[playerInfo.PlayerID].active)
+			{
+				MessageSender.SendKickCommand(playerInfo.PlayerID);
+			}
 		}
 
 		private void LockButton_OnClick(UIMouseEvent evt, UIElement listeningElement)

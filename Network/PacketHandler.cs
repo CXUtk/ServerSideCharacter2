@@ -343,7 +343,12 @@ namespace ServerSideCharacter2.Network
 			{
 				return true;
 			}
-
+			if(ServerSideCharacter2.Config.MediumcoreOnly && player.difficulty < 1)
+			{
+				NetMessage.SendData(2, id, -1,
+					NetworkText.FromLiteral("你必须使用中核难度的人物"), 0, 0f, 0f, 0f, 0, 0, 0);
+				return true;
+			}
 			//如果数据中没有玩家的信息
 			if (!ServerSideCharacter2.PlayerCollection.ContainsKey(Main.player[playerNumber].name))
 			{

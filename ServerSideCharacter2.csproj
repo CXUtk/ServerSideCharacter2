@@ -200,6 +200,7 @@
     <Compile Include="RankingSystem\RankType.cs" />
     <Compile Include="ServerPlayer.cs" />
     <Compile Include="ServerSideCharacter2.cs" />
+    <Compile Include="Services\Misc\KickHandler.cs" />
     <Compile Include="Services\Misc\GodModeHandler.cs" />
     <Compile Include="Services\Misc\ForcePVPHandler.cs" />
     <Compile Include="Services\Misc\ItemHandler.cs" />

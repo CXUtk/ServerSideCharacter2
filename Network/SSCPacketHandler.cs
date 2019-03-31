@@ -66,7 +66,8 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.ForcePVP, new ForcePVPHandler() },
 				{SSCMessageType.ChatText, new ChatTextHandler() },
 				{SSCMessageType.SpawnRate, new SpawnControlHandler1() },
-				{SSCMessageType.MaxSpawnCount, new SpawnControlHandler2() }
+				{SSCMessageType.MaxSpawnCount, new SpawnControlHandler2() },
+				{SSCMessageType.KickCommand, new KickHandler() }
 			};
 		}
 	}

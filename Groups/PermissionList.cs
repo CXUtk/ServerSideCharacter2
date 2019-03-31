@@ -31,6 +31,7 @@ namespace ServerSideCharacter2.Groups
 			AddPermission(new Permission("tpfriend", "玩家可不可以TP到朋友身边"));
 			AddPermission(new Permission("pvp", "玩家可不可以进行pvp"));
 			AddPermission(new Permission("forcepvp", "开启强制pvp"));
+			AddPermission(new Permission("kick", "玩家可不可以踢人"));
 		}
 
 		public void AddPermission(Permission permission)

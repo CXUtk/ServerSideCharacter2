@@ -14,7 +14,7 @@
 		LoginPassword,
 		SendTimeSet,
 		HelpCommand,
-		KillCommand,
+		KickCommand,
 		ListCommand,
 		SummonCommand,
 		TPHereCommand,

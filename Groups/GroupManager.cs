@@ -56,6 +56,7 @@ namespace ServerSideCharacter2.Groups
 			admin.AddPermission("god");
 			admin.AddPermission("item");
 			admin.AddPermission("forcepvp");
+			admin.AddPermission("kick");
 			Group superAdmin = new Group("superadmin")
 			{
 				ChatColor = Color.Cyan,

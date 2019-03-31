@@ -113,12 +113,10 @@ namespace ServerSideCharacter2
 			p.Send();
 		}
 
-		public static void SendKillCommand(int plr, int target)
+		public static void SendKickCommand(int target)
 		{
-			string name = Main.player[plr].name;
 			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
-			p.Write((int)SSCMessageType.KillCommand);
-			p.Write((byte)plr);
+			p.Write((int)SSCMessageType.KickCommand);
 			p.Write((byte)target);
 			p.Send();
 		}

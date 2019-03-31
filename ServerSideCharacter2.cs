@@ -306,17 +306,6 @@ namespace ServerSideCharacter2
 			base.UpdateUI(gameTime);
 		}
 
-		public override void PostDrawInterface(SpriteBatch spriteBatch)
-		{
-			base.PostDrawInterface(spriteBatch);
-			foreach (var p in Main.player) {
-				if (p.active && !p.dead) {
-					Terraria.Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, p.statMana.ToString(),
-						p.Center.X - Main.screenPosition.X, p.Center.Y - Main.screenPosition.Y, Color.White, Color.Black, Vector2.Zero);
-				}
-			}
-		}
-
 		public void ShowMessage(string msg, int time, Color color)
 		{
 			GuiManager.ShowMessage(msg, time, color);
