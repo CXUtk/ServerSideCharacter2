@@ -26,8 +26,8 @@ namespace ServerSideCharacter2.GUI.UI
 
 		private class UISimpleSlot : UIElement
 		{
-			public int NPCType { get; set; }
-			public NPC Npc { get; set; }
+			private int NPCType { get; set; }
+			public NPC Npc { get; private set; }
 
 			public UISimpleSlot(int type)
 			{
@@ -112,8 +112,7 @@ namespace ServerSideCharacter2.GUI.UI
 			WindowPanel.Height.Set(WINDOW_HEIGHT, 0f);
 			WindowPanel.Color = Color.White * 0.8f;
 
-			_itemPanel = new UIPanel();
-			_itemPanel.BackgroundColor = Color.DarkBlue * 0.75f;
+			_itemPanel = new UIPanel {BackgroundColor = Color.DarkBlue * 0.75f};
 			_itemPanel.Top.Set(ITEM_BROWSER_OFFSETY, 0f);
 			_itemPanel.Left.Set(ITEM_BROWSER_OFFSETX, 0f);
 			_itemPanel.Width.Set(-2 * ITEM_BROWSER_OFFSETX, 1f);

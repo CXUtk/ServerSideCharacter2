@@ -63,18 +63,17 @@ namespace ServerSideCharacter2.Services.Misc
 					if (number > 200) number = 200;
 					if (type >= 1 && type < Main.npcTexture.Length && type != 113)
 					{
+						int spawnTileX;
+						int spawnTileY;
 						for (var i = 0; i < number; i++)
 						{
-							int spawnTileX;
-							int spawnTileY;
 							GetRandomClearTileWithInRange((int)(p.Center.X) / 16, (int)(p.Center.Y) / 16, 50, 50, out spawnTileX,
 																		 out spawnTileY);
 							var npcid = NPC.NewNPC(spawnTileX * 16, spawnTileY * 16, type, 0);
 							// This is for special slimes
 							Main.npc[npcid].SetDefaults(type);
 						}
-						var s = string.Format("{0} 召唤了 {1} 个 {2}",
-								player.Name, number, Lang.GetNPCNameValue(type));
+						var s = $"{player.Name} 召唤了 {number} 个 {Lang.GetNPCNameValue(type)}";
 						ServerPlayer.SendInfoMessageToAll(s);
 					}
 					else

@@ -30,8 +30,9 @@ namespace ServerSideCharacter2.Services.Misc
 				var target1 = target0.GetServerPlayer();
 
 				target1.ApplyLockBuffs(time);
-				NetMessage.SendChatMessageToClient(NetworkText.FromLiteral(string.Format("你成功的锁住了 {0} 持续 {1:N2} 秒", target1.Name, time / 60.0f)), new Color(255, 50, 255, 50), plr);
-				MessageSender.SendInfoMessage(target0.whoAmI, string.Format("你被管理员锁住了，持续 {0:N2} 秒", time / 60f), Color.Red);
+				NetMessage.SendChatMessageToClient(NetworkText.FromLiteral(
+					$"你成功的锁住了 {target1.Name} 持续 {time / 60.0f:N2} 秒"), new Color(255, 50, 255, 50), plr);
+				MessageSender.SendInfoMessage(target0.whoAmI, $"你被管理员锁住了，持续 {time / 60f:N2} 秒", Color.Red);
 				CommandBoardcast.ConsoleMessage($"玩家 {player.Name} 锁住了 {target1.Name} {time / 60f:N2} 秒.");
 			}
 		}

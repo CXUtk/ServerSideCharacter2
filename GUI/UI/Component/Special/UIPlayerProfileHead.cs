@@ -40,12 +40,14 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			textName.Left.Set(RANK_LEFT_OFFSET + 32, 0f);
 			Append(textName);
 
-			rankBar = new UIBar();
-			rankBar.BarFrameTex = ServerSideCharacter2.ModTexturesTable["BarFrameRank"];
-			rankBar.BarFillTex = Main.magicPixel;
-			rankBar.BarFrameTexCornerSize = new Vector2(6, 6);
-			rankBar.FillerDrawOffset = new Vector2(6, 6);
-			rankBar.FillerSize = new Vector2(RANK_BAR_WIDTH - 12, RANK_BAR_HEIGHT - 12);
+			rankBar = new UIBar
+			{
+				BarFrameTex = ServerSideCharacter2.ModTexturesTable["BarFrameRank"],
+				BarFillTex = Main.magicPixel,
+				BarFrameTexCornerSize = new Vector2(6, 6),
+				FillerDrawOffset = new Vector2(6, 6),
+				FillerSize = new Vector2(RANK_BAR_WIDTH - 12, RANK_BAR_HEIGHT - 12)
+			};
 			rankBar.Top.Set(20f, 0f);
 			rankBar.Left.Set(RANK_LEFT_OFFSET, 0f);
 			rankBar.Width.Set(RANK_BAR_WIDTH, 0f);
@@ -73,9 +75,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			infopanel.Height.Set(500f, 0f);
 			infopanel.SetPadding(10f);
 
-			infoList = new UIAdvList();
-			infoList.StartPadding = 5f;
-			infoList.ListPadding = 10f;
+			infoList = new UIAdvList {StartPadding = 5f, ListPadding = 10f};
 			infoList.Width.Set(0f, 1f);
 			infoList.Height.Set(0f, 1f);
 			infopanel.Append(infoList);

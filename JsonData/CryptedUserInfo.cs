@@ -23,9 +23,9 @@ namespace ServerSideCharacter2.Core
 			{
 				var data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
 				var sBuilder = new StringBuilder();
-				for (var i = 0; i < data.Length; i++)
+				foreach (var d in data)
 				{
-					sBuilder.Append(data[i].ToString("x2"));
+					sBuilder.Append(d.ToString("x2"));
 				}
 				info.Password = sBuilder.ToString();
 			}
@@ -49,7 +49,7 @@ namespace ServerSideCharacter2.Core
 
 		public override string ToString()
 		{
-			return string.Format("Username: {0}, Password: {1}", UserName, Password);
+			return $"Username: {UserName}, Password: {Password}";
 		}
 	}
 }

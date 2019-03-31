@@ -431,14 +431,8 @@ namespace ServerSideCharacter2.Network
 					player.ClearAllBuffs();
 					player.Lock();
 
-					if (player.HasPassword)
-					{
-						MessageSender.SendWelcomeMessage(plr, GameLanguage.GetText("welcomeold"));
-					}
-					else
-					{
-						MessageSender.SendWelcomeMessage(plr, GameLanguage.GetText("welcomenew"));
-					}
+					MessageSender.SendWelcomeMessage(plr,
+						player.HasPassword ? GameLanguage.GetText("welcomeold") : GameLanguage.GetText("welcomenew"));
 					if(ServerSideCharacter2.Config.PvpMode == JsonData.PVPMode.Always)
 					{
 						player.PrototypePlayer.hostile = true;
@@ -652,7 +646,7 @@ namespace ServerSideCharacter2.Network
 
 		private bool PlayerPVP(ref BinaryReader reader, int playerNumber)
 		{
-			int playerID = reader.ReadByte();
+			int playerId = reader.ReadByte();
 			var pvp = reader.ReadBoolean();
 			if(Main.netMode == 2)
 			{

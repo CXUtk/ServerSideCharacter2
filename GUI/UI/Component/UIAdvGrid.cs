@@ -116,9 +116,8 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			var num = 0f;
 			var num2 = 0f;
 			var num3 = 0f;
-			for (var i = 0; i < this._items.Count; i++)
+			foreach (var uielement in this._items)
 			{
-				var uielement = this._items[i];
 				var outerDimensions = uielement.GetOuterDimensions();
 				if (num2 + outerDimensions.Width > width && num2 > 0f)
 				{
@@ -138,11 +137,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		// Token: 0x06001B84 RID: 7044 RVA: 0x00013CA0 File Offset: 0x00011EA0
 		private void UpdateScrollbar()
 		{
-			if (this._scrollbar == null)
-			{
-				return;
-			}
-			this._scrollbar.SetView(base.GetInnerDimensions().Height, this._innerListHeight);
+			_scrollbar?.SetView(base.GetInnerDimensions().Height, this._innerListHeight);
 		}
 
 		// Token: 0x06001B85 RID: 7045 RVA: 0x00013CC7 File Offset: 0x00011EC7

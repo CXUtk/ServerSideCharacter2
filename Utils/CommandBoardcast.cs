@@ -19,21 +19,21 @@ namespace ServerSideCharacter2.Utils
 		public static void ConsoleSavePlayer(ServerPlayer p)
 		{
 			Console.ForegroundColor = ConsoleColor.Yellow;
-			var info = string.Format("[SSC {0}] Saved {1}'s data", ServerSideCharacter2.APIVersion, p.Name);
+			var info = $"[SSC {ServerSideCharacter2.APIVersion}] Saved {p.Name}'s data";
 			Console.WriteLine(info);
 			LogInfo(info);
 			Console.ResetColor();
 		}
 		public static void ConsoleNormalText(string msg)
 		{
-			var info = string.Format("[SSC {0}] {1}", ServerSideCharacter2.APIVersion, msg);
+			var info = $"[SSC {ServerSideCharacter2.APIVersion}] {msg}";
 			Console.WriteLine(info);
 			LogInfo(info);
 		}
 		public static void ConsoleMessage(string msg)
 		{
 			Console.ForegroundColor = ConsoleColor.Yellow;
-			var info = string.Format("[SSC {0}] {1}", ServerSideCharacter2.APIVersion, msg);
+			var info = $"[SSC {ServerSideCharacter2.APIVersion}] {msg}";
 			Console.WriteLine(info);
 			LogInfo(info);
 			Console.ResetColor();
@@ -41,7 +41,7 @@ namespace ServerSideCharacter2.Utils
 		public static void ConsoleError(Exception ex)
 		{
 			Console.ForegroundColor = ConsoleColor.Red;
-			var info = string.Format("[SSC {0}] {1}", ServerSideCharacter2.APIVersion, ex);
+			var info = $"[SSC {ServerSideCharacter2.APIVersion}] {ex}";
 			Console.WriteLine(info);
 			LogInfo(info);
 			Console.ResetColor();
@@ -49,7 +49,7 @@ namespace ServerSideCharacter2.Utils
 		public static void ConsoleError(string msg)
 		{
 			Console.ForegroundColor = ConsoleColor.Red;
-			var info = string.Format("[SSC {0}] {1}", ServerSideCharacter2.APIVersion, msg);
+			var info = $"[SSC {ServerSideCharacter2.APIVersion}] {msg}";
 			Console.WriteLine(info);
 			LogInfo(info);
 			Console.ResetColor();

@@ -44,13 +44,13 @@ namespace ServerSideCharacter2.Items
 			{
 				var tilePos = new Vector2(Player.tileTargetX, Player.tileTargetY);
 				ServerSideCharacter2.TilePos1 = tilePos;
-				Main.NewText(string.Format("Selected tile positon 1 at ({0}, {1})", tilePos.X, tilePos.Y));
+				Main.NewText($"Selected tile positon 1 at ({tilePos.X}, {tilePos.Y})");
 			}
 			else if (player.altFunctionUse == 2 && Main.mouseRightRelease)
 			{
 				var tilePos = new Vector2(Player.tileTargetX, Player.tileTargetY);
 				ServerSideCharacter2.TilePos2 = tilePos;
-				Main.NewText(string.Format("Selected tile positon 2 at ({0}, {1})", tilePos.X, tilePos.Y));
+				Main.NewText($"Selected tile positon 2 at ({tilePos.X}, {tilePos.Y})");
 			}
 			return true;
 		}

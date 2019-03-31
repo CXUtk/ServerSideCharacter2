@@ -22,11 +22,11 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		{
 			base.RecalculateChildren();
 			var num = 0f;
-			for (var i = 0; i < this._contents.Count; i++)
+			foreach (var element in this._contents)
 			{
-				this._contents[i].Top.Set(num, 0f);
-				this._contents[i].Recalculate();
-				num += this._contents[i].GetOuterDimensions().Height + ListPadding;
+				element.Top.Set(num, 0f);
+				element.Recalculate();
+				num += element.GetOuterDimensions().Height + ListPadding;
 			}
 			Height.Set(num, 0f);
 		}

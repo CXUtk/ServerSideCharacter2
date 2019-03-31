@@ -18,78 +18,70 @@ namespace ServerSideCharacter2
 
 		internal static int[] TileMessageCD = new int[Main.maxPlayers];
 
-		private static int Timer = 0;
+		private static int _timer = 0;
 
 		public override void PreUpdate()
 		{
-			if (Main.netMode == 2)
+			if (Main.netMode != 2) return;
+			try
 			{
-				try
+				_timer++;
+				if (_timer > 10000000) _timer = 0;
+				ServerStarted = true;
+				foreach (var p in Main.player)
 				{
-					Timer++;
-					if (Timer > 10000000) Timer = 0;
-					ServerStarted = true;
-					foreach (var p in Main.player)
+					if (p.whoAmI == 255) continue;
+					if (!p.active) continue;
+					var player = p.GetServerPlayer();
+					if (player.IsLogin)
+						player.SyncPlayerToInfo();
+				}
+				for(var i = 0; i < Main.maxPlayers; i++)
+				{
+					if(TileMessageCD[i] > 0)
 					{
-						if (p.whoAmI != 255)
+						TileMessageCD[i]--;
+					}
+				}
+				if (_timer % 180 < 1)
+				{
+					foreach(var player in Main.player)
+					{
+						if (!player.active) continue;
+						var serverPlayer = player.GetServerPlayer();
+						var playerID = player.whoAmI;
+						if (!serverPlayer.HasPassword)
 						{
-							if (p.active)
-							{
-								var player = p.GetServerPlayer();
-								if (player.IsLogin)
-									player.SyncPlayerToInfo();
-							}
+							serverPlayer.ApplyLockBuffs();
+							NetMessage.SendChatMessageToClient(NetworkText.FromLiteral("您还没有注册，请使用登录窗口注册哦~"), new Color(255, 255, 30, 30), playerID);
+						}
+						else if (serverPlayer.HasPassword && !serverPlayer.IsLogin)
+						{
+							serverPlayer.ApplyLockBuffs();
+							NetMessage.SendChatMessageToClient(NetworkText.FromLiteral("您已注册，输入密码就可以登录了！"), new Color(255, 255, 30, 30), playerID);
 						}
 					}
-					for(var i = 0; i < Main.maxPlayers; i++)
+					foreach (var player in ServerSideCharacter2.PlayerCollection)
 					{
-						if(TileMessageCD[i] > 0)
+						if (player.Value.PrototypePlayer == null || !player.Value.PrototypePlayer.active)
 						{
-							TileMessageCD[i]--;
+							player.Value.IsLogin = false;
+							player.Value.SetID(-1);
 						}
 					}
-					if (Timer % 180 < 1)
-					{
-						foreach(var player in Main.player)
-						{
-							if (player.active)
-							{
-								var serverPlayer = player.GetServerPlayer();
-								var playerID = player.whoAmI;
-								if (!serverPlayer.HasPassword)
-								{
-									serverPlayer.ApplyLockBuffs();
-									NetMessage.SendChatMessageToClient(NetworkText.FromLiteral("您还没有注册，请使用登录窗口注册哦~"), new Color(255, 255, 30, 30), playerID);
-								}
-								else if (serverPlayer.HasPassword && !serverPlayer.IsLogin)
-								{
-									serverPlayer.ApplyLockBuffs();
-									NetMessage.SendChatMessageToClient(NetworkText.FromLiteral("您已注册，输入密码就可以登录了！"), new Color(255, 255, 30, 30), playerID);
-								}
-							}
-						}
-						foreach (var player in ServerSideCharacter2.PlayerCollection)
-						{
-							if (player.Value.PrototypePlayer == null || !player.Value.PrototypePlayer.active)
-							{
-								player.Value.IsLogin = false;
-								player.Value.SetID(-1);
-							}
-						}
 
-					}
-					if (ServerSideCharacter2.Config.AutoSave && Timer % ServerSideCharacter2.Config.SaveInterval < 1)
-					{
-						ThreadPool.QueueUserWorkItem(Do_Save);
-					}
 				}
-				catch (Exception ex)
+				if (ServerSideCharacter2.Config.AutoSave && _timer % ServerSideCharacter2.Config.SaveInterval < 1)
 				{
-					CommandBoardcast.ConsoleError(ex);
-					WorldFile.saveWorld();
-					Netplay.disconnect = true;
-					Terraria.Social.SocialAPI.Shutdown();
+					ThreadPool.QueueUserWorkItem(Do_Save);
 				}
+			}
+			catch (Exception ex)
+			{
+				CommandBoardcast.ConsoleError(ex);
+				WorldFile.saveWorld();
+				Netplay.disconnect = true;
+				Terraria.Social.SocialAPI.Shutdown();
 			}
 		}
 

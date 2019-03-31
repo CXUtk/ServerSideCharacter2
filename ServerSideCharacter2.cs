@@ -46,8 +46,6 @@ namespace ServerSideCharacter2
 
 		internal static PlayersDocument PlayerDoc;
 
-		internal static UIElement UIMouseLocker;
-
 		internal static ConfigData Config { get; set; }
 
 		internal static string ShowTooltip { get; set; }
@@ -262,13 +260,12 @@ namespace ServerSideCharacter2
 					}
 
 					var data = Encoding.UTF8.GetBytes(auth);
-					byte[] result;
 					SHA1 sha = new SHA1CryptoServiceProvider();
 					// This is one implementation of the abstract class SHA1.
-					result = sha.ComputeHash(data);
-					for (var i = 0; i < data.Length; i++)
+					sha.ComputeHash(data);
+					foreach (var d in data)
 					{
-						sBuilder.Append(data[i].ToString("x2"));
+						sBuilder.Append(d.ToString("x2"));
 					}
 				}
 				else

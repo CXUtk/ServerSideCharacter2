@@ -126,16 +126,10 @@ namespace ServerSideCharacter2.Network
 				// We have to call `WorldIO.SendModData(binaryWriter)` using reflection
 				var type = typeof(Main).Assembly.GetType("Terraria.ModLoader.IO.WorldIO");
 				var method = type.GetMethod("SendModData", new[] { typeof(BinaryWriter) });
-				method.Invoke(null, new object[] { writer });
+				if (method != null) method.Invoke(null, new object[] {writer});
 			}
-			if (SocialAPI.Network != null)
-			{
-				writer.Write(SocialAPI.Network.GetLobbyId());
-			}
-			else
-			{
-				writer.Write(0uL);
-			}
+
+			writer.Write(SocialAPI.Network != null ? SocialAPI.Network.GetLobbyId() : 0uL);
 			writer.Write(Sandstorm.IntendedSeverity);
 		}
 	}

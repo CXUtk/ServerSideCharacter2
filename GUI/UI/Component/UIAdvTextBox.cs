@@ -29,8 +29,6 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		private int textBlinkCount;
 		private string appearedText;
 
-		private UIAdvPanel textPanel;
-
 		public bool Focused { get; private set; }
 
 		public DynamicSpriteFont Font { get; set; }
@@ -56,8 +54,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			appearedText = "";
 			Text = "";
 
-			textPanel = new UIAdvPanel(ServerSideCharacter2.ModTexturesTable["Box"]);
-			textPanel.Color = Color.White;
+			var textPanel = new UIAdvPanel(ServerSideCharacter2.ModTexturesTable["Box"]) {Color = Color.White};
 			textPanel.Top.Set(0, 0);
 			textPanel.Left.Set(0, 0);
 			textPanel.Width.Set(0, 1);
@@ -155,7 +152,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			var dim = GetInnerDimensions();
 
 			var strSize = Font.MeasureString(appearedText);
-			DynamicSpriteFontExtensionMethods.DrawString(spriteBatch, Font, appearedText, new Vector2(dim.Position().X + TEXT_PADDING, dim.Center().Y - strSize.Y / 2 + 4), ForegroundColor);
+			spriteBatch.DrawString(Font, appearedText, new Vector2(dim.Position().X + TEXT_PADDING, dim.Center().Y - strSize.Y / 2 + 4), ForegroundColor);
 		}
 
 
@@ -264,17 +261,22 @@ namespace ServerSideCharacter2.GUI.UI.Component
 				{
 					var num = Main.keyInt[j];
 					var str = Main.keyString[j];
-					if (num == 13)
+					switch (num)
 					{
-						Main.inputTextEnter = true;
-					}
-					else if (num == 27)
-					{
-						Main.inputTextEscape = true;
-					}
-					else if (num >= 32 && num != 127)
-					{
-						text2 += str;
+						case 13:
+							Main.inputTextEnter = true;
+							break;
+						case 27:
+							Main.inputTextEscape = true;
+							break;
+						default:
+						{
+							if (num >= 32 && num != 127)
+							{
+								text2 += str;
+							}
+							break;
+						}
 					}
 				}
 			}
@@ -297,28 +299,21 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			{
 				backSpaceCount = 15;
 			}
-			for (var k = 0; k < pressedKeys.Length; k++)
+			foreach (var k in pressedKeys)
 			{
 				var flag2 = true;
-				for (var l = 0; l < pressedKeys2.Length; l++)
+				foreach (var key in pressedKeys2)
 				{
-					if (pressedKeys[k] == pressedKeys2[l])
+					if (k == key)
 					{
 						flag2 = false;
 					}
 				}
-				var a = string.Concat(pressedKeys[k]);
+				var a = string.Concat(k);
 				if (a == "Back" && lastCompSize == 0 && (flag2 || flag) && text.Length > 0)
 				{
 					var array = ChatManager.ParseMessage(text, Color.White).ToArray();
-					if (array[array.Length - 1].DeleteWhole)
-					{
-						text = text.Substring(0, text.Length - array[array.Length - 1].TextOriginal.Length);
-					}
-					else
-					{
-						text = text.Substring(0, text.Length - 1);
-					}
+					text = array[array.Length - 1].DeleteWhole ? text.Substring(0, text.Length - array[array.Length - 1].TextOriginal.Length) : text.Substring(0, text.Length - 1);
 				}
 			}
 			lastCompSize = Platform.Current.Ime.CompositionString.Length;

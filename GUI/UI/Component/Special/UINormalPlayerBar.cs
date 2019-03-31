@@ -213,14 +213,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		public override void Click(UIMouseEvent evt)
 		{
 			_expanded ^= true;
-			if (_expanded)
-			{
-				this.Height.Set(100f, 0f);
-			}
-			else
-			{
-				this.Height.Set(50f, 0f);
-			}
+			this.Height.Set(_expanded ? 100f : 50f, 0f);
 			Recalculate();
 			
 			base.Click(evt);
@@ -229,14 +222,12 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		{
 			// spriteBatch.Draw(Main.magicPixel, spriteBatch.GraphicsDevice.ScissorRectangle, Color.Blue * 0.4f);
 			base.DrawSelf(spriteBatch);
-			if (_expanded)
-			{
-				var innerDimensions = base.GetInnerDimensions();
-				var position = new Vector2(innerDimensions.X + 5f, innerDimensions.Y + 40);
-				spriteBatch.Draw(this.dividerTexture, position, null, Color.White, 0f, Vector2.Zero,
-					new Vector2((innerDimensions.Width - 10f) / 8f, 1f), SpriteEffects.None, 0f);
-			}
-			
+			if (!_expanded) return;
+			var innerDimensions = base.GetInnerDimensions();
+			var position = new Vector2(innerDimensions.X + 5f, innerDimensions.Y + 40);
+			spriteBatch.Draw(this.dividerTexture, position, null, Color.White, 0f, Vector2.Zero,
+				new Vector2((innerDimensions.Width - 10f) / 8f, 1f), SpriteEffects.None, 0f);
+
 		}
 
 

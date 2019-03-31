@@ -31,7 +31,7 @@ namespace ServerSideCharacter2.Services.Misc
 					var item = new Item();
 					item.netDefaults(type);
 					var id = Item.NewItem(p.position, Vector2.Zero, type, item.maxStack, true, 0, true);
-					var s = string.Format("你得到了 {0} 个 {1}", item.maxStack, Lang.GetItemNameValue(type));
+					var s = $"你得到了 {item.maxStack} 个 {Lang.GetItemNameValue(type)}";
 					player.SendInfoMessage(s);
 					CommandBoardcast.ConsoleMessage(s);
 				}

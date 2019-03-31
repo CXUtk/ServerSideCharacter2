@@ -42,13 +42,11 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		// Token: 0x060023A8 RID: 9128 RVA: 0x0047A078 File Offset: 0x00478278
 		public void Goto(UIList.ElementSearchMethod searchMethod)
 		{
-			for (var i = 0; i < this._items.Count; i++)
+			foreach (var t in this._items)
 			{
-				if (searchMethod(this._items[i]))
-				{
-					this._scrollbar.ViewPosition = this._items[i].Top.Pixels;
-					return;
-				}
+				if (!searchMethod(t)) continue;
+				this._scrollbar.ViewPosition = t.Top.Pixels;
+				return;
 			}
 		}
 
@@ -110,11 +108,11 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		{
 			base.RecalculateChildren();
 			var num = StartPadding;
-			for (var i = 0; i < this._items.Count; i++)
+			foreach (var item in this._items)
 			{
-				this._items[i].Top.Set(num, 0f);
-				this._items[i].Recalculate();
-				num += this._items[i].GetOuterDimensions().Height + this.ListPadding;
+				item.Top.Set(num, 0f);
+				item.Recalculate();
+				num += item.GetOuterDimensions().Height + this.ListPadding;
 			}
 			this._innerListHeight = num;
 		}

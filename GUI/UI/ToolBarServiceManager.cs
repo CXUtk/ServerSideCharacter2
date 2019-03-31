@@ -26,25 +26,27 @@ namespace ServerSideCharacter2.GUI.UI
 
 		public void Disable(string name)
 		{
-			for(var i = 0; i <_services.Count; i++)
+			foreach (var service in _services)
 			{
-				if(_services[i].Name == name)
+				if(service.Name == name)
 				{
-					_services[i].Enabled = false;
+					service.Enabled = false;
 				}
 			}
+
 			throw new ArgumentException("没找到名字为: " + name + " 的服务");
 		}
 
 		public void Enable(string name)
 		{
-			for (var i = 0; i < _services.Count; i++)
+			foreach (var service in _services)
 			{
-				if (_services[i].Name == name)
+				if (service.Name == name)
 				{
-					_services[i].Enabled = true;
+					service.Enabled = true;
 				}
 			}
+
 			throw new ArgumentException("没找到名字为: " + name + " 的服务");
 		}
 

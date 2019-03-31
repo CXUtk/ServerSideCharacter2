@@ -92,11 +92,7 @@ namespace ServerSideCharacter2.Services.Login
 							var bytes = Encoding.UTF8.GetBytes(username + salt + ClientMD5Key);
 							bytes = md5CryptoServiceProvider.ComputeHash(bytes);
 							md5CryptoServiceProvider.Clear();
-							var s_return = "";
-							for (var i2 = 0; i2 < bytes.Length; i2++)
-							{
-								s_return += System.Convert.ToString(bytes[i2], 16).PadLeft(2, '0');
-							}
+							var s_return = bytes.Aggregate("", (current, t) => current + System.Convert.ToString(t, 16).PadLeft(2, '0'));
 							var check = s_return.PadLeft(32, '0');
 							var pageData = Encoding.UTF8.GetString(new System.Net.WebClient
 							{
@@ -120,11 +116,7 @@ namespace ServerSideCharacter2.Services.Login
 								var _bytes = Encoding.UTF8.GetBytes(username + salt + ServerMD5Key);
 								_bytes = md5CryptoServiceProvider2.ComputeHash(_bytes);
 								md5CryptoServiceProvider2.Clear();
-								var _s_return = "";
-								for (var ii = 0; ii < _bytes.Length; ii++)
-								{
-									_s_return += System.Convert.ToString(_bytes[ii], 16).PadLeft(2, '0');
-								}
+								var _s_return = _bytes.Aggregate("", (current, t) => current + System.Convert.ToString(t, 16).PadLeft(2, '0'));
 								if (_check == _s_return.PadLeft(32, '0'))
 								{
 									//验证成功

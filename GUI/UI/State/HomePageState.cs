@@ -56,9 +56,10 @@ namespace ServerSideCharacter2.GUI.UI
 			WindowPanel.Height.Set(WINDOW_HEIGHT, 0f);
 			WindowPanel.Color = Color.White * 0.8f;
 
-			_onlinePlayerPanel = new UIAdvPanel(ServerSideCharacter2.ModTexturesTable["Box"]);
-			_onlinePlayerPanel.CornerSize = new Vector2(8, 8);
-			_onlinePlayerPanel.OverflowHidden = true;
+			_onlinePlayerPanel = new UIAdvPanel(ServerSideCharacter2.ModTexturesTable["Box"])
+			{
+				CornerSize = new Vector2(8, 8), OverflowHidden = true
+			};
 			_onlinePlayerPanel.SetPadding(10f);
 			_onlinePlayerPanel.Top.Set(-FRIENDLIST_HEIGHT / 2 + FRIENDLIST_OFFSET_TOP, 0.5f);
 			_onlinePlayerPanel.Left.Set(-FRIENDLIST_WIDTH / 2 + FRIENDLIST_OFFSET_RIGHT, 0.5f);

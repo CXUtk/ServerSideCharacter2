@@ -41,8 +41,8 @@ namespace ServerSideCharacter2.Utils
 				} 
 			}
 			CommandBoardcast.ConsoleMessage("配置文件已经加载");
-			CommandBoardcast.ConsoleMessage(string.Format("当前配置  自动保存: {0}，自动保存间隔：{1}s",
-				ServerSideCharacter2.Config.AutoSave ? "开" : "关", ServerSideCharacter2.Config.SaveInterval / 60f));
+			CommandBoardcast.ConsoleMessage(
+				$"当前配置  自动保存: {(ServerSideCharacter2.Config.AutoSave ? "开" : "关")}，自动保存间隔：{ServerSideCharacter2.Config.SaveInterval / 60f}s");
 
 			GroupConfigManager = new GroupConfigManager();
 			UnionDataManager = new Unions.UnionDataManager();
