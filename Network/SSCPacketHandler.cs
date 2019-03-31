@@ -60,14 +60,14 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.ToggleGodMode, new GodModeHandler() },
 				{SSCMessageType.ModPlayerInfo, new ModPlayerInfoHandler() },
 				{SSCMessageType.TPCommand, new TPHandler() },
-				{SSCMessageType.TeleportPalyer, new TPPlayerHandler() },
 				{SSCMessageType.RequestItem, new ItemHandler() },
 				{SSCMessageType.SyncGroupInfoToClient, new SyncGroupHandler() },
 				{SSCMessageType.ForcePVP, new ForcePVPHandler() },
 				{SSCMessageType.ChatText, new ChatTextHandler() },
 				{SSCMessageType.SpawnRate, new SpawnControlHandler1() },
 				{SSCMessageType.MaxSpawnCount, new SpawnControlHandler2() },
-				{SSCMessageType.KickCommand, new KickHandler() }
+				{SSCMessageType.KickCommand, new KickHandler() },
+				{SSCMessageType.TPHereCommand, new TPHereHandler() }
 			};
 		}
 	}

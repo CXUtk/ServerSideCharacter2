@@ -143,7 +143,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			}
 		}
 
-		private void KickButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
+		protected void KickButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
 			if (Main.netMode == 0) return;
 			if (Main.player[playerInfo.PlayerID].active)
@@ -152,7 +152,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			}
 		}
 
-		private void LockButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
+		protected void LockButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
 			if (Main.netMode == 0) return;
 			if (Main.player[playerInfo.PlayerID].active)
@@ -161,7 +161,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			}
 		}
 
-		private void Profilebutton_OnClick(UIMouseEvent evt, UIElement listeningElement)
+		protected void Profilebutton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
 			ServerSideCharacter2.GuiManager.OpenProfile(playerInfo);
 		}
@@ -180,7 +180,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			}
 		}
 
-		private void Tpbutton_OnClick(UIMouseEvent evt, UIElement listeningElement)
+		protected void Tpbutton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
 			if (Main.netMode == 0) return;
 			if (Main.player[playerInfo.PlayerID].active)

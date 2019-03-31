@@ -28,21 +28,6 @@ namespace ServerSideCharacter2.Commands
 		{
 			get { return " /tp <玩家ID>"; }
 		}
-		//static private string[] GetArgs(string[] source)
-		//{
-		//	string name;
-		//	int amount;
-		//	if (source.Length > 1 && int.TryParse(source.Last(), out amount))
-		//	{
-		//		name = string.Join(" ", source.Take(source.Length - 1));
-		//	}
-		//	else
-		//	{
-		//		amount = 1;
-		//		name = string.Join(" ", source);
-		//	}
-		//	return new string[2] { name, amount.ToString() };
-		//}
 
 		public override void Action(CommandCaller caller, string input, string[] args)
 		{
@@ -53,6 +38,40 @@ namespace ServerSideCharacter2.Commands
 				return;
 			}
 			MessageSender.SendTeleportCommand(who);
+		}
+	}
+
+	public class TPHereCommand : ModCommand
+	{
+		public override string Command
+		{
+			get { return "tphere"; }
+		}
+
+		public override CommandType Type
+		{
+			get { return CommandType.Chat; }
+		}
+
+		public override string Description
+		{
+			get { return "强制把玩家撸到自己身边"; }
+		}
+
+		public override string Usage
+		{
+			get { return " /tphere <玩家ID>"; }
+		}
+
+		public override void Action(CommandCaller caller, string input, string[] args)
+		{
+			var who = Convert.ToInt32(args[0]);
+			if (who < 0 || who > 255 || !Main.player[who].active)
+			{
+				Main.NewText("玩家不存在", Color.Red);
+				return;
+			}
+			MessageSender.SendTeleportHereCommand(who);
 		}
 	}
 }

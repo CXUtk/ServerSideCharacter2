@@ -29,10 +29,46 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 
 		protected override void AddExtraButtons(List<UICDButton> buttons)
 		{
-			base.AddExtraButtons(buttons);
-			if(buttons.Last().ButtonText == "踢掉")
+			var profilebutton = new UICDButton(null, true);
+			profilebutton.Width.Set(70f, 0f);
+			profilebutton.Height.Set(38f, 0f);
+			profilebutton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
+			profilebutton.ButtonDefaultColor = new Color(200, 200, 200);
+			profilebutton.ButtonChangeColor = Color.White;
+			profilebutton.CornerSize = new Vector2(12, 12);
+			profilebutton.ButtonText = "资料";
+			profilebutton.OnClick += Profilebutton_OnClick;
+			buttons.Add(profilebutton);
+
+
+
+			if (Main.netMode == 0 || ServerSideCharacter2.MainPlayerGroup.HasPermission("tp"))
 			{
-				buttons.RemoveAt(buttons.Count - 1);
+				var tpbutton = new UICDButton(null, true);
+				tpbutton.Width.Set(70f, 0f);
+				tpbutton.Height.Set(38f, 0f);
+				tpbutton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
+				tpbutton.ButtonDefaultColor = new Color(200, 200, 200);
+				tpbutton.ButtonChangeColor = Color.White;
+				tpbutton.CornerSize = new Vector2(12, 12);
+				tpbutton.ButtonText = "传送";
+				tpbutton.OnClick += Tpbutton_OnClick;
+				buttons.Add(tpbutton);
+			}
+
+
+			if (Main.netMode == 0 || ServerSideCharacter2.MainPlayerGroup.HasPermission("lock"))
+			{
+				var lockButton = new UICDButton(null, true);
+				lockButton.Width.Set(70f, 0f);
+				lockButton.Height.Set(38f, 0f);
+				lockButton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
+				lockButton.ButtonDefaultColor = new Color(200, 200, 200);
+				lockButton.ButtonChangeColor = Color.White;
+				lockButton.CornerSize = new Vector2(12, 12);
+				lockButton.ButtonText = "锁住";
+				lockButton.OnClick += LockButton_OnClick;
+				buttons.Add(lockButton);
 			}
 		}
 		//public override void Click(UIMouseEvent evt)

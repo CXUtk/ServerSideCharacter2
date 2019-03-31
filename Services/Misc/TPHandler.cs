@@ -32,11 +32,14 @@ namespace ServerSideCharacter2.Services.Misc
 					//}
 					//else
 					//{
-						Main.player[playerNumber].Teleport(Main.player[target].position);
-						MessageSender.SendTeleport(playerNumber, Main.player[target].position);
-						player.SendInfoMessage("你传送到了 " + targetPlayer.Name + " 身边");
-						targetPlayer.SendInfoMessage(player.Name + " 传送到了你身边");
-						CommandBoardcast.ConsoleMessage($"玩家 {player.Name} 传送到了 {targetPlayer.Name} 身边");
+					Main.player[playerNumber].Teleport(Main.player[target].position);
+					if (Main.netMode == 2)
+					{
+						NetMessage.SendData(65, -1, -1, null, 0, (float)playerNumber, Main.player[target].position.X, Main.player[target].position.Y, 0, 0, 0);
+					}
+					player.SendInfoMessage("你传送到了 " + targetPlayer.Name + " 身边");
+					targetPlayer.SendInfoMessage(player.Name + " 传送到了你身边");
+					CommandBoardcast.ConsoleMessage($"玩家 {player.Name} 传送到了 {targetPlayer.Name} 身边");
 					//}
 				}
 				else
@@ -47,15 +50,35 @@ namespace ServerSideCharacter2.Services.Misc
 		}
 	}
 
-	public class TPPlayerHandler : ISSCNetHandler
+	public class TPHereHandler : SSCCommandHandler
 	{
-		public void Handle(BinaryReader reader, int playerNumber)
+		public override string PermissionName => "tphere";
+
+		public override void HandleCommand(BinaryReader reader, int playerNumber)
 		{
-			if (Main.netMode == 1)
+			// 服务器端
+			if (Main.netMode == 2)
 			{
-				var dest = reader.ReadVector2();
-				Main.LocalPlayer.Teleport(dest);
+				int target = reader.ReadByte();
+				var player = Main.player[playerNumber].GetServerPlayer();
+				var targetPlayer = Main.player[target].GetServerPlayer();
+				if (targetPlayer.PrototypePlayer != null && targetPlayer.PrototypePlayer.active)
+				{
+					Main.player[target].Teleport(Main.player[playerNumber].position);
+					if (Main.netMode == 2)
+					{
+						NetMessage.SendData(65, -1, -1, null, 0, (float)target, Main.player[playerNumber].position.X, Main.player[playerNumber].position.Y, 0, 0, 0);
+					}
+					player.SendInfoMessage("成功让 " + targetPlayer.Name + " 强行传送至你身边");
+					targetPlayer.SendInfoMessage($"你被强制传送到了 {player.Name} 身边");
+					CommandBoardcast.ConsoleMessage($"玩家 {targetPlayer.Name} 被 {player.Name} 强行抓走了");
+				}
+				else
+				{
+					player.SendErrorInfo("找不到这个玩家");
+				}
 			}
 		}
 	}
+
 }

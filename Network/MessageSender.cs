@@ -169,6 +169,15 @@ namespace ServerSideCharacter2
 		}
 
 
+		public static void SendTeleportHereCommand(int target)
+		{
+			var p = ServerSideCharacter2.Instance.GetPacket();
+			p.Write((int)SSCMessageType.TPHereCommand);
+			p.Write((byte)target);
+			p.Send();
+		}
+
+
 
 		//public static void SendListCommand(int plr, ListType type, bool all)
 		//{

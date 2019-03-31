@@ -48,7 +48,7 @@ namespace ServerSideCharacter2.Groups
 			admin.AddPermission("mute");
 			admin.AddPermission("tp");
 			admin.AddPermission("sm");
-			admin.AddPermission("tphere");
+			admin.AddPermission("mute");
 			admin.AddPermission("lock");
 			admin.AddPermission("hardmode");
 			admin.AddPermission("expert");
