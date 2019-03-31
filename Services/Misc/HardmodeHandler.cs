@@ -22,7 +22,7 @@ namespace ServerSideCharacter2.Services.Misc
 			// 服务器端
 			if (Main.netMode == 2)
 			{
-				string s = $"玩家 {Main.player[playerNumber].name} {(!Main.hardMode ? "开启" : "关闭")}了肉山后模式";
+				var s = $"玩家 {Main.player[playerNumber].name} {(!Main.hardMode ? "开启" : "关闭")}了肉山后模式";
 				if (Main.hardMode)
 				{
 					Main.hardMode = false;

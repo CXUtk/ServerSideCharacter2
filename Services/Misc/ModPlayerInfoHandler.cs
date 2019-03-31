@@ -16,7 +16,7 @@ namespace ServerSideCharacter2.Services.Misc
 			{
 				plr = playerNumber;
 			}
-			MPlayer mPlayer = Main.player[plr].GetModPlayer<MPlayer>();
+			var mPlayer = Main.player[plr].GetModPlayer<MPlayer>();
 			mPlayer.GodMode = reader.ReadBoolean();
 			mPlayer.Rank = reader.ReadInt32();
 			if (Main.netMode == 2)

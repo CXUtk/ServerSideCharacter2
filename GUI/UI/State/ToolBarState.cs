@@ -32,14 +32,14 @@ namespace ServerSideCharacter2.GUI.UI
 		public void ShowButtons()
 		{
 			windowPanel.RemoveAllChildren();
-			for(int i = 0; i < _toolButtons.Count; i++)
+			for(var i = 0; i < _toolButtons.Count; i++)
 			{
 				var but = _toolButtons[i];
 				but.Top.Set(-but.Height.Pixels / 2, 0.5f);
 				but.Left.Set(TOOLBAR_ICON_PADDING_LEFT + i * TOOLBAR_ICON_MARGIN_LEFT, 0f);
 				windowPanel.Append(but);
 			}
-			float estimatedWidth = TOOLBAR_ICON_PADDING_LEFT * 2 + _toolButtons.Count * TOOLBAR_ICON_MARGIN_LEFT;
+			var estimatedWidth = TOOLBAR_ICON_PADDING_LEFT * 2 + _toolButtons.Count * TOOLBAR_ICON_MARGIN_LEFT;
 			if(estimatedWidth < TOOLBAR_INIT_WIDTH)
 			{
 				estimatedWidth = TOOLBAR_INIT_WIDTH;
@@ -111,7 +111,7 @@ namespace ServerSideCharacter2.GUI.UI
 
 		public override void Update(GameTime gameTime)
 		{
-			float maxH = Main.screenHeight - TOOLBAR_INIT_HEIGHT - 12f;
+			var maxH = Main.screenHeight - TOOLBAR_INIT_HEIGHT - 12f;
 			if (_collapseOn && windowPanel.Top.Pixels > maxH)
 			{
 				windowPanel.Top.Set(windowPanel.Top.Pixels - 6f, 0f);

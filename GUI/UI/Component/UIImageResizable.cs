@@ -66,7 +66,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		{
 			spriteBatch.End();
 			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
-			CalculatedStyle dimensions = base.GetDimensions();
+			var dimensions = base.GetDimensions();
 			if (UsePosition)
 			{
 				spriteBatch.Draw(this._texture, dimensions.Position(), null, Color.White, 0f, Vector2.Zero, this.ImageScale, SpriteEffects.None, 0f);

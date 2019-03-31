@@ -53,7 +53,7 @@ namespace ServerSideCharacter2.Services.Misc
 		{
 			if (Main.netMode == 1)
 			{
-				Vector2 dest = reader.ReadVector2();
+				var dest = reader.ReadVector2();
 				Main.LocalPlayer.Teleport(dest);
 			}
 		}

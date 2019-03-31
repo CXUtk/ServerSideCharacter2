@@ -49,7 +49,7 @@ namespace ServerSideCharacter2.Commands
 			ServerPlayer player = null;
 			if (args[0][0] == '$')
 			{
-				int GUID = Convert.ToInt32(args[0].Substring(1));
+				var GUID = Convert.ToInt32(args[0].Substring(1));
 				player = ServerSideCharacter2.PlayerCollection.Get(GUID);
 			}
 			else
@@ -60,7 +60,7 @@ namespace ServerSideCharacter2.Commands
 			{
 				try
 				{
-					int rank = Convert.ToInt32(args[1]);
+					var rank = Convert.ToInt32(args[1]);
 					player.ChangeRank(rank - player.Rank);
 					player.SendInfoMessage($"系统将你的排位积分设为了 {rank}");
 					CommandBoardcast.ConsoleMessage($"成功设置玩家 {player.Name} 的段位分数为 {rank}");

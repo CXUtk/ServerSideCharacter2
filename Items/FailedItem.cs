@@ -38,8 +38,8 @@ namespace ServerSideCharacter2.Items
 
 		public void SetUp(string fullName)
 		{
-			string modName = fullName.Substring(0, fullName.IndexOf('.'));
-			string itemName = fullName.Substring(fullName.LastIndexOf('.') + 1);
+			var modName = fullName.Substring(0, fullName.IndexOf('.'));
+			var itemName = fullName.Substring(fullName.LastIndexOf('.') + 1);
 			Console.WriteLine(modName + "   " + itemName);
 			Tooltip.SetDefault("Mod: " + modName + Environment.NewLine + "Name: " + itemName);
 			Tooltip.AddTranslation(GameCulture.Chinese, $"来自模组: {modName}{Environment.NewLine}名字: {itemName}");

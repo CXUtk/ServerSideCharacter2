@@ -14,7 +14,7 @@ namespace ServerSideCharacter2.Services.Misc
 		}
 		public void Handle(BinaryReader reader, int playerNumber)
 		{
-			string msg = reader.ReadString();
+			var msg = reader.ReadString();
 			Main.NewText(msg, Color.Red);
 		}
 	}

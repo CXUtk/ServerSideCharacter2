@@ -21,8 +21,8 @@ namespace ServerSideCharacter2
 		public void WriteToFile(string msg)
 		{
 			_logWriter = new StreamWriter(FileName, IsAppend);
-			string dateTime = DateTime.Now.ToString();
-			string text = "[" + dateTime + "] " + msg + "\n";
+			var dateTime = DateTime.Now.ToString();
+			var text = "[" + dateTime + "] " + msg + "\n";
 			_logWriter.WriteLine(text);
 			_logWriter.Flush();
 			_logWriter.Close();

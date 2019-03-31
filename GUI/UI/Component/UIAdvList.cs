@@ -42,7 +42,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		// Token: 0x060023A8 RID: 9128 RVA: 0x0047A078 File Offset: 0x00478278
 		public void Goto(UIList.ElementSearchMethod searchMethod)
 		{
-			for (int i = 0; i < this._items.Count; i++)
+			for (var i = 0; i < this._items.Count; i++)
 			{
 				if (searchMethod(this._items[i]))
 				{
@@ -65,7 +65,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		public virtual void AddRange(IEnumerable<UIElement> items)
 		{
 			this._items.AddRange(items);
-			foreach (UIElement element in items)
+			foreach (var element in items)
 			{
 				this._innerList.Append(element);
 			}
@@ -109,8 +109,8 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		public override void RecalculateChildren()
 		{
 			base.RecalculateChildren();
-			float num = StartPadding;
-			for (int i = 0; i < this._items.Count; i++)
+			var num = StartPadding;
+			for (var i = 0; i < this._items.Count; i++)
 			{
 				this._items[i].Top.Set(num, 0f);
 				this._items[i].Recalculate();
@@ -157,13 +157,13 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		// Token: 0x060023B4 RID: 9140 RVA: 0x0047A1C4 File Offset: 0x004783C4
 		public override List<SnapPoint> GetSnapPoints()
 		{
-			List<SnapPoint> list = new List<SnapPoint>();
+			var list = new List<SnapPoint>();
 			SnapPoint item;
 			if (base.GetSnapPoint(out item))
 			{
 				list.Add(item);
 			}
-			foreach (UIElement uielement in this._items)
+			foreach (var uielement in this._items)
 			{
 				list.AddRange(uielement.GetSnapPoints());
 			}
@@ -216,12 +216,12 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			// Token: 0x060023BB RID: 9147 RVA: 0x00431328 File Offset: 0x0042F528
 			protected override void DrawChildren(SpriteBatch spriteBatch)
 			{
-				Vector2 position = this.Parent.GetDimensions().Position();
-				Vector2 dimensions = new Vector2(this.Parent.GetDimensions().Width, this.Parent.GetDimensions().Height);
-				foreach (UIElement uielement in this.Elements)
+				var position = this.Parent.GetDimensions().Position();
+				var dimensions = new Vector2(this.Parent.GetDimensions().Width, this.Parent.GetDimensions().Height);
+				foreach (var uielement in this.Elements)
 				{
-					Vector2 position2 = uielement.GetDimensions().Position();
-					Vector2 dimensions2 = new Vector2(uielement.GetDimensions().Width, uielement.GetDimensions().Height);
+					var position2 = uielement.GetDimensions().Position();
+					var dimensions2 = new Vector2(uielement.GetDimensions().Width, uielement.GetDimensions().Height);
 					if (Collision.CheckAABBvAABBCollision(position, dimensions, position2, dimensions2))
 					{
 						uielement.Draw(spriteBatch);

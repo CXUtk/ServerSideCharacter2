@@ -33,7 +33,7 @@ namespace ServerSideCharacter2.Services.Misc
 		private void GetRandomClearTileWithInRange(int startTileX, int startTileY, int tileXRange, int tileYRange,
 				out int tileX, out int tileY)
 		{
-			int j = 0;
+			var j = 0;
 			do
 			{
 				// 尝试100次以后停下
@@ -56,24 +56,24 @@ namespace ServerSideCharacter2.Services.Misc
 				// 服务器端
 				if (Main.netMode == 2)
 				{
-					int type = reader.ReadInt32();
-					int number = reader.ReadInt32();
-					Player p = Main.player[playerNumber];
-					ServerPlayer player = p.GetServerPlayer();
+					var type = reader.ReadInt32();
+					var number = reader.ReadInt32();
+					var p = Main.player[playerNumber];
+					var player = p.GetServerPlayer();
 					if (number > 200) number = 200;
 					if (type >= 1 && type < Main.npcTexture.Length && type != 113)
 					{
-						for (int i = 0; i < number; i++)
+						for (var i = 0; i < number; i++)
 						{
 							int spawnTileX;
 							int spawnTileY;
 							GetRandomClearTileWithInRange((int)(p.Center.X) / 16, (int)(p.Center.Y) / 16, 50, 50, out spawnTileX,
 																		 out spawnTileY);
-							int npcid = NPC.NewNPC(spawnTileX * 16, spawnTileY * 16, type, 0);
+							var npcid = NPC.NewNPC(spawnTileX * 16, spawnTileY * 16, type, 0);
 							// This is for special slimes
 							Main.npc[npcid].SetDefaults(type);
 						}
-						string s = string.Format("{0} 召唤了 {1} 个 {2}",
+						var s = string.Format("{0} 召唤了 {1} 个 {2}",
 								player.Name, number, Lang.GetNPCNameValue(type));
 						ServerPlayer.SendInfoMessageToAll(s);
 					}

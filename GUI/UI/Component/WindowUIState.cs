@@ -20,7 +20,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 
 		protected sealed override void DrawSelf(SpriteBatch spriteBatch)
 		{
-			Vector2 MousePosition = Main.MouseScreen;
+			var MousePosition = Main.MouseScreen;
 			if (WindowPanel.ContainsPoint(MousePosition))
 			{
 				Main.LocalPlayer.mouseInterface = true;
@@ -41,7 +41,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			WindowPanel.OnMouseDown += new MouseEvent(DragStart);
 			WindowPanel.OnMouseOver += new MouseEvent(Dragging);
 			WindowPanel.OnMouseUp += new MouseEvent(DragEnd);
-			Texture2D closeTex = ServerSideCharacter2.ModTexturesTable["CloseButton"];
+			var closeTex = ServerSideCharacter2.ModTexturesTable["CloseButton"];
 			close = new UIButton(closeTex, false);
 			close.Left.Set(-30f, 1f);
 			close.Top.Set(10f, 0f);
@@ -61,7 +61,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		{
 			if (_dragging)
 			{
-				Vector2 end = evt.MousePosition;
+				var end = evt.MousePosition;
 				WindowPanel.Left.Set(end.X - _offset.X, 0f);
 				WindowPanel.Top.Set(end.Y - _offset.Y, 0f);
 			}
@@ -96,7 +96,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 
 		private void DragEnd(UIMouseEvent evt, UIElement listeningElement)
 		{
-			Vector2 end = evt.MousePosition;
+			var end = evt.MousePosition;
 			_dragging = false;
 			WindowPanel.Left.Set(end.X - _offset.X, 0f);
 			WindowPanel.Top.Set(end.Y - _offset.Y, 0f);

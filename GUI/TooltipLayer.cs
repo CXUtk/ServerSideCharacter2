@@ -27,8 +27,8 @@ namespace ServerSideCharacter2.GUI
 			if (ServerSideCharacter2.ShowTooltip == null) return true;
 			if (ServerSideCharacter2.ShowTooltip != "")
 			{
-				Vector2 size = Main.fontMouseText.MeasureString(ServerSideCharacter2.ShowTooltip);
-				Vector2 drawPos = new Vector2(Main.mouseX, Main.mouseY) + new Vector2(25f, 25f);
+				var size = Main.fontMouseText.MeasureString(ServerSideCharacter2.ShowTooltip);
+				var drawPos = new Vector2(Main.mouseX, Main.mouseY) + new Vector2(25f, 25f);
 				if (drawPos.Y > Main.screenHeight - 30f)
 					drawPos.Y = Main.screenHeight - 30f;
 				if (drawPos.X > Main.screenWidth - size.X)

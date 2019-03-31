@@ -30,7 +30,7 @@ namespace ServerSideCharacter2.Commands
 
 		public override void Action(CommandCaller caller, string input, string[] args)
 		{
-			int who = Convert.ToInt32(args[0]);
+			var who = Convert.ToInt32(args[0]);
 			if (who < 0 || who > 255 || !Main.player[who].active)
 			{
 				Main.NewText("玩家不存在", Color.Red);

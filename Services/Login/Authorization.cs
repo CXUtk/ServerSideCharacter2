@@ -51,7 +51,7 @@ namespace ServerSideCharacter2.Services.Login
 		{
 			if (Main.netMode == 2)
 			{
-				string encrypted = reader.ReadString();
+				var encrypted = reader.ReadString();
 				// 解密RSA加密的信息
 				var info = CryptedUserInfo.GetDecrypted(encrypted);
 				// info.UserName 目前是 "用户名即为玩家名字"
@@ -66,39 +66,39 @@ namespace ServerSideCharacter2.Services.Login
                     //以下为QQ绑定验证代码
                     //bool isAuthSuccess 为验证状态
                     //string QQ 为用户绑定的QQ号（如果已绑定）
-                    bool isAuthSuccess = ServerSideCharacter2.DEBUGMODE;
+                    var isAuthSuccess = ServerSideCharacter2.DEBUGMODE;
 					if (!ServerSideCharacter2.DEBUGMODE)
 					{
-						string ClientMD5Key = "This is the CLIENT key.";
-						string ServerMD5Key = "This is the SERVER key.";
-						string username = serverPlayer.Name;
+						var ClientMD5Key = "This is the CLIENT key.";
+						var ServerMD5Key = "This is the SERVER key.";
+						var username = serverPlayer.Name;
 						char[] constant =
 						{
 						'0','1','2','3','4','5','6','7','8','9',
 						'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
 						'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'
 						};
-						System.Text.StringBuilder newRandom = new System.Text.StringBuilder(62);
-						System.Random rd = new System.Random();
+						var newRandom = new System.Text.StringBuilder(62);
+						var rd = new System.Random();
 						//salt暂定长度为10
-						for (int i = 0; i < 10; i++)
+						for (var i = 0; i < 10; i++)
 						{
 							newRandom.Append(constant[rd.Next(62)]);
 						}
-						string salt = newRandom.ToString();
+						var salt = newRandom.ToString();
 						try
 						{
-							System.Security.Cryptography.MD5CryptoServiceProvider md5CryptoServiceProvider = new System.Security.Cryptography.MD5CryptoServiceProvider();
-							byte[] bytes = Encoding.UTF8.GetBytes(username + salt + ClientMD5Key);
+							var md5CryptoServiceProvider = new System.Security.Cryptography.MD5CryptoServiceProvider();
+							var bytes = Encoding.UTF8.GetBytes(username + salt + ClientMD5Key);
 							bytes = md5CryptoServiceProvider.ComputeHash(bytes);
 							md5CryptoServiceProvider.Clear();
-							string s_return = "";
-							for (int i2 = 0; i2 < bytes.Length; i2++)
+							var s_return = "";
+							for (var i2 = 0; i2 < bytes.Length; i2++)
 							{
 								s_return += System.Convert.ToString(bytes[i2], 16).PadLeft(2, '0');
 							}
-							string check = s_return.PadLeft(32, '0');
-							string pageData = Encoding.UTF8.GetString(new System.Net.WebClient
+							var check = s_return.PadLeft(32, '0');
+							var pageData = Encoding.UTF8.GetString(new System.Net.WebClient
 							{
 								Credentials = System.Net.CredentialCache.DefaultCredentials
 							}.DownloadData(string.Concat(new string[]
@@ -110,18 +110,18 @@ namespace ServerSideCharacter2.Services.Login
 							"&check=",
 							check
 							})));
-							string _state = pageData.Substring(pageData.IndexOf("<span id=\"statelabel\">") + 22, pageData.IndexOf("</span>", pageData.IndexOf("<span id=\"statelabel\">")) - pageData.IndexOf("<span id=\"statelabel\">") - 22);
-							string _check = pageData.Substring(pageData.IndexOf("<span id=\"checklabel\">") + 22, pageData.IndexOf("</span>", pageData.IndexOf("<span id=\"checklabel\">")) - pageData.IndexOf("<span id=\"checklabel\">") - 22);
+							var _state = pageData.Substring(pageData.IndexOf("<span id=\"statelabel\">") + 22, pageData.IndexOf("</span>", pageData.IndexOf("<span id=\"statelabel\">")) - pageData.IndexOf("<span id=\"statelabel\">") - 22);
+							var _check = pageData.Substring(pageData.IndexOf("<span id=\"checklabel\">") + 22, pageData.IndexOf("</span>", pageData.IndexOf("<span id=\"checklabel\">")) - pageData.IndexOf("<span id=\"checklabel\">") - 22);
 							//QQ号不参与验证，可用于扩展功能
-							string QQ = pageData.Substring(pageData.IndexOf("<span id=\"qqnumlabel\">") + 22, pageData.IndexOf("</span>", pageData.IndexOf("<span id=\"qqnumlabel\">")) - pageData.IndexOf("<span id=\"qqnumlabel\">") - 22);
+							var QQ = pageData.Substring(pageData.IndexOf("<span id=\"qqnumlabel\">") + 22, pageData.IndexOf("</span>", pageData.IndexOf("<span id=\"qqnumlabel\">")) - pageData.IndexOf("<span id=\"qqnumlabel\">") - 22);
 							if (_state == "true")
 							{
-								System.Security.Cryptography.MD5CryptoServiceProvider md5CryptoServiceProvider2 = new System.Security.Cryptography.MD5CryptoServiceProvider();
-								byte[] _bytes = Encoding.UTF8.GetBytes(username + salt + ServerMD5Key);
+								var md5CryptoServiceProvider2 = new System.Security.Cryptography.MD5CryptoServiceProvider();
+								var _bytes = Encoding.UTF8.GetBytes(username + salt + ServerMD5Key);
 								_bytes = md5CryptoServiceProvider2.ComputeHash(_bytes);
 								md5CryptoServiceProvider2.Clear();
-								string _s_return = "";
-								for (int ii = 0; ii < _bytes.Length; ii++)
+								var _s_return = "";
+								for (var ii = 0; ii < _bytes.Length; ii++)
 								{
 									_s_return += System.Convert.ToString(_bytes[ii], 16).PadLeft(2, '0');
 								}
@@ -179,7 +179,7 @@ namespace ServerSideCharacter2.Services.Login
 				}
 				else
 				{
-					int result = CheckName(Main.player[playerNumber].name);
+					var result = CheckName(Main.player[playerNumber].name);
 					if (result == 0)
 					{
 						serverPlayer.SetPassword(info);

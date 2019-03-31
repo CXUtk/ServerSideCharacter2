@@ -30,7 +30,7 @@ namespace ServerSideCharacter2.Commands
 
 		public override void Action(CommandCaller caller, string input, string[] args)
 		{
-			ModPacket pack = ServerSideCharacter2.Instance.GetPacket();
+			var pack = ServerSideCharacter2.Instance.GetPacket();
 			pack.Write((int)SSCMessageType.ToggleGodMode);
 			pack.Send();
 		}

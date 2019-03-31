@@ -14,7 +14,7 @@ namespace ServerSideCharacter2.Services.Misc
 		{
 			if (Main.netMode == 1)
 			{
-				string publicKey = reader.ReadString();
+				var publicKey = reader.ReadString();
 				RSACrypto.SetPublicKey(publicKey);
 			}
 		}

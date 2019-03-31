@@ -21,7 +21,7 @@ namespace ServerSideCharacter2.Dusts
 			}
 			if (!dust.noLight)
 			{
-				float strength = dust.scale;
+				var strength = dust.scale;
 				Lighting.AddLight(dust.position, 0.1f * strength, 0.7f * strength, 0.2f * strength);
 			}
 			dust.scale -= 0.02f;

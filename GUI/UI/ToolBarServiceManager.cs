@@ -26,7 +26,7 @@ namespace ServerSideCharacter2.GUI.UI
 
 		public void Disable(string name)
 		{
-			for(int i = 0; i <_services.Count; i++)
+			for(var i = 0; i <_services.Count; i++)
 			{
 				if(_services[i].Name == name)
 				{
@@ -38,7 +38,7 @@ namespace ServerSideCharacter2.GUI.UI
 
 		public void Enable(string name)
 		{
-			for (int i = 0; i < _services.Count; i++)
+			for (var i = 0; i < _services.Count; i++)
 			{
 				if (_services[i].Name == name)
 				{
@@ -60,7 +60,7 @@ namespace ServerSideCharacter2.GUI.UI
 			{
 				if (!s.Enabled) continue;
 				var boxTex = ServerSideCharacter2.ModTexturesTable["Box"];
-				UIButton button = new UIButton(s.Texture, false);
+				var button = new UIButton(s.Texture, false);
 				button.OnClick += s.OnButtonClicked;
 				button.Width.Set(35, 0f);
 				button.Height.Set(35, 0f);

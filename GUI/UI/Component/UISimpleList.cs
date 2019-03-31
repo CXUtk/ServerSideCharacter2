@@ -21,8 +21,8 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		public override void RecalculateChildren()
 		{
 			base.RecalculateChildren();
-			float num = 0f;
-			for (int i = 0; i < this._contents.Count; i++)
+			var num = 0f;
+			for (var i = 0; i < this._contents.Count; i++)
 			{
 				this._contents[i].Top.Set(num, 0f);
 				this._contents[i].Recalculate();

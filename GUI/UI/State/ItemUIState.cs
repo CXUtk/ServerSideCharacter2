@@ -64,14 +64,14 @@ namespace ServerSideCharacter2.GUI.UI
 					Main.HoverItem.SetNameOverride(Main.HoverItem.Name + ((Main.HoverItem.modItem != null) ? (" [" + Main.HoverItem.modItem.mod.Name + "]") : ""));
 				}
 				var slotbackTex = ServerSideCharacter2.ModTexturesTable["Box"];
-				CalculatedStyle DrawRectangle = GetDimensions();
+				var DrawRectangle = GetDimensions();
 				Drawing.DrawAdvBox(spriteBatch, (int)DrawRectangle.X, (int)DrawRectangle.Y,
 					(int)DrawRectangle.Width, (int)DrawRectangle.Height,
 					Drawing.DefaultBoxColor, slotbackTex, new Vector2(8, 8));
 
 				var frame = Main.itemAnimations[ItemType] != null ? Main.itemAnimations[ItemType].GetFrame(Main.itemTexture[ItemType]) : Main.itemTexture[ItemType].Frame(1, 1, 0, 0);
 				var size = frame.Size();
-				float texScale = 1f;
+				var texScale = 1f;
 				if (size.X > DrawRectangle.Width || size.Y > DrawRectangle.Height)
 				{
 					texScale = size.X > size.Y ? size.X / DrawRectangle.Width : size.Y / DrawRectangle.Height;
@@ -122,7 +122,7 @@ namespace ServerSideCharacter2.GUI.UI
 
 
 			uISlots = new UISimpleSlot[Main.itemTexture.Length - 1];
-			for (int i = 1; i < Main.itemTexture.Length; i++)
+			for (var i = 1; i < Main.itemTexture.Length; i++)
 			{
 				var simpleslot = new UISimpleSlot(i);
 				
@@ -133,7 +133,7 @@ namespace ServerSideCharacter2.GUI.UI
 			_itemGrid.AddRange(uISlots);
 
 			// ScrollBar设定
-			UIAdvScrollBar uiscrollbar = new UIAdvScrollBar();
+			var uiscrollbar = new UIAdvScrollBar();
 			uiscrollbar.SetView(100f, 1000f);
 			uiscrollbar.Height.Set(0f, 1f);
 			uiscrollbar.HAlign = 1f;
@@ -160,10 +160,10 @@ namespace ServerSideCharacter2.GUI.UI
 				_itemGrid.AddRange(uISlots);
 				return;
 			}
-			KMP kmp = new KMP(curString.ToLower());
+			var kmp = new KMP(curString.ToLower());
 			_itemGrid.Clear();
-			List<UISimpleSlot> slots = new List<UISimpleSlot>();
-			for (int i = 1; i < Main.itemTexture.Length; i++)
+			var slots = new List<UISimpleSlot>();
+			for (var i = 1; i < Main.itemTexture.Length; i++)
 			{
 				if (kmp.Match(uISlots[i - 1].Item.Name.ToLower()))
 				{

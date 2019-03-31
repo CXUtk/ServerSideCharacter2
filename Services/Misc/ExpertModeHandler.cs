@@ -24,7 +24,7 @@ namespace ServerSideCharacter2.Services.Misc
 			{
 				Main.expertMode ^= true;
 				NetMessage.SendData(MessageID.WorldData);
-				string s = $"玩家 {Main.player[playerNumber].name} {(Main.expertMode ? "开启" : "关闭")}了专家模式";
+				var s = $"玩家 {Main.player[playerNumber].name} {(Main.expertMode ? "开启" : "关闭")}了专家模式";
 				ServerPlayer.SendInfoMessageToAll(s);
 				CommandBoardcast.ConsoleMessage(s);
 			}

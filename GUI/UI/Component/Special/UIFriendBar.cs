@@ -44,7 +44,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 
 		public override int CompareTo(object obj)
 		{
-			UIFriendBar other = obj as UIFriendBar;
+			var other = obj as UIFriendBar;
 
 			return string.Compare(this.playerInfo.Name, other.playerInfo.Name);
 		}

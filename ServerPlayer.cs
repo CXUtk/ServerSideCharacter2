@@ -220,27 +220,27 @@ namespace ServerSideCharacter2
 
 		private void SetupPlayer()
 		{
-			for (int i = 0; i < inventory.Length; i++)
+			for (var i = 0; i < inventory.Length; i++)
 			{
 				inventory[i] = new Item();
 			}
-			for (int i = 0; i < armor.Length; i++)
+			for (var i = 0; i < armor.Length; i++)
 			{
 				armor[i] = new Item();
 			}
-			for (int i = 0; i < dye.Length; i++)
+			for (var i = 0; i < dye.Length; i++)
 			{
 				dye[i] = new Item();
 			}
-			for (int i = 0; i < miscEquips.Length; i++)
+			for (var i = 0; i < miscEquips.Length; i++)
 			{
 				miscEquips[i] = new Item();
 			}
-			for (int i = 0; i < miscDye.Length; i++)
+			for (var i = 0; i < miscDye.Length; i++)
 			{
 				miscDye[i] = new Item();
 			}
-			for (int i = 0; i < bank.item.Length; i++)
+			for (var i = 0; i < bank.item.Length; i++)
 			{
 				bank.item[i] = new Item();
 			}
@@ -291,9 +291,9 @@ namespace ServerSideCharacter2
 
 		public static ServerPlayer CreateNewPlayer(Player p)
 		{
-			ServerPlayer instance = new ServerPlayer(p);
+			var instance = new ServerPlayer(p);
 			PlayerHooks.SetStartInventory(p);
-			PlayerInfo player = new PlayerInfo
+			var player = new PlayerInfo
 			{
 				Name = p.name,
 				ID = ServerSideCharacter2.PlayerCollection.GetNextID(),
@@ -309,7 +309,7 @@ namespace ServerSideCharacter2
 				KillCount = 0,
 				Rank = 1500
 			};
-			int i = 0;
+			var i = 0;
 			foreach (var item in ServerSideCharacter2.Config.startUpInventory)
 			{
 				player.inventory[i++] = item;
@@ -412,7 +412,7 @@ namespace ServerSideCharacter2
 
 		public void ClearAllBuffs()
 		{
-			for(int i = 0; i < PrototypePlayer.buffType.Length; i++)
+			for(var i = 0; i < PrototypePlayer.buffType.Length; i++)
 			{
 				PrototypePlayer.DelBuff(i);
 			}
@@ -473,7 +473,7 @@ namespace ServerSideCharacter2
 
 		public SimplifiedPlayerInfo GetSimplified(int id)
 		{
-			bool isFriend = (id == 255) ||(id == this.playerID) 
+			var isFriend = (id == 255) ||(id == this.playerID) 
 				|| (Main.player[id].GetServerPlayer().Friends.Contains(this.Name));
 			return new SimplifiedPlayerInfo
 			{
@@ -495,7 +495,7 @@ namespace ServerSideCharacter2
 		{
 			if (RealPlayer && ConnectionAlive)
 			{
-				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				var p = ServerSideCharacter2.Instance.GetPacket();
 				p.Write((int)SSCMessageType.SyncGroupInfoToClient);
 				p.Write(JsonConvert.SerializeObject(Group, Formatting.None));
 				p.Send(playerID);

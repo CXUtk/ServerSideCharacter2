@@ -37,11 +37,11 @@ namespace ServerSideCharacter2.Items
 
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
-			TooltipLine tt = tooltips.FirstOrDefault(x => x.Name == "Damage" && x.mod == "Terraria");
+			var tt = tooltips.FirstOrDefault(x => x.Name == "Damage" && x.mod == "Terraria");
 			if (tt != null)
 			{
-				string[] splitText = tt.text.Split(' ');
-				string damageValue = splitText.First();
+				var splitText = tt.text.Split(' ');
+				var damageValue = splitText.First();
 				tt.text = damageValue + " 治疗效果";
 				tt.overrideColor = Color.LimeGreen;
 			}

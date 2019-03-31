@@ -44,8 +44,8 @@ namespace ServerSideCharacter2.Unions
 			if (!ConfigExist)
 			{
 				uniondata = new UnionData();
-				string data = JsonConvert.SerializeObject(uniondata, Formatting.Indented, converter);
-				using (StreamWriter sw = new StreamWriter(_configPath))
+				var data = JsonConvert.SerializeObject(uniondata, Formatting.Indented, converter);
+				using (var sw = new StreamWriter(_configPath))
 				{
 					sw.Write(data);
 				}
@@ -53,9 +53,9 @@ namespace ServerSideCharacter2.Unions
 			}
 			else
 			{
-				using (StreamReader sr = new StreamReader(_configPath))
+				using (var sr = new StreamReader(_configPath))
 				{
-					string data = sr.ReadToEnd();
+					var data = sr.ReadToEnd();
 					uniondata = JsonConvert.DeserializeObject<UnionData>(data, converter);
 				}
 			}
@@ -66,8 +66,8 @@ namespace ServerSideCharacter2.Unions
 		public void Save()
 		{
 			uniondata.Unions = ServerSideCharacter2.UnionManager.Unions;
-			string data = JsonConvert.SerializeObject(uniondata, Formatting.Indented, converter);
-			using (StreamWriter sw = new StreamWriter(_configPath))
+			var data = JsonConvert.SerializeObject(uniondata, Formatting.Indented, converter);
+			using (var sw = new StreamWriter(_configPath))
 			{
 				sw.Write(data);
 			}
@@ -84,9 +84,9 @@ namespace ServerSideCharacter2.Unions
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
 		{
 
-			Dictionary<string, Union> data = serializer.Deserialize<Dictionary<string, Union>>(reader);
-			UnionData config = new UnionData();
-			for (int i = 0; i < data.Count; i++)
+			var data = serializer.Deserialize<Dictionary<string, Union>>(reader);
+			var config = new UnionData();
+			for (var i = 0; i < data.Count; i++)
 			{
 				var pair = data.ElementAt(i);
 				pair.Value.Name = pair.Key;
@@ -97,8 +97,8 @@ namespace ServerSideCharacter2.Unions
 		}
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
 		{
-			UnionData config = (UnionData)value;
-			JObject obj = JObject.FromObject(config.Unions);
+			var config = (UnionData)value;
+			var obj = JObject.FromObject(config.Unions);
 			obj.WriteTo(writer);
 		}
 	}

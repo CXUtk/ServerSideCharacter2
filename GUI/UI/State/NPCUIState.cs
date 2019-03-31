@@ -47,9 +47,9 @@ namespace ServerSideCharacter2.GUI.UI
 				else
 				{
 					var player = Main.LocalPlayer;
-					int x = (int)player.Bottom.X + player.direction * 200;
-					int y = (int)player.Bottom.Y;
-					int index = NPC.NewNPC(x, y, NPCType, 0, 0f, 0f, 0f, 0f, 255);
+					var x = (int)player.Bottom.X + player.direction * 200;
+					var y = (int)player.Bottom.Y;
+					var index = NPC.NewNPC(x, y, NPCType, 0, 0f, 0f, 0f, 0f, 255);
 				}
 				//Main.playerInventory = true;
 				//Main.mouseItem = new Item();
@@ -67,14 +67,14 @@ namespace ServerSideCharacter2.GUI.UI
 						+ ((Npc.modNPC != null) ? (" [" + Npc.modNPC.mod.Name + "]") : "");
 				}
 				var slotbackTex = ServerSideCharacter2.ModTexturesTable["Box"];
-				CalculatedStyle DrawRectangle = GetDimensions();
+				var DrawRectangle = GetDimensions();
 				Drawing.DrawAdvBox(spriteBatch, (int)DrawRectangle.X, (int)DrawRectangle.Y,
 					(int)DrawRectangle.Width, (int)DrawRectangle.Height,
 					Drawing.DefaultBoxColor, slotbackTex, new Vector2(8, 8));
 
 				var frame = new Rectangle(0, 0, Main.npcTexture[NPCType].Width, Main.npcTexture[NPCType].Height / Main.npcFrameCount[NPCType]);
 				var size = frame.Size();
-				float texScale = 1f;
+				var texScale = 1f;
 				if (size.X > DrawRectangle.Width || size.Y > DrawRectangle.Height)
 				{
 					texScale = size.X > size.Y ? size.X / DrawRectangle.Width : size.Y / DrawRectangle.Height;
@@ -127,7 +127,7 @@ namespace ServerSideCharacter2.GUI.UI
 
 
 			uISlots = new List<UISimpleSlot>();
-			for (int i = 1; i < Main.npcTexture.Length; i++)
+			for (var i = 1; i < Main.npcTexture.Length; i++)
 			{
 				try
 				{
@@ -145,7 +145,7 @@ namespace ServerSideCharacter2.GUI.UI
 			_npcGrid.AddRange(uISlots);
 
 			// ScrollBar设定
-			UIAdvScrollBar uiscrollbar = new UIAdvScrollBar();
+			var uiscrollbar = new UIAdvScrollBar();
 			uiscrollbar.SetView(100f, 1000f);
 			uiscrollbar.Height.Set(0f, 1f);
 			uiscrollbar.HAlign = 1f;
@@ -172,10 +172,10 @@ namespace ServerSideCharacter2.GUI.UI
 				_npcGrid.AddRange(uISlots);
 				return;
 			}
-			KMP kmp = new KMP(curString.ToLower());
+			var kmp = new KMP(curString.ToLower());
 			_npcGrid.Clear();
-			List<UISimpleSlot> slots = new List<UISimpleSlot>();
-			for (int i = 0; i < uISlots.Count; i++)
+			var slots = new List<UISimpleSlot>();
+			for (var i = 0; i < uISlots.Count; i++)
 			{
 				if (kmp.Match(Lang.GetNPCNameValue(uISlots[i].Npc.netID).ToLower()))
 				{

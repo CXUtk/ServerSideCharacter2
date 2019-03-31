@@ -20,7 +20,7 @@ namespace ServerSideCharacter2.Network
 		// Token: 0x06002553 RID: 9555 RVA: 0x004805DC File Offset: 0x0047E7DC
 		public static NetPacket SerializeClientMessage(ChatMessage message)
 		{
-			NetPacket result = NetModule.CreatePacket<NetTextModule>(message.GetMaxSerializedSize());
+			var result = NetModule.CreatePacket<NetTextModule>(message.GetMaxSerializedSize());
 			message.Serialize(result.Writer);
 			return result;
 		}
@@ -34,7 +34,7 @@ namespace ServerSideCharacter2.Network
 		// Token: 0x06002555 RID: 9557 RVA: 0x00480604 File Offset: 0x0047E804
 		public static NetPacket SerializeServerMessage(NetworkText text, Color color, byte authorId)
 		{
-			NetPacket result = NetModule.CreatePacket<NetTextModule>(1 + text.GetMaxSerializedSize() + 3);
+			var result = NetModule.CreatePacket<NetTextModule>(1 + text.GetMaxSerializedSize() + 3);
 			result.Writer.Write(authorId);
 			text.Serialize(result.Writer);
 			result.Writer.WriteRGB(color);
@@ -44,9 +44,9 @@ namespace ServerSideCharacter2.Network
 		// Token: 0x06002556 RID: 9558 RVA: 0x0048064C File Offset: 0x0047E84C
 		private bool DeserializeAsClient(BinaryReader reader, int senderPlayerId)
 		{
-			byte b = reader.ReadByte();
-			string text = NetworkText.Deserialize(reader).ToString();
-			Color c = reader.ReadRGB();
+			var b = reader.ReadByte();
+			var text = NetworkText.Deserialize(reader).ToString();
+			var c = reader.ReadRGB();
 			if (b < 255)
 			{
 				Main.player[(int)b].chatOverhead.NewMessage(text, Main.chatLength / 2);
@@ -59,7 +59,7 @@ namespace ServerSideCharacter2.Network
 		// Token: 0x06002557 RID: 9559 RVA: 0x004806BC File Offset: 0x0047E8BC
 		private bool DeserializeAsServer(BinaryReader reader, int senderPlayerId)
 		{
-			ChatMessage message = ChatMessage.Deserialize(reader);
+			var message = ChatMessage.Deserialize(reader);
 			ChatManager.Commands.ProcessReceivedMessage(message, senderPlayerId);
 			return true;
 		}

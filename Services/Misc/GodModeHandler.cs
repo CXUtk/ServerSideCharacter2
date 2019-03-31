@@ -23,9 +23,9 @@ namespace ServerSideCharacter2.Services.Misc
 			// 服务器端
 			if (Main.netMode == 2)
 			{
-				Player p = Main.player[playerNumber];
-				ServerPlayer player = p.GetServerPlayer();
-				MPlayer mPlayer = p.GetModPlayer<MPlayer>();
+				var p = Main.player[playerNumber];
+				var player = p.GetServerPlayer();
+				var mPlayer = p.GetModPlayer<MPlayer>();
 				mPlayer.GodMode ^= true;
 
 				MessageSender.SyncModPlayerInfo(-1, -1, mPlayer);

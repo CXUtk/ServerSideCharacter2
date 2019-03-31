@@ -39,11 +39,11 @@ namespace ServerSideCharacter2.GUI
 			_message = msg;
 			_color = color;
 			_messageLine.Clear();
-			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < _message.Length; i++)
+			var sb = new StringBuilder();
+			for (var i = 0; i < _message.Length; i++)
 			{
 				sb.Append(_message[i]);
-				string str = sb.ToString();
+				var str = sb.ToString();
 				if(_message[i] == '\n')
 				{
 					_messageLine.Add(str.Substring(0, str.Length - 1));
@@ -82,7 +82,7 @@ namespace ServerSideCharacter2.GUI
 				}
 				else if(_messageTimer <= FADEOUT_TIME)
 				{
-					float factor = _messageTimer / (float)FADEOUT_TIME;
+					var factor = _messageTimer / (float)FADEOUT_TIME;
 					_messageWidth = MathHelper.Lerp(0, MSG_MAX_WIDTH, factor);
 				}
 			}
@@ -91,17 +91,17 @@ namespace ServerSideCharacter2.GUI
 		public void Draw(SpriteBatch sb)
 		{
 			if (_messageTimer <= 0) return;
-			float realHeight = MSG_INIT_HEIGHT + (_messageLine.Count - 1) * MSG_LINE_MARGIN;
-			Vector2 topLeft = new Vector2(Main.screenWidth / 2 - _messageWidth / 2, Main.screenHeight / 2 - realHeight / 2);
+			var realHeight = MSG_INIT_HEIGHT + (_messageLine.Count - 1) * MSG_LINE_MARGIN;
+			var topLeft = new Vector2(Main.screenWidth / 2 - _messageWidth / 2, Main.screenHeight / 2 - realHeight / 2);
 			Drawing.DrawAdvBox(sb, new Rectangle((int)topLeft.X, (int)topLeft.Y, (int)_messageWidth, (int)realHeight), Drawing.DefaultBoxColor,
 				ServerSideCharacter2.ModTexturesTable["Box"], new Vector2(12, 12));
 			if (_messageTimer < _animationMaxTime - FADEIN_TIME && _messageTimer > FADEOUT_TIME)
 			{
-				for (int i = 0; i < _messageLine.Count; i++)
+				for (var i = 0; i < _messageLine.Count; i++)
 				{
-					float h = (_messageLine.Count / 2) * MSG_LINE_MARGIN;
-					Vector2 drawPos = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2 + 4 - h / 2 + i * MSG_LINE_MARGIN);
-					Vector2 texSize = Main.fontMouseText.MeasureString(_messageLine[i]);
+					var h = (_messageLine.Count / 2) * MSG_LINE_MARGIN;
+					var drawPos = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2 + 4 - h / 2 + i * MSG_LINE_MARGIN);
+					var texSize = Main.fontMouseText.MeasureString(_messageLine[i]);
 					Terraria.Utils.DrawBorderStringFourWay(sb, Main.fontMouseText, _messageLine[i], drawPos.X,
 						drawPos.Y, _color, Color.Black, texSize * 0.5f, 1f);
 				}

@@ -25,13 +25,13 @@ namespace ServerSideCharacter2.Services.Misc
 				// 服务器端
 				if (Main.netMode == 2)
 				{
-					int type = reader.ReadInt32();
-					Player p = Main.player[playerNumber];
+					var type = reader.ReadInt32();
+					var p = Main.player[playerNumber];
 					var player = p.GetServerPlayer();
-					Item item = new Item();
+					var item = new Item();
 					item.netDefaults(type);
 					var id = Item.NewItem(p.position, Vector2.Zero, type, item.maxStack, true, 0, true);
-					string s = string.Format("你得到了 {0} 个 {1}", item.maxStack, Lang.GetItemNameValue(type));
+					var s = string.Format("你得到了 {0} 个 {1}", item.maxStack, Lang.GetItemNameValue(type));
 					player.SendInfoMessage(s);
 					CommandBoardcast.ConsoleMessage(s);
 				}

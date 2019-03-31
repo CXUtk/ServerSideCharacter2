@@ -16,17 +16,17 @@ namespace ServerSideCharacter2.Services.Misc
 		{
 			if (Main.netMode == 1)
 			{
-				byte id = reader.ReadByte();
-				string name = reader.ReadString();
-				string text = reader.ReadString();
-				string prefix = reader.ReadString();
-				Color c = reader.ReadRGB();
+				var id = reader.ReadByte();
+				var name = reader.ReadString();
+				var text = reader.ReadString();
+				var prefix = reader.ReadString();
+				var c = reader.ReadRGB();
 				if (id < 255)
 				{
 					Main.player[id].chatOverhead.NewMessage(text, Main.chatLength / 2);
 					// text = NameTagHandler.GenerateTag(Main.player[(int)b].name) + " " + text;
 				}
-				string real = $"<[c/{c.Hex3()}:{prefix}]> {name}: {text}";
+				var real = $"<[c/{c.Hex3()}:{prefix}]> {name}: {text}";
 				Main.NewTextMultiline(real, false, Color.White, -1);
 			}
 		}

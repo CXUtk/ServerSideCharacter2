@@ -44,7 +44,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		{
 			if (MainTexture == null)
 				return;
-			CalculatedStyle dimensions = GetDimensions();
+			var dimensions = GetDimensions();
 			Drawing.DrawAdvBox(spriteBatch, (int)dimensions.X, (int)dimensions.Y, (int)dimensions.Width,(int)dimensions.Height,
 				Color, MainTexture, CornerSize);
 		}

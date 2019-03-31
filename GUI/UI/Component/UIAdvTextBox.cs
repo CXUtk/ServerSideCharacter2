@@ -131,7 +131,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 					{
 						Main.instance.HandleIME();
 					}
-					string oldText = Text;
+					var oldText = Text;
 					Text = GetInputText(Text);
 					if (oldText != Text)
 					{
@@ -154,7 +154,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 
 			var dim = GetInnerDimensions();
 
-			Vector2 strSize = Font.MeasureString(appearedText);
+			var strSize = Font.MeasureString(appearedText);
 			DynamicSpriteFontExtensionMethods.DrawString(spriteBatch, Font, appearedText, new Vector2(dim.Position().X + TEXT_PADDING, dim.Center().Y - strSize.Y / 2 + 4), ForegroundColor);
 		}
 
@@ -166,18 +166,18 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			if (Focused) appearedText += Platform.Current.Ime.CompositionString;
 			if (Password)
 			{
-				StringBuilder sb = new StringBuilder();
-				for (int i = 0; i < appearedText.Length; i++)
+				var sb = new StringBuilder();
+				for (var i = 0; i < appearedText.Length; i++)
 				{
 					sb.Append('*');
 				}
 				appearedText = sb.ToString();
 			}
-			Vector2 strSize = Font.MeasureString(appearedText);
+			var strSize = Font.MeasureString(appearedText);
 			if(strSize.X > Width.Pixels - TEXT_PADDING * 2 - 4)
 			{
-				StringBuilder sb = new StringBuilder();
-				for(int i = appearedText.Length - 1; i >= 0; i--)
+				var sb = new StringBuilder();
+				for(var i = appearedText.Length - 1; i >= 0; i--)
 				{
 					sb.Append(appearedText[i]);
 					if (Font.MeasureString(sb.ToString()).X >= Width.Pixels - TEXT_PADDING * 2 - 4)
@@ -185,9 +185,9 @@ namespace ServerSideCharacter2.GUI.UI.Component
 						break;
 					}
 				}
-				string tmp = sb.ToString();
+				var tmp = sb.ToString();
 				sb.Clear();
-				for(int i = tmp.Length - 1; i >= 0; i--)
+				for(var i = tmp.Length - 1; i >= 0; i--)
 				{
 					sb.Append(tmp[i]);
 				}
@@ -211,13 +211,13 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			}
 			Main.inputTextEnter = false;
 			Main.inputTextEscape = false;
-			string text = oldString;
-			string text2 = "";
+			var text = oldString;
+			var text2 = "";
 			if (text == null)
 			{
 				text = "";
 			}
-			bool flag = false;
+			var flag = false;
 			if (Main.inputText.IsKeyDown(Keys.LeftControl) || Main.inputText.IsKeyDown(Keys.RightControl))
 			{
 				if (Main.inputText.IsKeyDown(Keys.Z) && !Main.oldInputText.IsKeyDown(Keys.Z))
@@ -249,8 +249,8 @@ namespace ServerSideCharacter2.GUI.UI.Component
 					}
 					if (Main.inputText.IsKeyDown(Keys.Insert) && !Main.oldInputText.IsKeyDown(Keys.Insert))
 					{
-						string text3 = Platform.Current.Clipboard;
-						for (int i = 0; i < text3.Length; i++)
+						var text3 = Platform.Current.Clipboard;
+						for (var i = 0; i < text3.Length; i++)
 						{
 							if (text3[i] < ' ' || text3[i] == '\u007f')
 							{
@@ -260,10 +260,10 @@ namespace ServerSideCharacter2.GUI.UI.Component
 						text2 += text3;
 					}
 				}
-				for (int j = 0; j < Main.keyCount; j++)
+				for (var j = 0; j < Main.keyCount; j++)
 				{
-					int num = Main.keyInt[j];
-					string str = Main.keyString[j];
+					var num = Main.keyInt[j];
+					var str = Main.keyString[j];
 					if (num == 13)
 					{
 						Main.inputTextEnter = true;
@@ -282,8 +282,8 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			text += text2;
 			Main.oldInputText = Main.inputText;
 			Main.inputText = Keyboard.GetState();
-			Keys[] pressedKeys = Main.inputText.GetPressedKeys();
-			Keys[] pressedKeys2 = Main.oldInputText.GetPressedKeys();
+			var pressedKeys = Main.inputText.GetPressedKeys();
+			var pressedKeys2 = Main.oldInputText.GetPressedKeys();
 			if (Main.inputText.IsKeyDown(Keys.Back) && Main.oldInputText.IsKeyDown(Keys.Back))
 			{
 				if (backSpaceCount == 0)
@@ -297,20 +297,20 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			{
 				backSpaceCount = 15;
 			}
-			for (int k = 0; k < pressedKeys.Length; k++)
+			for (var k = 0; k < pressedKeys.Length; k++)
 			{
-				bool flag2 = true;
-				for (int l = 0; l < pressedKeys2.Length; l++)
+				var flag2 = true;
+				for (var l = 0; l < pressedKeys2.Length; l++)
 				{
 					if (pressedKeys[k] == pressedKeys2[l])
 					{
 						flag2 = false;
 					}
 				}
-				string a = string.Concat(pressedKeys[k]);
+				var a = string.Concat(pressedKeys[k]);
 				if (a == "Back" && lastCompSize == 0 && (flag2 || flag) && text.Length > 0)
 				{
-					TextSnippet[] array = ChatManager.ParseMessage(text, Color.White).ToArray();
+					var array = ChatManager.ParseMessage(text, Color.White).ToArray();
 					if (array[array.Length - 1].DeleteWhole)
 					{
 						text = text.Substring(0, text.Length - array[array.Length - 1].TextOriginal.Length);

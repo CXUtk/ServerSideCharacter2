@@ -92,7 +92,7 @@ namespace ServerSideCharacter2.GUI.UI
 		{
 			var username = _usernameText.Text;
 			var password = _passwordText.Text;
-			CryptedUserInfo info = CryptedUserInfo.Create(username, password);
+			var info = CryptedUserInfo.Create(username, password);
 			Main.NewText(username);
 			Main.NewText("'" + password + "'(长度:" + password.Length);
 			Main.NewText(info.ToString());
@@ -132,8 +132,8 @@ namespace ServerSideCharacter2.GUI.UI
 			{
 				sb.End();
 				sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-				Texture2D refresh = ServerSideCharacter2.ModTexturesTable["Refresh"];
-				Vector2 drawPos = _submitFormButton.GetOuterDimensions().Center() + new Vector2(80, 0);
+				var refresh = ServerSideCharacter2.ModTexturesTable["Refresh"];
+				var drawPos = _submitFormButton.GetOuterDimensions().Center() + new Vector2(80, 0);
 				sb.Draw(refresh, drawPos, null, Color.Wheat, _rotation, refresh.Size() * 0.5f, 0.2f, SpriteEffects.None, 0f);
 				sb.End();
 				sb.Begin();

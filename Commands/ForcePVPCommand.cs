@@ -30,7 +30,7 @@ namespace ServerSideCharacter2.Commands
 
 		public override void Action(CommandCaller caller, string input, string[] args)
 		{
-			int mode = Convert.ToInt32(args[0]);
+			var mode = Convert.ToInt32(args[0]);
 			if(mode < 0 || mode > 2)
 			{
 				Main.NewText("不合法的模式，正常模式=0，强制不PVP=1，强制PVP=2");

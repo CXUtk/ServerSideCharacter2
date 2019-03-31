@@ -24,17 +24,17 @@ namespace ServerSideCharacter2.Crypto
 
 		public static void GenKey()
 		{
-			using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider())
+			using (var rsa = new RSACryptoServiceProvider())
 			{
 				publicKey = rsa.ToXmlString(true);
 				privateKey = rsa.ToXmlString(false);
 				isSet = true;
 			}
-			using (StreamWriter sw = new StreamWriter("SSC/publickey.xml"))
+			using (var sw = new StreamWriter("SSC/publickey.xml"))
 			{
 				sw.Write(publicKey);
 			}
-			using (StreamWriter sw = new StreamWriter("SSC/privateKey.xml"))
+			using (var sw = new StreamWriter("SSC/privateKey.xml"))
 			{
 				sw.Write(privateKey);
 			}
@@ -52,9 +52,9 @@ namespace ServerSideCharacter2.Crypto
 
 			try
 			{
-				byte[] arr = Encoding.UTF8.GetBytes(data);
+				var arr = Encoding.UTF8.GetBytes(data);
 				byte[] encrypted;
-				RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+				var rsa = new RSACryptoServiceProvider();
 				rsa.FromXmlString(publicKey);
 				encrypted = rsa.Encrypt(arr, false);
 				return Convert.ToBase64String(encrypted);
@@ -70,9 +70,9 @@ namespace ServerSideCharacter2.Crypto
 		{
 			try
 			{
-				byte[] arr = Convert.FromBase64String(data);
+				var arr = Convert.FromBase64String(data);
 				byte[] decrypted;
-				RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+				var rsa = new RSACryptoServiceProvider();
 				rsa.FromXmlString(publicKey);
 				decrypted = rsa.Decrypt(arr, false);
 				return Encoding.UTF8.GetString(decrypted);

@@ -24,11 +24,11 @@ namespace ServerSideCharacter2.Services.Misc
 			if (Main.netMode == 2)
 			{
 				int target = reader.ReadByte();
-				Player player = Main.player[playerNumber];
-				Player target0 = Main.player[target];
-				ServerPlayer target1 = target0.GetServerPlayer();
+				var player = Main.player[playerNumber];
+				var target0 = Main.player[target];
+				var target1 = target0.GetServerPlayer();
 
-				string str = $"玩家 {player.name} 把玩家 {target0.name} 踢出了服务器";
+				var str = $"玩家 {player.name} 把玩家 {target0.name} 踢出了服务器";
 				ServerPlayer.SendInfoMessageToAll(str);
 				target1.Kick("你被管理员踢出了服务器");
 				CommandBoardcast.ConsoleMessage(str);

@@ -29,7 +29,7 @@ namespace ServerSideCharacter2.Commands
 			ServerPlayer player = null;
 			if (args[0][0] == '$')
 			{
-				int GUID = Convert.ToInt32(args[0].Substring(1));
+				var GUID = Convert.ToInt32(args[0].Substring(1));
 				player = ServerSideCharacter2.PlayerCollection.Get(GUID);
 			}
 			else
@@ -40,7 +40,7 @@ namespace ServerSideCharacter2.Commands
 			{
 				try
 				{
-					string s = $"玩家 {player.Name} 的密码已经被重置";
+					var s = $"玩家 {player.Name} 的密码已经被重置";
 					ServerSideCharacter2.ErrorLogger.WriteToFile(s);
 					player.Kick("你的密码已经被重置");
 					CommandBoardcast.ConsoleMessage(s);

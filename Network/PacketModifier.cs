@@ -49,19 +49,19 @@ namespace ServerSideCharacter2.Network
 			writer.Write((byte)Main.hellBackStyle);
 			writer.Write(Main.windSpeedSet);
 			writer.Write((byte)Main.numClouds);
-			for (int l = 0; l < 3; l++)
+			for (var l = 0; l < 3; l++)
 			{
 				writer.Write(Main.treeX[l]);
 			}
-			for (int m = 0; m < 4; m++)
+			for (var m = 0; m < 4; m++)
 			{
 				writer.Write((byte)Main.treeStyle[m]);
 			}
-			for (int n = 0; n < 3; n++)
+			for (var n = 0; n < 3; n++)
 			{
 				writer.Write(Main.caveBackX[n]);
 			}
-			for (int num9 = 0; num9 < 4; num9++)
+			for (var num9 = 0; num9 < 4; num9++)
 			{
 				writer.Write((byte)Main.caveBackStyle[num9]);
 			}

@@ -29,7 +29,7 @@ namespace ServerSideCharacter2.Commands
 			{
 
 				var info = ServerSideCharacter2.PlayerCollection.GetOnlineInfo(255);
-				string s = JsonConvert.SerializeObject(info, Formatting.Indented);
+				var s = JsonConvert.SerializeObject(info, Formatting.Indented);
 				CommandBoardcast.ConsoleMessage(s);
 				ServerSideCharacter2.ErrorLogger.WriteToFile(s);
 				//{

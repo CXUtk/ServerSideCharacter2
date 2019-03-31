@@ -66,7 +66,7 @@ namespace ServerSideCharacter2.GUI.UI
 
 			onlinelabel = new UIText("在线玩家  人数: 0");
 			onlinelabel.Top.Set(-FRIENDLIST_HEIGHT / 2 + FRIENDLIST_OFFSET_TOP - 25f, 0.5f);
-			Vector2 texSize = Main.fontMouseText.MeasureString(onlinelabel.Text);
+			var texSize = Main.fontMouseText.MeasureString(onlinelabel.Text);
 			onlinelabel.Left.Set(-FRIENDLIST_WIDTH / 2 + FRIENDLIST_OFFSET_LEFT, 0.5f);
 			WindowPanel.Append(onlinelabel);
 			WindowPanel.Append(_onlinePlayerPanel);
@@ -103,7 +103,7 @@ namespace ServerSideCharacter2.GUI.UI
 			_onlinePlayerPanel.Append(_onlinePlayerList);
 
 			// ScrollBar设定
-			UIAdvScrollBar uiscrollbar = new UIAdvScrollBar();
+			var uiscrollbar = new UIAdvScrollBar();
 			// uiscrollbar.SetView(100f, 1000f);
 			uiscrollbar.Height.Set(0f, 1f);
 			uiscrollbar.HAlign = 1f;
@@ -135,9 +135,9 @@ namespace ServerSideCharacter2.GUI.UI
 			}
 			else
 			{
-				for(int i = 0; i < 20; i++)
+				for(var i = 0; i < 20; i++)
 				{
-					JsonData.SimplifiedPlayerInfo testinfo = new JsonData.SimplifiedPlayerInfo
+					var testinfo = new JsonData.SimplifiedPlayerInfo
 					{
 						Name = ServerUtils.RandomGenString()
 					};
@@ -212,7 +212,7 @@ namespace ServerSideCharacter2.GUI.UI
 
 		public void AppendPlayers(JsonData.SimplifiedPlayerInfo info)
 		{
-			UINormalPlayerBar bar = new UINormalPlayerBar(info);
+			var bar = new UINormalPlayerBar(info);
 			uIPlayerBars.Add(bar);
 			_onlinePlayerList.Add(bar);
 

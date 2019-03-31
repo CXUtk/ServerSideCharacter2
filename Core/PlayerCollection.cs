@@ -76,8 +76,8 @@ namespace ServerSideCharacter2.Core
 
 		public string GetJson()
 		{
-			Dictionary<string, PlayerInfo> data = new Dictionary<string, PlayerInfo>();
-			ServerPlayerInfo info = new ServerPlayerInfo(data, CurrentID);
+			var data = new Dictionary<string, PlayerInfo>();
+			var info = new ServerPlayerInfo(data, CurrentID);
 			foreach (var p in _playerList)
 			{
 				if (p.Value.IsLogin || p.Value.HasPassword)
@@ -90,7 +90,7 @@ namespace ServerSideCharacter2.Core
 
 		public PlayerOnlineInfo GetOnlineInfo(int id)
 		{
-			PlayerOnlineInfo ret = new PlayerOnlineInfo();
+			var ret = new PlayerOnlineInfo();
 
 			foreach (var player in Main.player)
 			{

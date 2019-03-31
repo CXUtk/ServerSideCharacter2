@@ -35,13 +35,13 @@ namespace ServerSideCharacter2
 						{
 							if (p.active)
 							{
-								ServerPlayer player = p.GetServerPlayer();
+								var player = p.GetServerPlayer();
 								if (player.IsLogin)
 									player.SyncPlayerToInfo();
 							}
 						}
 					}
-					for(int i = 0; i < Main.maxPlayers; i++)
+					for(var i = 0; i < Main.maxPlayers; i++)
 					{
 						if(TileMessageCD[i] > 0)
 						{
@@ -54,8 +54,8 @@ namespace ServerSideCharacter2
 						{
 							if (player.active)
 							{
-								ServerPlayer serverPlayer = player.GetServerPlayer();
-								int playerID = player.whoAmI;
+								var serverPlayer = player.GetServerPlayer();
+								var playerID = player.whoAmI;
 								if (!serverPlayer.HasPassword)
 								{
 									serverPlayer.ApplyLockBuffs();

@@ -138,8 +138,8 @@ namespace ServerSideCharacter2
 					}
 					if(pos != Vector2.Zero)
 					{
-						Vector2 ori = new Vector2(speedX, speedY);
-						float speed = ori.Length();
+						var ori = new Vector2(speedX, speedY);
+						var speed = ori.Length();
 						var diff = pos - player.Center;
 						diff.Normalize();
 						speedX = diff.X * speed;
@@ -157,8 +157,8 @@ namespace ServerSideCharacter2
 			{
 				if (pvp && damageSource.SourcePlayerIndex != -1)
 				{
-					ServerPlayer winplayer = Main.player[damageSource.SourcePlayerIndex].GetServerPlayer();
-					ServerPlayer loseplayer = player.GetServerPlayer();
+					var winplayer = Main.player[damageSource.SourcePlayerIndex].GetServerPlayer();
+					var loseplayer = player.GetServerPlayer();
 					if (!loseplayer.IsLogin)
 					{
 						MessageSender.SendInfoMessage(winplayer.PrototypePlayer.whoAmI, "杀死没有登录的玩家不算分", Color.Yellow);
@@ -169,13 +169,13 @@ namespace ServerSideCharacter2
 					winplayer.ChangeRank(changes.Item1);
 					loseplayer.ChangeRank(changes.Item2);
 
-					string winmsg = $"你击杀了 {loseplayer.Name} 并且获得 {changes.Item1} 点积分";
+					var winmsg = $"你击杀了 {loseplayer.Name} 并且获得 {changes.Item1} 点积分";
 					MessageSender.SendInfoMessage(winplayer.PrototypePlayer.whoAmI, winmsg, Color.LimeGreen);
 
-					string losemsg = $"你被 {winplayer.Name} 击杀了，为此你的积分降低了 {-changes.Item2}";
+					var losemsg = $"你被 {winplayer.Name} 击杀了，为此你的积分降低了 {-changes.Item2}";
 					MessageSender.SendInfoMessage(loseplayer.PrototypePlayer.whoAmI, losemsg, Color.OrangeRed);
 
-					string servermsg = $"玩家 {winplayer.Name} (+{changes.Item1}) 击杀了 {loseplayer.Name} ((-{changes.Item2}))\n" +
+					var servermsg = $"玩家 {winplayer.Name} (+{changes.Item1}) 击杀了 {loseplayer.Name} ((-{changes.Item2}))\n" +
 						$"双方的排位积分分别为 {winplayer.Rank} 和 {loseplayer.Rank}";
 					CommandBoardcast.ConsoleMessage(servermsg);
 				}
@@ -198,7 +198,7 @@ namespace ServerSideCharacter2
 			{
 				if (Locked && !player.dead)
 				{
-					Texture2D lockTex = ServerSideCharacter2.ModTexturesTable["Lock"];
+					var lockTex = ServerSideCharacter2.ModTexturesTable["Lock"];
 					var dd = new DrawData(lockTex,
 						new Vector2(player.Center.X - Main.screenPosition.X,
 						player.Center.Y - Main.screenPosition.Y),
@@ -213,8 +213,8 @@ namespace ServerSideCharacter2
 				if (Rank >= 0 && !player.dead)
 				{
 					var type = Ranking.GetRankType(info.drawPlayer.GetModPlayer<MPlayer>().Rank);
-					Texture2D rankTex = ServerSideCharacter2.ModTexturesTable[type.ToString()];
-					DrawData dd = new DrawData(rankTex,
+					var rankTex = ServerSideCharacter2.ModTexturesTable[type.ToString()];
+					var dd = new DrawData(rankTex,
 						new Vector2(info.position.X + info.drawPlayer.width / 2 - Main.screenPosition.X,
 						info.position.Y + info.drawPlayer.gfxOffY - 25 - Main.screenPosition.Y),
 						null, Color.White, 0f, rankTex.Size() * 0.5f, 0.8f + Main.essScale * 0.8f, SpriteEffects.None, 0);

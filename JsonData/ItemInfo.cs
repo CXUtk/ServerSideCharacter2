@@ -27,7 +27,7 @@ namespace ServerSideCharacter2.JsonData
 
 		public static ItemInfo CreateInfo(Item item)
 		{
-			ItemInfo info = new ItemInfo();
+			var info = new ItemInfo();
 			if(item.type > Main.maxItemTypes || item.modItem != null)
 			{
 				info.IsMod = true;
@@ -46,26 +46,26 @@ namespace ServerSideCharacter2.JsonData
 
 		public static ItemInfo CreateInfo(int id)
 		{
-			Item item = new Item();
+			var item = new Item();
 			item.SetDefaults(id);
 			return CreateInfo(item);
 		}
 
 		public Item ToItem()
 		{
-			Item item = new Item();
+			var item = new Item();
 			if (IsMod)
 			{
-				string modName = FullName.Substring(0, FullName.IndexOf('.'));
-				string itemName = FullName.Substring(FullName.LastIndexOf('.') + 1);
+				var modName = FullName.Substring(0, FullName.IndexOf('.'));
+				var itemName = FullName.Substring(FullName.LastIndexOf('.') + 1);
 				if (ModLoader.GetLoadedMods().Contains(modName))
 				{
-					int type = ModLoader.LoadedMods.First(m => m.Name == modName).ItemType(itemName);
+					var type = ModLoader.LoadedMods.First(m => m.Name == modName).ItemType(itemName);
 					item.netDefaults(type);
 				}
 				else
 				{
-					TagCompound tag = new TagCompound()
+					var tag = new TagCompound()
 					{
 						{"mod", modName},
 						{"name", itemName }

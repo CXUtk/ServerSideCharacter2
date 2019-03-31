@@ -13,19 +13,19 @@ namespace ServerSideCharacter2.GUI.UI.Component
 
 		public static Rectangle GetRectIntersections(Rectangle r1, Rectangle r2)
 		{
-			int xmin = Math.Max(r1.X, r2.X);
-			int xmax1 = r1.X + r1.Width;
-			int xmax2 = r2.X + r2.Width;
-			int xmax = Math.Min(xmax1, xmax2);
+			var xmin = Math.Max(r1.X, r2.X);
+			var xmax1 = r1.X + r1.Width;
+			var xmax2 = r2.X + r2.Width;
+			var xmax = Math.Min(xmax1, xmax2);
 			if (xmax > xmin)
 			{
-				int ymin = Math.Max(r1.Y, r2.Y);
-				int ymax1 = r1.Y + r1.Height;
-				int ymax2 = r2.Y + r2.Height;
-				int ymax = Math.Min(ymax1, ymax2);
+				var ymin = Math.Max(r1.Y, r2.Y);
+				var ymax1 = r1.Y + r1.Height;
+				var ymax2 = r2.Y + r2.Height;
+				var ymax = Math.Min(ymax1, ymax2);
 				if (ymax > ymin)
 				{
-					Rectangle outrect = new Rectangle
+					var outrect = new Rectangle
 					{
 						X = xmin,
 						Y = ymin,
@@ -43,11 +43,11 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		public override void Draw(SpriteBatch spriteBatch)
 		{
 			// 傻逼原版程序员不好好写剪裁效果，连矩形相交都不判
-			bool overflowHidden = this.OverflowHidden;
-			bool useImmediateMode = this._useImmediateMode;
-			RasterizerState rasterizerState = spriteBatch.GraphicsDevice.RasterizerState;
-			Rectangle scissorRectangle = spriteBatch.GraphicsDevice.ScissorRectangle;
-			SamplerState anisotropicClamp = SamplerState.AnisotropicClamp;
+			var overflowHidden = this.OverflowHidden;
+			var useImmediateMode = this._useImmediateMode;
+			var rasterizerState = spriteBatch.GraphicsDevice.RasterizerState;
+			var scissorRectangle = spriteBatch.GraphicsDevice.ScissorRectangle;
+			var anisotropicClamp = SamplerState.AnisotropicClamp;
 
 			var mystate = (RasterizerState)typeof(UIElement)
 				.GetField("_overflowHiddenRasterizerState", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)
@@ -67,7 +67,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			if (overflowHidden)
 			{
 				spriteBatch.End();
-				Rectangle clippingRectangle = this.GetClippingRectangle(spriteBatch);
+				var clippingRectangle = this.GetClippingRectangle(spriteBatch);
 				spriteBatch.GraphicsDevice.ScissorRectangle = GetRectIntersections(scissorRectangle, clippingRectangle);
 				spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, anisotropicClamp, DepthStencilState.None, mystate, null, Main.UIScaleMatrix);
 			}

@@ -21,12 +21,12 @@ namespace ServerSideCharacter2.Services.OnlinePlayer
 				{
 					return;
 				}
-				Player player = Main.LocalPlayer;
+				var player = Main.LocalPlayer;
 				lock (player)
 				{
-					foreach (Item item in player.bank.item)
+					foreach (var item in player.bank.item)
 					{
-						int type = reader.ReadInt32();
+						var type = reader.ReadInt32();
 						int prefix = reader.ReadInt16();
 						int stack = reader.ReadInt16();
 						item.SetDefaults(type);

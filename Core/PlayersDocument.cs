@@ -26,8 +26,8 @@ namespace ServerSideCharacter2.Core
 		public void SavePlayersData()
 		{
 			ServerSideCharacter2.PlayerCollection.SyncPlayers();
-			string data = ServerSideCharacter2.PlayerCollection.GetJson();
-			using (StreamWriter writer = new StreamWriter(FileName, false, Encoding.UTF8))
+			var data = ServerSideCharacter2.PlayerCollection.GetJson();
+			using (var writer = new StreamWriter(FileName, false, Encoding.UTF8))
 			{
 				writer.Write(data);
 			}
@@ -47,7 +47,7 @@ namespace ServerSideCharacter2.Core
 
 				CommandBoardcast.ConsoleMessage(GameLanguage.GetText("readingPlayerDoc"));
 				string data;
-				using (StreamReader reader = new StreamReader(FileName, Encoding.UTF8))
+				using (var reader = new StreamReader(FileName, Encoding.UTF8))
 				{
 					data = reader.ReadToEnd();
 				}
@@ -57,7 +57,7 @@ namespace ServerSideCharacter2.Core
 				{
 					foreach (var player in dict.Playerdata)
 					{
-						ServerPlayer p = new ServerPlayer();
+						var p = new ServerPlayer();
 						p.SetPlayerInfo(player.Value);
 						p.SyncPlayerFromInfo();
 						ServerSideCharacter2.PlayerCollection.Add(p);

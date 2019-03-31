@@ -24,11 +24,11 @@ namespace ServerSideCharacter2.Utils
 		public static void LoadLanguage()
 		{
 			// 获取语言包信息，默认zh-cn
-			byte[] content = ServerSideCharacter2.Instance.GetFileBytes("Language/zh-cn.json");
+			var content = ServerSideCharacter2.Instance.GetFileBytes("Language/zh-cn.json");
 			string str;
-			using (MemoryStream ms = new MemoryStream(content))
+			using (var ms = new MemoryStream(content))
 			{
-				using(StreamReader tr = new StreamReader(ms, Encoding.UTF8))
+				using(var tr = new StreamReader(ms, Encoding.UTF8))
 				{
 					str = tr.ReadToEnd();
 				}

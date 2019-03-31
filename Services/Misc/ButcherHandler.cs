@@ -22,14 +22,14 @@ namespace ServerSideCharacter2.Services.Misc
 			// 服务器端
 			if (Main.netMode == 2)
 			{
-				Player p = Main.player[playerNumber];
-				ServerPlayer player = p.GetServerPlayer();
-				int kills = 0;
-				for (int i = 0; i < Main.npc.Length; i++)
+				var p = Main.player[playerNumber];
+				var player = p.GetServerPlayer();
+				var kills = 0;
+				for (var i = 0; i < Main.npc.Length; i++)
 				{
 					if (Main.npc[i].active && ((!Main.npc[i].townNPC && Main.npc[i].netID != NPCID.TargetDummy)))
 					{
-						int dmg = (int)(Main.npc[i].life + (Main.npc[i].defense * 0.6));
+						var dmg = (int)(Main.npc[i].life + (Main.npc[i].defense * 0.6));
 						Main.npc[i].StrikeNPC(dmg, 0, 0);
 						NetMessage.SendData(MessageID.StrikeNPC, -1, -1, NetworkText.Empty, i, dmg, 0, 0);
 						kills++;

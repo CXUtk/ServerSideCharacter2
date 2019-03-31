@@ -38,17 +38,17 @@ namespace ServerSideCharacter2.GUI.UI.Component
         }
         static Drawing()
         {
-            int[][] numArray = new int[4][];
-            int[] numArray2 = new int[2];
+            var numArray = new int[4][];
+            var numArray2 = new int[2];
             numArray2[0] = -1;
             numArray[0] = numArray2;
-            int[] numArray3 = new int[2];
+            var numArray3 = new int[2];
             numArray3[0] = 1;
             numArray[1] = numArray3;
-            int[] numArray4 = new int[2];
+            var numArray4 = new int[2];
             numArray4[1] = -1;
             numArray[2] = numArray4;
-            int[] numArray5 = new int[2];
+            var numArray5 = new int[2];
             numArray5[1] = 1;
             numArray[3] = numArray5;
             ShadowOffset = numArray;
@@ -62,9 +62,9 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		}
 		public static void DrawAdvBox(SpriteBatch sp, int x, int y, int w, int h, Color c, Texture2D img, Vector2 size4)
         {
-            Texture2D box = img;
-            int width = (int)size4.X;
-            int height = (int)size4.Y;
+            var box = img;
+            var width = (int)size4.X;
+            var height = (int)size4.Y;
             if (w < size4.X)
             {
                 w = width;
@@ -133,16 +133,16 @@ namespace ServerSideCharacter2.GUI.UI.Component
 
         public static Vector2 DrawColorCodedString(SpriteBatch sb, ReLogic.Graphics.DynamicSpriteFont font, string text, Vector2 pos, Color baseColor, float rotation, Vector2 origin, Vector2 baseScale, float maxW = -1f, bool ignoreColors = false)
         {
-            Vector2 position = new Vector2(pos.X, pos.Y);
-            Vector2 vector2 = position;
-            string[] strArray = text.Split('\n');
-            float x = font.MeasureString(" ").X;
-            Color white = baseColor;
-            float num2 = 1f;
-            float num3 = 0f;
-            foreach (string str in strArray)
+            var position = new Vector2(pos.X, pos.Y);
+            var vector2 = position;
+            var strArray = text.Split('\n');
+            var x = font.MeasureString(" ").X;
+            var white = baseColor;
+            var num2 = 1f;
+            var num3 = 0f;
+            foreach (var str in strArray)
             {
-                foreach (string str2 in Regex.Split(str, BuiltRegex))
+                foreach (var str2 in Regex.Split(str, BuiltRegex))
                 {
                     if (Regex.Match(str2, BuiltRegex).Success)
                     {
@@ -156,12 +156,12 @@ namespace ServerSideCharacter2.GUI.UI.Component
                         }
                         else
                         {
-                            Match match = Regex.Match(str2, "#([0-9a-f]);");
+                            var match = Regex.Match(str2, "#([0-9a-f]);");
                             if (match.Success)
                             {
                                 if (!ignoreColors)
                                 {
-                                    float r = ((float)int.Parse(match.Groups[1].Value, NumberStyles.HexNumber)) / 15f;
+                                    var r = ((float)int.Parse(match.Groups[1].Value, NumberStyles.HexNumber)) / 15f;
                                     white = new Color(r, r, r, ((float)white.A) / 255f);
                                 }
                             }
@@ -172,10 +172,10 @@ namespace ServerSideCharacter2.GUI.UI.Component
                                 {
                                     if (!ignoreColors)
                                     {
-                                        string source = match.Groups[1].Value;
-                                        float num5 = (int.Parse(source.ElementAt(0).ToString(), NumberStyles.HexNumber)) / 15f;
-                                        float g = (int.Parse(source.ElementAt(1).ToString(), NumberStyles.HexNumber)) / 15f;
-                                        float b = (int.Parse(source.ElementAt(2).ToString(), NumberStyles.HexNumber)) / 15f;
+                                        var source = match.Groups[1].Value;
+                                        var num5 = (int.Parse(source.ElementAt(0).ToString(), NumberStyles.HexNumber)) / 15f;
+                                        var g = (int.Parse(source.ElementAt(1).ToString(), NumberStyles.HexNumber)) / 15f;
+                                        var b = (int.Parse(source.ElementAt(2).ToString(), NumberStyles.HexNumber)) / 15f;
                                         white = new Color(num5, g, b, ((float)white.A) / 255f);
                                     }
                                 }
@@ -186,10 +186,10 @@ namespace ServerSideCharacter2.GUI.UI.Component
                                     {
                                         if (!ignoreColors)
                                         {
-                                            string str4 = match.Groups[1].Value;
-                                            float num8 = ((float)int.Parse(str4.Substring(0, 2), NumberStyles.HexNumber)) / 255f;
-                                            float num9 = ((float)int.Parse(str4.Substring(2, 2), NumberStyles.HexNumber)) / 255f;
-                                            float num10 = ((float)int.Parse(str4.Substring(4, 2), NumberStyles.HexNumber)) / 255f;
+                                            var str4 = match.Groups[1].Value;
+                                            var num8 = ((float)int.Parse(str4.Substring(0, 2), NumberStyles.HexNumber)) / 255f;
+                                            var num9 = ((float)int.Parse(str4.Substring(2, 2), NumberStyles.HexNumber)) / 255f;
+                                            var num10 = ((float)int.Parse(str4.Substring(4, 2), NumberStyles.HexNumber)) / 255f;
                                             white = new Color(num8, num9, num10, ((float)white.A) / 255f);
                                         }
                                     }
@@ -200,7 +200,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
                                         {
                                             if (!ignoreColors)
                                             {
-                                                int num11 = int.Parse(match.Groups[1].Value);
+                                                var num11 = int.Parse(match.Groups[1].Value);
                                                 white = new Color((((float)white.R) / 255f) * (1f + (num11 * 0.01f)), (((float)white.G) / 255f) * (1f + (num11 * 0.01f)), (((float)white.B) / 255f) * (1f + (num11 * 0.01f)), ((float)white.A) / 255f);
                                             }
                                         }
@@ -211,7 +211,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
                                             {
                                                 if (!ignoreColors)
                                                 {
-                                                    int num12 = int.Parse(match.Groups[1].Value);
+                                                    var num12 = int.Parse(match.Groups[1].Value);
                                                     white = new Color((((float)white.R) / 255f) * (1f - (num12 * 0.01f)), (((float)white.G) / 255f) * (1f - (num12 * 0.01f)), (((float)white.B) / 255f) * (1f - (num12 * 0.01f)), ((float)white.A) / 255f);
                                                 }
                                             }
@@ -222,7 +222,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
                                                 {
                                                     if (!ignoreColors)
                                                     {
-                                                        int num13 = int.Parse(match.Groups[1].Value, NumberStyles.HexNumber);
+                                                        var num13 = int.Parse(match.Groups[1].Value, NumberStyles.HexNumber);
                                                         white = new Color((byte)Math.Min(white.R + num13, 0xff), (byte)Math.Min(white.G + num13, 0xff), (byte)Math.Min(white.B + num13, 0xff), white.A);
                                                     }
                                                 }
@@ -233,7 +233,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
                                                     {
                                                         if (!ignoreColors)
                                                         {
-                                                            int num14 = int.Parse(match.Groups[1].Value, NumberStyles.HexNumber);
+                                                            var num14 = int.Parse(match.Groups[1].Value, NumberStyles.HexNumber);
                                                             white = new Color((byte)Math.Max(white.R - num14, 0), (byte)Math.Max(white.G - num14, 0), (byte)Math.Max(white.B - num14, 0), white.A);
                                                         }
                                                     }
@@ -251,7 +251,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
                                                         {
                                                             if (!ignoreColors)
                                                             {
-                                                                string str5 = match.Groups[1].Value;
+                                                                var str5 = match.Groups[1].Value;
                                                                 int num15 = (str5.ElementAt(0) == 'R') ? white.R : ((str5.ElementAt(0) == 'G') ? white.G : white.B);
                                                                 int num16 = (str5.ElementAt(1) == 'R') ? white.R : ((str5.ElementAt(1) == 'G') ? white.G : white.B);
                                                                 int num17 = (str5.ElementAt(2) == 'R') ? white.R : ((str5.ElementAt(2) == 'G') ? white.G : white.B);
@@ -277,8 +277,8 @@ namespace ServerSideCharacter2.GUI.UI.Component
                     }
                     else
                     {
-                        string[] strArray3 = str2.Split(' ');
-                        for (int i = 0; i < strArray3.Length; i++)
+                        var strArray3 = str2.Split(' ');
+                        for (var i = 0; i < strArray3.Length; i++)
                         {
                             if (i != 0)
                             {
@@ -286,7 +286,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
                             }
                             if (maxW > 0f)
                             {
-                                float num19 = (font.MeasureString(strArray3[i]).X * baseScale.X) * num2;
+                                var num19 = (font.MeasureString(strArray3[i]).X * baseScale.X) * num2;
                                 if (((position.X - pos.X) + num19) > maxW)
                                 {
                                     position.X = pos.X;
@@ -321,7 +321,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
         public static void DrawColorCodedStringShadow(SpriteBatch sb, ReLogic.Graphics.DynamicSpriteFont font, string text, Vector2 pos, Color color, float rotation, Vector2 origin, Vector2 scale, float maxW = -1f, int offset = 1)
         {
             color = new Color((int)color.R, (int)color.G, (int)color.B, (int)((byte)(Math.Pow((double)(((float)color.A) / 255f), 2.0) * 255.0)));
-            foreach (int[] t in ShadowOffset)
+            foreach (var t in ShadowOffset)
             {
                 DrawColorCodedString(sb, font, text, new Vector2(pos.X + (t[0] * offset), pos.Y + (t[1] * offset)), color, rotation, origin, scale, maxW, true);
             }
@@ -340,7 +340,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
         public static void DrawStringShadow(SpriteBatch sb, ReLogic.Graphics.DynamicSpriteFont font, string text, Vector2 pos, Color color, float rotation, Vector2 origin, Vector2 scale, int offset = 1)
         {
             color = new Color((int)color.R, (int)color.G, (int)color.B, (int)((byte)(Math.Pow((double)(((float)color.A) / 255f), 2.0) * 255.0)));
-            foreach (int[] t in ShadowOffset)
+            foreach (var t in ShadowOffset)
             {
                 sb.DrawString(font, text, new Vector2(pos.X + (t[0] * offset), pos.Y + (t[1] * offset)), color, rotation, origin, scale, SpriteEffects.None, 0f);
             }
@@ -353,9 +353,9 @@ namespace ServerSideCharacter2.GUI.UI.Component
 
         public static string DropColorCodes(string text)
         {
-            string[] strArray = Regex.Split(text, BuiltRegex);
-            StringBuilder builder = new StringBuilder();
-            foreach (string str in strArray)
+            var strArray = Regex.Split(text, BuiltRegex);
+            var builder = new StringBuilder();
+            foreach (var str in strArray)
             {
                 if (!Regex.Match(str, BuiltRegex).Success)
                 {
@@ -367,14 +367,14 @@ namespace ServerSideCharacter2.GUI.UI.Component
 
         public static Vector2 DString(SpriteBatch sp, string se, Vector2 ve, Color ce, float fe = 1f, float rex = 0f, float rey = 0f, int font = 0)
         {
-            ReLogic.Graphics.DynamicSpriteFont fontMouseText = Main.fontMouseText;
+            var fontMouseText = Main.fontMouseText;
             if (font == 1)
             {
                 fontMouseText = Main.fontDeathText;
             }
-            for (int i = -1; i < 2; i++)
+            for (var i = -1; i < 2; i++)
             {
-                for (int j = -1; j < 2; j++)
+                for (var j = -1; j < 2; j++)
                 {
                     sp.DrawString(fontMouseText, se, ve + ((Vector2)(new Vector2((float)i, (float)j) * 1f)), Color.Black, 0f, new Vector2(rex, rey) * fontMouseText.MeasureString(se), fe, SpriteEffects.None, 0f);
                 }
@@ -417,11 +417,11 @@ namespace ServerSideCharacter2.GUI.UI.Component
             float scale = 1f, 
             float rotation = 0f)
         {
-            float dis = Vector2.Distance(start, end);
-            Vector2 unit = (end - start) / dis;
-            Vector2 orig = start;
-            float r = unit.ToRotation() + rotation;
-            Vector2 size = tex.Size() / 2;
+            var dis = Vector2.Distance(start, end);
+            var unit = (end - start) / dis;
+            var orig = start;
+            var r = unit.ToRotation() + rotation;
+            var size = tex.Size() / 2;
             for (float i = 0; i <= dis; i += step)
             {
                 sb.Draw(tex, orig - Main.screenPosition, null, c, r, size, scale, 0, 0);
@@ -439,10 +439,10 @@ namespace ServerSideCharacter2.GUI.UI.Component
         {
             start -= Main.screenPosition;
             end -= Main.screenPosition;
-            float dis = Vector2.Distance(start, end);
-            Vector2 unit = (end - start) / dis;
-            Vector2 orig = start;
-            float r = unit.ToRotation() + rotation;
+            var dis = Vector2.Distance(start, end);
+            var unit = (end - start) / dis;
+            var orig = start;
+            var r = unit.ToRotation() + rotation;
             for (float i = 0; i <= dis; i += step)
             {
                 sb.Draw(Main.magicPixel, orig, new Rectangle(0, 0, 2, 2), c, r, Vector2.One, scale, 0, 0);

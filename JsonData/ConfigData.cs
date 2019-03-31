@@ -30,7 +30,7 @@ namespace ServerSideCharacter2.JsonData
 		public static ConfigData DefaultConfig()
 		{
 			// 给玩家初始物品
-			ConfigData data = new ConfigData();
+			var data = new ConfigData();
 			data.startUpInventory.Add(ItemInfo.CreateInfo(ItemID.IronShortsword));
 			data.startUpInventory.Add(ItemInfo.CreateInfo(ItemID.IronPickaxe));
 			data.startUpInventory.Add(ItemInfo.CreateInfo(ItemID.IronAxe));

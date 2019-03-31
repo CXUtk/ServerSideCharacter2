@@ -11,11 +11,11 @@ namespace ServerSideCharacter2
 
 		public static void SyncPlayerHealth(int plr, int to, int from)
 		{
-			string name = Main.player[plr].name;
-			ServerPlayer player = ServerSideCharacter2.PlayerCollection.Get(name);
+			var name = Main.player[plr].name;
+			var player = ServerSideCharacter2.PlayerCollection.Get(name);
 			Main.player[plr].statLife = player.StatLife;
 			Main.player[plr].statLifeMax = player.LifeMax;
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.SyncPlayerHealth);
 			p.Write((byte)plr);
 			p.Write(player.StatLife);
@@ -24,11 +24,11 @@ namespace ServerSideCharacter2
 		}
 		public static void SyncPlayerMana(int plr, int to, int from)
 		{
-			string name = Main.player[plr].name;
-			ServerPlayer player = ServerSideCharacter2.PlayerCollection.Get(name);
+			var name = Main.player[plr].name;
+			var player = ServerSideCharacter2.PlayerCollection.Get(name);
 			Main.player[plr].statMana = player.StatMana;
 			Main.player[plr].statManaMax = player.ManaMax;
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.SyncPlayerMana);
 			p.Write((byte)plr);
 			p.Write(player.StatMana);
@@ -37,15 +37,15 @@ namespace ServerSideCharacter2
 		}
 		public static void SyncPlayerBanks(int plr, int to, int from)
 		{
-			string name = Main.player[plr].name;
-			ServerPlayer player = ServerSideCharacter2.PlayerCollection.Get(name);
+			var name = Main.player[plr].name;
+			var player = ServerSideCharacter2.PlayerCollection.Get(name);
 			Main.player[plr].bank = (Chest)player.bank.Clone();
 			//Main.player[plr].bank2 = (Chest)player.bank2.Clone();
 			//Main.player[plr].bank3 = (Chest)player.bank3.Clone();
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.SyncPlayerBank);
 			p.Write((byte)plr);
-			foreach (Item item in player.bank.item)
+			foreach (var item in player.bank.item)
 			{
 				p.Write(item.type);
 				p.Write((short)item.prefix);
@@ -68,7 +68,7 @@ namespace ServerSideCharacter2
 
 		public static void SendTeleport(int plr, Vector2 pos)
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.TeleportPalyer);
 			p.WriteVector2(pos);
 			p.Send(plr);
@@ -76,8 +76,8 @@ namespace ServerSideCharacter2
 
 		public static void SendRequestSave(int plr)
 		{
-			string name = Main.player[plr].name;
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var name = Main.player[plr].name;
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.RequestSaveData);
 			p.Write((byte)plr);
 			p.Send();
@@ -85,7 +85,7 @@ namespace ServerSideCharacter2
 
 		public static void SendTimeSet(double time, bool day)
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.SendTimeSet);
 			p.Write(time);
 			p.Write(day);
@@ -96,8 +96,8 @@ namespace ServerSideCharacter2
 
 		public static void SendSetPassword(int plr, string password)
 		{
-			string name = Main.player[plr].name;
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var name = Main.player[plr].name;
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.RequestRegister);
 			p.Write((byte)plr);
 			p.Write(password);
@@ -107,7 +107,7 @@ namespace ServerSideCharacter2
 		public static void SendLoginPassword(CryptedUserInfo info)
 		{
 			if (Main.netMode != 1) return;
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.LoginPassword);
 			p.Write(info.GetEncryptedData());
 			p.Send();
@@ -115,7 +115,7 @@ namespace ServerSideCharacter2
 
 		public static void SendKickCommand(int target)
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.KickCommand);
 			p.Write((byte)target);
 			p.Send();
@@ -123,8 +123,8 @@ namespace ServerSideCharacter2
 
 		public static void SendTimeCommand(int plr, bool set, int time, bool day)
 		{
-			string name = Main.player[plr].name;
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var name = Main.player[plr].name;
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.TimeCommand);
 			p.Write((byte)plr);
 			p.Write(set);
@@ -135,7 +135,7 @@ namespace ServerSideCharacter2
 
 		public static void SendLockCommand(int plr, int target, int time)
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.LockPlayer);
 			p.Write((byte)plr);
 			p.Write((byte)target);
@@ -145,7 +145,7 @@ namespace ServerSideCharacter2
 
 		public static void SendItemCommand(int type)
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.RequestItem);
 			p.Write(type);
 			p.Send();
@@ -153,7 +153,7 @@ namespace ServerSideCharacter2
 
 		public static void SendBanItemCommand(int type)
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.BanItemCommand);
 			p.Write((byte)Main.myPlayer);
 			p.Write(type);
@@ -162,7 +162,7 @@ namespace ServerSideCharacter2
 
 		public static void SendTeleportCommand(int target)
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.TPCommand);
 			p.Write((byte)target);
 			p.Send();
@@ -183,7 +183,7 @@ namespace ServerSideCharacter2
 
 		public static void SendHelpCommand(int plr)
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.HelpCommand);
 			p.Write((byte)plr);
 			p.Send();
@@ -191,14 +191,14 @@ namespace ServerSideCharacter2
 
 		public static void SendButcherCommand()
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.ButcherCommand);
 			p.Send();
 		}
 
 		public static void SendAuthRequest(int plr, string code)
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.RequestAuth);
 			p.Write((byte)plr);
 			p.Write(code);
@@ -207,7 +207,7 @@ namespace ServerSideCharacter2
 
 		public static void SendSummonCommand(int type, int number)
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.SummonCommand);
 			p.Write(type);
 			p.Write(number);
@@ -217,7 +217,7 @@ namespace ServerSideCharacter2
 
 		public static void SendSetGroup(string id, string group)
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.RequestSetGroup);
 			p.Write(id);
 			p.Write(group);
@@ -237,7 +237,7 @@ namespace ServerSideCharacter2
 
 		public static void SendRegionRemove(int plr, string name)
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.RegionRemoveCommand);
 			p.Write((byte)plr);
 			p.Write(name);
@@ -246,7 +246,7 @@ namespace ServerSideCharacter2
 
 		public static void SendRegionShare(int plr, string name, int target)
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.RegionShareCommand);
 			p.Write((byte)plr);
 			p.Write((byte)target);
@@ -256,21 +256,21 @@ namespace ServerSideCharacter2
 
 		public static void SendLoginIn(int to)
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.NotifyLogin);
 			p.Send(to);
 		}
 
 		public static void SendToggleExpert()
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.ToggleExpert);
 			p.Send();
 		}
 
 		public static void SendToggleHardmode()
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.ToggleHardMode);
 			p.Send();
 		}
@@ -278,7 +278,7 @@ namespace ServerSideCharacter2
 
 		public static void SendToggleForcePVP(int mode)
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.ForcePVP);
 			p.Write((byte)mode);
 			p.Send();
@@ -286,7 +286,7 @@ namespace ServerSideCharacter2
 
 		public static void SendToggleXmas()
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.ToggleHardMode);
 			p.Write((byte)Main.myPlayer);
 			p.Send();
@@ -294,7 +294,7 @@ namespace ServerSideCharacter2
 
 		public static void SendGeneration(GenerationType type)
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.GenResources);
 			p.Write((byte)Main.myPlayer);
 			p.Write((byte)type);
@@ -303,7 +303,7 @@ namespace ServerSideCharacter2
 
 		public static void SendTPProtect(int plr)
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.TPProtect);
 			p.Write((byte)Main.myPlayer);
 			p.Send();
@@ -313,7 +313,7 @@ namespace ServerSideCharacter2
 		{
 			if(Main.netMode == 2)
 			{
-				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				var p = ServerSideCharacter2.Instance.GetPacket();
 				// CommandBoardcast.ConsoleMessage("发送RSA公钥");
 				p.Write((int)SSCMessageType.RSAPublic);
 				p.Write(RSACrypto.PublicKey);
@@ -325,7 +325,7 @@ namespace ServerSideCharacter2
 		{
 			if (Main.netMode == 2)
 			{
-				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				var p = ServerSideCharacter2.Instance.GetPacket();
 				p.Write((int)SSCMessageType.SuccessLogin);
 				p.Write(msg);
 				p.Send(to);
@@ -336,7 +336,7 @@ namespace ServerSideCharacter2
 		{
 			if (Main.netMode == 2)
 			{
-				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				var p = ServerSideCharacter2.Instance.GetPacket();
 				p.Write((int)SSCMessageType.FailLogin);
 				p.Write(msg);
 				p.Send(to);
@@ -347,7 +347,7 @@ namespace ServerSideCharacter2
 		{
 			if (Main.netMode == 2)
 			{
-				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				var p = ServerSideCharacter2.Instance.GetPacket();
 				p.Write((int)SSCMessageType.WelcomeMessage);
 				p.Write(msg);
 				p.Send(to);
@@ -358,7 +358,7 @@ namespace ServerSideCharacter2
 		{
 			if (Main.netMode == 1)
 			{
-				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				var p = ServerSideCharacter2.Instance.GetPacket();
 				p.Write((int)SSCMessageType.RequestOnlinePlayers);
 				p.Send();
 			}
@@ -368,7 +368,7 @@ namespace ServerSideCharacter2
 		{
 			if (Main.netMode == 2)
 			{
-				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				var p = ServerSideCharacter2.Instance.GetPacket();
 				p.Write((int)SSCMessageType.OnlinePlayersData);
 				p.Write(data);
 				p.Send(to);
@@ -379,7 +379,7 @@ namespace ServerSideCharacter2
 		{
 			if (Main.netMode == 1)
 			{
-				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				var p = ServerSideCharacter2.Instance.GetPacket();
 				p.Write((int)SSCMessageType.FriendRequest);
 				p.Write(name);
 				p.Send();
@@ -390,7 +390,7 @@ namespace ServerSideCharacter2
 		{
 			if (Main.netMode == 1)
 			{
-				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				var p = ServerSideCharacter2.Instance.GetPacket();
 				p.Write((int)SSCMessageType.GetFriends);
 				p.Send();
 			}
@@ -400,7 +400,7 @@ namespace ServerSideCharacter2
 		{
 			if (Main.netMode == 2)
 			{
-				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				var p = ServerSideCharacter2.Instance.GetPacket();
 				p.Write((int)SSCMessageType.FriendsData);
 				p.Write(data);
 				p.Send(to);
@@ -409,7 +409,7 @@ namespace ServerSideCharacter2
 
 		public static void SendErrorMessage(int to, string msg)
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.ErrorMessage);
 			p.Write(msg);
 			p.Send(to);
@@ -417,7 +417,7 @@ namespace ServerSideCharacter2
 
 		public static void SendInfoMessage(int to, string msg, Color c)
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.InfoMessage);
 			p.Write(msg);
 			p.WriteRGB(c);
@@ -426,7 +426,7 @@ namespace ServerSideCharacter2
 
 		public static void SyncModPlayerInfo(int to, int from, MPlayer mPlayer)
 		{
-			ModPacket pack = ServerSideCharacter2.Instance.GetPacket();
+			var pack = ServerSideCharacter2.Instance.GetPacket();
 			pack.Write((int)SSCMessageType.ModPlayerInfo);
 			pack.Write((byte)mPlayer.player.whoAmI);
 			pack.Write(mPlayer.GodMode);
@@ -436,7 +436,7 @@ namespace ServerSideCharacter2
 
 		public static void SendChatMessageToClient(int plr, string playername, string msg, Groups.Group group)
 		{
-			ModPacket pack = ServerSideCharacter2.Instance.GetPacket();
+			var pack = ServerSideCharacter2.Instance.GetPacket();
 			pack.Write((int)SSCMessageType.ChatText);
 			pack.Write((byte)plr);
 			pack.Write(playername);
@@ -448,7 +448,7 @@ namespace ServerSideCharacter2
 
 		public static void SendSpawnRate(int val)
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.SpawnRate);
 			p.Write(val);
 			p.Send();
@@ -456,7 +456,7 @@ namespace ServerSideCharacter2
 
 		public static void SendMaxSpawnCount(int val)
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.MaxSpawnCount);
 			p.Write(val);
 			p.Send();

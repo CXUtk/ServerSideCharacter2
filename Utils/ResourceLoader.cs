@@ -31,7 +31,7 @@ namespace ServerSideCharacter2.Utils
 
 		private static void LoadTextures()
 		{
-			IDictionary<string, Texture2D> textures = (IDictionary<string, Texture2D>)(typeof(Mod).GetField("textures",
+			var textures = (IDictionary<string, Texture2D>)(typeof(Mod).GetField("textures",
 				System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).GetValue(ServerSideCharacter2.Instance));
 
 			var names = textures.Keys.Where((name) =>

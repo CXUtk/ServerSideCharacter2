@@ -225,13 +225,13 @@ namespace ServerSideCharacter2.Network
 		{
 			if (Main.netMode == 2)
 			{
-				byte plr = reader.ReadByte();
+				var plr = reader.ReadByte();
 				BitsByte control = reader.ReadByte();
 				BitsByte pulley = reader.ReadByte();
-				byte item = reader.ReadByte();
+				var item = reader.ReadByte();
 				var pos = reader.ReadVector2();
-				Player player = Main.player[playerNumber];
-				ServerPlayer sPlayer = player.GetServerPlayer();
+				var player = Main.player[playerNumber];
+				var sPlayer = player.GetServerPlayer();
 				if (pulley[2])
 				{
 					var vel = reader.ReadVector2();
@@ -330,7 +330,7 @@ namespace ServerSideCharacter2.Network
 			{
 				id = playerNumber;
 			}
-			Player player = Main.player[id];
+			var player = Main.player[id];
 			player.SpawnX = reader.ReadInt16();
 			player.SpawnY = reader.ReadInt16();
 			player.Spawn();
@@ -388,7 +388,7 @@ namespace ServerSideCharacter2.Network
 		public static void SyncConnectedPlayer(int plr)
 		{
 			SyncOnePlayer(plr, -1, plr);
-			for (int i = 0; i < 255; i++)
+			for (var i = 0; i < 255; i++)
 			{
 				if (plr != i && Main.player[i].active)
 				{
@@ -402,15 +402,15 @@ namespace ServerSideCharacter2.Network
 
 		private static void SyncOnePlayer(int plr, int toWho, int fromWho)
 		{
-			int active = 0;
+			var active = 0;
 			if (Main.player[plr].active)
 			{
 				active = 1;
 			}
 			if (Netplay.Clients[plr].State == 10)
 			{
-				string name = Main.player[plr].name;
-				ServerPlayer player = ServerSideCharacter2.PlayerCollection.Get(name);
+				var name = Main.player[plr].name;
+				var player = ServerSideCharacter2.PlayerCollection.Get(name);
 				player.SetID(plr);
 				player.ApplyToPlayer();
 				Main.player[plr].trashItem = new Item();
@@ -447,32 +447,32 @@ namespace ServerSideCharacter2.Network
 				}
 
 
-				for (int i = 0; i < 59; i++)
+				for (var i = 0; i < 59; i++)
 				{
 					NetMessage.SendData(MessageID.SyncEquipment, -1, -1, NetworkText.FromLiteral(Main.player[plr].inventory[i].Name), plr, i, Main.player[plr].inventory[i].prefix, 0f, 0, 0, 0);
 				}
-				for (int j = 0; j < Main.player[plr].armor.Length; j++)
+				for (var j = 0; j < Main.player[plr].armor.Length; j++)
 				{
 					NetMessage.SendData(MessageID.SyncEquipment, -1, -1, NetworkText.FromLiteral(Main.player[plr].armor[j].Name), plr, (59 + j), Main.player[plr].armor[j].prefix, 0f, 0, 0, 0);
 				}
-				for (int k = 0; k < Main.player[plr].dye.Length; k++)
+				for (var k = 0; k < Main.player[plr].dye.Length; k++)
 				{
 					NetMessage.SendData(MessageID.SyncEquipment, -1, -1, NetworkText.FromLiteral(Main.player[plr].dye[k].Name), plr, (58 + Main.player[plr].armor.Length + 1 + k), Main.player[plr].dye[k].prefix, 0f, 0, 0, 0);
 				}
-				for (int l = 0; l < Main.player[plr].miscEquips.Length; l++)
+				for (var l = 0; l < Main.player[plr].miscEquips.Length; l++)
 				{
 					NetMessage.SendData(MessageID.SyncEquipment, -1, -1, NetworkText.Empty, plr, 58 + Main.player[plr].armor.Length + Main.player[plr].dye.Length + 1 + l, Main.player[plr].miscEquips[l].prefix, 0f, 0, 0, 0);
 				}
-				for (int m = 0; m < Main.player[plr].miscDyes.Length; m++)
+				for (var m = 0; m < Main.player[plr].miscDyes.Length; m++)
 				{
 					NetMessage.SendData(MessageID.SyncEquipment, -1, -1, NetworkText.Empty, plr, 58 + Main.player[plr].armor.Length + Main.player[plr].dye.Length + Main.player[plr].miscEquips.Length + 1 + m, Main.player[plr].miscDyes[m].prefix, 0f, 0, 0, 0);
 				}
-				for (int i = 0; i < Main.player[plr].bank.item.Length; i++)
+				for (var i = 0; i < Main.player[plr].bank.item.Length; i++)
 				{
 					NetMessage.SendData(MessageID.SyncEquipment, -1, -1, null, plr,
 						58 + Main.player[plr].armor.Length + Main.player[plr].dye.Length + Main.player[plr].miscEquips.Length + Main.player[plr].miscDyes.Length + 1 + i, Main.player[plr].bank.item[i].prefix, 0f, 0, 0, 0);
 				}
-				for (int i = 0; i < Main.player[plr].bank2.item.Length; i++)
+				for (var i = 0; i < Main.player[plr].bank2.item.Length; i++)
 				{
 					NetMessage.SendData(MessageID.SyncEquipment, -1, -1, null, plr,
 						58 + Main.player[plr].armor.Length + Main.player[plr].dye.Length + Main.player[plr].miscEquips.Length + Main.player[plr].miscDyes.Length + Main.player[plr].bank.item.Length + 1 + i, Main.player[plr].bank2.item[i].prefix, 0f, 0, 0, 0);
@@ -481,7 +481,7 @@ namespace ServerSideCharacter2.Network
 					plr, 58 + Main.player[plr].armor.Length + Main.player[plr].dye.Length +
 					Main.player[plr].miscEquips.Length + Main.player[plr].bank.item.Length + Main.player[plr].bank2.item.Length + 1, Main.player[plr].trashItem.prefix);
 
-				for (int i = 0; i < Main.player[plr].bank3.item.Length; i++)
+				for (var i = 0; i < Main.player[plr].bank3.item.Length; i++)
 				{
 					NetMessage.SendData(MessageID.SyncEquipment, -1, -1, null, plr,
 						58 + Main.player[plr].armor.Length + Main.player[plr].dye.Length +
@@ -517,8 +517,8 @@ namespace ServerSideCharacter2.Network
 
 		private static void SendNPCHousesAndTravelShop(int plr)
 		{
-			bool flag = false;
-			for (int i = 0; i < 200; i++)
+			var flag = false;
+			for (var i = 0; i < 200; i++)
 			{
 				if (Main.npc[i].active && Main.npc[i].townNPC && NPC.TypeToHeadIndex(Main.npc[i].type) != -1)
 				{
@@ -526,7 +526,7 @@ namespace ServerSideCharacter2.Network
 					{
 						flag = true;
 					}
-					int num = 0;
+					var num = 0;
 					if (Main.npc[i].homeless)
 					{
 						num = 1;
@@ -548,7 +548,7 @@ namespace ServerSideCharacter2.Network
 			}
 			if (remoteClient == -1)
 			{
-				for (int i = 0; i < 255; i++)
+				for (var i = 0; i < 255; i++)
 				{
 					if (Netplay.Clients[i].State == 10)
 					{
@@ -569,8 +569,8 @@ namespace ServerSideCharacter2.Network
 			{
 				return;
 			}
-			bool flag = false;
-			for (int i = 0; i < 255; i++)
+			var flag = false;
+			for (var i = 0; i < 255; i++)
 			{
 				if (Netplay.Clients[i].State == 10 && Netplay.Clients[i].Socket.GetRemoteAddress().IsLocalHost())
 				{
@@ -605,12 +605,12 @@ namespace ServerSideCharacter2.Network
 			{
 				try
 				{
-					Player p = Main.player[playerNumber];
-					ServerPlayer player = p.GetServerPlayer();
+					var p = Main.player[playerNumber];
+					var player = p.GetServerPlayer();
 					int action = reader.ReadByte();
-					short X = reader.ReadInt16();
-					short Y = reader.ReadInt16();
-					short type = reader.ReadInt16();
+					var X = reader.ReadInt16();
+					var Y = reader.ReadInt16();
+					var type = reader.ReadInt16();
 					int style = reader.ReadByte();
 					if (!player.Group.HasPermission("changetile"))
 					{
@@ -653,7 +653,7 @@ namespace ServerSideCharacter2.Network
 		private bool PlayerPVP(ref BinaryReader reader, int playerNumber)
 		{
 			int playerID = reader.ReadByte();
-			bool pvp = reader.ReadBoolean();
+			var pvp = reader.ReadBoolean();
 			if(Main.netMode == 2)
 			{
 				if(ServerSideCharacter2.Config.PvpMode != JsonData.PVPMode.Normal)

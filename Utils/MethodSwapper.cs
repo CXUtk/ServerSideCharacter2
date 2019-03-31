@@ -87,7 +87,7 @@ namespace ServerSideCharacter2.Utils
 
 		public static MethodInfo GetMethod(Type type, string methodName, Type[] parameters, BindingFlags flags)
 		{
-			bool flag = parameters != null;
+			var flag = parameters != null;
 			MethodInfo method;
 			if (flag)
 			{
@@ -104,23 +104,23 @@ namespace ServerSideCharacter2.Utils
 		{
 			try
 			{
-				Type type2 = typeof(MethodSwapper);
-				MethodInfo repMethod = GetMethod(type, original, parameters, flags);
-				bool flag = parameters != null && nonStatic;
+				var type2 = typeof(MethodSwapper);
+				var repMethod = GetMethod(type, original, parameters, flags);
+				var flag = parameters != null && nonStatic;
 				if (flag)
 				{
-					Type[] prevParam = parameters;
+					var prevParam = parameters;
 					parameters = new Type[parameters.Length + 1];
 					parameters[0] = type;
 					prevParam.CopyTo(parameters, 1);
 				}
-				MethodInfo injMethod = GetMethod(type2, injection, parameters, flags);
-				RuntimeMethodHandle repHandle = repMethod.MethodHandle;
-				RuntimeMethodHandle injHandle = injMethod.MethodHandle;
+				var injMethod = GetMethod(type2, injection, parameters, flags);
+				var repHandle = repMethod.MethodHandle;
+				var injHandle = injMethod.MethodHandle;
 				RuntimeHelpers.PrepareMethod(repHandle);
 				RuntimeHelpers.PrepareMethod(injHandle);
-				IntPtr repPtr = repHandle.Value + IntPtr.Size * 2;
-				IntPtr injPtr = injHandle.Value + IntPtr.Size * 2;
+				var repPtr = repHandle.Value + IntPtr.Size * 2;
+				var injPtr = injHandle.Value + IntPtr.Size * 2;
 				Marshal.WriteInt32(repPtr, Marshal.ReadInt32(injPtr));
 
 			}

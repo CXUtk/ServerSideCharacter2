@@ -23,11 +23,11 @@ namespace ServerSideCharacter2.Services.Misc
 			{
 				int plr = reader.ReadByte();
 				int target = reader.ReadByte();
-				int time = reader.ReadInt32();
-				Player p = Main.player[plr];
-				Player target0 = Main.player[target];
-				ServerPlayer player = p.GetServerPlayer();
-				ServerPlayer target1 = target0.GetServerPlayer();
+				var time = reader.ReadInt32();
+				var p = Main.player[plr];
+				var target0 = Main.player[target];
+				var player = p.GetServerPlayer();
+				var target1 = target0.GetServerPlayer();
 
 				target1.ApplyLockBuffs(time);
 				NetMessage.SendChatMessageToClient(NetworkText.FromLiteral(string.Format("你成功的锁住了 {0} 持续 {1:N2} 秒", target1.Name, time / 60.0f)), new Color(255, 50, 255, 50), plr);

@@ -57,7 +57,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		// Token: 0x060023CB RID: 9163 RVA: 0x0047A6D4 File Offset: 0x004788D4
 		private Rectangle GetHandleRectangle()
 		{
-			CalculatedStyle innerDimensions = base.GetInnerDimensions();
+			var innerDimensions = base.GetInnerDimensions();
 			if (this._maxViewSize == 0f && this._viewSize == 0f)
 			{
 				this._viewSize = 1f;
@@ -77,16 +77,16 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		// Token: 0x060023CD RID: 9165 RVA: 0x0047A81C File Offset: 0x00478A1C
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
-			CalculatedStyle dimensions = base.GetDimensions();
-			CalculatedStyle innerDimensions = base.GetInnerDimensions();
+			var dimensions = base.GetDimensions();
+			var innerDimensions = base.GetInnerDimensions();
 			if (this._isDragging)
 			{
-				float num = UserInterface.ActiveInstance.MousePosition.Y - innerDimensions.Y - this._dragYOffset;
+				var num = UserInterface.ActiveInstance.MousePosition.Y - innerDimensions.Y - this._dragYOffset;
 				this._viewPosition = MathHelper.Clamp(num / innerDimensions.Height * this._maxViewSize, 0f, this._maxViewSize - this._viewSize);
 			}
-			Rectangle handleRectangle = this.GetHandleRectangle();
-			Vector2 mousePosition = UserInterface.ActiveInstance.MousePosition;
-			bool isHoveringOverHandle = this._isHoveringOverHandle;
+			var handleRectangle = this.GetHandleRectangle();
+			var mousePosition = UserInterface.ActiveInstance.MousePosition;
+			var isHoveringOverHandle = this._isHoveringOverHandle;
 			this._isHoveringOverHandle = handleRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y));
 			if (!isHoveringOverHandle && this._isHoveringOverHandle && Main.hasFocus)
 			{
@@ -102,15 +102,15 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			// base.MouseDown(evt);
 			if (evt.Target == this)
 			{
-				Rectangle handleRectangle = this.GetHandleRectangle();
+				var handleRectangle = this.GetHandleRectangle();
 				if (handleRectangle.Contains(new Point((int)evt.MousePosition.X, (int)evt.MousePosition.Y)))
 				{
 					this._isDragging = true;
 					this._dragYOffset = evt.MousePosition.Y - (float)handleRectangle.Y;
 					return;
 				}
-				CalculatedStyle innerDimensions = base.GetInnerDimensions();
-				float num = UserInterface.ActiveInstance.MousePosition.Y - innerDimensions.Y - (float)(handleRectangle.Height >> 1);
+				var innerDimensions = base.GetInnerDimensions();
+				var num = UserInterface.ActiveInstance.MousePosition.Y - innerDimensions.Y - (float)(handleRectangle.Height >> 1);
 				this._viewPosition = MathHelper.Clamp(num / innerDimensions.Height * this._maxViewSize, 0f, this._maxViewSize - this._viewSize);
 			}
 		}

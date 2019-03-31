@@ -124,7 +124,7 @@ namespace ServerSideCharacter2
 							binaryWriter.Write((short)currentPosition);
 							binaryWriter.BaseStream.Position = currentPosition;
 
-							byte[] data = memoryStream.ToArray();
+							var data = memoryStream.ToArray();
 							binaryWriter.Close();
 
 							// Resend the packet
@@ -186,7 +186,7 @@ namespace ServerSideCharacter2
 			try
 			{
 				// 处理自定义消息的地方
-				SSCMessageType type = (SSCMessageType)reader.ReadInt32();
+				var type = (SSCMessageType)reader.ReadInt32();
 				_sscPacketHandler.Handle(type, reader, whoAmI);
 			}
 			catch (Exception ex)
@@ -249,24 +249,24 @@ namespace ServerSideCharacter2
 				Console.WriteLine("[ServerSideCharacter Mod, Author: DXTsT	Version: " + APIVersion + "]");
 
 
-				StringBuilder sBuilder = new StringBuilder();
+				var sBuilder = new StringBuilder();
 				if (System.IO.File.Exists("pw.t"))
 				{
 					string auth;
-					using (FileStream fs = System.IO.File.OpenRead("pw.t"))
+					using (var fs = System.IO.File.OpenRead("pw.t"))
 					{
-						using (StreamReader sr = new StreamReader(fs))
+						using (var sr = new StreamReader(fs))
 						{
 							auth = sr.ReadToEnd();
 						}
 					}
 
-					byte[] data = Encoding.UTF8.GetBytes(auth);
+					var data = Encoding.UTF8.GetBytes(auth);
 					byte[] result;
 					SHA1 sha = new SHA1CryptoServiceProvider();
 					// This is one implementation of the abstract class SHA1.
 					result = sha.ComputeHash(data);
-					for (int i = 0; i < data.Length; i++)
+					for (var i = 0; i < data.Length; i++)
 					{
 						sBuilder.Append(data[i].ToString("x2"));
 					}
@@ -287,8 +287,8 @@ namespace ServerSideCharacter2
 
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
 		{
-			int cursorIndex = Math.Max(0, layers.FindIndex((GameInterfaceLayer layer) => layer.Name == "Vanilla: Cursor"));
-			int MouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
+			var cursorIndex = Math.Max(0, layers.FindIndex((GameInterfaceLayer layer) => layer.Name == "Vanilla: Cursor"));
+			var MouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
 			if(MouseTextIndex != -1)
 			{
 				layers.Insert(MouseTextIndex, new SSCLayer(GuiManager));

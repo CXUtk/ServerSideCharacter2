@@ -26,7 +26,7 @@ namespace ServerSideCharacter2.Utils
 				try
 				{
 					string data;
-					using (StreamReader reader = new StreamReader(defaultName, Encoding.UTF8))
+					using (var reader = new StreamReader(defaultName, Encoding.UTF8))
 					{
 						data = reader.ReadToEnd();
 					}
@@ -52,8 +52,8 @@ namespace ServerSideCharacter2.Utils
 
 		public static void Save()
 		{
-			string data = JsonConvert.SerializeObject(ServerSideCharacter2.Config, Formatting.Indented);
-			using (StreamWriter writer = new StreamWriter(defaultName, false, Encoding.UTF8))
+			var data = JsonConvert.SerializeObject(ServerSideCharacter2.Config, Formatting.Indented);
+			using (var writer = new StreamWriter(defaultName, false, Encoding.UTF8))
 			{
 				writer.Write(data);
 			}

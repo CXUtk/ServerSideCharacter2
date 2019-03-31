@@ -58,27 +58,27 @@ namespace ServerSideCharacter2.JsonData
 
 		public PlayerInfo()
 		{
-			for (int i = 0; i < inventory.Length; i++)
+			for (var i = 0; i < inventory.Length; i++)
 			{
 				inventory[i] = new ItemInfo();
 			}
-			for (int i = 0; i < armor.Length; i++)
+			for (var i = 0; i < armor.Length; i++)
 			{
 				armor[i] = new ItemInfo();
 			}
-			for (int i = 0; i < dye.Length; i++)
+			for (var i = 0; i < dye.Length; i++)
 			{
 				dye[i] = new ItemInfo();
 			}
-			for (int i = 0; i < miscEquips.Length; i++)
+			for (var i = 0; i < miscEquips.Length; i++)
 			{
 				miscEquips[i] = new ItemInfo();
 			}
-			for (int i = 0; i < miscDye.Length; i++)
+			for (var i = 0; i < miscDye.Length; i++)
 			{
 				miscDye[i] = new ItemInfo();
 			}
-			for (int i = 0; i < bank.Length; i++)
+			for (var i = 0; i < bank.Length; i++)
 			{
 				bank[i] = new ItemInfo();
 			}

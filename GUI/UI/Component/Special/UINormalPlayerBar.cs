@@ -169,8 +169,8 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		private void SetUpExtraButtons()
 		{
 			if (extraButtons.Count == 0) return;
-			float currentLeft = EXTRA_BUTTON_MARGIN_LEFT;
-			for (int i = 0; i < extraButtons.Count; i++)
+			var currentLeft = EXTRA_BUTTON_MARGIN_LEFT;
+			for (var i = 0; i < extraButtons.Count; i++)
 			{
 				var but = extraButtons[i];
 				but.Top.Set(50, 0f);
@@ -192,7 +192,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 
 		public override int CompareTo(object obj)
 		{
-			UINormalPlayerBar other = obj as UINormalPlayerBar;
+			var other = obj as UINormalPlayerBar;
 			return this.playerInfo.Rank.CompareTo(other.playerInfo.Rank);
 		}
 
@@ -231,8 +231,8 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			base.DrawSelf(spriteBatch);
 			if (_expanded)
 			{
-				CalculatedStyle innerDimensions = base.GetInnerDimensions();
-				Vector2 position = new Vector2(innerDimensions.X + 5f, innerDimensions.Y + 40);
+				var innerDimensions = base.GetInnerDimensions();
+				var position = new Vector2(innerDimensions.X + 5f, innerDimensions.Y + 40);
 				spriteBatch.Draw(this.dividerTexture, position, null, Color.White, 0f, Vector2.Zero,
 					new Vector2((innerDimensions.Width - 10f) / 8f, 1f), SpriteEffects.None, 0f);
 			}

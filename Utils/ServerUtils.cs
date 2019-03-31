@@ -14,9 +14,9 @@ namespace ServerSideCharacter2.Utils
 		public static string RandomGenString()
 		{
 			var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-			StringBuilder sb = new StringBuilder();
-			int n = 2 + Main.rand.Next(9);
-			for (int i = 0; i < n; i++)
+			var sb = new StringBuilder();
+			var n = 2 + Main.rand.Next(9);
+			for (var i = 0; i < n; i++)
 			{
 				sb.Append(chars[Main.rand.Next(chars.Length)]);
 			}
@@ -24,8 +24,8 @@ namespace ServerSideCharacter2.Utils
 		}
 		public static void CopyToItemData(Item[] src, ItemInfo[] dest)
 		{
-			int size = src.Length;
-			for(int i = 0; i < size; i++)
+			var size = src.Length;
+			for(var i = 0; i < size; i++)
 			{
 				dest[i] = ItemInfo.CreateInfo(src[i]);
 			}
@@ -33,8 +33,8 @@ namespace ServerSideCharacter2.Utils
 
 		public static void InfoToItem(ItemInfo[] src, Item[] dest)
 		{
-			int size = src.Length;
-			for (int i = 0; i < size; i++)
+			var size = src.Length;
+			for (var i = 0; i < size; i++)
 			{
 				dest[i] = src[i].ToItem();
 			}

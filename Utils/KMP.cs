@@ -14,8 +14,8 @@ namespace ServerSideCharacter2.Utils
 			matchstr = match;
 			next = new int[match.Length];
 			next[0] = -1;
-			int k = -1;
-			int j = 0;
+			var k = -1;
+			var j = 0;
 			while (j < match.Length - 1)
 			{
 				if (k == -1 || match[j] == match[k])
@@ -36,10 +36,10 @@ namespace ServerSideCharacter2.Utils
 
 		public bool Match(string s)
 		{
-			int i = 0;
-			int j = 0;
-			int sLen = s.Length;
-			int pLen = matchstr.Length;
+			var i = 0;
+			var j = 0;
+			var sLen = s.Length;
+			var pLen = matchstr.Length;
 			while (i < sLen && j < pLen)
 			{  
 				if (j == -1 || s[i] == matchstr[j])

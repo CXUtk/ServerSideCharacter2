@@ -15,15 +15,15 @@ namespace ServerSideCharacter2.Core
 
 		public static CryptedUserInfo Create(string username, string password)
 		{
-			CryptedUserInfo info = new CryptedUserInfo
+			var info = new CryptedUserInfo
 			{
 				UserName = username
 			};
-			using (MD5 md5Hash = MD5.Create())
+			using (var md5Hash = MD5.Create())
 			{
-				byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
-				StringBuilder sBuilder = new StringBuilder();
-				for (int i = 0; i < data.Length; i++)
+				var data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+				var sBuilder = new StringBuilder();
+				for (var i = 0; i < data.Length; i++)
 				{
 					sBuilder.Append(data[i].ToString("x2"));
 				}

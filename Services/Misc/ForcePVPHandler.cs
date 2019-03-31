@@ -22,8 +22,8 @@ namespace ServerSideCharacter2.Services.Misc
 			// 服务器端
 			if (Main.netMode == 2)
 			{
-				PVPMode mode = (PVPMode)reader.ReadByte();
-				string s = $"玩家 {Main.player[playerNumber].name} 将PVP模式设置为 {mode.ToString()}";
+				var mode = (PVPMode)reader.ReadByte();
+				var s = $"玩家 {Main.player[playerNumber].name} 将PVP模式设置为 {mode.ToString()}";
 
 				ServerSideCharacter2.Config.PvpMode = mode;
 

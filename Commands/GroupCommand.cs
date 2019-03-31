@@ -34,7 +34,7 @@ namespace ServerSideCharacter2.Commands
 			ServerPlayer player = null;
 			if (args[0][0] == '$')
 			{
-				int GUID = Convert.ToInt32(args[0].Substring(1));
+				var GUID = Convert.ToInt32(args[0].Substring(1));
 				player = ServerSideCharacter2.PlayerCollection.Get(GUID);
 			}
 			else

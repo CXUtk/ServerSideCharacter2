@@ -65,37 +65,37 @@ namespace ServerSideCharacter2.GUI
 		internal void SetWindows()
 		{
 			_loginWindowState = new LoginWindowState();
-			ConditionalInterface loginWindow = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.LoginWindow]; });
+			var loginWindow = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.LoginWindow]; });
 			loginWindow.SetState(_loginWindowState);
 			_cdInterface.Add(loginWindow);
 
 			_playerOnlineWindow = new PlayerOnlineWindow();
-			ConditionalInterface playerOnlineWindow = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.PlayerOnlineWindow]; });
+			var playerOnlineWindow = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.PlayerOnlineWindow]; });
 			playerOnlineWindow.SetState(_playerOnlineWindow);
 			_cdInterface.Add(playerOnlineWindow);
 
 			_homePageState = new HomePageState();
-			ConditionalInterface hompage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.HomePage]; });
+			var hompage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.HomePage]; });
 			hompage.SetState(_homePageState);
 			_cdInterface.Add(hompage);
 
 			_unionPageState = new UnionPageState();
-			ConditionalInterface unionpage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.UnionPage]; });
+			var unionpage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.UnionPage]; });
 			unionpage.SetState(_unionPageState);
 			_cdInterface.Add(unionpage);
 
 			_getitemState = new ItemUIState();
-			ConditionalInterface itempage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.ItemPage]; });
+			var itempage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.ItemPage]; });
 			itempage.SetState(_getitemState);
 			_cdInterface.Add(itempage);
 
 			_playerProfileState = new PlayerProfileState();
-			ConditionalInterface profileinterface = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.ProfilePage]; });
+			var profileinterface = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.ProfilePage]; });
 			profileinterface.SetState(_playerProfileState);
 			_cdInterface.Add(profileinterface);
 
 			_getnpcState = new NPCUIState();
-			ConditionalInterface uinpcinterface = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.NPCPage]; });
+			var uinpcinterface = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.NPCPage]; });
 			uinpcinterface.SetState(_getnpcState);
 			_cdInterface.Add(uinpcinterface);
 		}

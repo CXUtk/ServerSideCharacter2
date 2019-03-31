@@ -131,7 +131,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		}
 		protected override void DrawSelf(SpriteBatch sb)
 		{
-			CalculatedStyle innerDimension = GetInnerDimensions();
+			var innerDimension = GetInnerDimensions();
 			if (WithBox)
 			{
 				Drawing.DrawAdvBox(sb, (int)innerDimension.X, (int)innerDimension.Y,
@@ -154,7 +154,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			}
 			if (ButtonText != "")
 			{
-				Vector2 txtMeasure = Main.fontMouseText.MeasureString(ButtonText);
+				var txtMeasure = Main.fontMouseText.MeasureString(ButtonText);
 				Terraria.Utils.DrawBorderStringFourWay(sb, Main.fontMouseText, ButtonText,
 					innerDimension.Center().X, innerDimension.Center().Y + 4,
 					ButtonTextColor,

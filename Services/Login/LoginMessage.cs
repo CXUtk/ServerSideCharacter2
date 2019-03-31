@@ -19,7 +19,7 @@ namespace ServerSideCharacter2.Services.Login
 		{
 			if (Main.netMode == 1)
 			{
-				string msg = reader.ReadString();
+				var msg = reader.ReadString();
 				ServerSideCharacter2.Instance.ShowMessage(msg, 120, textColor);
 				ServerSideCharacter2.Instance.RelaxButton();
 			}

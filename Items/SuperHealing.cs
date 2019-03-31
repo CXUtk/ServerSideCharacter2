@@ -29,14 +29,14 @@ namespace ServerSideCharacter2.Items
 		public override void AI()
 		{
 			projectile.frameCounter++;
-			Player p = Main.player[projectile.owner];
+			var p = Main.player[projectile.owner];
 			if (projectile.owner == Main.myPlayer)
 			{
-				Vector2 diff = Main.MouseWorld - p.Center;
+				var diff = Main.MouseWorld - p.Center;
 				diff.Normalize();
 				projectile.velocity = diff;
 				projectile.direction = Main.MouseWorld.X < projectile.Center.X ? -1 : 1;
-				Player player = FindCloestPlayer(Main.MouseWorld, 300, pla => pla.whoAmI != Main.myPlayer);
+				var player = FindCloestPlayer(Main.MouseWorld, 300, pla => pla.whoAmI != Main.myPlayer);
 				if(player != null && (player.team == p.team || (player.team != p.team && !player.hostile)))
 				{
 					TargetPlayer = player.whoAmI;
@@ -54,14 +54,14 @@ namespace ServerSideCharacter2.Items
 				p.reuseDelay = 24;
 			}
 
-			Player target = TargetPlayer == -1 ? null : Main.player[TargetPlayer];
-			Vector2 dustPos = projectile.position + projectile.velocity * 55;
+			var target = TargetPlayer == -1 ? null : Main.player[TargetPlayer];
+			var dustPos = projectile.position + projectile.velocity * 55;
 			projectile.localAI[0] = (projectile.localAI[0] + 1) % 60;
-			Vector2 dustVel = projectile.velocity;
+			var dustVel = projectile.velocity;
 			for(float i = 0; i < 800f; i += 8f)
 			{
 				dustPos += dustVel * 5f;
-				Dust d = Dust.NewDustDirect(dustPos, 1, 1, mod.DustType<HealDust>(), 0, 0, 100, default(Color), 1.2f);
+				var d = Dust.NewDustDirect(dustPos, 1, 1, mod.DustType<HealDust>(), 0, 0, 100, default(Color), 1.2f);
 				d.noGravity = true;
 				d.velocity *= 0;
 				d.fadeIn = 2f;
@@ -75,7 +75,7 @@ namespace ServerSideCharacter2.Items
 				if (i > 100f && TargetPlayer != -1 && 
 					(dis = Vector2.Distance(target.Center, dustPos)) < 300)
 				{
-					Vector2 diff = target.Center - dustPos;
+					var diff = target.Center - dustPos;
 					if (diff.LengthSquared() < 100)
 					{
 						if (projectile.frameCounter % 20 == 0)
@@ -87,8 +87,8 @@ namespace ServerSideCharacter2.Items
 					else
 					{
 						diff.Normalize();
-						float factor = dis / 300f;
-						float factor2 = MathHelper.Lerp(3f, 20f, factor);
+						var factor = dis / 300f;
+						var factor2 = MathHelper.Lerp(3f, 20f, factor);
 						dustVel = (dustVel * factor2 + diff) / (factor2 + 1);
 					}
 				}
@@ -106,11 +106,11 @@ namespace ServerSideCharacter2.Items
 
 		public static Player FindCloestPlayer(Vector2 position, float maxDistance, Func<Player, bool> predicate)
 		{
-			float maxDis = maxDistance;
+			var maxDis = maxDistance;
 			Player res = null;
 			foreach (var player in Main.player.Where(pla => pla.active && !pla.dead && predicate(pla)))
 			{
-				float dis = Vector2.Distance(position, player.Center);
+				var dis = Vector2.Distance(position, player.Center);
 				if (dis < maxDis)
 				{
 					maxDis = dis;
@@ -135,7 +135,7 @@ namespace ServerSideCharacter2.Items
 
 		public static void SetProjPos(Projectile projectile, float r, float distance)
 		{
-			Player player = Main.player[projectile.owner];
+			var player = Main.player[projectile.owner];
 			projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - projectile.Size / 2f + projectile.velocity * distance;
 			projectile.rotation = projectile.velocity.ToRotation() + r;
 			player.ChangeDir(projectile.direction);

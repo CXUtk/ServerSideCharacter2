@@ -18,7 +18,7 @@ namespace ServerSideCharacter2.Services.FriendSystem
 			if (Main.netMode == 2)
 			{
 				var player = Main.player[playerNumber].GetServerPlayer();
-				PlayerOnlineInfo ret = new PlayerOnlineInfo();
+				var ret = new PlayerOnlineInfo();
 				foreach (var f in player.Friends)
 				{
 					var friend = ServerSideCharacter2.PlayerCollection.Get(f);

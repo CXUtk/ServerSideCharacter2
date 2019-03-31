@@ -46,13 +46,13 @@ namespace ServerSideCharacter2.Commands
 
 		public override void Action(CommandCaller caller, string input, string[] args)
 		{
-			int type = Convert.ToInt32(args[0]);
+			var type = Convert.ToInt32(args[0]);
 			if(type > Main.npcTexture.Length)
 			{
 				Main.NewText("NPC 不存在", Color.Red);
 				return;
 			}
-			int amount = 1;
+			var amount = 1;
 			if(args.Length > 1)
 			{
 				amount = Convert.ToInt32(args[1]);

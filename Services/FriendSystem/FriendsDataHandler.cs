@@ -18,7 +18,7 @@ namespace ServerSideCharacter2.Services.FriendSystem
 			if (Main.netMode == 1)
 			{
 				var data = reader.ReadString();
-				PlayerOnlineInfo friendsdata = JsonConvert.DeserializeObject<PlayerOnlineInfo>(data);
+				var friendsdata = JsonConvert.DeserializeObject<PlayerOnlineInfo>(data);
 				// Utils.CommandBoardcast.ShowInWorldTest(data);
 				foreach (var info in friendsdata.Player)
 				{

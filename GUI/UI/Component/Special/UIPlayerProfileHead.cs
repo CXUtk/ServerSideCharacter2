@@ -89,7 +89,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			if (_info.PlayerID >= 0 && _info.PlayerID < 255)
 			{
 				player = Main.player[_info.PlayerID];
-				Item item = player.inventory[player.selectedItem];
+				var item = player.inventory[player.selectedItem];
 				player.inventory[player.selectedItem] = new Item();
 				Main.instance.DrawPlayer(player,
 					GetDimensions().Position() + new Vector2(2, 2) + Main.screenPosition, 0f, Vector2.Zero, 0f);
@@ -122,20 +122,20 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 
 			if (Main.netMode == 0 || ServerSideCharacter2.MainPlayerGroup.IsSuperAdmin)
 			{
-				UIText guidText = new UIText($"GUID：{_info.GUID}");
+				var guidText = new UIText($"GUID：{_info.GUID}");
 				infoList.Add(guidText);
 			}
 
-			UIText killcountText = new UIText($"击杀数：{_info.KillCount}");
+			var killcountText = new UIText($"击杀数：{_info.KillCount}");
 			infoList.Add(killcountText);
 
-			UIText grouptext = new UIText($"权限组：[c/{_info.ChatColor.Hex3()}:{_info.ChatPrefix}]");
+			var grouptext = new UIText($"权限组：[c/{_info.ChatColor.Hex3()}:{_info.ChatPrefix}]");
 			infoList.Add(grouptext);
 
-			UIText sexText = new UIText($"性别：{((Main.player[_info.PlayerID].Male) ? "男" : "女")}");
+			var sexText = new UIText($"性别：{((Main.player[_info.PlayerID].Male) ? "男" : "女")}");
 			infoList.Add(sexText);
 
-			UIText regTimeText = new UIText($"注册时间：{_info.RegistedTime.ToString("g")}");
+			var regTimeText = new UIText($"注册时间：{_info.RegistedTime.ToString("g")}");
 			infoList.Add(regTimeText);
 		}
 	}

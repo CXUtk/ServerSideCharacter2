@@ -50,8 +50,8 @@ namespace ServerSideCharacter2.Groups
 			{
 				_configData = new GroupConfigData();
 				_configData.SetDefaults();
-				string data = JsonConvert.SerializeObject(_configData, Formatting.Indented, converter);
-				using (StreamWriter sw = new StreamWriter(_configPath))
+				var data = JsonConvert.SerializeObject(_configData, Formatting.Indented, converter);
+				using (var sw = new StreamWriter(_configPath))
 				{
 					sw.Write(data);
 				}
@@ -59,9 +59,9 @@ namespace ServerSideCharacter2.Groups
 			}
 			else
 			{
-				using (StreamReader sr = new StreamReader(_configPath))
+				using (var sr = new StreamReader(_configPath))
 				{
-					string data = sr.ReadToEnd();
+					var data = sr.ReadToEnd();
 					_configData = JsonConvert.DeserializeObject<GroupConfigData>(data, converter);
 
 					//_configData.GroupType.SetupGroups(!_configData.GroupType.Groups.ContainsKey("default"), !_configData.GroupType.Groups.ContainsKey("criminal"), false, !_configData.GroupType.Groups.ContainsKey("spadmin")); //Add default, criminal and spadmin group if not exists
@@ -76,8 +76,8 @@ namespace ServerSideCharacter2.Groups
 		public void Save()
 		{
 			_configData.Groups = ServerSideCharacter2.GroupManager.Groups;
-			string data = JsonConvert.SerializeObject(_configData, Formatting.Indented, converter);
-			using (StreamWriter sw = new StreamWriter(_configPath))
+			var data = JsonConvert.SerializeObject(_configData, Formatting.Indented, converter);
+			using (var sw = new StreamWriter(_configPath))
 			{
 				sw.Write(data);
 			}
@@ -94,9 +94,9 @@ namespace ServerSideCharacter2.Groups
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
 		{
 
-			Dictionary<string, Group> data = serializer.Deserialize<Dictionary<string, Group>>(reader);
-			GroupConfigData config = new GroupConfigData();
-			for (int i = 0; i < data.Count; i++)
+			var data = serializer.Deserialize<Dictionary<string, Group>>(reader);
+			var config = new GroupConfigData();
+			for (var i = 0; i < data.Count; i++)
 			{
 				var pair = data.ElementAt(i);
 				pair.Value.GroupName = pair.Key;
@@ -107,8 +107,8 @@ namespace ServerSideCharacter2.Groups
 		}
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
 		{
-			GroupConfigData config = (GroupConfigData)value;
-			JObject obj = JObject.FromObject(config.Groups);
+			var config = (GroupConfigData)value;
+			var obj = JObject.FromObject(config.Groups);
 			obj.WriteTo(writer);
 		}
 	}

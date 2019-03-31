@@ -21,7 +21,7 @@ namespace ServerSideCharacter2.Services.Misc
 		{
 			if (Main.netMode == 2)
 			{
-				int val = reader.ReadInt32();
+				var val = reader.ReadInt32();
 				var player = Main.player[playerNumber];
 				var splayer = player.GetServerPlayer();
 				var spawnrate = typeof(NPC).GetField("defaultSpawnRate",
@@ -33,7 +33,7 @@ namespace ServerSideCharacter2.Services.Misc
 				else
 				{
 					spawnrate.SetValue(null, val);
-					string s = $"玩家 {player.name} 设置刷怪间隔为 {val}";
+					var s = $"玩家 {player.name} 设置刷怪间隔为 {val}";
 					ServerPlayer.SendInfoMessageToAll(s);
 					CommandBoardcast.ConsoleMessage(s);
 				}
@@ -49,7 +49,7 @@ namespace ServerSideCharacter2.Services.Misc
 		{
 			if (Main.netMode == 2)
 			{
-				int val = reader.ReadInt32();
+				var val = reader.ReadInt32();
 				var player = Main.player[playerNumber];
 				var splayer = player.GetServerPlayer();
 				var maxspawns = typeof(NPC).GetField("defaultMaxSpawns",
@@ -61,7 +61,7 @@ namespace ServerSideCharacter2.Services.Misc
 				else
 				{
 					maxspawns.SetValue(null, val);
-					string s = $"玩家 {player.name} 设置最大刷怪次数为 {val}";
+					var s = $"玩家 {player.name} 设置最大刷怪次数为 {val}";
 					ServerPlayer.SendInfoMessageToAll(s);
 					CommandBoardcast.ConsoleMessage(s);
 				}

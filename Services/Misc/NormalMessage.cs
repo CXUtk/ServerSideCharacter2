@@ -18,7 +18,7 @@ namespace ServerSideCharacter2.Services.Misc
 		{
 			if (Main.netMode == 1)
 			{
-				string msg = reader.ReadString();
+				var msg = reader.ReadString();
 				ServerSideCharacter2.Instance.ShowMessage(msg, time, Color.White);
 			}
 		}

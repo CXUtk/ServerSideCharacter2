@@ -65,9 +65,9 @@ namespace ServerSideCharacter2.GUI.UI
 			_onlinePlayerPanel.Width.Set(FRIENDLIST_WIDTH, 0f);
 			_onlinePlayerPanel.Height.Set(FRIENDLIST_HEIGHT, 0f);
 
-			UIText onlinelabel = new UIText("好友列表");
+			var onlinelabel = new UIText("好友列表");
 			onlinelabel.Top.Set(35 + FRIENDLIST_OFFSET_TOP, 0f);
-			Vector2 texSize = Main.fontMouseText.MeasureString(onlinelabel.Text);
+			var texSize = Main.fontMouseText.MeasureString(onlinelabel.Text);
 			onlinelabel.Left.Set(-FRIENDLIST_WIDTH / 2 + FRIENDLIST_OFFSET_RIGHT, 0.5f);
 			WindowPanel.Append(onlinelabel);
 			WindowPanel.Append(_onlinePlayerPanel);
@@ -92,7 +92,7 @@ namespace ServerSideCharacter2.GUI.UI
 			_onlinePlayerPanel.Append(_friendList);
 
 			// ScrollBar设定
-			UIAdvScrollBar uiscrollbar = new UIAdvScrollBar();
+			var uiscrollbar = new UIAdvScrollBar();
 			uiscrollbar.SetView(100f, 1000f);
 			uiscrollbar.Height.Set(0f, 1f);
 			uiscrollbar.HAlign = 1f;
@@ -136,9 +136,9 @@ namespace ServerSideCharacter2.GUI.UI
 			}
 			else
 			{
-				for (int i = 0; i < 20; i++)
+				for (var i = 0; i < 20; i++)
 				{
-					JsonData.SimplifiedPlayerInfo testinfo = new JsonData.SimplifiedPlayerInfo
+					var testinfo = new JsonData.SimplifiedPlayerInfo
 					{
 						Name = ServerUtils.RandomGenString()
 					};
@@ -156,7 +156,7 @@ namespace ServerSideCharacter2.GUI.UI
 			base.Update(gameTime);
 			if (Main.netMode == 0)
 			{
-				JsonData.SimplifiedPlayerInfo info = new JsonData.SimplifiedPlayerInfo
+				var info = new JsonData.SimplifiedPlayerInfo
 				{
 					Name = Main.LocalPlayer.name,
 					IsFriend = true,
@@ -185,7 +185,7 @@ namespace ServerSideCharacter2.GUI.UI
 
 		public void AppendFriends(JsonData.SimplifiedPlayerInfo info)
 		{
-			UIFriendBar bar = new UIFriendBar(info);
+			var bar = new UIFriendBar(info);
 			uIFriendBars.Add(bar);
 			_friendList.Add(bar);
 		}
