@@ -103,7 +103,7 @@ namespace ServerSideCharacter2.Services.Login
 								Credentials = System.Net.CredentialCache.DefaultCredentials
 							}.DownloadData(string.Concat(new string[]
 							{
-							"http://peserver.terrariaserver.cn/SteamCityAuth.aspx?username=",
+							"http://localhost/SteamCityAuth.aspx?username=",
 							username,
 							"&salt=",
 							salt,
