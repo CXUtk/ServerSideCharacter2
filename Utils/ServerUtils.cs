@@ -40,6 +40,18 @@ namespace ServerSideCharacter2.Utils
 			}
 		}
 
+		public static void CheckLocality(string msg)
+		{
+			if(Main.netMode == 2)
+			{
+				Console.WriteLine($"服务器端：{msg}");
+			}
+			else
+			{
+				Main.NewText($"客户端：{msg}");
+			}
+		}
+
 		public static NetworkMode NetworkMode
 		{
 			get

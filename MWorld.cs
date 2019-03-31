@@ -36,14 +36,22 @@ namespace ServerSideCharacter2
 					if (player.IsLogin)
 						player.SyncPlayerToInfo();
 				}
-				for(var i = 0; i < Main.maxPlayers; i++)
+				foreach (var player in ServerSideCharacter2.PlayerCollection)
+				{
+					if (player.Value.PrototypePlayer == null || !player.Value.PrototypePlayer.active)
+					{
+						player.Value.IsLogin = false;
+						player.Value.SetID(-1);
+					}
+				}
+				for (var i = 0; i < Main.maxPlayers; i++)
 				{
 					if(TileMessageCD[i] > 0)
 					{
 						TileMessageCD[i]--;
 					}
 				}
-				if (_timer % 180 < 1)
+				if (_timer % 300 < 1)
 				{
 					foreach(var player in Main.player)
 					{
@@ -59,14 +67,6 @@ namespace ServerSideCharacter2
 						{
 							serverPlayer.ApplyLockBuffs();
 							NetMessage.SendChatMessageToClient(NetworkText.FromLiteral("您已注册，输入密码就可以登录了！"), new Color(255, 255, 30, 30), playerID);
-						}
-					}
-					foreach (var player in ServerSideCharacter2.PlayerCollection)
-					{
-						if (player.Value.PrototypePlayer == null || !player.Value.PrototypePlayer.active)
-						{
-							player.Value.IsLogin = false;
-							player.Value.SetID(-1);
 						}
 					}
 

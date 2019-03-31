@@ -466,8 +466,10 @@ namespace ServerSideCharacter2
 		{
 			if (RealPlayer && ConnectionAlive)
 			{
-				NetMessage.SendData(2, playerID, -1, 
-					((msg == "") ? NetworkText.FromKey("CLI.KickMessage", new object[0]): NetworkText.FromLiteral(msg)), 0, 0f, 0f, 0f, 0, 0, 0);
+				var netmsg = ((msg == "") ? NetworkText.FromKey("CLI.KickMessage", new object[0]) : NetworkText.FromLiteral(msg));
+				NetMessage.SendData(2, playerID, -1,
+					netmsg , 0, 0f, 0f, 0f, 0, 0, 0);
+				CommandBoardcast.ConsoleMessage($"玩家 {Name} 被踢出服务器，原因是：msg");
 			}
 		}
 
