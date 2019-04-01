@@ -28,22 +28,6 @@ namespace ServerSideCharacter2.Commands
 		{
 			get { return " /sm <物品 id> [数量]"; }
 		}
-		//static private string[] GetArgs(string[] source)
-		//{
-		//	string name;
-		//	int amount;
-		//	if (source.Length > 1 && int.TryParse(source.Last(), out amount))
-		//	{
-		//		name = string.Join(" ", source.Take(source.Length - 1));
-		//	}
-		//	else
-		//	{
-		//		amount = 1;
-		//		name = string.Join(" ", source);
-		//	}
-		//	return new string[2] { name, amount.ToString() };
-		//}
-
 		public override void Action(CommandCaller caller, string input, string[] args)
 		{
 			var type = Convert.ToInt32(args[0]);

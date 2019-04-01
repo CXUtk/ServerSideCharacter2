@@ -114,6 +114,14 @@ namespace ServerSideCharacter2.GUI.UI
 			_itemPanel.Width.Set(-2 * ITEM_BROWSER_OFFSETX, 1f);
 			_itemPanel.Height.Set(-20 - ITEM_BROWSER_OFFSETY, 1f);
 
+
+			//UISwitch uISwitch = new UISwitch();
+			//uISwitch.Top.Set(50, 0);
+			//uISwitch.Left.Set(50, 0);
+			//uISwitch.Width.Set(60, 0f);
+			//uISwitch.Height.Set(30, 0f);
+			//WindowPanel.Append(uISwitch);
+
 			_itemGrid = new UIAdvGrid();
 			_itemGrid.Width.Set(-25f, 1f);
 			_itemGrid.Height.Set(0f, 1f);

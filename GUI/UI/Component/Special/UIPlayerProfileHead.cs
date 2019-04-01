@@ -137,6 +137,10 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 
 			var regTimeText = new UIText($"注册时间：{_info.RegistedTime.ToString("g")}");
 			infoList.Add(regTimeText);
+
+			var playerIDText = new UIText($"玩家ID：{_info.PlayerID}");
+			infoList.Add(playerIDText);
+
 		}
 	}
 }

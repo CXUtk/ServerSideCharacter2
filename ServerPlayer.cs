@@ -203,8 +203,6 @@ namespace ServerSideCharacter2
 			}
 		}
 
-
-
 		public void SetGroup(string name)
 		{
 			if (ServerSideCharacter2.GroupManager.Groups.ContainsKey(name))

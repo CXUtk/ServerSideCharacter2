@@ -40,6 +40,7 @@ namespace ServerSideCharacter2.Items
 			{
 				item.Prefix(PrefixID.Quick2); 
 			}
+			Main.dayTime ^= true;
 			if (player.altFunctionUse != 2 && Main.mouseLeftRelease)
 			{
 				var tilePos = new Vector2(Player.tileTargetX, Player.tileTargetY);

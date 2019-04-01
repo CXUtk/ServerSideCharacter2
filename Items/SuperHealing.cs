@@ -29,13 +29,14 @@ namespace ServerSideCharacter2.Items
 		public override void AI()
 		{
 			projectile.frameCounter++;
+		
 			var p = Main.player[projectile.owner];
 			if (projectile.owner == Main.myPlayer)
 			{
 				var diff = Main.MouseWorld - p.Center;
 				diff.Normalize();
 				projectile.velocity = diff;
-				projectile.direction = Main.MouseWorld.X < projectile.Center.X ? -1 : 1;
+				projectile.direction = Main.MouseWorld.X > p.Center.X ? 1 : -1;
 				var player = FindCloestPlayer(Main.MouseWorld, 300, pla => pla.whoAmI != Main.myPlayer);
 				if(player != null && (player.team == p.team || (player.team != p.team && !player.hostile)))
 				{
@@ -46,6 +47,7 @@ namespace ServerSideCharacter2.Items
 					TargetPlayer = -1;
 				}
 				projectile.netUpdate = true;
+
 			}
 			SetProjPos(projectile, 1.57f, 1);
 			if (!p.channel || (projectile.frameCounter % 6 == 0 && !p.CheckMana(1, true)))
