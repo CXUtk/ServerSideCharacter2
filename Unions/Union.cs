@@ -1,11 +1,12 @@
-﻿using System;
+﻿using ServerSideCharacter2.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace ServerSideCharacter2.Unions
 {
-	public class Union
+	public class Union : IName
 	{
 		public int Level { get; set; }
 		private const int EXP_BASE = 200;

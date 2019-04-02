@@ -13,8 +13,8 @@ namespace ServerSideCharacter2.Utils
 	public static class ConfigLoader
 	{
 		public static string defaultName = "SSC/config.json";
-		private static GroupConfigManager GroupConfigManager;
-		private static Unions.UnionDataManager UnionDataManager;
+		private static GroupConfig GroupConfigManager;
+		private static Unions.UnionConfig UnionDataManager;
 		private static RegionConfig RegionConfig;
 
 		public static void Load()
@@ -46,8 +46,8 @@ namespace ServerSideCharacter2.Utils
 			CommandBoardcast.ConsoleMessage(
 				$"当前配置  自动保存: {(ServerSideCharacter2.Config.AutoSave ? "开" : "关")}，自动保存间隔：{ServerSideCharacter2.Config.SaveInterval / 60f}s");
 
-			GroupConfigManager = new GroupConfigManager();
-			UnionDataManager = new Unions.UnionDataManager();
+			GroupConfigManager = new GroupConfig();
+			UnionDataManager = new Unions.UnionConfig();
 			RegionConfig = new RegionConfig();
 
 			Save();

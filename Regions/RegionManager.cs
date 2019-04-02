@@ -9,9 +9,7 @@ namespace ServerSideCharacter2.Regions
 
 	public class RegionManager
 	{
-		private RegionData _regions;
 		public Dictionary<string, Region> Regions;
-		private static string _filePath = "SSC/regions.json";
 
 		public RegionManager()
 		{
@@ -46,43 +44,43 @@ namespace ServerSideCharacter2.Regions
 
 		public bool CheckPlayerRegionMax(ServerPlayer player)
 		{
-			return _regions.ServerRegions.Count(info => info.Owner.Equals(player)) < ServerSideCharacter2.Config.PlayerMaxRegions;
+			return Regions.Count(info => info.Value.Owner.Equals(player)) < ServerSideCharacter2.Config.PlayerMaxRegions;
 		}
 
 		public bool CheckRegionConflict(Rectangle rect)
 		{
-			return _regions.ServerRegions.All(region => !region.Area.Intersects(rect));
+			return Regions.All(region => !region.Value.Area.Intersects(rect));
 		}
 
-		public void ReadRegion()
-		{
-			if (!File.Exists(_filePath))
-			{
-				string json = JsonConvert.SerializeObject(_regions);
-				using (StreamWriter sw = new StreamWriter(_filePath))
-				{
-					sw.Write(json);
-				}
-			}
-			else
-			{
-				string json = File.ReadAllText(_filePath);
-				_regions = JsonConvert.DeserializeObject<RegionData>(json);
-			}
-		}
+		//public void ReadRegion()
+		//{
+		//	if (!File.Exists(_filePath))
+		//	{
+		//		string json = JsonConvert.SerializeObject(_regions);
+		//		using (StreamWriter sw = new StreamWriter(_filePath))
+		//		{
+		//			sw.Write(json);
+		//		}
+		//	}
+		//	else
+		//	{
+		//		string json = File.ReadAllText(_filePath);
+		//		_regions = JsonConvert.DeserializeObject<RegionData>(json);
+		//	}
+		//}
 
-		public void WriteRegion()
-		{
-			lock (_regions)
-			{
-				string json = JsonConvert.SerializeObject(_regions, Newtonsoft.Json.Formatting.Indented);
-				using (StreamWriter sw = new StreamWriter(_filePath))
-				{
-					sw.Write(json);
-				}
-			}
+		//public void WriteRegion()
+		//{
+		//	lock (_regions)
+		//	{
+		//		string json = JsonConvert.SerializeObject(_regions, Newtonsoft.Json.Formatting.Indented);
+		//		using (StreamWriter sw = new StreamWriter(_filePath))
+		//		{
+		//			sw.Write(json);
+		//		}
+		//	}
 
-		}
+		//}
 
 		//public bool CheckRegion(int X, int Y, ServerPlayer player)
 		//{
@@ -119,7 +117,7 @@ namespace ServerSideCharacter2.Regions
 
 		internal bool ValidRegion(ServerPlayer player, string name, Rectangle area)
 		{
-			return !HasNameConflect(name) && _regions.ServerRegions.Count < ServerSideCharacter2.Config.MaxRegions
+			return !HasNameConflect(name) && Regions.Count < ServerSideCharacter2.Config.MaxRegions
 				   && CheckPlayerRegionMax(player) && CheckRegionConflict(area)
 				   && CheckRegionSize(player, area);
 		}

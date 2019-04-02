@@ -258,7 +258,7 @@ namespace ServerSideCharacter2.Network
 		//			short Y = reader.ReadInt16();
 		//			short type = reader.ReadInt16();
 		//			int style = reader.ReadByte();
-		//			if (ServerSideCharacter.CheckSpawn(X, Y) && player.PermissionGroup.GroupName != "spadmin")
+		//			if (ServerSideCharacter.CheckSpawn(X, Y) && player.PermissionGroup.Name != "spadmin")
 		//			{
 		//				player.SendErrorInfo("Warning: Spawn is protected from change");
 		//				NetMessage.SendTileSquare(-1, X, Y, 4);
@@ -270,7 +270,7 @@ namespace ServerSideCharacter2.Network
 		//				NetMessage.SendTileSquare(-1, X, Y, 4);
 		//				return true;
 		//			}
-		//			else if (player.PermissionGroup.GroupName == "criminal")
+		//			else if (player.PermissionGroup.Name == "criminal")
 		//			{
 		//				player.SendErrorInfo("Warning: Criminals cannot change tiles");
 		//				NetMessage.SendTileSquare(-1, X, Y, 4);
@@ -616,7 +616,7 @@ namespace ServerSideCharacter2.Network
 						NetMessage.SendTileSquare(-1, X, Y, 4);
 						return true;
 					}
-					//if (ServerSideCharacter.CheckSpawn(X, Y) && player.PermissionGroup.GroupName != "spadmin")
+					//if (ServerSideCharacter.CheckSpawn(X, Y) && player.PermissionGroup.Name != "spadmin")
 					//{
 					//	player.SendErrorInfo("Warning: Spawn is protected from change");
 					//	NetMessage.SendTileSquare(-1, X, Y, 4);
@@ -628,7 +628,7 @@ namespace ServerSideCharacter2.Network
 					//	NetMessage.SendTileSquare(-1, X, Y, 4);
 					//	return true;
 					//}
-					//else if (player.PermissionGroup.GroupName == "criminal")
+					//else if (player.PermissionGroup.Name == "criminal")
 					//{
 					//	player.SendErrorInfo("Warning: Criminals cannot change tiles");
 					//	NetMessage.SendTileSquare(-1, X, Y, 4);

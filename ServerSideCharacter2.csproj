@@ -245,7 +245,7 @@
     <Compile Include="SSCException.cs" />
     <Compile Include="SSCMessageType.cs" />
     <Compile Include="Unions\Union.cs" />
-    <Compile Include="Unions\UnionData.cs" />
+    <Compile Include="Unions\UnionConfig.cs" />
     <Compile Include="Unions\UnionManager.cs" />
     <Compile Include="Utils\CommandBoardcast.cs" />
     <Compile Include="Utils\ConfigLoader.cs" />
@@ -254,6 +254,7 @@
     <Compile Include="Utils\KMP.cs" />
     <Compile Include="Utils\MethodSwapper.cs" />
     <Compile Include="Utils\ResourceLoader.cs" />
+    <Compile Include="Utils\DataConfig.cs" />
     <Compile Include="Utils\ServerUtils.cs" />
   </ItemGroup>
   <ItemGroup />

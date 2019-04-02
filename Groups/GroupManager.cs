@@ -13,7 +13,7 @@ namespace ServerSideCharacter2.Groups
 
 		private void AddToGroup(Group g)
 		{
-			Groups.Add(g.GroupName, g);
+			Groups.Add(g.Name, g);
 		}
 
 		public GroupManager()
@@ -64,10 +64,10 @@ namespace ServerSideCharacter2.Groups
 				IsSuperAdmin = true
 			};
 
-			DefaultGroups.Add(defaultGroup.GroupName, defaultGroup);
-			DefaultGroups.Add(crminalGroup.GroupName, crminalGroup);
-			DefaultGroups.Add(admin.GroupName, admin);
-			DefaultGroups.Add(superAdmin.GroupName, superAdmin);
+			DefaultGroups.Add(defaultGroup.Name, defaultGroup);
+			DefaultGroups.Add(crminalGroup.Name, crminalGroup);
+			DefaultGroups.Add(admin.Name, admin);
+			DefaultGroups.Add(superAdmin.Name, superAdmin);
 		}
 
 		internal void AddDefaults()

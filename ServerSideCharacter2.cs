@@ -223,10 +223,10 @@ namespace ServerSideCharacter2
 				GroupManager = new GroupManager();
 				GroupManager.SetGroups();
 				UnionManager = new UnionManager();
+				RegionManager = new RegionManager();
 				// 服务器端生成RSA私钥
 				RSACrypto.GenKey();
 				ConfigLoader.Load();
-				RegionManager = new RegionManager();
 			}
 			Loaded = true;
 		}

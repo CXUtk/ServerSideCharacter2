@@ -1,10 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
+using ServerSideCharacter2.Utils;
 using System.Collections.Generic;
 using System.Text;
 
 namespace ServerSideCharacter2.Regions
 {
-	public class Region
+	public class Region : IName
 	{
 		public string Name { get; set; }
 		public int OwnerGUID { get; set; }

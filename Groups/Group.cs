@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using ServerSideCharacter2.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +8,13 @@ using Terraria;
 
 namespace ServerSideCharacter2.Groups
 {
-	public class Group
+	public class Group : IName
 	{
-		public string GroupName { get; set; }
 		public HashSet<string> permissions = new HashSet<string>();
 		public Color ChatColor = new Color();
 		public string ChatPrefix = "";
 		public bool IsSuperAdmin { get; set; }
+		public string Name { get; set; }
 
 		public bool AddPermission(string name)
 		{
@@ -40,7 +41,7 @@ namespace ServerSideCharacter2.Groups
 
 		public Group(string name)
 		{
-			GroupName = name;
+			Name = name;
 			ChatColor = Color.White;
 		}
 	}

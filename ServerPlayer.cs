@@ -161,11 +161,7 @@ namespace ServerSideCharacter2
 		{
 			get
 			{
-				if (ServerSideCharacter2.RegionManager.ContainsKey(_info.Union))
-				{
-					return ServerSideCharacter2.UnionManager.Unions[_info.Union];
-				}
-				return null;
+				return _info.OwnedRegions;
 			}
 		}
 
@@ -495,7 +491,7 @@ namespace ServerSideCharacter2
 				GUID = this._info.ID,
 				ChatColor = Group.ChatColor,
 				ChatPrefix = Group.ChatPrefix,
-				GroupName = Group.GroupName,
+				GroupName = Group.Name,
 				IsFriend = isFriend,
 				Rank = this.Rank,
 				KillCount = this.KillCount,
@@ -519,6 +515,11 @@ namespace ServerSideCharacter2
 			if (!(obj is ServerPlayer)) return false;
 			ServerPlayer other = (ServerPlayer)obj;
 			return other.GUID == GUID;
+		}
+
+		public override int GetHashCode()
+		{
+			return this.Name.GetHashCode();
 		}
 
 		public void ChangeRank(int rank)
