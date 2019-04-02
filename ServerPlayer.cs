@@ -188,7 +188,7 @@ namespace ServerSideCharacter2
 
 		public string CurrentRegion
 		{
-			get;set;
+			get; set;
 		}
 
 		public bool RealPlayer
@@ -231,6 +231,7 @@ namespace ServerSideCharacter2
 
 		private void SetupPlayer()
 		{
+			CurrentRegion = "";
 			for (var i = 0; i < inventory.Length; i++)
 			{
 				inventory[i] = new Item();

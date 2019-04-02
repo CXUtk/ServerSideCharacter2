@@ -433,6 +433,7 @@ namespace ServerSideCharacter2.Network
 
 					MessageSender.SendWelcomeMessage(plr,
 						player.HasPassword ? GameLanguage.GetText("welcomeold") : GameLanguage.GetText("welcomenew"));
+					MessageSender.SyncRegionsToClient(plr);
 					if(ServerSideCharacter2.Config.PvpMode == JsonData.PVPMode.Always)
 					{
 						player.PrototypePlayer.hostile = true;

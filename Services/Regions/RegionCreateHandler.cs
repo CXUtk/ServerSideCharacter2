@@ -19,16 +19,16 @@ namespace ServerSideCharacter2.Services.Regions
 			if (Main.netMode == 2)
 			{
 				var name = reader.ReadString();
-				var upperleft = reader.ReadPackedVector2();
-				var lowerright = reader.ReadPackedVector2();
+				var upperleft = new Point(reader.ReadInt32(), reader.ReadInt32());
+				var lowerright = new Point(reader.ReadInt32(), reader.ReadInt32());
 				var splayer = Main.player[playerNumber].GetServerPlayer();
-				var rectangle = new Rectangle((int)upperleft.X, (int)upperleft.Y,
-					(int)(lowerright.X - upperleft.X), (int)(lowerright.Y - upperleft.Y));
+				var rectangle = new Rectangle(upperleft.X, upperleft.Y,
+					lowerright.X - upperleft.X, lowerright.Y - upperleft.Y);
 				string err;
 				if(ServerSideCharacter2.RegionManager.ValidRegion(splayer, name, rectangle, out err))
 				{
 					ServerSideCharacter2.RegionManager.CreateNewRegion(rectangle, name, splayer);
-					MessageSender.SyncRegionsToClient();
+					MessageSender.SyncRegionsToClient(-1);
 					splayer.SendInfoMessage($"领地 {name} 创建成功！", Color.LimeGreen);
 				}
 				else

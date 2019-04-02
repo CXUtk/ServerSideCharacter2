@@ -97,11 +97,11 @@ namespace ServerSideCharacter2
 				var rect = new Rectangle(region.Area.X * 16, region.Area.Y * 16, region.Area.Width * 16, region.Area.Height * 16);
 				if (player.Hitbox.Intersects(rect))
 				{
-					if (splayer.CurrentRegion == region.Name) continue;
+					if (splayer.CurrentRegion == region.Name) return;
 					inregion = true;
 					splayer.CurrentRegion = region.Name;
 					splayer.SendInfoMessage(region.WelcomeInfo());
-					break;
+					return;
 				}
 			}
 			if (!inregion)

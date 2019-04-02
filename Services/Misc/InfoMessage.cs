@@ -16,7 +16,7 @@ namespace ServerSideCharacter2.Services.Misc
 		{
 			var msg = reader.ReadString();
 			var c = reader.ReadRGB();
-			Main.NewText(msg, c);
+			Main.NewTextMultiline(msg, false, c);
 		}
 	}
 }

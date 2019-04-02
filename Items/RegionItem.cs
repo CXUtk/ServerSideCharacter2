@@ -39,13 +39,13 @@ namespace ServerSideCharacter2.Items
 			// Main.dayTime ^= true;
 			if (player.altFunctionUse != 2 && Main.mouseLeftRelease)
 			{
-				var tilePos = new Vector2(Player.tileTargetX, Player.tileTargetY);
+				var tilePos = new Point(Player.tileTargetX, Player.tileTargetY);
 				ServerSideCharacter2.RegionUpperLeft = tilePos;
 				Main.NewText($"Selected tile positon 1 at ({tilePos.X}, {tilePos.Y})");
 			}
 			else if (player.altFunctionUse == 2 && Main.mouseRightRelease)
 			{
-				var tilePos = new Vector2(Player.tileTargetX, Player.tileTargetY);
+				var tilePos = new Point(Player.tileTargetX, Player.tileTargetY);
 				ServerSideCharacter2.RegionLowerRight = tilePos;
 				Main.NewText($"Selected tile positon 2 at ({tilePos.X}, {tilePos.Y})");
 			}

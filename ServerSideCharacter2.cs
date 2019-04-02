@@ -75,8 +75,8 @@ namespace ServerSideCharacter2
 
 		private bool Loaded { get; set; }
 
-		public static Vector2 RegionUpperLeft { get; internal set; }
-		public static Vector2 RegionLowerRight { get; internal set; }
+		public static Point RegionUpperLeft { get; internal set; }
+		public static Point RegionLowerRight { get; internal set; }
 
 		internal void ChangeState(SSCUIState state)
 		{

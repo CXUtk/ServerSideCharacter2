@@ -238,8 +238,10 @@ namespace ServerSideCharacter2
 			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.RegionCreateCommand);
 			p.Write(name);
-			p.WritePackedVector2(ServerSideCharacter2.RegionUpperLeft);
-			p.WritePackedVector2(ServerSideCharacter2.RegionLowerRight);
+			p.Write(ServerSideCharacter2.RegionUpperLeft.X);
+			p.Write(ServerSideCharacter2.RegionUpperLeft.Y);
+			p.Write(ServerSideCharacter2.RegionLowerRight.X);
+			p.Write(ServerSideCharacter2.RegionLowerRight.Y);
 			p.Send();
 		}
 
@@ -470,14 +472,14 @@ namespace ServerSideCharacter2
 		}
 
 
-		public static void SyncRegionsToClient()
+		public static void SyncRegionsToClient(int plr)
 		{
 			if (Main.netMode == 2)
 			{
 				var p = ServerSideCharacter2.Instance.GetPacket();
 				p.Write((int)SSCMessageType.SyncRegionsToClient);
 				ServerSideCharacter2.RegionManager.WriteRegions(p);
-				p.Send();
+				p.Send(plr);
 			}
 		}
 		//public static void SendChestCommand(ChestManager.Pending pending, int plr, string friendName = null)

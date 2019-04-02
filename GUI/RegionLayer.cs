@@ -28,8 +28,8 @@ namespace ServerSideCharacter2.GUI
 			var spriteBatch = Main.spriteBatch;
 			if (Main.LocalPlayer.inventory[Main.LocalPlayer.selectedItem].type == ServerSideCharacter2.Instance.ItemType<RegionItem>())
 			{
-				spriteBatch.Draw(Main.magicPixel, ServerSideCharacter2.RegionUpperLeft * 16 - Main.screenPosition, new Rectangle(0, 0, 8, 8), Color.Purple);
-				spriteBatch.Draw(Main.magicPixel, ServerSideCharacter2.RegionLowerRight * 16 - Main.screenPosition, new Rectangle(0, 0, 8, 8), Color.Red);
+				spriteBatch.Draw(Main.magicPixel, ServerSideCharacter2.RegionUpperLeft.ToVector2() * 16 - Main.screenPosition, new Rectangle(0, 0, 8, 8), Color.Purple);
+				spriteBatch.Draw(Main.magicPixel, ServerSideCharacter2.RegionLowerRight.ToVector2() * 16 - Main.screenPosition, new Rectangle(0, 0, 8, 8), Color.Red);
 				foreach (var region in ServerSideCharacter2.ClientRegions)
 				{
 					var rect = region.Value.Area;
