@@ -18,6 +18,11 @@ namespace ServerSideCharacter2.JsonData
 	public class ConfigData
 	{
 		public List<ItemInfo> startUpInventory;
+		public int PlayerMaxRegions;
+		public int MaxRegionWidth;
+		public int MaxRegionHeight;
+		public int MaxRegions;
+
 		public bool AutoSave { get; set; }
 		public int SaveInterval { get; set; }
 		public PVPMode PvpMode { get; set; }
@@ -43,6 +48,11 @@ namespace ServerSideCharacter2.JsonData
 			data.MediumcoreOnly = false;
 
 			data.PvpMode = PVPMode.Normal;
+
+			data.PlayerMaxRegions = 255;
+			data.MaxRegions = 255;
+			data.MaxRegionWidth = 10000;
+			data.MaxRegionHeight = 10000;
 			return data;
 		}
 	}

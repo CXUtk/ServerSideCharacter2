@@ -27,12 +27,13 @@ using ServerSideCharacter2.GUI.UI;
 using ServerSideCharacter2.Groups;
 using ServerSideCharacter2.Unions;
 using System.Security.Cryptography;
+using ServerSideCharacter2.Regions;
 
 namespace ServerSideCharacter2
 {
 	public class ServerSideCharacter2 : Mod
 	{
-		public const bool DEBUGMODE = false;
+		public const bool DEBUGMODE = true;
 
 		internal static ServerSideCharacter2 Instance;
 
@@ -55,6 +56,8 @@ namespace ServerSideCharacter2
 		internal static GroupManager GroupManager;
 
 		internal static UnionManager UnionManager;
+
+		public static RegionManager RegionManager;
 
 		public static ToolBarServiceManager ToolBarServiceManager { get; set; }
 
@@ -223,6 +226,7 @@ namespace ServerSideCharacter2
 				// 服务器端生成RSA私钥
 				RSACrypto.GenKey();
 				ConfigLoader.Load();
+				RegionManager = new RegionManager();
 			}
 			Loaded = true;
 		}

@@ -6,6 +6,7 @@ using System.IO;
 using ServerSideCharacter2.JsonData;
 using Newtonsoft.Json;
 using ServerSideCharacter2.Groups;
+using ServerSideCharacter2.Regions;
 
 namespace ServerSideCharacter2.Utils
 {
@@ -14,6 +15,7 @@ namespace ServerSideCharacter2.Utils
 		public static string defaultName = "SSC/config.json";
 		private static GroupConfigManager GroupConfigManager;
 		private static Unions.UnionDataManager UnionDataManager;
+		private static RegionConfig RegionConfig;
 
 		public static void Load()
 		{
@@ -46,6 +48,7 @@ namespace ServerSideCharacter2.Utils
 
 			GroupConfigManager = new GroupConfigManager();
 			UnionDataManager = new Unions.UnionDataManager();
+			RegionConfig = new RegionConfig();
 
 			Save();
 		}
@@ -60,6 +63,7 @@ namespace ServerSideCharacter2.Utils
 
 			GroupConfigManager.Save();
 			UnionDataManager.Save();
+			RegionConfig.Save();
 		}
 	}
 }

@@ -200,6 +200,10 @@
     <Compile Include="ErrorLogger.cs" />
     <Compile Include="RankingSystem\Ranking.cs" />
     <Compile Include="RankingSystem\RankType.cs" />
+    <Compile Include="Regions\Region.cs" />
+    <Compile Include="Regions\RegionConfig.cs" />
+    <Compile Include="Regions\RegionManager.cs" />
+    <Compile Include="Regions\RegionPermission.cs" />
     <Compile Include="ServerPlayer.cs" />
     <Compile Include="ServerSideCharacter2.cs" />
     <Compile Include="Services\Misc\KickHandler.cs" />

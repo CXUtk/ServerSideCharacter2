@@ -30,6 +30,8 @@ namespace ServerSideCharacter2.JsonData
 
 		public HashSet<string> Friends = new HashSet<string>();
 
+		public HashSet<string> OwnedRegions = new HashSet<string>();
+
 		public string Group;
 
 		public string Union;

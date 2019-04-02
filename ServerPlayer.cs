@@ -157,6 +157,18 @@ namespace ServerSideCharacter2
 			}
 		}
 
+		public HashSet<string> Regions
+		{
+			get
+			{
+				if (ServerSideCharacter2.RegionManager.ContainsKey(_info.Union))
+				{
+					return ServerSideCharacter2.UnionManager.Unions[_info.Union];
+				}
+				return null;
+			}
+		}
+
 		public int Rank
 		{
 			get
@@ -502,6 +514,12 @@ namespace ServerSideCharacter2
 			}
 		}
 
+		public override bool Equals(object obj)
+		{
+			if (!(obj is ServerPlayer)) return false;
+			ServerPlayer other = (ServerPlayer)obj;
+			return other.GUID == GUID;
+		}
 
 		public void ChangeRank(int rank)
 		{
