@@ -67,7 +67,9 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.SpawnRate, new SpawnControlHandler1() },
 				{SSCMessageType.MaxSpawnCount, new SpawnControlHandler2() },
 				{SSCMessageType.KickCommand, new KickHandler() },
-				{SSCMessageType.TPHereCommand, new TPHereHandler() }
+				{SSCMessageType.TPHereCommand, new TPHereHandler() },
+				{SSCMessageType.RegionCreateCommand, new Services.Regions.RegionCreateHandler() },
+				{SSCMessageType.SyncRegionsToClient, new Services.Regions.RegionSyncHandler() }
 			};
 		}
 	}

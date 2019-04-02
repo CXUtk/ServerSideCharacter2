@@ -28,6 +28,8 @@ using ServerSideCharacter2.Groups;
 using ServerSideCharacter2.Unions;
 using System.Security.Cryptography;
 using ServerSideCharacter2.Regions;
+using ServerSideCharacter2.GUI.UI.Component;
+using ServerSideCharacter2.Items;
 
 namespace ServerSideCharacter2
 {
@@ -59,6 +61,8 @@ namespace ServerSideCharacter2
 
 		public static RegionManager RegionManager;
 
+		public static Dictionary<string, Region> ClientRegions = new Dictionary<string, Region>();
+
 		public static ToolBarServiceManager ToolBarServiceManager { get; set; }
 
 		public bool IsLoginClientSide { get; set; }
@@ -71,8 +75,8 @@ namespace ServerSideCharacter2
 
 		private bool Loaded { get; set; }
 
-		public static Vector2 TilePos1 { get; internal set; }
-		public static Vector2 TilePos2 { get; internal set; }
+		public static Vector2 RegionUpperLeft { get; internal set; }
+		public static Vector2 RegionLowerRight { get; internal set; }
 
 		internal void ChangeState(SSCUIState state)
 		{
@@ -205,6 +209,7 @@ namespace ServerSideCharacter2
 			_sscPacketHandler = new SSCPacketHandler();
 			if (!Main.dedServ)
 			{
+				ClientRegions.Add("??", new Region("??", new Rectangle(2093, 230, 8, 10)));
 				// 加载资源只有在非服务器端才会执行
 				// MethodSwapper.SwapMethods();
 				MainPlayerGroup = new Group("default");
@@ -294,6 +299,7 @@ namespace ServerSideCharacter2
 			{
 				layers.Insert(MouseTextIndex, new SSCLayer(GuiManager));
 				layers.Add(new TooltipLayer("SSC: Tooltip", InterfaceScaleType.UI));
+				layers.Insert(0, new RegionLayer("SSC: Region", InterfaceScaleType.None));
 			}
 			else
 			{
@@ -306,6 +312,7 @@ namespace ServerSideCharacter2
 			GuiManager.UpdateUI(gameTime);
 			base.UpdateUI(gameTime);
 		}
+
 
 		public void ShowMessage(string msg, int time, Color color)
 		{

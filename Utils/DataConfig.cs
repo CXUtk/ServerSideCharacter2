@@ -49,6 +49,7 @@ namespace ServerSideCharacter2.Utils
 					var data = sr.ReadToEnd();
 					_data = JsonConvert.DeserializeObject<ConfigData>(data, converter);
 				}
+				Receive(_data.Data);
 			}
 		}
 

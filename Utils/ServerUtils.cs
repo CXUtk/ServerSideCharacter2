@@ -5,11 +5,31 @@ using System.Text;
 using Terraria;
 using Terraria.ModLoader;
 using ServerSideCharacter2.JsonData;
+using System.IO;
+using Microsoft.Xna.Framework;
 
 namespace ServerSideCharacter2.Utils
 {
-	public class ServerUtils
+	public static class ServerUtils
 	{
+
+		public static void WriteRect(this BinaryWriter bb, Rectangle rect)
+		{
+			bb.Write(rect.X);
+			bb.Write(rect.Y);
+			bb.Write(rect.Width);
+			bb.Write(rect.Height);
+		}
+
+		public static Rectangle ReadRect(this BinaryReader bb)
+		{
+			Rectangle rect = new Rectangle();
+			rect.X = bb.ReadInt32();
+			rect.Y = bb.ReadInt32();
+			rect.Width = bb.ReadInt32();
+			rect.Height = bb.ReadInt32();
+			return rect;
+		}
 
 		public static string RandomGenString()
 		{

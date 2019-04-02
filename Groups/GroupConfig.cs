@@ -27,7 +27,7 @@ namespace ServerSideCharacter2.Groups
 		protected override void SetDefaults(ConfigData data)
 		{
 			data.Data = ServerSideCharacter2.GroupManager.DefaultGroups;
-			ServerSideCharacter2.GroupManager.Groups = data.Data;
+			ServerSideCharacter2.GroupManager.Groups = ServerSideCharacter2.GroupManager.DefaultGroups;
 
 		}
 	}

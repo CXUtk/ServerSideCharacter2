@@ -35,6 +35,7 @@ namespace ServerSideCharacter2
 					var player = p.GetServerPlayer();
 					if (player.IsLogin)
 						player.SyncPlayerToInfo();
+					UpdateRegion(p);
 				}
 				foreach (var player in ServerSideCharacter2.PlayerCollection)
 				{
@@ -44,6 +45,7 @@ namespace ServerSideCharacter2
 						player.Value.SetID(-1);
 					}
 				}
+
 				for (var i = 0; i < Main.maxPlayers; i++)
 				{
 					if(TileMessageCD[i] > 0)
@@ -82,6 +84,29 @@ namespace ServerSideCharacter2
 				WorldFile.saveWorld();
 				Netplay.disconnect = true;
 				Terraria.Social.SocialAPI.Shutdown();
+			}
+		}
+
+		private void UpdateRegion(Player player)
+		{
+			bool inregion = false;
+			var splayer = player.GetServerPlayer();
+			foreach (var pair in ServerSideCharacter2.RegionManager.Regions)
+			{
+				var region = pair.Value;
+				var rect = new Rectangle(region.Area.X * 16, region.Area.Y * 16, region.Area.Width * 16, region.Area.Height * 16);
+				if (player.Hitbox.Intersects(rect))
+				{
+					if (splayer.CurrentRegion == region.Name) continue;
+					inregion = true;
+					splayer.CurrentRegion = region.Name;
+					splayer.SendInfoMessage(region.WelcomeInfo());
+					break;
+				}
+			}
+			if (!inregion)
+			{
+				splayer.CurrentRegion = "";
 			}
 		}
 

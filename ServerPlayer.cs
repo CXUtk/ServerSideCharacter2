@@ -186,6 +186,11 @@ namespace ServerSideCharacter2
 			}
 		}
 
+		public string CurrentRegion
+		{
+			get;set;
+		}
+
 		public bool RealPlayer
 		{
 			get { return playerID >= 0 && playerID < Main.maxNetPlayers && Main.player[playerID] != null; }
@@ -332,6 +337,15 @@ namespace ServerSideCharacter2
 			{
 				NetMessage.SendChatMessageToClient(NetworkText.FromLiteral(msg),
 					new Color(255, 20, 20, 0), PrototypePlayer.whoAmI);
+			}
+		}
+
+		public void SendInfoMessage(string msg, Color c)
+		{
+			if (RealPlayer && ConnectionAlive)
+			{
+				NetMessage.SendChatMessageToClient(NetworkText.FromLiteral(msg),
+					c, PrototypePlayer.whoAmI);
 			}
 		}
 

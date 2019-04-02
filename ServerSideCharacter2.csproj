@@ -118,6 +118,7 @@
     <Compile Include="Commands\ResetPWCommand.cs" />
     <Compile Include="Commands\RankCommand.cs" />
     <Compile Include="Commands\SpawnControlCommand.cs" />
+    <Compile Include="Commands\RegionCommand.cs" />
     <Compile Include="Commands\TPCommand.cs" />
     <Compile Include="Commands\SummonCommand.cs" />
     <Compile Include="Commands\HardmodeCommand.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="Groups\Permission.cs" />
     <Compile Include="Groups\PermissionList.cs" />
     <Compile Include="GUI\MessageDisplayer.cs" />
+    <Compile Include="GUI\RegionLayer.cs" />
     <Compile Include="GUI\UI\Component\Special\UIFriendBar.cs" />
     <Compile Include="GUI\UI\Component\Special\UINormalPlayerBar.cs" />
     <Compile Include="GUI\UI\Component\Special\UIPlayerInfo.cs" />
@@ -240,6 +242,8 @@
     <Compile Include="Services\OnlinePlayer\OnlinePlayerService.cs" />
     <Compile Include="Services\Misc\ReceiveRSA.cs" />
     <Compile Include="Services\Misc\NormalMessage.cs" />
+    <Compile Include="Services\Regions\RegionSyncHandler.cs" />
+    <Compile Include="Services\Regions\RegionCreateHandler.cs" />
     <Compile Include="Services\SSCCommandHandler.cs" />
     <Compile Include="Services\Union\UnionPageService.cs" />
     <Compile Include="SSCException.cs" />

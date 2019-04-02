@@ -32,6 +32,8 @@ namespace ServerSideCharacter2.Groups
 			AddPermission(new Permission("pvp", "玩家可不可以进行pvp"));
 			AddPermission(new Permission("forcepvp", "开启强制pvp"));
 			AddPermission(new Permission("kick", "玩家可不可以踢人"));
+			AddPermission(new Permission("region-create", "玩家可不可以创建领地"));
+			AddPermission(new Permission("region-remove", "玩家可不可以删除领地"));
 		}
 
 		public void AddPermission(Permission permission)

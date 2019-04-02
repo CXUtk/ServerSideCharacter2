@@ -51,7 +51,8 @@
 		ForcePVP,
 		ChatText,
 		SpawnRate,
-		MaxSpawnCount
+		MaxSpawnCount,
+		SyncRegionsToClient
 	}
 
 	public enum GenerationType

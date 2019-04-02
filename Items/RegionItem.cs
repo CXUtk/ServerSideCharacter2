@@ -17,8 +17,8 @@ namespace ServerSideCharacter2.Items
 			item.rare = 10;
 			item.expert = true;
 			item.value = 0;
-			item.useTime = 30;
-			item.useAnimation = 30;
+			item.useTime = 4;
+			item.useAnimation = 4;
 			item.useStyle = 4;
 		}
 
@@ -36,21 +36,17 @@ namespace ServerSideCharacter2.Items
 		}
 		public override bool UseItem(Player player)
 		{
-			foreach(var item in player.armor)
-			{
-				item.Prefix(PrefixID.Quick2); 
-			}
-			Main.dayTime ^= true;
+			// Main.dayTime ^= true;
 			if (player.altFunctionUse != 2 && Main.mouseLeftRelease)
 			{
 				var tilePos = new Vector2(Player.tileTargetX, Player.tileTargetY);
-				ServerSideCharacter2.TilePos1 = tilePos;
+				ServerSideCharacter2.RegionUpperLeft = tilePos;
 				Main.NewText($"Selected tile positon 1 at ({tilePos.X}, {tilePos.Y})");
 			}
 			else if (player.altFunctionUse == 2 && Main.mouseRightRelease)
 			{
 				var tilePos = new Vector2(Player.tileTargetX, Player.tileTargetY);
-				ServerSideCharacter2.TilePos2 = tilePos;
+				ServerSideCharacter2.RegionLowerRight = tilePos;
 				Main.NewText($"Selected tile positon 2 at ({tilePos.X}, {tilePos.Y})");
 			}
 			return true;

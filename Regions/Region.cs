@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 using ServerSideCharacter2.Utils;
 using System.Collections.Generic;
 using System.Text;
@@ -10,7 +11,9 @@ namespace ServerSideCharacter2.Regions
 		public string Name { get; set; }
 		public int OwnerGUID { get; set; }
 		public Rectangle Area { get; set; }
+		public string OwnerName { get; set; }
 
+		[JsonIgnore]
 		public ServerPlayer Owner
 		{
 			get
@@ -24,6 +27,7 @@ namespace ServerSideCharacter2.Regions
 			Name = name;
 			Area = rect;
 			OwnerGUID = -1;
+			OwnerName = "";
 		}
 
 		public string WelcomeInfo()

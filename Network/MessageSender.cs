@@ -233,22 +233,20 @@ namespace ServerSideCharacter2
 			p.Send();
 		}
 
-		//public static void SendRegionCreate(int plr, string name)
-		//{
-		//	ModPacket p = ServerSideCharacter.Instance.GetPacket();
-		//	p.Write((int)SSCMessageType.RegionCreateCommand);
-		//	p.Write((byte)plr);
-		//	p.Write(name);
-		//	p.WriteVector2(ServerSideCharacter.TilePos1);
-		//	p.WriteVector2(ServerSideCharacter.TilePos2);
-		//	p.Send();
-		//}
+		public static void SendRegionCreate(string name)
+		{
+			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			p.Write((int)SSCMessageType.RegionCreateCommand);
+			p.Write(name);
+			p.WritePackedVector2(ServerSideCharacter2.RegionUpperLeft);
+			p.WritePackedVector2(ServerSideCharacter2.RegionLowerRight);
+			p.Send();
+		}
 
-		public static void SendRegionRemove(int plr, string name)
+		public static void SendRegionRemove(string name)
 		{
 			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.RegionRemoveCommand);
-			p.Write((byte)plr);
 			p.Write(name);
 			p.Send();
 		}
@@ -471,6 +469,17 @@ namespace ServerSideCharacter2
 			p.Send();
 		}
 
+
+		public static void SyncRegionsToClient()
+		{
+			if (Main.netMode == 2)
+			{
+				var p = ServerSideCharacter2.Instance.GetPacket();
+				p.Write((int)SSCMessageType.SyncRegionsToClient);
+				ServerSideCharacter2.RegionManager.WriteRegions(p);
+				p.Send();
+			}
+		}
 		//public static void SendChestCommand(ChestManager.Pending pending, int plr, string friendName = null)
 		//{
 		//	ModPacket pack = ServerSideCharacter.Instance.GetPacket();

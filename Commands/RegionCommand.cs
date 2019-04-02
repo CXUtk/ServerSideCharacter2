@@ -7,11 +7,11 @@ using Microsoft.Xna.Framework;
 
 namespace ServerSideCharacter2.Commands
 {
-	public class SummonCommand : ModCommand
+	public class RegionCommand : ModCommand
 	{
 		public override string Command
 		{
-			get { return "sm"; }
+			get { return "region"; }
 		}
 
 		public override CommandType Type
@@ -21,28 +21,29 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Description
 		{
-			get { return "召唤NPC"; }
+			get { return "控制领地"; }
 		}
 
 		public override string Usage
 		{
-			get { return " /sm <npc id> [number]"; }
+			get { return " /region <create|remove> 领地名字"; }
 		}
 
 		public override void Action(CommandCaller caller, string input, string[] args)
 		{
-			var type = Convert.ToInt32(args[0]);
-			if(type > Main.npcTexture.Length)
+			if(args.Length < 2)
 			{
-				Main.NewText("NPC 不存在", Color.Red);
+				Main.NewText("用法：/region <create|remove> 领地名字", Color.Red);
 				return;
 			}
-			var amount = 1;
-			if(args.Length > 1)
+			if (args[0] == "create")
 			{
-				amount = Convert.ToInt32(args[1]);
+				MessageSender.SendRegionCreate(args[1]);
 			}
-			MessageSender.SendSummonCommand(type, amount);
+			else
+			{
+				MessageSender.SendRegionRemove(args[1]);
+			}
 		}
 	}
 }

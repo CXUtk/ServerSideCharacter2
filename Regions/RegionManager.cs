@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
+using ServerSideCharacter2.Utils;
+using Terraria.ModLoader;
 
 namespace ServerSideCharacter2.Regions
 {
@@ -18,7 +20,10 @@ namespace ServerSideCharacter2.Regions
 		}
 		public void CreateNewRegion(Rectangle rect, string name, ServerPlayer player)
 		{
-			Region playerRegion = new Region(name, rect);
+			Region playerRegion = new Region(name, rect)
+			{
+				OwnerGUID = player.GUID
+			};
 			Regions.Add(name, playerRegion);
 			player.Regions.Add(name);
 		}
@@ -115,11 +120,52 @@ namespace ServerSideCharacter2.Regions
 		//	target.SendSuccessInfo(p.Name + " shared region " + reg.Name + " with you!");
 		//}
 
-		internal bool ValidRegion(ServerPlayer player, string name, Rectangle area)
+		internal bool ValidRegion(ServerPlayer player, string name, Rectangle area, out string errmsg)
 		{
-			return !HasNameConflect(name) && Regions.Count < ServerSideCharacter2.Config.MaxRegions
-				   && CheckPlayerRegionMax(player) && CheckRegionConflict(area)
-				   && CheckRegionSize(player, area);
+			if(name.Length < 2 || name.Length > 20)
+			{
+				errmsg = "领地名字长度不合法，应为2-20个字符！";
+				return false;
+			}
+			else if (HasNameConflect(name))
+			{
+				errmsg = "已经存在相同名字的领地！";
+				return false;
+			}
+			else if(Regions.Count >= ServerSideCharacter2.Config.MaxRegions)
+			{
+				errmsg = "领地数量达到服务器规定上限";
+				return false;
+			}
+			else if (!CheckPlayerRegionMax(player))
+			{
+				errmsg = "领地数量达到玩家上限";
+				return false;
+			}
+			else if (!CheckRegionConflict(area))
+			{
+				errmsg = "该领地与其他领地存在冲突";
+				return false;
+			}
+			else if (!CheckRegionSize(player, area))
+			{
+				errmsg = "该领地的尺寸过大";
+				return false;
+			}
+			errmsg = "";
+			return true;
+		}
+
+		internal void WriteRegions(BinaryWriter binaryWriter)
+		{
+			binaryWriter.Write(Regions.Count);
+			foreach (var pair in Regions)
+			{
+				var region = pair.Value;
+				binaryWriter.Write(region.Name);
+				binaryWriter.Write(region.Owner.Name);
+				binaryWriter.WriteRect(region.Area);
+			}
 		}
 	}
 }
