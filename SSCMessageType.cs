@@ -55,7 +55,9 @@
 		SyncRegionsToClient,
 		RegionPVPCommand,
 		ClearCommand,
-		PigPlayer
+		PigPlayer,
+		RegionForbidCommand,
+		RegionOwnerCommand
 	}
 
 	public enum GenerationType

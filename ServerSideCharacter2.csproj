@@ -246,6 +246,8 @@
     <Compile Include="Services\OnlinePlayer\OnlinePlayerService.cs" />
     <Compile Include="Services\Misc\ReceiveRSA.cs" />
     <Compile Include="Services\Misc\NormalMessage.cs" />
+    <Compile Include="Services\Regions\RegionOwnerHandler.cs" />
+    <Compile Include="Services\Regions\RegionForbidHandler.cs" />
     <Compile Include="Services\Regions\RegionRemoveHandler.cs" />
     <Compile Include="Services\Regions\RegionPVPHandler.cs" />
     <Compile Include="Services\Regions\RegionSyncHandler.cs" />

@@ -278,6 +278,23 @@ namespace ServerSideCharacter2
 			p.Send();
 		}
 
+		public static void SendRegionForbid(string name)
+		{
+			var p = ServerSideCharacter2.Instance.GetPacket();
+			p.Write((int)SSCMessageType.RegionForbidCommand);
+			p.Write(name);
+			p.Send();
+		}
+
+		public static void SendRegionOwner(string name, int GUID)
+		{
+			var p = ServerSideCharacter2.Instance.GetPacket();
+			p.Write((int)SSCMessageType.RegionOwnerCommand);
+			p.Write(name);
+			p.Write(GUID);
+			p.Send();
+		}
+
 		public static void SendRegionShare(int plr, string name, int target)
 		{
 			var p = ServerSideCharacter2.Instance.GetPacket();
@@ -463,9 +480,12 @@ namespace ServerSideCharacter2
 			var pack = ServerSideCharacter2.Instance.GetPacket();
 			pack.Write((int)SSCMessageType.ModPlayerInfo);
 			pack.Write((byte)mPlayer.player.whoAmI);
-			pack.Write(mPlayer.GodMode);
+			BitsByte bits = new BitsByte();
+			bits[0] = mPlayer.GodMode;
+			bits[1] = mPlayer.Piggify;
+			bits[2] = mPlayer.ShowOverHead;
+			pack.Write(bits);
 			pack.Write(mPlayer.Rank);
-			pack.Write(mPlayer.Piggify);
 			pack.Send(to, from);
 		}
 

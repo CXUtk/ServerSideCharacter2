@@ -154,12 +154,12 @@ namespace ServerSideCharacter2.GUI
 
 		public void AppendFriends(JsonData.SimplifiedPlayerInfo info)
 		{
-			_homePageState.AppendFriends(info);
+			// _homePageState.AppendFriends(info);
 		}
 
 		public void RefreshFriends()
 		{
-			_homePageState.RefreshFriends();
+			// _homePageState.RefreshFriends();
 		}
 
 		public void AppendOnlinePlayers(JsonData.SimplifiedPlayerInfo info)

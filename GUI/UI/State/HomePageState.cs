@@ -22,13 +22,11 @@ namespace ServerSideCharacter2.GUI.UI
 
 		private int _relaxTimer;
 		private float _rotation;
-		private List<UIFriendBar> uIFriendBars;
-		private UIAdvList _friendList;
-
-		private UIAdvPanel _onlinePlayerPanel;
+		
 		private UIButton refreshButton;
-		private UIButton changeSortModeButton;
 		private UIPlayerProfileHead uIPlayerProfileHead;
+		private UIAdvPanel settingPanel;
+		private UISwitch aboveHeadSwitch;
 
 
 		private const float WINDOW_WIDTH = 720;
@@ -48,7 +46,7 @@ namespace ServerSideCharacter2.GUI.UI
 
 		protected override void Initialize(UIAdvPanel WindowPanel)
 		{
-			uIFriendBars = new List<UIFriendBar>();
+		// uIFriendBars = new List<UIFriendBar>();
 			WindowPanel.MainTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack1"];
 			WindowPanel.Left.Set(Main.screenWidth / 2 - WINDOW_WIDTH / 2, 0f);
 			WindowPanel.Top.Set(Main.screenHeight / 2 - WINDOW_HEIGHT / 2, 0f);
@@ -56,22 +54,25 @@ namespace ServerSideCharacter2.GUI.UI
 			WindowPanel.Height.Set(WINDOW_HEIGHT, 0f);
 			WindowPanel.Color = Color.White * 0.8f;
 
-			_onlinePlayerPanel = new UIAdvPanel(ServerSideCharacter2.ModTexturesTable["Box"])
+			settingPanel = new UIAdvPanel(ServerSideCharacter2.ModTexturesTable["Box"])
 			{
-				CornerSize = new Vector2(8, 8), OverflowHidden = true
+				CornerSize = new Vector2(8, 8),
+				OverflowHidden = true
 			};
-			_onlinePlayerPanel.SetPadding(10f);
-			_onlinePlayerPanel.Top.Set(-FRIENDLIST_HEIGHT / 2 + FRIENDLIST_OFFSET_TOP, 0.5f);
-			_onlinePlayerPanel.Left.Set(-FRIENDLIST_WIDTH / 2 + FRIENDLIST_OFFSET_RIGHT, 0.5f);
-			_onlinePlayerPanel.Width.Set(FRIENDLIST_WIDTH, 0f);
-			_onlinePlayerPanel.Height.Set(FRIENDLIST_HEIGHT, 0f);
+			settingPanel.SetPadding(10f);
+			settingPanel.Top.Set(-FRIENDLIST_HEIGHT / 2 + FRIENDLIST_OFFSET_TOP, 0.5f);
+			settingPanel.Left.Set(-FRIENDLIST_WIDTH / 2 + FRIENDLIST_OFFSET_RIGHT, 0.5f);
+			settingPanel.Width.Set(FRIENDLIST_WIDTH, 0f);
+			settingPanel.Height.Set(FRIENDLIST_HEIGHT, 0f);
+			WindowPanel.Append(settingPanel);
+			GenerateSetting(settingPanel);
 
-			var onlinelabel = new UIText("好友列表");
-			onlinelabel.Top.Set(35 + FRIENDLIST_OFFSET_TOP, 0f);
-			var texSize = Main.fontMouseText.MeasureString(onlinelabel.Text);
-			onlinelabel.Left.Set(-FRIENDLIST_WIDTH / 2 + FRIENDLIST_OFFSET_RIGHT, 0.5f);
-			WindowPanel.Append(onlinelabel);
-			WindowPanel.Append(_onlinePlayerPanel);
+			//var onlinelabel = new UIText("好友列表");
+			//onlinelabel.Top.Set(35 + FRIENDLIST_OFFSET_TOP, 0f);
+			//var texSize = Main.fontMouseText.MeasureString(onlinelabel.Text);
+			//onlinelabel.Left.Set(-FRIENDLIST_WIDTH / 2 + FRIENDLIST_OFFSET_RIGHT, 0.5f);
+			//WindowPanel.Append(onlinelabel);
+			//WindowPanel.Append(_onlinePlayerPanel);
 
 			refreshButton = new UIButton(ServerSideCharacter2.ModTexturesTable["Refresh"], false);
 			refreshButton.Top.Set(47f, 0f);
@@ -86,19 +87,20 @@ namespace ServerSideCharacter2.GUI.UI
 			refreshButton.OnClick += RefreshButton_OnClick;
 			WindowPanel.Append(refreshButton);
 
-			_friendList = new UIAdvList();
-			_friendList.Width.Set(-25f, 1f);
-			_friendList.Height.Set(0f, 1f);
-			_friendList.ListPadding = 5f;
-			_onlinePlayerPanel.Append(_friendList);
 
-			// ScrollBar设定
-			var uiscrollbar = new UIAdvScrollBar();
-			uiscrollbar.SetView(100f, 1000f);
-			uiscrollbar.Height.Set(0f, 1f);
-			uiscrollbar.HAlign = 1f;
-			_onlinePlayerPanel.Append(uiscrollbar);
-			_friendList.SetScrollbar(uiscrollbar);
+			//_friendList = new UIAdvList();
+			//_friendList.Width.Set(-25f, 1f);
+			//_friendList.Height.Set(0f, 1f);
+			//_friendList.ListPadding = 5f;
+			//_onlinePlayerPanel.Append(_friendList);
+
+			//// ScrollBar设定
+			//var uiscrollbar = new UIAdvScrollBar();
+			//uiscrollbar.SetView(100f, 1000f);
+			//uiscrollbar.Height.Set(0f, 1f);
+			//uiscrollbar.HAlign = 1f;
+			//_onlinePlayerPanel.Append(uiscrollbar);
+			//_friendList.SetScrollbar(uiscrollbar);
 
 			uIPlayerProfileHead = new UIPlayerProfileHead();
 			uIPlayerProfileHead.Top.Set(PLAYER_IMAGE_OFFSET_Y, 0f);
@@ -106,6 +108,34 @@ namespace ServerSideCharacter2.GUI.UI
 			uIPlayerProfileHead.Width.Set(280, 0f);
 			uIPlayerProfileHead.Height.Set(300, 0f);
 			WindowPanel.Append(uIPlayerProfileHead);
+		}
+
+		private void GenerateSetting(UIAdvPanel panel)
+		{
+			UIText label = new UIText("设置");
+			label.Top.Set(-20, 0f);
+			label.Left.Set(0, 0f);
+			panel.Append(label);
+
+			UIText labelDisplayAboveHead = new UIText("显示段位标记");
+			labelDisplayAboveHead.Top.Set(10, 0f);
+			labelDisplayAboveHead.Left.Set(10, 0f);
+			panel.Append(labelDisplayAboveHead);
+
+			aboveHeadSwitch = new UISwitch();
+			aboveHeadSwitch.Top.Set(0, 0f);
+			aboveHeadSwitch.Left.Set(-80, 1f);
+			aboveHeadSwitch.Width.Set(60f, 0f);
+			aboveHeadSwitch.Height.Set(30f, 0f);
+			aboveHeadSwitch.OnSwitch += AboveHeadSwitch_OnSwitch;
+			panel.Append(aboveHeadSwitch);
+		}
+
+		private void AboveHeadSwitch_OnSwitch(UIElement element, bool state)
+		{
+			Main.LocalPlayer.GetModPlayer<MPlayer>().ShowOverHead = state;
+			if (Main.netMode == 1)
+				MessageSender.SyncModPlayerInfo(-1, -1, Main.LocalPlayer.GetModPlayer<MPlayer>());
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)
@@ -116,7 +146,12 @@ namespace ServerSideCharacter2.GUI.UI
 
 		private void RefreshButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
-			RefreshFriends();
+			if (Main.netMode == 1)
+			{
+				MessageSender.SendGetFriends();
+			}
+			_relaxTimer = 180;
+			_rotation = 0f;
 		}
 
 		public void SetProfile(JsonData.SimplifiedPlayerInfo info)
@@ -126,31 +161,31 @@ namespace ServerSideCharacter2.GUI.UI
 
 		
 
-		public void RefreshFriends()
-		{
-			uIFriendBars.Clear();
-			_friendList.Clear();
+		//public void RefreshFriends()
+		//{
+		//	//uIFriendBars.Clear();
+		//	//_friendList.Clear();
 
-			if (Main.netMode == 1)
-			{
-				MessageSender.SendGetFriends();
-			}
-			else
-			{
-				for (var i = 0; i < 20; i++)
-				{
-					var testinfo = new JsonData.SimplifiedPlayerInfo
-					{
-						Name = ServerUtils.RandomGenString()
-					};
-					var bar = new UIFriendBar(testinfo);
-					uIFriendBars.Add(bar);
-					_friendList.Add(bar);
-				}
-			}
-			_relaxTimer = 180;
-			_rotation = 0f;
-		}
+		//	if (Main.netMode == 1)
+		//	{
+		//		MessageSender.SendGetFriends();
+		//	}
+		//	else
+		//	{
+		//		for (var i = 0; i < 20; i++)
+		//		{
+		//			var testinfo = new JsonData.SimplifiedPlayerInfo
+		//			{
+		//				Name = ServerUtils.RandomGenString()
+		//			};
+		//			var bar = new UIFriendBar(testinfo);
+		//			uIFriendBars.Add(bar);
+		//			_friendList.Add(bar);
+		//		}
+		//	}
+		//	_relaxTimer = 180;
+		//	_rotation = 0f;
+		//}
 
 		public override void Update(GameTime gameTime)
 		{
@@ -184,12 +219,12 @@ namespace ServerSideCharacter2.GUI.UI
 			refreshButton.Rotation = _rotation;
 		}
 
-		public void AppendFriends(JsonData.SimplifiedPlayerInfo info)
-		{
-			var bar = new UIFriendBar(info);
-			uIFriendBars.Add(bar);
-			_friendList.Add(bar);
-		}
+		//public void AppendFriends(JsonData.SimplifiedPlayerInfo info)
+		//{
+		//	var bar = new UIFriendBar(info);
+		//	uIFriendBars.Add(bar);
+		//	_friendList.Add(bar);
+		//}
 
 
 

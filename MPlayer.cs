@@ -20,6 +20,8 @@ namespace ServerSideCharacter2
 
 		public bool Piggify = false;
 
+		public bool ShowOverHead = false;
+
 		public int Rank = 1500;
 
 		public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
@@ -260,7 +262,8 @@ namespace ServerSideCharacter2
 			layers.Add(new PlayerLayer(mod.Name, "SSC: Rank", (info) =>
 			{
 				if (info.shadow != 0) return;
-				if (Rank >= 0 && !player.dead)
+				var modplayer = info.drawPlayer.GetModPlayer<MPlayer>();
+				if (Rank >= 0 && !player.dead && modplayer.ShowOverHead)
 				{
 					var type = Ranking.GetRankType(info.drawPlayer.GetModPlayer<MPlayer>().Rank);
 					var rankTex = ServerSideCharacter2.ModTexturesTable[type.ToString()];
