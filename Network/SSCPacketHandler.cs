@@ -72,7 +72,8 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.SyncRegionsToClient, new Services.Regions.RegionSyncHandler() },
 				{SSCMessageType.RegionPVPCommand, new Services.Regions.RegionPVPHandler() },
 				{SSCMessageType.RegionRemoveCommand, new Services.Regions.RegionRemoveHandler() },
-				{SSCMessageType.ClearCommand, new ClearHandler() }
+				{SSCMessageType.ClearCommand, new ClearHandler() },
+				{SSCMessageType.PigPlayer, new PigHandler() },
 			};
 		}
 	}

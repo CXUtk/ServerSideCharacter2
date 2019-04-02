@@ -54,7 +54,8 @@
 		MaxSpawnCount,
 		SyncRegionsToClient,
 		RegionPVPCommand,
-		ClearCommand
+		ClearCommand,
+		PigPlayer
 	}
 
 	public enum GenerationType

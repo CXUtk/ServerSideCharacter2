@@ -143,6 +143,14 @@ namespace ServerSideCharacter2
 			p.Send();
 		}
 
+		public static void SendPigCommand(int target)
+		{
+			var p = ServerSideCharacter2.Instance.GetPacket();
+			p.Write((int)SSCMessageType.PigPlayer);
+			p.Write((byte)target);
+			p.Send();
+		}
+
 		public static void SendItemCommand(int type)
 		{
 			var p = ServerSideCharacter2.Instance.GetPacket();
@@ -457,6 +465,7 @@ namespace ServerSideCharacter2
 			pack.Write((byte)mPlayer.player.whoAmI);
 			pack.Write(mPlayer.GodMode);
 			pack.Write(mPlayer.Rank);
+			pack.Write(mPlayer.Piggify);
 			pack.Send(to, from);
 		}
 

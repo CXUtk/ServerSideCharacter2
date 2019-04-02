@@ -41,6 +41,7 @@ namespace ServerSideCharacter2.Commands
 				try
 				{
 					var s = $"玩家 {player.Name} 的密码已经被重置";
+					player.HasPassword = false;
 					ServerSideCharacter2.ErrorLogger.WriteToFile(s);
 					player.Kick("你的密码已经被重置");
 					CommandBoardcast.ConsoleMessage(s);

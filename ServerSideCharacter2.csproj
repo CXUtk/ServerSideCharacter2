@@ -115,6 +115,7 @@
     <Compile Include="Commands\GodCommand.cs" />
     <Compile Include="Commands\ForcePVPCommand.cs" />
     <Compile Include="Commands\ItemCommand.cs" />
+    <Compile Include="Commands\PigCommand.cs" />
     <Compile Include="Commands\RefuseCommand.cs" />
     <Compile Include="Commands\ResetPWCommand.cs" />
     <Compile Include="Commands\RankCommand.cs" />
@@ -213,6 +214,7 @@
     <Compile Include="Services\Misc\GodModeHandler.cs" />
     <Compile Include="Services\Misc\ForcePVPHandler.cs" />
     <Compile Include="Services\Misc\ItemHandler.cs" />
+    <Compile Include="Services\Misc\PigHandler.cs" />
     <Compile Include="Services\Misc\NPCService.cs" />
     <Compile Include="Services\Misc\ItemService.cs" />
     <Compile Include="Services\Misc\ModPlayerInfoHandler.cs" />

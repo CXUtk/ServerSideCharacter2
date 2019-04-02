@@ -18,6 +18,8 @@ namespace ServerSideCharacter2
 
 		public bool GodMode = false;
 
+		public bool Piggify = false;
+
 		public int Rank = 1500;
 
 		public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
@@ -119,6 +121,7 @@ namespace ServerSideCharacter2
 				// 给玩家一个很长世界的锁debuff，直到服务器解除
 				player.AddBuff(mod.BuffType("Locked"), 18000);
 			}
+			Piggify = false;
 			if (Main.netMode != 2)
 			{
 				ServerSideCharacter2.Instance.TurnOffAllState();
@@ -220,6 +223,24 @@ namespace ServerSideCharacter2
 			base.UpdateEquips(ref wallSpeedBuff, ref tileSpeedBuff, ref tileRangeBuff);
 		}
 
+		public override void ModifyDrawHeadLayers(List<PlayerHeadLayer> layers)
+		{
+			layers.Add(new PlayerHeadLayer(mod.Name, "SSC: Pig", (info) =>
+			{
+
+				var drawPlayer = info.drawPlayer;
+				if (drawPlayer.GetModPlayer<MPlayer>().Piggify)
+				{
+					var pigTex = ServerSideCharacter2.ModTexturesTable["Pig"];
+					var pos = new Vector2(drawPlayer.position.X - Main.screenPosition.X - drawPlayer.bodyFrame.Width / 2 + drawPlayer.width / 2,
+						drawPlayer.position.Y - Main.screenPosition.Y + drawPlayer.height - drawPlayer.bodyFrame.Height + 4f) + drawPlayer.headPosition + info.drawOrigin;
+					var dd = new DrawData(pigTex, pos, null, Color.White, 0f, info.drawOrigin, info.scale * 0.5f, SpriteEffects.None, 0);
+					dd.Draw(Main.spriteBatch);
+				}
+			}));
+			base.ModifyDrawHeadLayers(layers);
+		}
+
 		public override void ModifyDrawLayers(List<PlayerLayer> layers)
 		{
 
@@ -247,6 +268,19 @@ namespace ServerSideCharacter2
 						new Vector2(info.position.X + info.drawPlayer.width / 2 - Main.screenPosition.X,
 						info.position.Y + info.drawPlayer.gfxOffY - 25 - Main.screenPosition.Y),
 						null, Color.White, 0f, rankTex.Size() * 0.5f, 0.8f + Main.essScale * 0.8f, SpriteEffects.None, 0);
+					Main.playerDrawData.Add(dd);
+				}
+			}));
+			layers.Add(new PlayerLayer(mod.Name, "SSC: Pig", (info) =>
+			{
+				if (info.shadow != 0) return;
+				if (info.drawPlayer.GetModPlayer<MPlayer>().Piggify && !player.dead)
+				{
+					var drawPlayer = info.drawPlayer;
+					var pos = new Vector2(drawPlayer.position.X - Main.screenPosition.X - drawPlayer.bodyFrame.Width / 2 + drawPlayer.width / 2,
+						drawPlayer.position.Y - Main.screenPosition.Y + drawPlayer.height - drawPlayer.bodyFrame.Height + 4f) + drawPlayer.headPosition + info.headOrigin - new Vector2(0, 4);
+					var pigTex = ServerSideCharacter2.ModTexturesTable["Pig"];
+					var dd = new DrawData(pigTex, pos, null, Color.White, 0f, info.headOrigin, 0.6f, SpriteEffects.None, 0);
 					Main.playerDrawData.Add(dd);
 				}
 			}));

@@ -19,6 +19,7 @@ namespace ServerSideCharacter2.Services.Misc
 			var mPlayer = Main.player[plr].GetModPlayer<MPlayer>();
 			mPlayer.GodMode = reader.ReadBoolean();
 			mPlayer.Rank = reader.ReadInt32();
+			mPlayer.Piggify = reader.ReadBoolean();
 			if (Main.netMode == 2)
 			{
 				MessageSender.SyncModPlayerInfo(-1, playerNumber, mPlayer);
