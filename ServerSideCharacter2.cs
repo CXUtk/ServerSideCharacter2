@@ -313,6 +313,12 @@ namespace ServerSideCharacter2
 			base.UpdateUI(gameTime);
 		}
 
+		public override void AddRecipes()
+		{
+			base.AddRecipes();
+			GuiManager.SetNPCDefaults();
+		}
+
 
 		public void ShowMessage(string msg, int time, Color color)
 		{

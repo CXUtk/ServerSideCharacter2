@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using ServerSideCharacter2.Groups;
 using ServerSideCharacter2.Unions;
 using ServerSideCharacter2.RankingSystem;
+using ServerSideCharacter2.Regions;
 
 namespace ServerSideCharacter2
 {
@@ -186,9 +187,32 @@ namespace ServerSideCharacter2
 			}
 		}
 
-		public string CurrentRegion
+		private string curRegionName;
+
+		public bool InRegion
 		{
-			get; set;
+			get
+			{
+				return curRegionName != "";
+			}
+		}
+
+		public Region CurrentRegion
+		{
+			get
+			{
+				return ServerSideCharacter2.RegionManager.Get(curRegionName);
+			}
+		}
+
+		internal void SetCurRegion(Region reg)
+		{
+			if(reg == null)
+			{
+				curRegionName = "";
+				return;
+			}
+			curRegionName = reg.Name;
 		}
 
 		public bool RealPlayer
@@ -231,7 +255,7 @@ namespace ServerSideCharacter2
 
 		private void SetupPlayer()
 		{
-			CurrentRegion = "";
+			curRegionName = "";
 			for (var i = 0; i < inventory.Length; i++)
 			{
 				inventory[i] = new Item();

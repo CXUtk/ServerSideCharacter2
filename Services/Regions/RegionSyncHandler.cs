@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using ServerSideCharacter2.JsonData;
 using ServerSideCharacter2.Regions;
 using ServerSideCharacter2.Utils;
 using System;
@@ -24,8 +25,12 @@ namespace ServerSideCharacter2.Services.Regions
 					var name = reader.ReadString();
 					var ownername = reader.ReadString();
 					var rect = reader.ReadRect();
+					var pvp = reader.ReadByte();
+					var forbidden = reader.ReadBoolean();
 					var region = new Region(name, rect);
 					region.OwnerName = ownername;
+					region.PVP = (PVPMode)pvp;
+					region.Forbidden = forbidden;
 					ServerSideCharacter2.ClientRegions.Add(name, region);
 				}
 			}

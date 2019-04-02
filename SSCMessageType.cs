@@ -52,7 +52,8 @@
 		ChatText,
 		SpawnRate,
 		MaxSpawnCount,
-		SyncRegionsToClient
+		SyncRegionsToClient,
+		RegionPVPCommand
 	}
 
 	public enum GenerationType

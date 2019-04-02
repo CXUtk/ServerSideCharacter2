@@ -102,7 +102,10 @@ namespace ServerSideCharacter2.GUI
 		
 
 
-
+		public void SetNPCDefaults()
+		{
+			_getnpcState.SetDefaults();
+		}
 
 
 		public void RelaxGUI()

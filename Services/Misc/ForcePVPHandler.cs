@@ -29,7 +29,8 @@ namespace ServerSideCharacter2.Services.Misc
 
 				foreach (var player in Main.player)
 				{
-					if (player.active)
+					if (player.active && 
+						(!player.GetServerPlayer().InRegion || player.GetServerPlayer().CurrentRegion.PVP == PVPMode.Normal))
 					{
 						player.hostile = (mode == PVPMode.Always ? true : false);
 					}

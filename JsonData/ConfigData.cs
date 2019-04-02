@@ -8,7 +8,7 @@ using Terraria;
 
 namespace ServerSideCharacter2.JsonData
 {
-	public enum PVPMode
+	public enum PVPMode : byte
 	{
 		Normal, 
 		Never,

@@ -80,6 +80,35 @@ namespace ServerSideCharacter2
 			//{
 			//	Main.NewText(player.active);
 			//}
+			if (Main.netMode == 1 && Main.myPlayer == player.whoAmI)
+			{
+				var rect = player.Hitbox;
+				foreach (var pair in ServerSideCharacter2.ClientRegions)
+				{
+					var region = pair.Value;
+					var area = new Rectangle(region.Area.X * 16, region.Area.Y * 16, region.Area.Width * 16, region.Area.Height * 16);
+					if (area.Intersects(rect))
+					{
+						if (region.PVP == JsonData.PVPMode.Always)
+						{
+							if (!player.hostile)
+							{
+								Main.LocalPlayer.hostile = true;
+								NetMessage.SendData(30, -1, -1, null, Main.myPlayer, 0f, 0f, 0f, 0, 0, 0);
+							}
+						}
+						else if (region.PVP == JsonData.PVPMode.Never)
+						{
+							if (player.hostile)
+							{
+								Main.LocalPlayer.hostile = false;
+								NetMessage.SendData(30, -1, -1, null, Main.myPlayer, 0f, 0f, 0f, 0, 0, 0);
+							}
+						}
+						return;
+					}
+				}
+			}
 
 		}
 
@@ -113,7 +142,7 @@ namespace ServerSideCharacter2
 
 		public override void PostUpdate()
 		{
-			playerCounter++;
+			
 		}
 
 		public override bool Shoot(Item item, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

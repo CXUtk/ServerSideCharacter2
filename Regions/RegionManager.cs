@@ -20,29 +20,35 @@ namespace ServerSideCharacter2.Regions
 		}
 		public void CreateNewRegion(Rectangle rect, string name, ServerPlayer player)
 		{
-			Region playerRegion = new Region(name, rect)
+			lock (Regions)
 			{
-				OwnerGUID = player.GUID
-			};
-			Regions.Add(name, playerRegion);
-			player.Regions.Add(name);
+				Region playerRegion = new Region(name, rect)
+				{
+					OwnerGUID = player.GUID
+				};
+				Regions.Add(name, playerRegion);
+				player.Regions.Add(name);
+			}
 		}
 
 		public void RemoveRegionWithName(string name)
 		{
-			if (Regions.ContainsKey(name))
+			lock (Regions)
 			{
-				var owner = Regions[name].Owner;
-				owner.Regions.Remove(name);
-				Regions.Remove(name);
-			}
-			else
-			{
-				throw new SSCException($"无法移除领地 {name}，不存在该领地");
+				if (Regions.ContainsKey(name))
+				{
+					var owner = Regions[name].Owner;
+					owner.Regions.Remove(name);
+					Regions.Remove(name);
+				}
+				else
+				{
+					throw new SSCException($"无法移除领地 {name}，不存在该领地");
+				}
 			}
 		}
 
-		public bool HasNameConflect(string name)
+		public bool Contains(string name)
 		{
 			return Regions.ContainsKey(name);
 		}
@@ -120,6 +126,11 @@ namespace ServerSideCharacter2.Regions
 		//	target.SendSuccessInfo(p.Name + " shared region " + reg.Name + " with you!");
 		//}
 
+		public Region Get(string name)
+		{
+			return Regions[name];
+		}
+
 		internal bool ValidRegion(ServerPlayer player, string name, Rectangle area, out string errmsg)
 		{
 			if(name.Length < 2 || name.Length > 20)
@@ -127,7 +138,7 @@ namespace ServerSideCharacter2.Regions
 				errmsg = "领地名字长度不合法，应为2-20个字符！";
 				return false;
 			}
-			else if (HasNameConflect(name))
+			else if (Contains(name))
 			{
 				errmsg = "已经存在相同名字的领地！";
 				return false;
@@ -165,6 +176,8 @@ namespace ServerSideCharacter2.Regions
 				binaryWriter.Write(region.Name);
 				binaryWriter.Write(region.Owner.Name);
 				binaryWriter.WriteRect(region.Area);
+				binaryWriter.Write((byte)region.PVP);
+				binaryWriter.Write(region.Forbidden);
 			}
 		}
 	}

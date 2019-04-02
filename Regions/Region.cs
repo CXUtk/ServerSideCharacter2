@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ServerSideCharacter2.JsonData;
 using ServerSideCharacter2.Utils;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ namespace ServerSideCharacter2.Regions
 		[JsonConverter(typeof(MyRectangleConverter))]
 		public Rectangle Area { get; set; }
 		public string OwnerName { get; set; }
+		public PVPMode PVP { get; set; }
+		public bool Forbidden { get; set; }
 
 		[JsonIgnore]
 		public ServerPlayer Owner
@@ -31,6 +34,8 @@ namespace ServerSideCharacter2.Regions
 			Area = rect;
 			OwnerGUID = -1;
 			OwnerName = "";
+			PVP = 0;
+			Forbidden = false;
 		}
 
 		public string WelcomeInfo()
@@ -45,6 +50,13 @@ namespace ServerSideCharacter2.Regions
 		public string LeaveInfo()
 		{
 			return string.Format("你离开了领地 '{0}'", Name);
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (!(obj is Region)) return false;
+			var reg = (Region)obj;
+			return this.Name.Equals(reg.Name);
 		}
 	}
 

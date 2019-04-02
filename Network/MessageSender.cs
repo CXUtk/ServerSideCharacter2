@@ -253,6 +253,15 @@ namespace ServerSideCharacter2
 			p.Send();
 		}
 
+		public static void SendRegionPVP(string name, int mode)
+		{
+			var p = ServerSideCharacter2.Instance.GetPacket();
+			p.Write((int)SSCMessageType.RegionPVPCommand);
+			p.Write(name);
+			p.Write((byte)mode);
+			p.Send();
+		}
+
 		public static void SendRegionShare(int plr, string name, int target)
 		{
 			var p = ServerSideCharacter2.Instance.GetPacket();

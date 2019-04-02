@@ -33,8 +33,13 @@ namespace ServerSideCharacter2.GUI
 				foreach (var region in ServerSideCharacter2.ClientRegions)
 				{
 					var rect = region.Value.Area;
-					Drawing.DrawAdvBox(spriteBatch, new Rectangle((int)(rect.X * 16 - Main.screenPosition.X),
-						(int)(rect.Y * 16 - Main.screenPosition.Y), rect.Width * 16, rect.Height * 16), Color.Yellow * 0.5f, Drawing.Box1, new Vector2(8, 8));
+					var screenrect = new Rectangle((int)(rect.X * 16 - Main.screenPosition.X),
+						(int)(rect.Y * 16 - Main.screenPosition.Y), rect.Width * 16, rect.Height * 16);
+					Drawing.DrawAdvBox(spriteBatch, screenrect, Color.Yellow * 0.5f, Drawing.Box1, new Vector2(8, 8));
+					if (screenrect.Contains(Main.MouseScreen.ToPoint()))
+					{
+						ServerSideCharacter2.ShowTooltip = $"领地名字：{region.Value.Name}，主人：{region.Value.OwnerName}";
+					}
 				}
 				if(ServerSideCharacter2.RegionLowerRight.X - ServerSideCharacter2.RegionUpperLeft.X <= 0 || ServerSideCharacter2.RegionLowerRight.Y - ServerSideCharacter2.RegionUpperLeft.Y <= 0)
 				{
@@ -43,6 +48,7 @@ namespace ServerSideCharacter2.GUI
 				Rectangle targetRect = new Rectangle((int)((int)ServerSideCharacter2.RegionUpperLeft.X * 16 - Main.screenPosition.X), (int)((int)ServerSideCharacter2.RegionUpperLeft.Y * 16 - Main.screenPosition.Y),
 					(int)(ServerSideCharacter2.RegionLowerRight.X - ServerSideCharacter2.RegionUpperLeft.X) * 16, (int)(ServerSideCharacter2.RegionLowerRight.Y - ServerSideCharacter2.RegionUpperLeft.Y) * 16);
 				Drawing.DrawAdvBox(spriteBatch, targetRect, Color.Green * 0.5f, Drawing.Box1, new Vector2(8, 8));
+
 			}
 
 			return base.DrawSelf();

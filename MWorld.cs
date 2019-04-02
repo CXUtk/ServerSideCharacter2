@@ -89,7 +89,6 @@ namespace ServerSideCharacter2
 
 		private void UpdateRegion(Player player)
 		{
-			bool inregion = false;
 			var splayer = player.GetServerPlayer();
 			foreach (var pair in ServerSideCharacter2.RegionManager.Regions)
 			{
@@ -97,17 +96,13 @@ namespace ServerSideCharacter2
 				var rect = new Rectangle(region.Area.X * 16, region.Area.Y * 16, region.Area.Width * 16, region.Area.Height * 16);
 				if (player.Hitbox.Intersects(rect))
 				{
-					if (splayer.CurrentRegion == region.Name) return;
-					inregion = true;
-					splayer.CurrentRegion = region.Name;
+					if (splayer.InRegion && splayer.CurrentRegion.Equals(region)) return;
+					splayer.SetCurRegion(region);
 					splayer.SendInfoMessage(region.WelcomeInfo());
 					return;
 				}
 			}
-			if (!inregion)
-			{
-				splayer.CurrentRegion = "";
-			}
+			splayer.SetCurRegion(null);
 		}
 
 		private void Do_Save(object state)

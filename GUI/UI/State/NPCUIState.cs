@@ -32,8 +32,12 @@ namespace ServerSideCharacter2.GUI.UI
 			public UISimpleSlot(int type)
 			{
 				NPCType = type;
+			}
+
+			public void SetDefaults()
+			{
 				Npc = new NPC();
-				Npc.SetDefaults(type);
+				Npc.SetDefaults(NPCType);
 			}
 
 			public override void Click(UIMouseEvent evt)
@@ -128,18 +132,11 @@ namespace ServerSideCharacter2.GUI.UI
 			uISlots = new List<UISimpleSlot>();
 			for (var i = 1; i < Main.npcTexture.Length; i++)
 			{
-				try
-				{
-					var simpleslot = new UISimpleSlot(i);
+				var simpleslot = new UISimpleSlot(i);
 
-					simpleslot.Width.Set(40f, 0f);
-					simpleslot.Height.Set(40f, 0f);
-					uISlots.Add(simpleslot);
-				}
-				catch(Exception ex)
-				{
-					// ignored
-				}
+				simpleslot.Width.Set(40f, 0f);
+				simpleslot.Height.Set(40f, 0f);
+				uISlots.Add(simpleslot);
 			}
 			_npcGrid.AddRange(uISlots);
 
@@ -160,6 +157,14 @@ namespace ServerSideCharacter2.GUI.UI
 			_searchTextBox.Height.Set(SEARCH_BAR_HEIGHT, 0f);
 			_searchTextBox.OnTextChange += _searchTextBox_OnTextChange;
 			WindowPanel.Append(_searchTextBox);
+		}
+
+		public void SetDefaults()
+		{
+			foreach(var ui in uISlots)
+			{
+				ui.SetDefaults();
+			}
 		}
 
 		private void _searchTextBox_OnTextChange(string oldString, string curString)

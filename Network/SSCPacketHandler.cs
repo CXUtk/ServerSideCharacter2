@@ -69,7 +69,9 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.KickCommand, new KickHandler() },
 				{SSCMessageType.TPHereCommand, new TPHereHandler() },
 				{SSCMessageType.RegionCreateCommand, new Services.Regions.RegionCreateHandler() },
-				{SSCMessageType.SyncRegionsToClient, new Services.Regions.RegionSyncHandler() }
+				{SSCMessageType.SyncRegionsToClient, new Services.Regions.RegionSyncHandler() },
+				{SSCMessageType.RegionPVPCommand, new Services.Regions.RegionPVPHandler() },
+				{SSCMessageType.RegionRemoveCommand, new Services.Regions.RegionRemoveHandler() }
 			};
 		}
 	}

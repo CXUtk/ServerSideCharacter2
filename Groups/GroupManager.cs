@@ -59,6 +59,7 @@ namespace ServerSideCharacter2.Groups
 			admin.AddPermission("kick");
 			admin.AddPermission("region-create");
 			admin.AddPermission("region-remove");
+			admin.AddPermission("region-pvp");
 			var superAdmin = new Group("superadmin")
 			{
 				ChatColor = Color.Cyan,
