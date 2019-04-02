@@ -103,6 +103,7 @@ namespace ServerSideCharacter2
 				}
 			}
 			splayer.SetCurRegion(null);
+			splayer.CheckPVP();
 		}
 
 		private void Do_Save(object state)

@@ -223,6 +223,14 @@ namespace ServerSideCharacter2
 			p.Send();
 		}
 
+		public static void SendClearCommand(int type)
+		{
+			var p = ServerSideCharacter2.Instance.GetPacket();
+			p.Write((int)SSCMessageType.ClearCommand);
+			p.Write((byte)type);
+			p.Send();
+		}
+
 
 		public static void SendSetGroup(string id, string group)
 		{

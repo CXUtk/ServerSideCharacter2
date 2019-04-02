@@ -53,7 +53,8 @@
 		SpawnRate,
 		MaxSpawnCount,
 		SyncRegionsToClient,
-		RegionPVPCommand
+		RegionPVPCommand,
+		ClearCommand
 	}
 
 	public enum GenerationType

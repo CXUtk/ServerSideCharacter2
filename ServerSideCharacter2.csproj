@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Buffs\Locked.cs" />
+    <Compile Include="Commands\ClearCommand.cs" />
     <Compile Include="Commands\GodCommand.cs" />
     <Compile Include="Commands\ForcePVPCommand.cs" />
     <Compile Include="Commands\ItemCommand.cs" />
@@ -216,6 +217,7 @@
     <Compile Include="Services\Misc\ItemService.cs" />
     <Compile Include="Services\Misc\ModPlayerInfoHandler.cs" />
     <Compile Include="Services\Misc\ChatTextHandler.cs" />
+    <Compile Include="Services\Misc\ClearHandler.cs" />
     <Compile Include="Services\Misc\SyncGroupHandler.cs" />
     <Compile Include="Services\Misc\TPHandler.cs" />
     <Compile Include="Services\Misc\SummonHandler.cs" />

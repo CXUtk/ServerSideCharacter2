@@ -434,10 +434,13 @@ namespace ServerSideCharacter2.Network
 					MessageSender.SendWelcomeMessage(plr,
 						player.HasPassword ? GameLanguage.GetText("welcomeold") : GameLanguage.GetText("welcomenew"));
 					MessageSender.SyncRegionsToClient(plr);
-					if(ServerSideCharacter2.Config.PvpMode == JsonData.PVPMode.Always && (!player.InRegion || player.CurrentRegion.PVP == JsonData.PVPMode.Normal))
+					if (!player.InRegion || player.CurrentRegion.PVP == JsonData.PVPMode.Normal)
 					{
-						player.PrototypePlayer.hostile = true;
-						NetMessage.SendData(MessageID.PlayerPvP, -1, -1, NetworkText.FromLiteral(""), player.PrototypePlayer.whoAmI);
+						if (ServerSideCharacter2.Config.PvpMode == JsonData.PVPMode.Always)
+						{
+							player.PrototypePlayer.hostile = true;
+							NetMessage.SendData(MessageID.PlayerPvP, -1, -1, NetworkText.FromLiteral(""), player.PrototypePlayer.whoAmI);
+						}
 					}
 				}
 

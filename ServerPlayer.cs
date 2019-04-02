@@ -561,6 +561,23 @@ namespace ServerSideCharacter2
 			return this.Name.GetHashCode();
 		}
 
+		public void CheckPVP()
+		{
+			if (!InRegion || CurrentRegion.PVP == PVPMode.Normal)
+			{
+				if (ServerSideCharacter2.Config.PvpMode == PVPMode.Always && !PrototypePlayer.hostile)
+				{
+					PrototypePlayer.hostile = true;
+					NetMessage.SendData(MessageID.PlayerPvP, -1, -1, NetworkText.FromLiteral(""), playerID);
+				}
+				else if (ServerSideCharacter2.Config.PvpMode == PVPMode.Never && PrototypePlayer.hostile)
+				{
+					PrototypePlayer.hostile = false;
+					NetMessage.SendData(MessageID.PlayerPvP, -1, -1, NetworkText.FromLiteral(""), playerID);
+				}
+			}
+		}
+
 		public void ChangeRank(int rank)
 		{
 			var type = Ranking.GetRankType(_info.Rank);

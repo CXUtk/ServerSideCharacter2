@@ -27,14 +27,17 @@ namespace ServerSideCharacter2.Services.Misc
 
 				ServerSideCharacter2.Config.PvpMode = mode;
 
-				foreach (var player in Main.player)
+				if (mode != PVPMode.Normal)
 				{
-					if (player.active && 
-						(!player.GetServerPlayer().InRegion || player.GetServerPlayer().CurrentRegion.PVP == PVPMode.Normal))
+					foreach (var player in Main.player)
 					{
-						player.hostile = (mode == PVPMode.Always ? true : false);
+						if (player.active &&
+							(!player.GetServerPlayer().InRegion || player.GetServerPlayer().CurrentRegion.PVP == PVPMode.Normal))
+						{
+							player.hostile = (mode == PVPMode.Always ? true : false);
+							NetMessage.SendData(MessageID.PlayerPvP, -1, -1, NetworkText.FromLiteral(""), player.whoAmI);
+						}
 					}
-					NetMessage.SendData(MessageID.PlayerPvP, -1, -1, NetworkText.FromLiteral(""), player.whoAmI);
 				}
 
 				ServerPlayer.SendInfoMessageToAll(s);

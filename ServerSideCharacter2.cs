@@ -316,7 +316,8 @@ namespace ServerSideCharacter2
 		public override void AddRecipes()
 		{
 			base.AddRecipes();
-			GuiManager.SetNPCDefaults();
+			if (!Main.dedServ)
+				GuiManager.SetNPCDefaults();
 		}
 
 
