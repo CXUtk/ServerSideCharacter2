@@ -46,6 +46,7 @@ namespace ServerSideCharacter2.Matches
 			if(innerCounter > MaxMatchingTime)
 			{
 				OnMatched();
+				innerCounter = 0;
 			}
 		}
 	}

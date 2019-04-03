@@ -68,7 +68,7 @@ namespace ServerSideCharacter2.Network
 					//	splayer.Group.ChatColor, (byte)playernumber);
 					//NetManager.Instance.Broadcast(packet, -1);
 					MessageSender.SendChatMessageToClient(playernumber, Main.player[(int)playernumber].name, msg.Text, splayer.Group);
-					Console.WriteLine(text);
+					Console.WriteLine($"{splayer.Name} : {text}");
 					return true;
 				}
 			}
