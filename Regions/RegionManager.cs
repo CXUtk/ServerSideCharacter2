@@ -30,6 +30,17 @@ namespace ServerSideCharacter2.Regions
 				player.Regions.Add(name);
 			}
 		}
+		public void CreateNewRegion(Rectangle rect, string name)
+		{
+			lock (Regions)
+			{
+				Region playerRegion = new Region(name, rect)
+				{
+					OwnerGUID = -1
+				};
+				Regions.Add(name, playerRegion);
+			}
+		}
 
 		public void RemoveRegionWithName(string name)
 		{
@@ -37,8 +48,11 @@ namespace ServerSideCharacter2.Regions
 			{
 				if (Regions.ContainsKey(name))
 				{
-					var owner = Regions[name].Owner;
-					owner.Regions.Remove(name);
+					if (Regions[name].OwnerGUID != -1)
+					{
+						var owner = Regions[name].Owner;
+						owner.Regions.Remove(name);
+					}
 					Regions.Remove(name);
 				}
 				else
@@ -55,7 +69,7 @@ namespace ServerSideCharacter2.Regions
 
 		public bool CheckPlayerRegionMax(ServerPlayer player)
 		{
-			return Regions.Count(info => info.Value.Owner.Equals(player)) < ServerSideCharacter2.Config.PlayerMaxRegions;
+			return Regions.Count(info => info.Value.OwnerGUID != -1 && info.Value.Owner.Equals(player)) < ServerSideCharacter2.Config.PlayerMaxRegions;
 		}
 
 		public bool CheckRegionConflict(Rectangle rect)
@@ -174,7 +188,7 @@ namespace ServerSideCharacter2.Regions
 			{
 				var region = pair.Value;
 				binaryWriter.Write(region.Name);
-				binaryWriter.Write(region.Owner.Name);
+				binaryWriter.Write(region.Owner == null ? "" : region.Owner.Name);
 				binaryWriter.WriteRect(region.Area);
 				binaryWriter.Write((byte)region.PVP);
 				binaryWriter.Write(region.Forbidden);

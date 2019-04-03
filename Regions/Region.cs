@@ -24,6 +24,7 @@ namespace ServerSideCharacter2.Regions
 		{
 			get
 			{
+				if (OwnerGUID == -1) return null;
 				return ServerSideCharacter2.PlayerCollection.Get(OwnerGUID);
 			}
 		}
