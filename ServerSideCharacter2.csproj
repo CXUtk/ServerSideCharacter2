@@ -64,7 +64,7 @@
     </Reference>
     <Reference Include="MySql.Data, Version=5.2.7.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\备份\Visual Studio 3.1\ServerTool\VPN\Resources\MySql.Data.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\..\Steam Library\steamapps\common\Terraria\ModCompile\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
