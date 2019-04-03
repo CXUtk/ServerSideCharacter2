@@ -30,6 +30,7 @@ using System.Security.Cryptography;
 using ServerSideCharacter2.Regions;
 using ServerSideCharacter2.GUI.UI.Component;
 using ServerSideCharacter2.Items;
+using ServerSideCharacter2.Matches;
 
 namespace ServerSideCharacter2
 {
@@ -77,6 +78,8 @@ namespace ServerSideCharacter2
 
 		public static Point RegionUpperLeft { get; internal set; }
 		public static Point RegionLowerRight { get; internal set; }
+
+		public static MatchingSystem MatchingSystem;
 
 		internal void ChangeState(SSCUIState state)
 		{
@@ -209,7 +212,6 @@ namespace ServerSideCharacter2
 			_sscPacketHandler = new SSCPacketHandler();
 			if (!Main.dedServ)
 			{
-				ClientRegions.Add("??", new Region("??", new Rectangle(2093, 230, 8, 10)));
 				// 加载资源只有在非服务器端才会执行
 				// MethodSwapper.SwapMethods();
 				MainPlayerGroup = new Group("default");
@@ -217,7 +219,6 @@ namespace ServerSideCharacter2
 				ResourceLoader.LoadAll();
 				GuiManager = new GUIManager(this);
 				IsLoginClientSide = false;
-
 			}
 			else
 			{
@@ -232,6 +233,7 @@ namespace ServerSideCharacter2
 				// 服务器端生成RSA私钥
 				RSACrypto.GenKey();
 				ConfigLoader.Load();
+				MatchingSystem = new MatchingSystem();
 			}
 			Loaded = true;
 		}

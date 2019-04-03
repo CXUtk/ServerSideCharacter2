@@ -57,7 +57,9 @@
 		ClearCommand,
 		PigPlayer,
 		RegionForbidCommand,
-		RegionOwnerCommand
+		RegionOwnerCommand,
+		NewMatchCommand,
+		JoinMatchCommand
 	}
 
 	public enum GenerationType

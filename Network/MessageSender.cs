@@ -528,6 +528,23 @@ namespace ServerSideCharacter2
 				p.Send(plr);
 			}
 		}
+
+		public static void SendNewMatchCommand(string name)
+		{
+			var p = ServerSideCharacter2.Instance.GetPacket();
+			p.Write((int)SSCMessageType.NewMatchCommand);
+			p.Write(name);
+			p.Send();
+		}
+
+		public static void SendJoinMatchCommand(string name)
+		{
+			var p = ServerSideCharacter2.Instance.GetPacket();
+			p.Write((int)SSCMessageType.JoinMatchCommand);
+			p.Write(name);
+			p.Send();
+		}
+
 		//public static void SendChestCommand(ChestManager.Pending pending, int plr, string friendName = null)
 		//{
 		//	ModPacket pack = ServerSideCharacter.Instance.GetPacket();

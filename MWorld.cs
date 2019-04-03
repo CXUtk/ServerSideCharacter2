@@ -9,6 +9,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using ServerSideCharacter2.Utils;
+using ServerSideCharacter2.Matches;
 
 namespace ServerSideCharacter2
 {
@@ -53,6 +54,7 @@ namespace ServerSideCharacter2
 						TileMessageCD[i]--;
 					}
 				}
+				ServerSideCharacter2.MatchingSystem.Run();
 				if (_timer % 300 < 1)
 				{
 					foreach(var player in Main.player)

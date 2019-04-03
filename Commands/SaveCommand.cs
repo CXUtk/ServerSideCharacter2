@@ -66,9 +66,10 @@ namespace ServerSideCharacter2.Commands
 				ServerSideCharacter2.PlayerDoc.SavePlayersData();
 				ConfigLoader.Save();
 				WorldFile.saveWorld();
+				Console.WriteLine(GameLanguage.GetText("savedText"));
 				Netplay.disconnect = true;
 				SocialAPI.Shutdown();
-				Console.WriteLine(GameLanguage.GetText("savedText"));
+
 			}
 			catch (Exception ex)
 			{

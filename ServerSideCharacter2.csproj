@@ -5,7 +5,7 @@
     <ProjectGuid>{77DB7955-C3F6-4091-8022-885FE24F90A8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
-    <AssemblyName>ClassLibrary</AssemblyName>
+    <AssemblyName>ServerSideCharacter2</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -13,7 +13,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\ZQZC\Libraries\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -121,6 +121,7 @@
     <Compile Include="Commands\RankCommand.cs" />
     <Compile Include="Commands\SpawnControlCommand.cs" />
     <Compile Include="Commands\RegionCommand.cs" />
+    <Compile Include="Commands\MatchCommand.cs" />
     <Compile Include="Commands\TPCommand.cs" />
     <Compile Include="Commands\SummonCommand.cs" />
     <Compile Include="Commands\HardmodeCommand.cs" />
@@ -130,6 +131,8 @@
     <Compile Include="Commands\LockCommand.cs" />
     <Compile Include="Commands\OnlinePlayerCommand.cs" />
     <Compile Include="Commands\SaveCommand.cs" />
+    <Compile Include="Matches\Match.cs" />
+    <Compile Include="Matches\MatchingSystem.cs" />
     <Compile Include="Dusts\HealDust.cs" />
     <Compile Include="Groups\Group.cs" />
     <Compile Include="Groups\GroupConfig.cs" />
@@ -153,6 +156,7 @@
     <Compile Include="GUI\UI\Component\UISlider.cs" />
     <Compile Include="GUI\UI\Component\UISwitch.cs" />
     <Compile Include="GUI\UI\State\NPCUIState.cs" />
+    <Compile Include="GUI\UI\State\CommunicationState.cs" />
     <Compile Include="GUI\UI\State\PlayerProfileState.cs" />
     <Compile Include="GUI\UI\State\ItemUIState.cs" />
     <Compile Include="GUI\UI\State\UnionPageState.cs" />
@@ -207,9 +211,11 @@
     <Compile Include="Regions\Region.cs" />
     <Compile Include="Regions\RegionConfig.cs" />
     <Compile Include="Regions\RegionManager.cs" />
-    <Compile Include="Regions\RegionPermission.cs" />
     <Compile Include="ServerPlayer.cs" />
     <Compile Include="ServerSideCharacter2.cs" />
+    <Compile Include="Services\FriendSystem\CommunicationService.cs" />
+    <Compile Include="Services\Matches\JoinMatchHandler.cs" />
+    <Compile Include="Services\Matches\NewMatchHandler.cs" />
     <Compile Include="Services\Misc\KickHandler.cs" />
     <Compile Include="Services\Misc\GodModeHandler.cs" />
     <Compile Include="Services\Misc\ForcePVPHandler.cs" />

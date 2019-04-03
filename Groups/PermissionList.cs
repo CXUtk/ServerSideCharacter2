@@ -38,7 +38,7 @@ namespace ServerSideCharacter2.Groups
 			AddPermission(new Permission("region-forbid", "玩家可不可以禁用领地"));
 			AddPermission(new Permission("region-owner", "玩家可不可以改变领地主人"));
 			AddPermission(new Permission("region-share", "玩家可不可以共享领地"));
-			AddPermission(new Permission("ping", "玩家可不可以把别人变成猪头"));
+			AddPermission(new Permission("pig", "玩家可不可以把别人变成猪头"));
 			AddPermission(new Permission("clear", "玩家可不可以改变领地的PVP模式"));
 		}
 

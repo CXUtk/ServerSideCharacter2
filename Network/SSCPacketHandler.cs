@@ -75,6 +75,8 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.ClearCommand, new ClearHandler() },
 				{SSCMessageType.PigPlayer, new PigHandler() },
 				{SSCMessageType.RegionOwnerCommand, new Services.Regions.RegionOwnerHandler() },
+				{SSCMessageType.NewMatchCommand, new Services.Matches.NewMatchHandler() },
+				{SSCMessageType.JoinMatchCommand, new Services.Matches.JoinMatchHandler() },
 			};
 		}
 	}

@@ -19,6 +19,7 @@ namespace ServerSideCharacter2.GUI.UI
 {
 	public class HomePageState : AdvWindowUIState
 	{
+		public static HomePageState Instance;
 
 		private int _relaxTimer;
 		private float _rotation;
@@ -41,6 +42,11 @@ namespace ServerSideCharacter2.GUI.UI
 		private const float BUTTON_HEIGHT = 35;
 		private const float PLAYER_IMAGE_OFFSET_X = 64;
 		private const float PLAYER_IMAGE_OFFSET_Y = 82;
+
+		public HomePageState()
+		{
+			Instance = this;
+		}
 
 
 

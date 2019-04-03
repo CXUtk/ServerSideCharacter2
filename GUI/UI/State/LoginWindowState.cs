@@ -103,7 +103,7 @@ namespace ServerSideCharacter2.GUI.UI
 
 		private void StartWaiting()
 		{
-			_relaxTimer = 180;
+			_relaxTimer = 120;
 			_submitFormButton.Enabled = false;
 			_showWaiting = true;
 			_rotation = 0f;

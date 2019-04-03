@@ -205,6 +205,11 @@ namespace ServerSideCharacter2
 			}
 		}
 
+		public bool InMatch
+		{
+			get;set;
+		}
+
 		internal void SetCurRegion(Region reg)
 		{
 			if(reg == null)
