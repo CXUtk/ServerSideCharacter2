@@ -43,7 +43,7 @@ namespace ServerSideCharacter2.GUI.UI
 			WindowPanel.Height.Set(LOGIN_HEIGHT, 0f);
 			WindowPanel.Color = Color.White * 0.8f;
 
-			var label1 = new UIText("账号");
+			var label1 = new UIText("QQ");
 			label1.Top.Set(7, 0);
 			label1.Left.Set(-50, 0);
 			label1.Width.Set(50, 0);
@@ -53,8 +53,7 @@ namespace ServerSideCharacter2.GUI.UI
 			_usernameText.Left.Set(-TEXTBOX_WIDTH / 2 + X_OFFSET, 0.5f);
 			_usernameText.Width.Set(TEXTBOX_WIDTH, 0f);
 			_usernameText.Height.Set(TEXTBOX_HEIGHT, 0f);
-			_usernameText.Text = "用户名即为玩家名字";
-			_usernameText.Enabled = false;
+			_usernameText.Enabled = true;
 			_usernameText.Append(label1);
 			WindowPanel.Append(_usernameText);
 

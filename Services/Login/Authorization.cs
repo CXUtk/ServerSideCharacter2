@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using MySql.Data.MySqlClient;
 using ServerSideCharacter2.Core;
 using ServerSideCharacter2.Crypto;
 using ServerSideCharacter2.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -51,7 +53,8 @@ namespace ServerSideCharacter2.Services.Login
 		{
 			if (Main.netMode == 2)
 			{
-				var encrypted = reader.ReadString();
+                var _constr = "server=localhost;User Id=mysqlserver;Password=258741369;Database=steamcityqqauth";
+                var encrypted = reader.ReadString();
 				// 解密RSA加密的信息
 				var info = CryptedUserInfo.GetDecrypted(encrypted);
 				// info.UserName 目前是 "用户名即为玩家名字"
@@ -63,94 +66,47 @@ namespace ServerSideCharacter2.Services.Login
 				}
 				if (serverPlayer.HasPassword)
 				{
-                    //以下为QQ绑定验证代码
-                    //bool isAuthSuccess 为验证状态
-                    //string QQ 为用户绑定的QQ号（如果已绑定）
-                    var isAuthSuccess = ServerSideCharacter2.DEBUGMODE;
-					if (!ServerSideCharacter2.DEBUGMODE)
-					{
-						var ClientMD5Key = "This is the CLIENT key.";
-						var ServerMD5Key = "This is the SERVER key.";
-						var username = serverPlayer.Name;
-						char[] constant =
-						{
-						'0','1','2','3','4','5','6','7','8','9',
-						'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
-						'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'
-						};
-						var newRandom = new System.Text.StringBuilder(62);
-						var rd = new System.Random();
-						//salt暂定长度为10
-						for (var i = 0; i < 10; i++)
-						{
-							newRandom.Append(constant[rd.Next(62)]);
-						}
-						var salt = newRandom.ToString();
-						try
-						{
-							var md5CryptoServiceProvider = new System.Security.Cryptography.MD5CryptoServiceProvider();
-							var bytes = Encoding.UTF8.GetBytes(username + salt + ClientMD5Key);
-							bytes = md5CryptoServiceProvider.ComputeHash(bytes);
-							md5CryptoServiceProvider.Clear();
-							var s_return = bytes.Aggregate("", (current, t) => current + System.Convert.ToString(t, 16).PadLeft(2, '0'));
-							var check = s_return.PadLeft(32, '0');
-							var pageData = Encoding.UTF8.GetString(new System.Net.WebClient
-							{
-								Credentials = System.Net.CredentialCache.DefaultCredentials
-							}.DownloadData(string.Concat(new string[]
-							{
-							"http://localhost/SteamCityAuth.aspx?username=",
-							username,
-							"&salt=",
-							salt,
-							"&check=",
-							check
-							})));
-							var _state = pageData.Substring(pageData.IndexOf("<span id=\"statelabel\">") + 22, pageData.IndexOf("</span>", pageData.IndexOf("<span id=\"statelabel\">")) - pageData.IndexOf("<span id=\"statelabel\">") - 22);
-							var _check = pageData.Substring(pageData.IndexOf("<span id=\"checklabel\">") + 22, pageData.IndexOf("</span>", pageData.IndexOf("<span id=\"checklabel\">")) - pageData.IndexOf("<span id=\"checklabel\">") - 22);
-							//QQ号不参与验证，可用于扩展功能
-							var QQ = pageData.Substring(pageData.IndexOf("<span id=\"qqnumlabel\">") + 22, pageData.IndexOf("</span>", pageData.IndexOf("<span id=\"qqnumlabel\">")) - pageData.IndexOf("<span id=\"qqnumlabel\">") - 22);
-							if (_state == "true")
-							{
-								var md5CryptoServiceProvider2 = new System.Security.Cryptography.MD5CryptoServiceProvider();
-								var _bytes = Encoding.UTF8.GetBytes(username + salt + ServerMD5Key);
-								_bytes = md5CryptoServiceProvider2.ComputeHash(_bytes);
-								md5CryptoServiceProvider2.Clear();
-								var _s_return = _bytes.Aggregate("", (current, t) => current + System.Convert.ToString(t, 16).PadLeft(2, '0'));
-								if (_check == _s_return.PadLeft(32, '0'))
-								{
-									//验证成功
-									isAuthSuccess = true;
-								}
-								else
-								{
-									//验证失败 MD5校验失败
-									MessageSender.SendLoginFailed(playerNumber, "MD5校验失败！");
-									isAuthSuccess = false;
-								}
-							}
-							else if (_state == "false")
-							{
-								//验证失败 用户未绑定QQ
-								MessageSender.SendLoginFailed(playerNumber, "请先绑定QQ！");
-								isAuthSuccess = false;
-							}
-							else
-							{
-								//验证失败 网络错误或其他原因
-								MessageSender.SendLoginFailed(playerNumber, "网络错误！");
-								isAuthSuccess = false;
-							}
-						}
-						catch
-						{
-							//验证失败 程序出错
-							MessageSender.SendLoginFailed(playerNumber, "程序错误！");
-							isAuthSuccess = false;
-						}
-						//QQ绑定验证结束
-					}
-
+                    // QQ验证模块 登录绑定验证
+                    var isAuthSuccess = false;
+                    string QQ = "";
+                    string OpenID = "";
+                    try
+                    {
+                        MySqlConnection mycon = new MySqlConnection(_constr);
+                        mycon.Open();
+                        MySqlCommand cmd = new MySqlCommand("set names utf8", mycon);
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = "select qq,openid from users where username = @UserName";
+                        cmd.Parameters.AddWithValue("@UserName", serverPlayer.Name);
+                        MySqlDataReader mdr = cmd.ExecuteReader();
+                        if (mdr.Read())
+                        {
+                            QQ = mdr["qq"].ToString();
+                            OpenID = mdr["openid"].ToString();
+                        }
+                        mdr.Close();
+                        cmd.Cancel();
+                        mycon.Close();
+                        if (QQ == "" || OpenID == "")
+                        {
+                            // 用户未绑定QQ
+                            CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 认证失败：未绑定QQ.");
+                            MessageSender.SendLoginFailed(playerNumber, "请先绑定QQ！");
+                            isAuthSuccess = false;
+                        }
+                        else
+                        {
+                            // 用户已绑定QQ
+                            isAuthSuccess = true;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // 程序出错
+                        MessageSender.SendLoginFailed(playerNumber, "数据库操作出错！");
+                        CommandBoardcast.ConsoleMessage("QQ验证模块 登录验证 出现错误，信息：" + ex.Message);
+                        isAuthSuccess = false;
+                    }
                     if (isAuthSuccess)
                     {
                         if (serverPlayer.CheckPassword(info))
@@ -172,14 +128,83 @@ namespace ServerSideCharacter2.Services.Login
 				else
 				{
 					var result = CheckName(Main.player[playerNumber].name);
-					if (result == 0)
-					{
-						serverPlayer.SetPassword(info);
-						// SuccessLogin(serverPlayer);
-						MessageSender.SendLoginSuccess(serverPlayer.PrototypePlayer.whoAmI, "注册成功");
-						// 告诉客户端解除封印
-						// MessageSender.SendLoginIn(serverPlayer.PrototypePlayer.whoAmI);
-						CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册成功.");
+                    if (result == 0)
+                    {
+                        // QQ验证模块 新用户注册验证
+                        bool isAuthSuccess = false;
+                        string QQ = info.UserName;
+                        string UserName = "";
+                        try
+                        {
+                            MySqlConnection mycon = new MySqlConnection(_constr);
+                            mycon.Open();
+                            MySqlCommand cmd = new MySqlCommand("set names utf8", mycon);
+                            cmd.CommandType = System.Data.CommandType.Text;
+                            cmd.CommandText = "select username from users where qq = @QQ";
+                            cmd.Parameters.AddWithValue("@QQ", QQ);
+                            MySqlDataReader mdr = cmd.ExecuteReader();
+                            if (mdr.Read())
+                            {
+                                UserName = mdr["username"].ToString();
+                            }
+                            mdr.Close();
+                            cmd.Cancel();
+                            mycon.Close();
+                            if (UserName == "")
+                            {
+                                // QQ未绑定到角色，允许注册
+                                try
+                                {
+                                    MySqlConnection _mycon = new MySqlConnection(_constr);
+                                    _mycon.Open();
+                                    MySqlCommand _cmd = new MySqlCommand("set names utf8", _mycon);
+                                    _cmd.CommandType = System.Data.CommandType.Text;
+                                    _cmd.CommandText = "insert into users set qq = @QQ , username = @UserName";
+                                    _cmd.Parameters.AddWithValue("@QQ", QQ);
+                                    _cmd.Parameters.AddWithValue("@UserName", serverPlayer.Name);
+                                    _cmd.ExecuteNonQuery();
+                                    _cmd.Cancel();
+                                    _mycon.Close();
+                                    isAuthSuccess = true;
+                                    CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册请求合法.");
+                                }
+                                catch (Exception ex)
+                                {
+                                    // 程序出错
+                                    MessageSender.SendLoginFailed(playerNumber, "数据库操作出错！");
+                                    CommandBoardcast.ConsoleMessage("QQ验证模块 用户注册 出现错误，信息：" + ex.Message);
+                                    isAuthSuccess = false;
+                                }
+                            }
+                            else if(UserName == serverPlayer.Name)
+                            {
+                                // QQ已被自己绑定，允许注册
+                                isAuthSuccess = true;
+                            }
+                            else
+                            {
+                                // QQ已被其他角色绑定，禁止注册
+                                MessageSender.SendLoginFailed(playerNumber, "该QQ已被其他角色绑定！");
+                                CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册请求被拒.");
+                                isAuthSuccess = false;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            // 程序出错
+                            MessageSender.SendLoginFailed(playerNumber, "数据库操作出错！");
+                            CommandBoardcast.ConsoleMessage("QQ验证模块 注册验证 出现错误，信息：" + ex.Message);
+                            isAuthSuccess = false;
+                        }
+                        if (isAuthSuccess)
+                        {
+                            serverPlayer.SetPassword(info);
+                            // SuccessLogin(serverPlayer);
+                            MessageSender.SendLoginSuccess(serverPlayer.PrototypePlayer.whoAmI, "注册成功");
+                            // 告诉客户端解除封印
+                            // MessageSender.SendLoginIn(serverPlayer.PrototypePlayer.whoAmI);
+                            CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册成功.");
+                        }
 					}
 					else
 					{
