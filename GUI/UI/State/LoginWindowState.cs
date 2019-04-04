@@ -91,21 +91,12 @@ namespace ServerSideCharacter2.GUI.UI
 		{
 			var username = _usernameText.Text;
 			var password = _passwordText.Text;
-			var machinecode = "99";//QQAuth.MachineCodeManager.GetMachineCode();
-            if (machinecode == "")
-            { Main.NewText("机器码获取失败！"); }
-            else if (password == "")
+            if (password != "")
             {
-                Main.NewText("密码为空！");
-                Main.NewText("请确认您的输入法为英文输入状态。");
-            }
-            else
-            {
-                var info = CryptedUserInfo.Create(username, password, machinecode);
-                Main.NewText("QQ:" + username);
-                Main.NewText("密码:" + password + "(长度:" + password.Length + ")");
+                var info = CryptedUserInfo.Create(username, password);
+                Main.NewText(username);
+                Main.NewText("'" + password + "'(长度:" + password.Length);
                 Main.NewText(info.ToString());
-                Main.NewText("机器码:" + info.MachineCode);
                 MessageSender.SendLoginPassword(info);
                 // ServerSideCharacter2.Instance.ShowMessage("已经提交AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 120, Color.White);
                 StartWaiting();

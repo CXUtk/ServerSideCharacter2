@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using MySql.Data.MySqlClient;
 using ServerSideCharacter2.Core;
 using ServerSideCharacter2.Crypto;
@@ -97,45 +96,6 @@ namespace ServerSideCharacter2
                 /// Debug模式
                 /// </summary>
                 Debug
-            }
-        }
-        public class MachineCodeManager
-        {
-            private static string GetMD5WithString(string input)
-            {
-                System.Security.Cryptography.MD5 md5Hash = System.Security.Cryptography.MD5.Create();
-                // 将输入字符串转换为字节数组并计算哈希数据  
-                byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
-                // 创建一个 Stringbuilder 来收集字节并创建字符串  
-                StringBuilder str = new StringBuilder();
-                // 循环遍历哈希数据的每一个字节并格式化为十六进制字符串  
-                for (int i = 0; i < data.Length; i++)
-                {
-                    str.Append(data[i].ToString("x2"));//加密结果"x2"结果为32位,"x3"结果为48位,"x4"结果为64位
-                }
-                // 返回十六进制字符串  
-                return str.ToString();
-            }
-
-            public static string GetMachineCode()
-            {
-                string MachineCode = "";
-                string Check = "";
-                RegistryKey Key;
-                Key = Registry.LocalMachine;
-                var myreg = Key.OpenSubKey("software\\SteamCity");
-                MachineCode = myreg.GetValue("MachineCode").ToString();
-                Check = myreg.GetValue("Check").ToString();
-                myreg.Close();
-                if (MachineCode != "" && Check != "")
-                {
-                    if (Check == GetMD5WithString(MachineCode + "This is the MACHINE CODE key."))
-                    { return MachineCode; }
-                    else
-                    { return ""; }
-                }
-                else
-                { return ""; }
             }
         }
 
