@@ -23,6 +23,13 @@ namespace ServerSideCharacter2.Services.Login
         private int playerNumber;
 
         // 初始化
+        /// <summary>
+		/// 创建一个QQ验证实例
+		/// </summary>
+		/// <param name="info">用户信息</param>
+        /// <param name="serverPlayer">角色信息</param>
+        /// <param name="playerNumber">角色编号</param>
+		/// <returns></returns>
         public QQAuth(CryptedUserInfo info, ServerPlayer serverPlayer, int playerNumber)
         {
             this.info = info;
@@ -31,6 +38,10 @@ namespace ServerSideCharacter2.Services.Login
         }
 
         // 方法
+        /// <summary>
+		/// 登录验证
+		/// </summary>
+		/// <returns>登录成功返回true，登录失败返回false</returns>
         public bool Login()
         {
             string QQ = "";
@@ -88,6 +99,10 @@ namespace ServerSideCharacter2.Services.Login
                 return false;
             }
         }
+        /// <summary>
+		/// 用户注册
+		/// </summary>
+		/// <returns>注册成功返回true，注册失败返回false</returns>
         public bool Register()
         {
             string QQ = info.UserName;
@@ -164,8 +179,15 @@ namespace ServerSideCharacter2.Services.Login
                 }
             }
         }
+        /// <summary>
+		/// 用户封禁
+		/// </summary>
+        /// <param name="banPlayer">封禁的用户</param>
+        /// <param name="banReason">封禁的原因</param>
+		/// <returns>封禁成功返回true，封禁失败返回false</returns>
         public bool Ban(ServerPlayer banPlayer, string banReason)
         {
+            // serverPlayer是封禁操作者
             try
             {
                 MySqlConnection mycon = new MySqlConnection(_constr);
