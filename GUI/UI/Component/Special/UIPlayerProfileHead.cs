@@ -124,7 +124,11 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			{
 				var guidText = new UIText($"GUID：{_info.GUID}");
 				infoList.Add(guidText);
+				var qqNumberText = new UIText($"QQ：{_info.QQNumber}");
+				infoList.Add(qqNumberText);
 			}
+			var playerIDText = new UIText($"玩家ID：{_info.PlayerID}");
+			infoList.Add(playerIDText);
 
 			var killcountText = new UIText($"击杀数：{_info.KillCount}");
 			infoList.Add(killcountText);
@@ -137,13 +141,6 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 
 			var regTimeText = new UIText($"注册时间：{_info.RegistedTime.ToString("g")}");
 			infoList.Add(regTimeText);
-
-			var playerIDText = new UIText($"玩家ID：{_info.PlayerID}");
-			infoList.Add(playerIDText);
-
-            var qqNumberText = new UIText($"QQ：{_info.QQNumber}");
-            infoList.Add(qqNumberText);
-
         }
     }
 }

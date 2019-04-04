@@ -14,9 +14,9 @@ using Terraria.ModLoader;
 
 namespace ServerSideCharacter2.Services.Misc
 {
-	public class KickHandler : SSCCommandHandler
+	public class KillHandler : SSCCommandHandler
 	{
-		public override string PermissionName => "kick";
+		public override string PermissionName => "kill";
 
 		public override void HandleCommand(BinaryReader reader, int playerNumber)
 		{
@@ -27,10 +27,9 @@ namespace ServerSideCharacter2.Services.Misc
 				var player = Main.player[playerNumber];
 				var target0 = Main.player[target];
 				var target1 = target0.GetServerPlayer();
-				
-				var str = $"玩家 {player.name} 把玩家 {target0.name} 踢出了服务器";
-				ServerPlayer.SendInfoMessageToAll(str);
-				target1.Kick("你被管理员踢出了服务器");
+
+				var str = $"玩家 {player.name} 击杀了玩家 {target0.name} ";
+				target1.Kill();
 				CommandBoardcast.ConsoleMessage(str);
 			}
 		}

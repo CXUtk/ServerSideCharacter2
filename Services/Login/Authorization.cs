@@ -1,12 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using ServerSideCharacter2.Core;
-using ServerSideCharacter2.Crypto;
 using ServerSideCharacter2.Utils;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -107,8 +103,8 @@ namespace ServerSideCharacter2.Services.Login
                         }
                         else
                         {
-                            // 如果忘记密码就要找管理员重置密码
-                            MessageSender.SendLoginFailed(playerNumber, "密码错误！");
+							// 如果忘记密码就要找管理员重置密码
+							serverPlayer.SendMessageBox("密码错误！", Color.Red);
                             CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 认证失败：密码错误.");
                         }
                     }
@@ -166,12 +162,12 @@ namespace ServerSideCharacter2.Services.Login
 					{
 						if (result == 1 || result == -1)
 						{
-							MessageSender.SendLoginFailed(serverPlayer.PrototypePlayer.whoAmI, "无法注册玩家：用户名" +
-								(result == 1 ? "过长" : "过短") + "\n" + "用户名应为2-10个字符");
+							serverPlayer.SendMessageBox("无法注册玩家：用户名" +
+								(result == 1 ? "过长" : "过短") + "\n" + "用户名应为2-10个字符", Color.Red);
 						}
 						else
 						{
-							MessageSender.SendLoginFailed(serverPlayer.PrototypePlayer.whoAmI, "无法注册玩家：用户名不能含有下列特殊字符：$%^&*!@#:?|");
+							serverPlayer.SendMessageBox("无法注册玩家：用户名不能含有下列特殊字符：$%^&*!@#:?|", Color.Red);
 						}
 					}
 				}

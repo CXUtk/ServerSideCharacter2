@@ -65,6 +65,14 @@ namespace ServerSideCharacter2
 			p.Send();
 		}
 
+		public static void SendKillCommand(int target)
+		{
+			var p = ServerSideCharacter2.Instance.GetPacket();
+			p.Write((int)SSCMessageType.KillCommand);
+			p.Write((byte)target);
+			p.Send();
+		}
+
 		public static void SendTimeCommand(int plr, bool set, int time, bool day)
 		{
 			var name = Main.player[plr].name;

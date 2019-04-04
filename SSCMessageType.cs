@@ -15,6 +15,7 @@
 		SendTimeSet,
 		HelpCommand,
 		KickCommand,
+		KillCommand,
 		ListCommand,
 		SummonCommand,
 		TPHereCommand,

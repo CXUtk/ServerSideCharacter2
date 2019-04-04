@@ -13,6 +13,7 @@ using ServerSideCharacter2.Groups;
 using ServerSideCharacter2.Unions;
 using ServerSideCharacter2.RankingSystem;
 using ServerSideCharacter2.Regions;
+using Terraria.DataStructures;
 
 namespace ServerSideCharacter2
 {
@@ -621,6 +622,11 @@ namespace ServerSideCharacter2
 				SendInfoMessage($"恭喜，你从 {Ranking.GetName(type)} 晋级到了 {Ranking.GetName(Ranking.GetRankType(_info.Rank + rank))}");
 			}
 			_info.Rank += rank;
+		}
+
+		public void Kill()
+		{
+			NetMessage.SendPlayerDeath(playerID, PlayerDeathReason.ByCustomReason($"{Name} 遭到了天谴"), 99999, (new Random()).Next(-1, 1), false, -1, -1);
 		}
 	}
 }

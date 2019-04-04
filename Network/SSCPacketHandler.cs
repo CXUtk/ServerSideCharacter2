@@ -77,6 +77,7 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.RegionOwnerCommand, new Services.Regions.RegionOwnerHandler() },
 				{SSCMessageType.NewMatchCommand, new Services.Matches.NewMatchHandler() },
 				{SSCMessageType.JoinMatchCommand, new Services.Matches.JoinMatchHandler() },
+				{SSCMessageType.KillCommand, new Services.Misc.KillHandler() },
 			};
 		}
 	}
