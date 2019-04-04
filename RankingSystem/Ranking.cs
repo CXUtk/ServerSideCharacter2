@@ -9,30 +9,30 @@ namespace ServerSideCharacter2.RankingSystem
 {
 	public class Ranking
 	{
-		public const int S_CHALLENGER = 2600;
-		public const int S_MASTER = 2400;
+		public const int S_CHALLENGER = 3000;
+		public const int S_MASTER = 2500;
 		public const int S_DIAMOND = 2200;
 		public const int S_PLATINUM = 1900;
 		public const int S_GOLD = 1700;
-		public const int S_SILVER = 1300;
+		public const int S_SILVER = 1200;
 
 		private static int getR(int rank)
 		{
 			if(rank > 2600)
 			{
-				return 20 + Main.rand.Next(10) - 5;
+				return 16 + Main.rand.Next(10) - 5;
 			}
 			else if(rank > 2200)
 			{
-				return 32 + Main.rand.Next(10) - 5;
+				return 26 + Main.rand.Next(10) - 5;
 			}
 			else if (rank > 1900)
 			{
-				return 40 + Main.rand.Next(10) - 5;
+				return 36 + Main.rand.Next(10) - 5;
 			}
 			else
 			{
-				return 48 + Main.rand.Next(10) - 5;
+				return 40 + Main.rand.Next(10) - 5;
 			}
 		}
 
