@@ -141,6 +141,9 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			var playerIDText = new UIText($"玩家ID：{_info.PlayerID}");
 			infoList.Add(playerIDText);
 
-		}
-	}
+            var qqNumberText = new UIText($"QQ：{_info.QQNumber}");
+            infoList.Add(qqNumberText);
+
+        }
+    }
 }

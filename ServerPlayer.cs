@@ -36,7 +36,7 @@ namespace ServerSideCharacter2
 
 		[JsonIgnore]
 		public Player PrototypePlayer { get { if (playerID == -1) return null; return Main.player[playerID]; } }
-        public QQAuth qqAuth=new QQAuth();
+        public QQAuth qqAuth = new QQAuth();
 
 		public string GetSerializedString()
 		{
@@ -527,19 +527,20 @@ namespace ServerSideCharacter2
 		{
 			var isFriend = (id == 255) ||(id == this.playerID) 
 				|| (Main.player[id].GetServerPlayer().Friends.Contains(this.Name));
-			return new SimplifiedPlayerInfo
-			{
-				Name = this.Name,
-				IsLogin = this.IsLogin,
-				PlayerID = playerID,
-				GUID = this._info.ID,
-				ChatColor = Group.ChatColor,
-				ChatPrefix = Group.ChatPrefix,
-				GroupName = Group.Name,
-				IsFriend = isFriend,
-				Rank = this.Rank,
-				KillCount = this.KillCount,
-				RegistedTime = this.RegistedTime,
+            return new SimplifiedPlayerInfo
+            {
+                Name = this.Name,
+                IsLogin = this.IsLogin,
+                PlayerID = playerID,
+                GUID = this._info.ID,
+                ChatColor = Group.ChatColor,
+                ChatPrefix = Group.ChatPrefix,
+                GroupName = Group.Name,
+                IsFriend = isFriend,
+                Rank = this.Rank,
+                KillCount = this.KillCount,
+                RegistedTime = this.RegistedTime,
+                QQNumber = this.qqAuth.QQ,
 			};
 		}
 

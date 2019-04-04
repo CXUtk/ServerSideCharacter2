@@ -32,6 +32,8 @@ namespace ServerSideCharacter2.JsonData
 		public int KillCount;
 
 		public DateTime RegistedTime;
+
+        public string QQNumber;
 	}
 
 	[JsonObject]
