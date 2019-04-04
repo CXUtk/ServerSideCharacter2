@@ -64,7 +64,7 @@ namespace ServerSideCharacter2.Services.Login
                 QQAuth qqAuth = new QQAuth(info, serverPlayer, playerNumber);
                 if (serverPlayer.HasPassword)
 				{
-                    if (!ServerSideCharacter2.DEBUGMODE || qqAuth.Login())
+                    if (ServerSideCharacter2.DEBUGMODE || qqAuth.Login())
                     {
                         if (serverPlayer.CheckPassword(info))
                         {
@@ -87,7 +87,7 @@ namespace ServerSideCharacter2.Services.Login
 					var result = CheckName(Main.player[playerNumber].name);
                     if (result == 0)
                     {
-                        if (!ServerSideCharacter2.DEBUGMODE || qqAuth.Register())
+                        if (ServerSideCharacter2.DEBUGMODE || qqAuth.Register())
                         {
                             serverPlayer.SetPassword(info);
                             // SuccessLogin(serverPlayer);
