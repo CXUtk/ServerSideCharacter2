@@ -13,6 +13,7 @@ namespace ServerSideCharacter2.Core
 		public string UserName { get; set; }
 		public string Password { get; set; }
         public string OpenID { get; set; }
+        public string MachineCode { get; set; }
 
 		public static CryptedUserInfo Create(string username, string password)
 		{
@@ -32,8 +33,14 @@ namespace ServerSideCharacter2.Core
 			}
 			return info;
 		}
+        public static CryptedUserInfo Create(string username, string password, string machinecode)
+        {
+            var info = Create(username, password);
+            info.MachineCode = machinecode;
+            return info;
+        }
 
-		private string GetJson()
+        private string GetJson()
 		{
 			return JsonConvert.SerializeObject(this);
 		}
