@@ -111,10 +111,12 @@ namespace ServerSideCharacter2
             {
                 MySqlConnection mycon = new MySqlConnection(_constr);
                 mycon.Open();
-                MySqlCommand cmd = new MySqlCommand("set names utf8", mycon);
-                cmd.CommandType = System.Data.CommandType.Text;
-                cmd.CommandText = "select qq,openid,ban,banner,banreason,customchatprefix from users where username = @UserName";
-                cmd.Parameters.AddWithValue("@UserName", CharacterName);
+				MySqlCommand cmd = new MySqlCommand("set names utf8", mycon)
+				{
+					CommandType = System.Data.CommandType.Text,
+					CommandText = "select qq,openid,ban,banner,banreason,customchatprefix from users where username = @UserName"
+				};
+				cmd.Parameters.AddWithValue("@UserName", CharacterName);
                 MySqlDataReader mdr = cmd.ExecuteReader();
                 if (mdr.Read())
                 {
@@ -186,10 +188,12 @@ namespace ServerSideCharacter2
                         {
                             MySqlConnection _mycon = new MySqlConnection(_constr);
                             _mycon.Open();
-                            MySqlCommand _cmd = new MySqlCommand("set names utf8", _mycon);
-                            _cmd.CommandType = System.Data.CommandType.Text;
-                            _cmd.CommandText = "insert into users set qq = @QQ , username = @UserName , ban = 0";
-                            _cmd.Parameters.AddWithValue("@QQ", QQ);
+							MySqlCommand _cmd = new MySqlCommand("set names utf8", _mycon)
+							{
+								CommandType = System.Data.CommandType.Text,
+								CommandText = "insert into users set qq = @QQ , username = @UserName , ban = 0"
+							};
+							_cmd.Parameters.AddWithValue("@QQ", QQ);
                             _cmd.Parameters.AddWithValue("@UserName", CharacterName);
                             _cmd.ExecuteNonQuery();
                             _cmd.Cancel();
@@ -230,10 +234,12 @@ namespace ServerSideCharacter2
             {
                 MySqlConnection mycon = new MySqlConnection(_constr);
                 mycon.Open();
-                MySqlCommand cmd = new MySqlCommand("set names utf8", mycon);
-                cmd.CommandType = System.Data.CommandType.Text;
-                cmd.CommandText = "update users set ban = 1 , banner = @Banner , banreason = @BanReason where username = @UserName";
-                cmd.Parameters.AddWithValue("@UserName", banPlayer.Name);
+				MySqlCommand cmd = new MySqlCommand("set names utf8", mycon)
+				{
+					CommandType = System.Data.CommandType.Text,
+					CommandText = "update users set ban = 1 , banner = @Banner , banreason = @BanReason where username = @UserName"
+				};
+				cmd.Parameters.AddWithValue("@UserName", banPlayer.Name);
                 cmd.Parameters.AddWithValue("@Banner", CharacterName);
                 cmd.Parameters.AddWithValue("@BanReason", banReason);
                 cmd.Cancel();

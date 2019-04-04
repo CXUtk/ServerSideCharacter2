@@ -29,15 +29,6 @@ namespace ServerSideCharacter2
 				_timer++;
 				if (_timer > 10000000) _timer = 0;
 				ServerStarted = true;
-				foreach (var p in Main.player)
-				{
-					if (p.whoAmI == 255) continue;
-					if (!p.active) continue;
-					var player = p.GetServerPlayer();
-					if (player.IsLogin)
-						player.SyncPlayerToInfo();
-					UpdateRegion(p);
-				}
 				foreach (var player in ServerSideCharacter2.PlayerCollection)
 				{
 					if (player.Value.PrototypePlayer == null || !player.Value.PrototypePlayer.active)
@@ -74,6 +65,15 @@ namespace ServerSideCharacter2
 						}
 					}
 
+				}
+				foreach (var p in Main.player)
+				{
+					if (p.whoAmI == 255) continue;
+					if (!p.active) continue;
+					var player = p.GetServerPlayer();
+					if (player.IsLogin)
+						player.SyncPlayerToInfo();
+					UpdateRegion(p);
 				}
 				if (ServerSideCharacter2.Config.AutoSave && _timer % ServerSideCharacter2.Config.SaveInterval < 1)
 				{

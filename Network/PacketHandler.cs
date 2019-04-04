@@ -413,7 +413,7 @@ namespace ServerSideCharacter2.Network
 				var name = Main.player[plr].name;
 				var player = ServerSideCharacter2.PlayerCollection.Get(name);
 				player.SetID(plr);
-				player.ApplyToPlayer();
+
 				Main.player[plr].trashItem = new Item();
 
 				NetMessage.SendData(MessageID.PlayerActive, -1, -1, NetworkText.Empty, plr, active, 0f, 0f, 0, 0, 0);
@@ -429,8 +429,10 @@ namespace ServerSideCharacter2.Network
 				if (toWho == -1)
 				{
 					player.IsLogin = false;
+					player.ShouldSyncDocument = true;
 					player.ClearAllBuffs();
 					player.Lock();
+					player.ApplyToPlayer();
 
 					MessageSender.SendWelcomeMessage(plr,
 						player.HasPassword ? GameLanguage.GetText("welcomeold") : GameLanguage.GetText("welcomenew"));

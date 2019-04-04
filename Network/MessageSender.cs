@@ -468,11 +468,18 @@ namespace ServerSideCharacter2
 
 		public static void SendInfoMessage(int to, string msg, Color c)
 		{
-			var p = ServerSideCharacter2.Instance.GetPacket();
-			p.Write((int)SSCMessageType.InfoMessage);
-			p.Write(msg);
-			p.WriteRGB(c);
-			p.Send(to);
+			try
+			{
+				var p = ServerSideCharacter2.Instance.GetPacket();
+				p.Write((int)SSCMessageType.InfoMessage);
+				p.Write(msg);
+				p.WriteRGB(c);
+				p.Send(to);
+			}
+			catch
+			{
+
+			}
 		}
 
 		public static void SyncModPlayerInfo(int to, int from, MPlayer mPlayer)

@@ -34,6 +34,11 @@ namespace ServerSideCharacter2
 
 		private int playerID = -1;
 
+		public bool ShouldSyncDocument
+		{
+			get; set;
+		}
+
 		[JsonIgnore]
 		public Player PrototypePlayer { get { if (playerID == -1) return null; return Main.player[playerID]; } }
         public QQAuth qqAuth = new QQAuth();
@@ -222,7 +227,7 @@ namespace ServerSideCharacter2
 
 		public bool RealPlayer
 		{
-			get { return playerID >= 0 && playerID < Main.maxNetPlayers && Main.player[playerID] != null; }
+			get { return playerID >= 0 && playerID < Main.maxNetPlayers && Main.player[playerID].active && Main.player[playerID] != null; }
 		}
 
 		public bool ConnectionAlive
@@ -261,6 +266,7 @@ namespace ServerSideCharacter2
 		private void SetupPlayer()
 		{
 			curRegionName = "";
+			ShouldSyncDocument = true;
 			for (var i = 0; i < inventory.Length; i++)
 			{
 				inventory[i] = new Item();
@@ -401,7 +407,7 @@ namespace ServerSideCharacter2
 
 		public void SyncPlayerToInfo()
 		{
-			if (!IsLogin) return;
+			if (!ShouldSyncDocument || !IsLogin) return;
 			if (PrototypePlayer == null || !PrototypePlayer.active) return;
 			LifeMax = PrototypePlayer.statLifeMax;
 			StatLife = PrototypePlayer.statLife;
@@ -429,7 +435,7 @@ namespace ServerSideCharacter2
 
 		public void ApplyToPlayer()
 		{
-			if (PrototypePlayer.active)
+			if (PrototypePlayer != null && PrototypePlayer.active)
 			{
 				PrototypePlayer.statLifeMax = LifeMax;
 				PrototypePlayer.statLife = StatLife;
@@ -453,10 +459,6 @@ namespace ServerSideCharacter2
 				SyncGroupInfo();
 				//bank2.item.CopyTo(PrototypePlayer.bank2.item, 0);
 				//bank3.item.CopyTo(PrototypePlayer.bank3.item, 0);
-			}
-			else
-			{
-				throw new ArgumentException("Unable to syncronize player data, the player does not exist.");
 			}
 		}
 
