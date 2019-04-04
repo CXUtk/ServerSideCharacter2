@@ -35,19 +35,25 @@ namespace ServerSideCharacter2.Services.Login
         {
             string QQ = "";
             string OpenID = "";
+            string Ban = "";
+            //string Banner = "";
+            //string BanReason = "";
             try
             {
                 MySqlConnection mycon = new MySqlConnection(_constr);
                 mycon.Open();
                 MySqlCommand cmd = new MySqlCommand("set names utf8", mycon);
                 cmd.CommandType = System.Data.CommandType.Text;
-                cmd.CommandText = "select qq,openid from users where username = @UserName";
+                cmd.CommandText = "select qq,openid,ban,banner,banreason from users where username = @UserName";
                 cmd.Parameters.AddWithValue("@UserName", serverPlayer.Name);
                 MySqlDataReader mdr = cmd.ExecuteReader();
                 if (mdr.Read())
                 {
                     QQ = mdr["qq"].ToString();
                     OpenID = mdr["openid"].ToString();
+                    Ban = mdr["ban"].ToString();
+                    //Banner = mdr["banner"].ToString();
+                    //BanReason = mdr["banreason"].ToString();
                 }
                 mdr.Close();
                 cmd.Cancel();
@@ -57,6 +63,13 @@ namespace ServerSideCharacter2.Services.Login
                     // 用户未绑定QQ
                     CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 认证失败：未绑定QQ.");
                     MessageSender.SendLoginFailed(playerNumber, "请先绑定QQ！");
+                    return false;
+                }
+                else if (Ban != "0")
+                {
+                    // 用户被封禁
+                    CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 认证失败：玩家已被封禁.");
+                    MessageSender.SendLoginFailed(playerNumber, "您已被封禁！");
                     return false;
                 }
                 else
@@ -149,6 +162,29 @@ namespace ServerSideCharacter2.Services.Login
                     CommandBoardcast.ConsoleMessage("QQ验证模块 注册验证 出现错误，信息：" + ex.Message);
                     return false;
                 }
+            }
+        }
+        public bool Ban(ServerPlayer banPlayer, string banReason)
+        {
+            try
+            {
+                MySqlConnection mycon = new MySqlConnection(_constr);
+                mycon.Open();
+                MySqlCommand cmd = new MySqlCommand("set names utf8", mycon);
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandText = "update users set ban = 1 , banreason = @BanReason where username = @UserName";
+                cmd.Parameters.AddWithValue("@UserName", banPlayer.Name);
+                cmd.Parameters.AddWithValue("@BanReason", banReason);
+                cmd.Cancel();
+                mycon.Close();
+                CommandBoardcast.ConsoleMessage($"{serverPlayer.Name} 封禁玩家 {banPlayer.Name} 成功.");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // 程序出错
+                CommandBoardcast.ConsoleMessage("QQ验证模块 封禁用户 出现错误，信息：" + ex.Message);
+                return false;
             }
         }
 
