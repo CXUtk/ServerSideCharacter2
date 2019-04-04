@@ -91,7 +91,7 @@ namespace ServerSideCharacter2.GUI.UI
 		{
 			var username = _usernameText.Text;
 			var password = _passwordText.Text;
-            var machinecode = QQAuth.MachineCodeManager.GetMachineCode();
+			var machinecode = "99";//QQAuth.MachineCodeManager.GetMachineCode();
             if (machinecode == "")
             { Main.NewText("机器码获取失败！"); }
             else if (password == "")

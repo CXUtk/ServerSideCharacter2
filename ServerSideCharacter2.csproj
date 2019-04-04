@@ -136,6 +136,7 @@
     <Compile Include="Commands\LockCommand.cs" />
     <Compile Include="Commands\OnlinePlayerCommand.cs" />
     <Compile Include="Commands\SaveCommand.cs" />
+    <Compile Include="JsonData\PlayerItemSaving.cs" />
     <Compile Include="Matches\Match.cs" />
     <Compile Include="Matches\MatchingSystem.cs" />
     <Compile Include="Dusts\HealDust.cs" />

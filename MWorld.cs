@@ -74,6 +74,7 @@ namespace ServerSideCharacter2
 					if (player.IsLogin)
 						player.SyncPlayerToInfo();
 					UpdateRegion(p);
+					CommandBoardcast.ConsoleMessage($"玩家 {player.Name} 物品栏第一 {player.inventory[0].type}");
 				}
 				if (ServerSideCharacter2.Config.AutoSave && _timer % ServerSideCharacter2.Config.SaveInterval < 1)
 				{

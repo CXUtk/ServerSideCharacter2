@@ -22,13 +22,7 @@ namespace ServerSideCharacter2
 		[JsonRequired]
 		private PlayerInfo _info;
 
-		public Item[] inventory = new Item[Main.maxInventory + 1];
-		public Item[] armor = new Item[20];
-		public Item[] dye = new Item[10];
-		public Item[] miscEquips = new Item[5];
-		public Item[] miscDye = new Item[5];
-
-		public Chest bank = new Chest(true);
+		public PlayerItemSaving MainSaving { get; set; }
 		//public Chest bank2 = new Chest(true);
 		//public Chest bank3 = new Chest(true);
 
@@ -39,9 +33,21 @@ namespace ServerSideCharacter2
 			get; set;
 		}
 
-		[JsonIgnore]
+
 		public Player PrototypePlayer { get { if (playerID == -1) return null; return Main.player[playerID]; } }
         public QQAuth qqAuth = new QQAuth();
+
+		private Dictionary<string, PlayerItemSaving> _playerSavingList = new Dictionary<string, PlayerItemSaving>();
+
+		/// <summary>
+		/// 玩家当前正在使用的存档
+		/// </summary>
+		private PlayerItemSaving currentSaving;
+
+		public void UseSaving(string name = "")
+		{
+
+		}
 
 		public string GetSerializedString()
 		{
@@ -267,30 +273,7 @@ namespace ServerSideCharacter2
 		{
 			curRegionName = "";
 			ShouldSyncDocument = true;
-			for (var i = 0; i < inventory.Length; i++)
-			{
-				inventory[i] = new Item();
-			}
-			for (var i = 0; i < armor.Length; i++)
-			{
-				armor[i] = new Item();
-			}
-			for (var i = 0; i < dye.Length; i++)
-			{
-				dye[i] = new Item();
-			}
-			for (var i = 0; i < miscEquips.Length; i++)
-			{
-				miscEquips[i] = new Item();
-			}
-			for (var i = 0; i < miscDye.Length; i++)
-			{
-				miscDye[i] = new Item();
-			}
-			for (var i = 0; i < bank.item.Length; i++)
-			{
-				bank.item[i] = new Item();
-			}
+			MainSaving = new PlayerItemSaving("Main");
             //for (int i = 0; i < bank2.item.Length; i++)
             //{
             //	bank2.item[i] = new Item();
@@ -395,30 +378,30 @@ namespace ServerSideCharacter2
 
 		public void SyncPlayerFromInfo()
 		{
-			ServerUtils.InfoToItem(_info.inventory, inventory);
-			ServerUtils.InfoToItem(_info.armor, armor);
-			ServerUtils.InfoToItem(_info.dye, dye);
-			ServerUtils.InfoToItem(_info.miscEquips, miscEquips);
-			ServerUtils.InfoToItem(_info.miscDye, miscDye);
-			ServerUtils.InfoToItem(_info.bank, bank.item);
+			ServerUtils.InfoToItem(_info.inventory, MainSaving.inventory);
+			ServerUtils.InfoToItem(_info.armor, MainSaving.armor);
+			ServerUtils.InfoToItem(_info.dye, MainSaving.dye);
+			ServerUtils.InfoToItem(_info.miscEquips, MainSaving.miscEquips);
+			ServerUtils.InfoToItem(_info.miscDye, MainSaving.miscDye);
+			ServerUtils.InfoToItem(_info.bank, MainSaving.bank.item);
 			//ServerUtils.InfoToItem(_info.bank2, bank2.item);
 			//ServerUtils.InfoToItem(_info.bank3, bank3.item);
 		}
 
 		public void SyncPlayerToInfo()
 		{
-			if (!ShouldSyncDocument || !IsLogin) return;
+			if (currentSaving != MainSaving || !IsLogin) return;
 			if (PrototypePlayer == null || !PrototypePlayer.active) return;
 			LifeMax = PrototypePlayer.statLifeMax;
 			StatLife = PrototypePlayer.statLife;
 			StatMana = PrototypePlayer.statMana;
 			ManaMax = PrototypePlayer.statManaMax;
-			inventory = PrototypePlayer.inventory;
-			armor = PrototypePlayer.armor;
-			dye = PrototypePlayer.dye;
-			miscEquips = PrototypePlayer.miscEquips;
-			miscDye = PrototypePlayer.miscDyes;
-			bank = PrototypePlayer.bank;
+			MainSaving.inventory = PrototypePlayer.inventory;
+			MainSaving.armor = PrototypePlayer.armor;
+			MainSaving.dye = PrototypePlayer.dye;
+			MainSaving.miscEquips = PrototypePlayer.miscEquips;
+			MainSaving.miscDye = PrototypePlayer.miscDyes;
+			MainSaving.bank = PrototypePlayer.bank;
 			//bank2 = PrototypePlayer.bank2;
 			//bank3 = PrototypePlayer.bank3;
 
@@ -435,7 +418,7 @@ namespace ServerSideCharacter2
 
 		public void ApplyToPlayer()
 		{
-			if (PrototypePlayer != null && PrototypePlayer.active)
+			if (PrototypePlayer != null && PrototypePlayer.active && ConnectionAlive)
 			{
 				PrototypePlayer.statLifeMax = LifeMax;
 				PrototypePlayer.statLife = StatLife;
