@@ -42,6 +42,14 @@ namespace ServerSideCharacter2.Regions
 			}
 		}
 
+		public void AddRegion(Region region)
+		{
+			lock (Regions)
+			{
+				Regions.Add(region.Name, region);
+			}
+		}
+
 		public void RemoveRegionWithName(string name)
 		{
 			lock (Regions)
