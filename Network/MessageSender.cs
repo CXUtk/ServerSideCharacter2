@@ -9,62 +9,6 @@ namespace ServerSideCharacter2
 	public class MessageSender
 	{
 
-		public static void SyncPlayerHealth(int plr, int to, int from)
-		{
-			var name = Main.player[plr].name;
-			var player = ServerSideCharacter2.PlayerCollection.Get(name);
-			Main.player[plr].statLife = player.StatLife;
-			Main.player[plr].statLifeMax = player.LifeMax;
-			var p = ServerSideCharacter2.Instance.GetPacket();
-			p.Write((int)SSCMessageType.SyncPlayerHealth);
-			p.Write((byte)plr);
-			p.Write(player.StatLife);
-			p.Write(player.LifeMax);
-			p.Send(to, from);
-		}
-		public static void SyncPlayerMana(int plr, int to, int from)
-		{
-			var name = Main.player[plr].name;
-			var player = ServerSideCharacter2.PlayerCollection.Get(name);
-			Main.player[plr].statMana = player.StatMana;
-			Main.player[plr].statManaMax = player.ManaMax;
-			var p = ServerSideCharacter2.Instance.GetPacket();
-			p.Write((int)SSCMessageType.SyncPlayerMana);
-			p.Write((byte)plr);
-			p.Write(player.StatMana);
-			p.Write(player.ManaMax);
-			p.Send(to, from);
-		}
-		public static void SyncPlayerBanks(int plr, int to, int from)
-		{
-			var name = Main.player[plr].name;
-			var player = ServerSideCharacter2.PlayerCollection.Get(name);
-			Main.player[plr].bank = (Chest)player.bank.Clone();
-			//Main.player[plr].bank2 = (Chest)player.bank2.Clone();
-			//Main.player[plr].bank3 = (Chest)player.bank3.Clone();
-			var p = ServerSideCharacter2.Instance.GetPacket();
-			p.Write((int)SSCMessageType.SyncPlayerBank);
-			p.Write((byte)plr);
-			foreach (var item in player.bank.item)
-			{
-				p.Write(item.type);
-				p.Write((short)item.prefix);
-				p.Write((short)item.stack);
-			}
-			//foreach (Item item in player.bank2.item)
-			//{
-			//	p.Write(item.type);
-			//	p.Write((short)item.prefix);
-			//	p.Write((short)item.stack);
-			//}
-			//foreach (Item item in player.bank3.item)
-			//{
-			//	p.Write(item.type);
-			//	p.Write((short)item.prefix);
-			//	p.Write((short)item.stack);
-			//}
-			p.Send(to, from);
-		}
 
 		public static void SendTeleport(int plr, Vector2 pos)
 		{

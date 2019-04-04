@@ -7,8 +7,12 @@ using Terraria;
 
 namespace ServerSideCharacter2.JsonData
 {
-	public class PlayerItemSaving : IName
+	public class PlayerSaving : IName
 	{
+		public int LifeMax { get; set; }
+		public int StatLife { get; set; }
+		public int ManaMax { get; set; }
+		public int StatMana { get; set; }
 		public Item[] inventory = new Item[Main.maxInventory + 1];
 		public Item[] armor = new Item[20];
 		public Item[] dye = new Item[10];
@@ -16,9 +20,19 @@ namespace ServerSideCharacter2.JsonData
 		public Item[] miscDye = new Item[5];
 		public Chest bank = new Chest(true);
 
-		public PlayerItemSaving(string name)
+		public PlayerSaving(string name)
 		{
 			Name = name;
+			Reset();
+			
+		}
+
+		public virtual void Reset()
+		{
+			LifeMax = 100;
+			StatLife = 100;
+			ManaMax = 20;
+			StatMana = 20;
 			for (var i = 0; i < inventory.Length; i++)
 			{
 				inventory[i] = new Item();

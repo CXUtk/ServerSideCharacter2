@@ -34,7 +34,6 @@ namespace ServerSideCharacter2.Utils
 			{
 				_data = new ConfigData();
 				SetDefaults(_data);
-				CommandBoardcast.ConsoleMessage(_data.Data.ToString());
 				var data = JsonConvert.SerializeObject(_data, Formatting.Indented, converter);
 				using (var sw = new StreamWriter(Path))
 				{

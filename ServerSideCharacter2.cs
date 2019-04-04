@@ -202,42 +202,6 @@ namespace ServerSideCharacter2
 				CommandBoardcast.ConsoleError(ex);
 			}
 		}
-
-		public override void PostSetupContent()
-		{
-			if (Loaded) return;
-			//_messageChecker = new MessageChecker();
-			ShowTooltip = "";
-			_packetHandler = new PacketHandler();
-			_sscPacketHandler = new SSCPacketHandler();
-			if (!Main.dedServ)
-			{
-				// 加载资源只有在非服务器端才会执行
-				// MethodSwapper.SwapMethods();
-				MainPlayerGroup = new Group("default");
-				ToolBarServiceManager = new ToolBarServiceManager();
-				ResourceLoader.LoadAll();
-				GuiManager = new GUIManager(this);
-				IsLoginClientSide = false;
-			}
-			else
-			{
-				// 生成玩家存档，这里用json文件存储玩家信息
-				PlayerCollection = new PlayerCollection();
-				PlayerDoc = new PlayersDocument("players.json");
-				PlayerDoc.ExtractPlayersData();
-				GroupManager = new GroupManager();
-				GroupManager.SetGroups();
-				UnionManager = new UnionManager();
-				RegionManager = new RegionManager();
-				// 服务器端生成RSA私钥
-				RSACrypto.GenKey();
-				ConfigLoader.Load();
-				MatchingSystem = new MatchingSystem();
-			}
-			Loaded = true;
-		}
-
 		public override void Unload()
 		{
 			base.Unload();
@@ -318,6 +282,37 @@ namespace ServerSideCharacter2
 		public override void AddRecipes()
 		{
 			base.AddRecipes();
+			if (Loaded) return;
+			//_messageChecker = new MessageChecker();
+			ShowTooltip = "";
+			_packetHandler = new PacketHandler();
+			_sscPacketHandler = new SSCPacketHandler();
+			if (!Main.dedServ)
+			{
+				// 加载资源只有在非服务器端才会执行
+				// MethodSwapper.SwapMethods();
+				MainPlayerGroup = new Group("default");
+				ToolBarServiceManager = new ToolBarServiceManager();
+				ResourceLoader.LoadAll();
+				GuiManager = new GUIManager(this);
+				IsLoginClientSide = false;
+			}
+			else
+			{
+				// 生成玩家存档，这里用json文件存储玩家信息
+				PlayerCollection = new PlayerCollection();
+				PlayerDoc = new PlayersDocument("players.json");
+				PlayerDoc.ExtractPlayersData();
+				GroupManager = new GroupManager();
+				GroupManager.SetGroups();
+				UnionManager = new UnionManager();
+				RegionManager = new RegionManager();
+				// 服务器端生成RSA私钥
+				RSACrypto.GenKey();
+				ConfigLoader.Load();
+				MatchingSystem = new MatchingSystem();
+			}
+			Loaded = true;
 			if (!Main.dedServ)
 				GuiManager.SetNPCDefaults();
 		}

@@ -16,13 +16,16 @@ using ServerSideCharacter2.Regions;
 
 namespace ServerSideCharacter2
 {
+	public delegate void AppendSavingHandler(Dictionary<string, PlayerSaving> savings);
 	public class ServerPlayer
 	{
 
 		[JsonRequired]
 		private PlayerInfo _info;
 
-		public PlayerItemSaving MainSaving { get; set; }
+		public static event AppendSavingHandler OnAppendSaving;
+
+		public PlayerSaving MainSaving { get; set; }
 		//public Chest bank2 = new Chest(true);
 		//public Chest bank3 = new Chest(true);
 
@@ -37,16 +40,91 @@ namespace ServerSideCharacter2
 		public Player PrototypePlayer { get { if (playerID == -1) return null; return Main.player[playerID]; } }
         public QQAuth qqAuth = new QQAuth();
 
-		private Dictionary<string, PlayerItemSaving> _playerSavingList = new Dictionary<string, PlayerItemSaving>();
+		private Dictionary<string, PlayerSaving> _playerSavingList = new Dictionary<string, PlayerSaving>();
 
 		/// <summary>
 		/// 玩家当前正在使用的存档
 		/// </summary>
-		private PlayerItemSaving currentSaving;
+		private PlayerSaving currentSaving;
 
-		public void UseSaving(string name = "")
+		public void UseAuxiliarySaving(string name)
 		{
+			if (_playerSavingList.ContainsKey(name))
+			{
+				_playerSavingList[name].Reset();
+				currentSaving = _playerSavingList[name];
+				ApplySavingToPlayer();
+			}
+			else
+			{
+				throw new SSCException($"不存在名字为 {name} 的辅助存档");
+			}
+		}
 
+		public void UseMainSaving()
+		{
+			if (currentSaving != MainSaving)
+			{
+				SyncPlayerFromInfo();
+				currentSaving = MainSaving;
+				if (RealPlayer && ConnectionAlive)
+				{
+					ApplySavingToPlayer();
+				}
+			}
+		}
+
+		private void ApplySavingToPlayer()
+		{
+			ApplyToPlayer();
+			ClearAllBuffs();
+			SyncSavingToClient();
+		}
+
+
+		private void SyncSavingToClient()
+		{
+			for (var i = 0; i < 59; i++)
+			{
+				NetMessage.SendData(MessageID.SyncEquipment, -1, -1, NetworkText.FromLiteral(Main.player[playerID].inventory[i].Name), playerID, i, Main.player[playerID].inventory[i].prefix, 0f, 0, 0, 0);
+			}
+			for (var j = 0; j < Main.player[playerID].armor.Length; j++)
+			{
+				NetMessage.SendData(MessageID.SyncEquipment, -1, -1, NetworkText.FromLiteral(Main.player[playerID].armor[j].Name), playerID, (59 + j), Main.player[playerID].armor[j].prefix, 0f, 0, 0, 0);
+			}
+			for (var k = 0; k < Main.player[playerID].dye.Length; k++)
+			{
+				NetMessage.SendData(MessageID.SyncEquipment, -1, -1, NetworkText.FromLiteral(Main.player[playerID].dye[k].Name), playerID, (58 + Main.player[playerID].armor.Length + 1 + k), Main.player[playerID].dye[k].prefix, 0f, 0, 0, 0);
+			}
+			for (var l = 0; l < Main.player[playerID].miscEquips.Length; l++)
+			{
+				NetMessage.SendData(MessageID.SyncEquipment, -1, -1, NetworkText.Empty, playerID, 58 + Main.player[playerID].armor.Length + Main.player[playerID].dye.Length + 1 + l, Main.player[playerID].miscEquips[l].prefix, 0f, 0, 0, 0);
+			}
+			for (var m = 0; m < Main.player[playerID].miscDyes.Length; m++)
+			{
+				NetMessage.SendData(MessageID.SyncEquipment, -1, -1, NetworkText.Empty, playerID, 58 + Main.player[playerID].armor.Length + Main.player[playerID].dye.Length + Main.player[playerID].miscEquips.Length + 1 + m, Main.player[playerID].miscDyes[m].prefix, 0f, 0, 0, 0);
+			}
+			for (var i = 0; i < Main.player[playerID].bank.item.Length; i++)
+			{
+				NetMessage.SendData(MessageID.SyncEquipment, -1, -1, null, playerID,
+					58 + Main.player[playerID].armor.Length + Main.player[playerID].dye.Length + Main.player[playerID].miscEquips.Length + Main.player[playerID].miscDyes.Length + 1 + i, Main.player[playerID].bank.item[i].prefix, 0f, 0, 0, 0);
+			}
+			for (var i = 0; i < Main.player[playerID].bank2.item.Length; i++)
+			{
+				NetMessage.SendData(MessageID.SyncEquipment, -1, -1, null, playerID,
+					58 + Main.player[playerID].armor.Length + Main.player[playerID].dye.Length + Main.player[playerID].miscEquips.Length + Main.player[playerID].miscDyes.Length + Main.player[playerID].bank.item.Length + 1 + i, Main.player[playerID].bank2.item[i].prefix, 0f, 0, 0, 0);
+			}
+			NetMessage.SendData(MessageID.SyncEquipment, -1, -1, null,
+				playerID, 58 + Main.player[playerID].armor.Length + Main.player[playerID].dye.Length +
+				Main.player[playerID].miscEquips.Length + Main.player[playerID].bank.item.Length + Main.player[playerID].bank2.item.Length + 1, Main.player[playerID].trashItem.prefix);
+
+			for (var i = 0; i < Main.player[playerID].bank3.item.Length; i++)
+			{
+				NetMessage.SendData(MessageID.SyncEquipment, -1, -1, null, playerID,
+					58 + Main.player[playerID].armor.Length + Main.player[playerID].dye.Length +
+				Main.player[playerID].miscEquips.Length + Main.player[playerID].bank.item.Length + Main.player[playerID].bank2.item.Length + 2 + i, Main.player[playerID].bank2.item[i].prefix, 0f, 0, 0, 0);
+			}
+			PlayerHooks.SyncPlayer(Main.player[playerID], -1, -1, false);
 		}
 
 		public string GetSerializedString()
@@ -88,54 +166,6 @@ namespace ServerSideCharacter2
 			get { return _info.HasPassword; }
 			set { _info.HasPassword = value; }
 		}
-
-		public int StatLife
-		{
-			get
-			{
-				return _info.StatLife;
-			}
-			set
-			{
-				_info.StatLife = value;
-			}
-		}
-		public int LifeMax
-		{
-			get
-			{
-				return _info.LifeMax;
-			}
-			set
-			{
-				_info.LifeMax = value;
-			}
-		}
-
-		public int StatMana
-		{
-			get
-			{
-				return _info.StatMana;
-			}
-			set
-			{
-				_info.StatMana = value;
-			}
-		}
-
-		public int ManaMax
-		{
-			get
-			{
-				return _info.ManaMax;
-			}
-			set
-			{
-				_info.ManaMax = value;
-			}
-		}
-
 
 		public HashSet<string> Friends
 		{
@@ -273,16 +303,18 @@ namespace ServerSideCharacter2
 		{
 			curRegionName = "";
 			ShouldSyncDocument = true;
-			MainSaving = new PlayerItemSaving("Main");
-            //for (int i = 0; i < bank2.item.Length; i++)
-            //{
-            //	bank2.item[i] = new Item();
-            //}
-            //for (int i = 0; i < bank3.item.Length; i++)
-            //{
-            //	bank3.item[i] = new Item();
-            //}
-            
+			MainSaving = new PlayerSaving("Main");
+			currentSaving = MainSaving;
+			OnAppendSaving(_playerSavingList);
+			//for (int i = 0; i < bank2.item.Length; i++)
+			//{
+			//	bank2.item[i] = new Item();
+			//}
+			//for (int i = 0; i < bank3.item.Length; i++)
+			//{
+			//	bank3.item[i] = new Item();
+			//}
+
 		}
 
 		public ServerPlayer()
@@ -392,10 +424,10 @@ namespace ServerSideCharacter2
 		{
 			if (currentSaving != MainSaving || !IsLogin) return;
 			if (PrototypePlayer == null || !PrototypePlayer.active) return;
-			LifeMax = PrototypePlayer.statLifeMax;
-			StatLife = PrototypePlayer.statLife;
-			StatMana = PrototypePlayer.statMana;
-			ManaMax = PrototypePlayer.statManaMax;
+			MainSaving.LifeMax = PrototypePlayer.statLifeMax2;
+			MainSaving.StatLife = PrototypePlayer.statLife;
+			MainSaving.StatMana = PrototypePlayer.statMana;
+			MainSaving.ManaMax = PrototypePlayer.statManaMax2;
 			MainSaving.inventory = PrototypePlayer.inventory;
 			MainSaving.armor = PrototypePlayer.armor;
 			MainSaving.dye = PrototypePlayer.dye;
@@ -405,12 +437,12 @@ namespace ServerSideCharacter2
 			//bank2 = PrototypePlayer.bank2;
 			//bank3 = PrototypePlayer.bank3;
 
-			ServerUtils.CopyToItemData(inventory, _info.inventory);
-			ServerUtils.CopyToItemData(armor, _info.armor);
-			ServerUtils.CopyToItemData(dye, _info.dye);
-			ServerUtils.CopyToItemData(miscEquips, _info.miscEquips);
-			ServerUtils.CopyToItemData(miscDye, _info.miscDye);
-			ServerUtils.CopyToItemData(bank.item, _info.bank);
+			ServerUtils.CopyToItemData(MainSaving.inventory, _info.inventory);
+			ServerUtils.CopyToItemData(MainSaving.armor, _info.armor);
+			ServerUtils.CopyToItemData(MainSaving.dye, _info.dye);
+			ServerUtils.CopyToItemData(MainSaving.miscEquips, _info.miscEquips);
+			ServerUtils.CopyToItemData(MainSaving.miscDye, _info.miscDye);
+			ServerUtils.CopyToItemData(MainSaving.bank.item, _info.bank);
 			//ServerUtils.CopyToItemData(bank2.item, _info.bank2);
 			//ServerUtils.CopyToItemData(bank3.item, _info.bank3);
 
@@ -420,17 +452,17 @@ namespace ServerSideCharacter2
 		{
 			if (PrototypePlayer != null && PrototypePlayer.active && ConnectionAlive)
 			{
-				PrototypePlayer.statLifeMax = LifeMax;
-				PrototypePlayer.statLife = StatLife;
-				PrototypePlayer.statMana = StatMana;
-				PrototypePlayer.statManaMax = ManaMax;
+				PrototypePlayer.statLifeMax2 = currentSaving.LifeMax;
+				PrototypePlayer.statLife = currentSaving.StatLife;
+				PrototypePlayer.statMana = currentSaving.StatMana;
+				PrototypePlayer.statManaMax2 = currentSaving.ManaMax;
 
-				inventory.CopyTo(PrototypePlayer.inventory, 0);
-				armor.CopyTo(PrototypePlayer.armor, 0);
-				miscEquips.CopyTo(PrototypePlayer.miscEquips, 0);
-				dye.CopyTo(PrototypePlayer.dye, 0);
-				miscDye.CopyTo(PrototypePlayer.miscDyes, 0);
-				bank.item.CopyTo(PrototypePlayer.bank.item, 0);
+				currentSaving.inventory.CopyTo(PrototypePlayer.inventory, 0);
+				currentSaving.armor.CopyTo(PrototypePlayer.armor, 0);
+				currentSaving.miscEquips.CopyTo(PrototypePlayer.miscEquips, 0);
+				currentSaving.dye.CopyTo(PrototypePlayer.dye, 0);
+				currentSaving.miscDye.CopyTo(PrototypePlayer.miscDyes, 0);
+				currentSaving.bank.item.CopyTo(PrototypePlayer.bank.item, 0);
 				foreach(var item in PrototypePlayer.bank2.item)
 				{
 					item.SetDefaults(0);
