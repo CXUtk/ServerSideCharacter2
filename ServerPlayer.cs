@@ -583,7 +583,7 @@ namespace ServerSideCharacter2
 			}
 		}
 
-		public void ChangeRank(int rank)
+		public void IncreaseRank(int rank)
 		{
 			var type = Ranking.GetRankType(_info.Rank);
 			var range = Ranking.GetRankRange(type);

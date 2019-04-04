@@ -61,7 +61,7 @@ namespace ServerSideCharacter2.Commands
 				try
 				{
 					var rank = Convert.ToInt32(args[1]);
-					player.ChangeRank(rank - player.Rank);
+					player.IncreaseRank(rank - player.Rank);
 					player.SendInfoMessage($"系统将你的排位积分设为了 {rank}");
 					CommandBoardcast.ConsoleMessage($"成功设置玩家 {player.Name} 的段位分数为 {rank}");
 				}

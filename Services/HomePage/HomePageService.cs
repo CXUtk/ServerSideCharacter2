@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ServerSideCharacter2.GUI;
+using ServerSideCharacter2.GUI.UI;
 using Terraria;
 using Terraria.UI;
 
@@ -35,7 +36,7 @@ namespace ServerSideCharacter2.Services.HomePage
 			ServerSideCharacter2.Instance.ChangeState(SSCUIState.HomePage);
 			if (ServerSideCharacter2.GuiManager.IsActive(SSCUIState.HomePage))
 			{
-				ServerSideCharacter2.GuiManager.RefreshFriends();
+				HomePageState.Instance.RefreshFriends();
 			}
 		}
 	}

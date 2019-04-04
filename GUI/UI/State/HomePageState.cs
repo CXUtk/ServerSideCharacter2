@@ -165,33 +165,20 @@ namespace ServerSideCharacter2.GUI.UI
 			uIPlayerProfileHead.SetPlayer(info);
 		}
 
-		
 
-		//public void RefreshFriends()
-		//{
-		//	//uIFriendBars.Clear();
-		//	//_friendList.Clear();
 
-		//	if (Main.netMode == 1)
-		//	{
-		//		MessageSender.SendGetFriends();
-		//	}
-		//	else
-		//	{
-		//		for (var i = 0; i < 20; i++)
-		//		{
-		//			var testinfo = new JsonData.SimplifiedPlayerInfo
-		//			{
-		//				Name = ServerUtils.RandomGenString()
-		//			};
-		//			var bar = new UIFriendBar(testinfo);
-		//			uIFriendBars.Add(bar);
-		//			_friendList.Add(bar);
-		//		}
-		//	}
-		//	_relaxTimer = 180;
-		//	_rotation = 0f;
-		//}
+		public void RefreshFriends()
+		{
+			//uIFriendBars.Clear();
+			//_friendList.Clear();
+
+			if (Main.netMode == 1)
+			{
+				MessageSender.SendGetFriends();
+			}
+			_relaxTimer = 180;
+			_rotation = 0f;
+		}
 
 		public override void Update(GameTime gameTime)
 		{

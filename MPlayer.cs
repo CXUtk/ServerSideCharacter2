@@ -200,8 +200,8 @@ namespace ServerSideCharacter2
 					}
 					winplayer.KillCount++;
 					var changes = Ranking.ComputeRank(winplayer, loseplayer);
-					winplayer.ChangeRank(changes.Item1);
-					loseplayer.ChangeRank(changes.Item2);
+					winplayer.IncreaseRank(changes.Item1);
+					loseplayer.IncreaseRank(changes.Item2);
 
 					var winmsg = $"你击杀了 {loseplayer.Name} 并且获得 {changes.Item1} 点积分";
 					MessageSender.SendInfoMessage(winplayer.PrototypePlayer.whoAmI, winmsg, Color.LimeGreen);
