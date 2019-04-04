@@ -220,6 +220,7 @@
     <Compile Include="ServerPlayer.cs" />
     <Compile Include="ServerSideCharacter2.cs" />
     <Compile Include="Services\FriendSystem\CommunicationService.cs" />
+    <Compile Include="Services\Login\QQAuth.cs" />
     <Compile Include="Services\Matches\JoinMatchHandler.cs" />
     <Compile Include="Services\Matches\NewMatchHandler.cs" />
     <Compile Include="Services\Misc\KickHandler.cs" />
