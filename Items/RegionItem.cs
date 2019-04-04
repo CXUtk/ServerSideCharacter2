@@ -36,7 +36,6 @@ namespace ServerSideCharacter2.Items
 		}
 		public override bool UseItem(Player player)
 		{
-			// Main.dayTime ^= true;
 			if (player.altFunctionUse != 2 && Main.mouseLeftRelease)
 			{
 				var tilePos = new Point(Player.tileTargetX, Player.tileTargetY);

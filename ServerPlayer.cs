@@ -306,7 +306,7 @@ namespace ServerSideCharacter2
 			ShouldSyncDocument = true;
 			MainSaving = new PlayerSaving("Main");
 			currentSaving = MainSaving;
-			OnAppendSaving(_playerSavingList);
+			OnAppendSaving?.Invoke(_playerSavingList);
 			//for (int i = 0; i < bank2.item.Length; i++)
 			//{
 			//	bank2.item[i] = new Item();
