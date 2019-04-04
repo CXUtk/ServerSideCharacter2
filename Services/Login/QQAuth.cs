@@ -139,7 +139,7 @@ namespace ServerSideCharacter2.Services.Login
                             _mycon.Open();
                             MySqlCommand _cmd = new MySqlCommand("set names utf8", _mycon);
                             _cmd.CommandType = System.Data.CommandType.Text;
-                            _cmd.CommandText = "insert into users set qq = @QQ , username = @UserName";
+                            _cmd.CommandText = "insert into users set qq = @QQ , username = @UserName , ban = 0";
                             _cmd.Parameters.AddWithValue("@QQ", QQ);
                             _cmd.Parameters.AddWithValue("@UserName", serverPlayer.Name);
                             _cmd.ExecuteNonQuery();
