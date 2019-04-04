@@ -194,8 +194,9 @@ namespace ServerSideCharacter2.Services.Login
                 mycon.Open();
                 MySqlCommand cmd = new MySqlCommand("set names utf8", mycon);
                 cmd.CommandType = System.Data.CommandType.Text;
-                cmd.CommandText = "update users set ban = 1 , banreason = @BanReason where username = @UserName";
+                cmd.CommandText = "update users set ban = 1 , banner = @Banner , banreason = @BanReason where username = @UserName";
                 cmd.Parameters.AddWithValue("@UserName", banPlayer.Name);
+                cmd.Parameters.AddWithValue("@Banner", serverPlayer.Name);
                 cmd.Parameters.AddWithValue("@BanReason", banReason);
                 cmd.Cancel();
                 mycon.Close();
