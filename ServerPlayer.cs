@@ -210,7 +210,7 @@ namespace ServerSideCharacter2
 			get;set;
 		}
 
-		internal void SetCurRegion(Region reg)
+		public void SetCurRegion(Region reg)
 		{
 			if(reg == null)
 			{
