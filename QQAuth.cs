@@ -26,6 +26,8 @@ namespace ServerSideCharacter2
         public string Banner = "";
         public string BanReason = "";
         public string ErrorLog = "";
+        public string CustomChatPrefix = "";
+
         // 初始化
         /// <summary>
 		/// 创建一个QQ验证实例
@@ -111,7 +113,7 @@ namespace ServerSideCharacter2
                 mycon.Open();
                 MySqlCommand cmd = new MySqlCommand("set names utf8", mycon);
                 cmd.CommandType = System.Data.CommandType.Text;
-                cmd.CommandText = "select qq,openid,ban,banner,banreason from users where username = @UserName";
+                cmd.CommandText = "select qq,openid,ban,banner,banreason,customchatprefix from users where username = @UserName";
                 cmd.Parameters.AddWithValue("@UserName", CharacterName);
                 MySqlDataReader mdr = cmd.ExecuteReader();
                 if (mdr.Read())
@@ -121,6 +123,7 @@ namespace ServerSideCharacter2
                     Ban = mdr["ban"].ToString();
                     Banner = mdr["banner"].ToString();
                     BanReason = mdr["banreason"].ToString();
+                    CustomChatPrefix = mdr["customchatprefix"].ToString();
                 }
                 mdr.Close();
                 cmd.Cancel();

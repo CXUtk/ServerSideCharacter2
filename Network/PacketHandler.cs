@@ -64,11 +64,12 @@ namespace ServerSideCharacter2.Network
 						return true;
 					}
 					var text = msg.Text;/*$"<{splayer.Group.ChatPrefix}>{Main.player[(int)playernumber].name}: {msg.Text}";*/
-					//NetPacket packet = NetTextModule.SerializeServerMessage(NetworkText.FromLiteral(text),
-					//	splayer.Group.ChatColor, (byte)playernumber);
-					//NetManager.Instance.Broadcast(packet, -1);
-					MessageSender.SendChatMessageToClient(playernumber, Main.player[(int)playernumber].name, msg.Text, splayer.Group);
-					Console.WriteLine($"{splayer.Name} : {text}");
+                                        //NetPacket packet = NetTextModule.SerializeServerMessage(NetworkText.FromLiteral(text),
+                                        //	splayer.Group.ChatColor, (byte)playernumber);
+                                        //NetManager.Instance.Broadcast(packet, -1);
+                                        //MessageSender.SendChatMessageToClient(playernumber, Main.player[(int)playernumber].name, msg.Text, splayer.Group);
+                    MessageSender.SendChatMessageToClient(playernumber, Main.player[(int)playernumber].name, msg.Text, splayer.Group, splayer.qqAuth.CustomChatPrefix);
+                    Console.WriteLine($"{splayer.Name} : {text}");
 					return true;
 				}
 			}

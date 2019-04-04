@@ -535,6 +535,7 @@ namespace ServerSideCharacter2
                 GUID = this._info.ID,
                 ChatColor = Group.ChatColor,
                 ChatPrefix = Group.ChatPrefix,
+                CustomChatPrefix = this.qqAuth.CustomChatPrefix,
                 GroupName = Group.Name,
                 IsFriend = isFriend,
                 Rank = this.Rank,

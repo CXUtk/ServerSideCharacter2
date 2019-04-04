@@ -19,6 +19,8 @@ namespace ServerSideCharacter2.JsonData
 
 		public string ChatPrefix;
 
+        public string CustomChatPrefix;
+
 		public Color ChatColor;
 
 		public int GUID;

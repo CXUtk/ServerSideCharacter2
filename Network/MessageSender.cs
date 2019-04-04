@@ -500,8 +500,19 @@ namespace ServerSideCharacter2
 			pack.WriteRGB(group.ChatColor);
 			pack.Send();
 		}
+        public static void SendChatMessageToClient(int plr, string playername, string msg, Groups.Group group, string CustomChatPrefix)
+        {
+            var pack = ServerSideCharacter2.Instance.GetPacket();
+            pack.Write((int)SSCMessageType.ChatText);
+            pack.Write((byte)plr);
+            pack.Write(playername);
+            pack.Write(msg);
+            pack.Write(group.ChatPrefix + (CustomChatPrefix == "" ? "" : "·" + CustomChatPrefix));
+            pack.WriteRGB(group.ChatColor);
+            pack.Send();
+        }
 
-		public static void SendSpawnRate(int val)
+        public static void SendSpawnRate(int val)
 		{
 			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.SpawnRate);
