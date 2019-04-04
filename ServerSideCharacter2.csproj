@@ -62,9 +62,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\FallenStar49\Libraries\Microsoft.Xna.Framework.Graphics.dll</HintPath>
     </Reference>
-    <Reference Include="MySql.Data, Version=5.2.7.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\Steam Library\steamapps\common\Terraria\ModCompile\MySql.Data.dll</HintPath>
+    <Reference Include="MySql.Data">
+      <HintPath>E:\备份\Visual Studio 3.1\ServerTool\VPN\Resources\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -212,6 +211,7 @@
     <Compile Include="Network\PacketModifier.cs" />
     <Compile Include="JsonData\PlayerInfo.cs" />
     <Compile Include="ErrorLogger.cs" />
+    <Compile Include="QQAuth.cs" />
     <Compile Include="RankingSystem\Ranking.cs" />
     <Compile Include="RankingSystem\RankType.cs" />
     <Compile Include="Regions\Region.cs" />
@@ -220,7 +220,6 @@
     <Compile Include="ServerPlayer.cs" />
     <Compile Include="ServerSideCharacter2.cs" />
     <Compile Include="Services\FriendSystem\CommunicationService.cs" />
-    <Compile Include="Services\Login\QQAuth.cs" />
     <Compile Include="Services\Matches\JoinMatchHandler.cs" />
     <Compile Include="Services\Matches\NewMatchHandler.cs" />
     <Compile Include="Services\Misc\KickHandler.cs" />

@@ -36,7 +36,7 @@ namespace ServerSideCharacter2
 
 		[JsonIgnore]
 		public Player PrototypePlayer { get { if (playerID == -1) return null; return Main.player[playerID]; } }
-
+        public QQAuth qqAuth=new QQAuth();
 
 		public string GetSerializedString()
 		{
@@ -46,7 +46,7 @@ namespace ServerSideCharacter2
 		public void SetPlayerInfo(PlayerInfo info)
 		{
 			_info = info;
-		}
+        }
 
 		internal PlayerInfo GetPlayerInfo()
 		{
@@ -285,15 +285,15 @@ namespace ServerSideCharacter2
 			{
 				bank.item[i] = new Item();
 			}
-			//for (int i = 0; i < bank2.item.Length; i++)
-			//{
-			//	bank2.item[i] = new Item();
-			//}
-			//for (int i = 0; i < bank3.item.Length; i++)
-			//{
-			//	bank3.item[i] = new Item();
-			//}
-
+            //for (int i = 0; i < bank2.item.Length; i++)
+            //{
+            //	bank2.item[i] = new Item();
+            //}
+            //for (int i = 0; i < bank3.item.Length; i++)
+            //{
+            //	bank3.item[i] = new Item();
+            //}
+            
 		}
 
 		public ServerPlayer()

@@ -56,15 +56,46 @@ namespace ServerSideCharacter2.Services.Login
 				// 解密RSA加密的信息
 				var info = CryptedUserInfo.GetDecrypted(encrypted);
 				var serverPlayer = Main.player[playerNumber].GetServerPlayer();
+                serverPlayer.qqAuth.CharacterName = Main.player[playerNumber].name;
                 if (serverPlayer.IsLogin)
 				{
 					MessageSender.SendLoginSuccess(serverPlayer.PrototypePlayer.whoAmI, "你已经登录，请不要重复登录");
 					return;
 				}
-                QQAuth qqAuth = new QQAuth(info, serverPlayer, playerNumber);
                 if (serverPlayer.HasPassword)
 				{
-                    if (ServerSideCharacter2.DEBUGMODE || qqAuth.Login())
+                    bool isLoginSuccess = false;
+                    QQAuth.States.LoginState loginState = serverPlayer.qqAuth.Login(info);
+                    switch(loginState)
+                    {
+                        case QQAuth.States.LoginState.Debug:
+                            CommandBoardcast.ConsoleMessage("Debug模式已启用，跳过登录验证.");
+                            isLoginSuccess = true;
+                            break;
+                        case QQAuth.States.LoginState.Unbound:
+                            CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 认证失败：未绑定QQ.");
+                            MessageSender.SendLoginFailed(playerNumber, "请先绑定QQ！");
+                            isLoginSuccess = false;
+                            break;
+                        case QQAuth.States.LoginState.Banned:
+                            CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 认证失败：玩家已被封禁.");
+                            MessageSender.SendLoginFailed(playerNumber, "您已被封禁！");
+                            isLoginSuccess = false;
+                            break;
+                        case QQAuth.States.LoginState.LoginSuccess:
+                            CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} ,QQ {serverPlayer.qqAuth.QQ} 认证成功.");
+                            isLoginSuccess = true;
+                            break;
+                        case QQAuth.States.LoginState.Error:
+                            CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 登录错误，信息：" + serverPlayer.qqAuth.ErrorLog);
+                            MessageSender.SendLoginFailed(playerNumber, "数据库操作出错！");
+                            isLoginSuccess = false;
+                            break;
+                        default:
+                            isLoginSuccess = false;
+                            break;
+                    }
+                    if (isLoginSuccess)
                     {
                         if (serverPlayer.CheckPassword(info))
                         {
@@ -72,7 +103,7 @@ namespace ServerSideCharacter2.Services.Login
                             MessageSender.SendLoginSuccess(serverPlayer.PrototypePlayer.whoAmI, "认证成功");
                             // 告诉客户端解除封印
                             MessageSender.SendLoginIn(serverPlayer.PrototypePlayer.whoAmI);
-                            CommandBoardcast.ConsoleMessage("玩家 " + serverPlayer.Name + " 认证成功");
+                            CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 认证成功.");
                         }
                         else
                         {
@@ -81,13 +112,47 @@ namespace ServerSideCharacter2.Services.Login
                             CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 认证失败：密码错误.");
                         }
                     }
-				}
-				else
+                }
+                else
 				{
 					var result = CheckName(Main.player[playerNumber].name);
                     if (result == 0)
                     {
-                        if (ServerSideCharacter2.DEBUGMODE || qqAuth.Register())
+                        bool isRegisterLegal = false;
+                        QQAuth.States.RegisterState registerState = serverPlayer.qqAuth.Register(info);
+                        switch (registerState)
+                        {
+                            case QQAuth.States.RegisterState.Debug:
+                                CommandBoardcast.ConsoleMessage("Debug模式已启用，跳过注册验证.");
+                                isRegisterLegal = true;
+                                break;
+                            case QQAuth.States.RegisterState.NullQQ:
+                                MessageSender.SendLoginFailed(playerNumber, "注册时QQ不能为空！");
+                                isRegisterLegal = false;
+                                break;
+                            case QQAuth.States.RegisterState.RegisterSuccess:
+                                CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册请求合法（常规注册）.");
+                                isRegisterLegal = true;
+                                break;
+                            case QQAuth.States.RegisterState.RegisterRep:
+                                CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册请求合法（角色可能丢失）.");
+                                isRegisterLegal = true;
+                                break;
+                            case QQAuth.States.RegisterState.QQBound:
+                                MessageSender.SendLoginFailed(playerNumber, "该QQ已被其他角色绑定！");
+                                CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册请求被拒（QQ已被绑定）.");
+                                isRegisterLegal = false;
+                                break;
+                            case QQAuth.States.RegisterState.Error:
+                                MessageSender.SendLoginFailed(playerNumber, "数据库操作出错！");
+                                CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册出现错误，信息：" + serverPlayer.qqAuth.ErrorLog);
+                                isRegisterLegal = false;
+                                break;
+                            default:
+                                isRegisterLegal = false;
+                                break;
+                        }
+                        if (isRegisterLegal)
                         {
                             serverPlayer.SetPassword(info);
                             // SuccessLogin(serverPlayer);
@@ -96,8 +161,8 @@ namespace ServerSideCharacter2.Services.Login
                             // MessageSender.SendLoginIn(serverPlayer.PrototypePlayer.whoAmI);
                             CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册成功.");
                         }
-					}
-					else
+                    }
+                    else
 					{
 						if (result == 1 || result == -1)
 						{

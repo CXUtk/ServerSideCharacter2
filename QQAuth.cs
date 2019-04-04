@@ -2,6 +2,7 @@
 using MySql.Data.MySqlClient;
 using ServerSideCharacter2.Core;
 using ServerSideCharacter2.Crypto;
+using ServerSideCharacter2.JsonData;
 using ServerSideCharacter2.Utils;
 using System;
 using System.Collections.Generic;
@@ -12,43 +13,98 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 
-namespace ServerSideCharacter2.Services.Login
+namespace ServerSideCharacter2
 {
     public class QQAuth
     {
         // 成员
         private static string _constr = "server=localhost;User Id=mysqlserver;Password=258741369;Database=steamcityqqauth";
-        private CryptedUserInfo info = new CryptedUserInfo();
-        private ServerPlayer serverPlayer = new ServerPlayer();
-        private int playerNumber;
-
+        public string CharacterName = "";
+        public string QQ = "";
+        public string OpenID = "";
+        public string Ban = "";
+        public string Banner = "";
+        public string BanReason = "";
+        public string ErrorLog = "";
         // 初始化
         /// <summary>
 		/// 创建一个QQ验证实例
 		/// </summary>
-		/// <param name="info">用户信息</param>
-        /// <param name="serverPlayer">角色信息</param>
-        /// <param name="playerNumber">角色编号</param>
-		/// <returns></returns>
-        public QQAuth(CryptedUserInfo info, ServerPlayer serverPlayer, int playerNumber)
+        public QQAuth()
+        { }
+
+        // 类
+        /// <summary>
+        /// 验证状态
+        /// </summary>
+        public class States
         {
-            this.info = info;
-            this.serverPlayer = serverPlayer;
-            this.playerNumber = playerNumber;
+            /// <summary>
+            /// 登录验证状态
+            /// </summary>
+            public enum LoginState : byte
+            {
+                /// <summary>
+                /// 登录验证成功
+                /// </summary>
+                LoginSuccess,
+                /// <summary>
+                /// 用户未绑定QQ
+                /// </summary>
+                Unbound,
+                /// <summary>
+                /// 用户被封禁
+                /// </summary>
+                Banned,
+                /// <summary>
+                /// 数据库操作出错
+                /// </summary>
+                Error,
+                /// <summary>
+                /// Debug模式
+                /// </summary>
+                Debug
+            }
+            /// <summary>
+            /// 注册验证状态
+            /// </summary>
+            public enum RegisterState : byte
+            {
+                /// <summary>
+                /// 注册验证成功
+                /// </summary>
+                RegisterSuccess,
+                /// <summary>
+                /// 重复注册
+                /// </summary>
+                RegisterRep,
+                /// <summary>
+                /// QQ为空
+                /// </summary>
+                NullQQ,
+                /// <summary>
+                /// QQ已被绑定
+                /// </summary>
+                QQBound,
+                /// <summary>
+                /// 数据库操作出错
+                /// </summary>
+                Error,
+                /// <summary>
+                /// Debug模式
+                /// </summary>
+                Debug
+            }
         }
 
         // 方法
         /// <summary>
 		/// 登录验证
 		/// </summary>
-		/// <returns>登录成功返回true，登录失败返回false</returns>
-        public bool Login()
+        public States.LoginState Login(CryptedUserInfo info)
         {
-            string QQ = "";
-            string OpenID = "";
-            string Ban = "";
-            //string Banner = "";
-            //string BanReason = "";
+            if(ServerSideCharacter2.DEBUGMODE)
+            { return States.LoginState.Debug; }
             try
             {
                 MySqlConnection mycon = new MySqlConnection(_constr);
@@ -56,61 +112,52 @@ namespace ServerSideCharacter2.Services.Login
                 MySqlCommand cmd = new MySqlCommand("set names utf8", mycon);
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.CommandText = "select qq,openid,ban,banner,banreason from users where username = @UserName";
-                cmd.Parameters.AddWithValue("@UserName", serverPlayer.Name);
+                cmd.Parameters.AddWithValue("@UserName", CharacterName);
                 MySqlDataReader mdr = cmd.ExecuteReader();
                 if (mdr.Read())
                 {
                     QQ = mdr["qq"].ToString();
                     OpenID = mdr["openid"].ToString();
                     Ban = mdr["ban"].ToString();
-                    //Banner = mdr["banner"].ToString();
-                    //BanReason = mdr["banreason"].ToString();
+                    Banner = mdr["banner"].ToString();
+                    BanReason = mdr["banreason"].ToString();
                 }
                 mdr.Close();
                 cmd.Cancel();
                 mycon.Close();
                 if (QQ == "" || OpenID == "")
                 {
-                    // 用户未绑定QQ
-                    CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 认证失败：未绑定QQ.");
-                    MessageSender.SendLoginFailed(playerNumber, "请先绑定QQ！");
-                    return false;
+                    return States.LoginState.Unbound;
                 }
                 else if (Ban != "0")
                 {
-                    // 用户被封禁
-                    CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 认证失败：玩家已被封禁.");
-                    MessageSender.SendLoginFailed(playerNumber, "您已被封禁！");
-                    return false;
+                    return States.LoginState.Banned;
                 }
                 else
                 {
-                    // 用户已绑定QQ
                     info.UserName = QQ;
                     info.OpenID = OpenID;
-                    return true;
+                    return States.LoginState.LoginSuccess;
                 }
             }
             catch (Exception ex)
             {
-                // 程序出错
-                MessageSender.SendLoginFailed(playerNumber, "数据库操作出错！");
-                CommandBoardcast.ConsoleMessage("QQ验证模块 登录验证 出现错误，信息：" + ex.Message);
-                return false;
+                ErrorLog = ex.Message;
+                return States.LoginState.Error;
             }
         }
         /// <summary>
 		/// 用户注册
 		/// </summary>
-		/// <returns>注册成功返回true，注册失败返回false</returns>
-        public bool Register()
+        public States.RegisterState Register(CryptedUserInfo info)
         {
-            string QQ = info.UserName;
+            if (ServerSideCharacter2.DEBUGMODE)
+            { return States.RegisterState.Debug; }
+            QQ = info.UserName;
             string UserName = "";
             if (QQ == "")
             {
-                MessageSender.SendLoginFailed(playerNumber, "注册时QQ不能为空！");
-                return false;
+                return States.RegisterState.NullQQ;
             }
             else
             {
@@ -132,7 +179,6 @@ namespace ServerSideCharacter2.Services.Login
                     mycon.Close();
                     if (UserName == "")
                     {
-                        // QQ未绑定到角色，允许注册
                         try
                         {
                             MySqlConnection _mycon = new MySqlConnection(_constr);
@@ -141,41 +187,31 @@ namespace ServerSideCharacter2.Services.Login
                             _cmd.CommandType = System.Data.CommandType.Text;
                             _cmd.CommandText = "insert into users set qq = @QQ , username = @UserName , ban = 0";
                             _cmd.Parameters.AddWithValue("@QQ", QQ);
-                            _cmd.Parameters.AddWithValue("@UserName", serverPlayer.Name);
+                            _cmd.Parameters.AddWithValue("@UserName", CharacterName);
                             _cmd.ExecuteNonQuery();
                             _cmd.Cancel();
                             _mycon.Close();
-                            CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册请求合法.");
-                            return true;
+                            return States.RegisterState.RegisterSuccess;
                         }
                         catch (Exception ex)
                         {
-                            // 程序出错
-                            MessageSender.SendLoginFailed(playerNumber, "数据库操作出错！");
-                            CommandBoardcast.ConsoleMessage("QQ验证模块 用户注册 出现错误，信息：" + ex.Message);
-                            return false;
+                            ErrorLog = ex.Message;
+                            return States.RegisterState.Error;
                         }
                     }
-                    else if (UserName == serverPlayer.Name)
+                    else if (UserName == CharacterName)
                     {
-                        // QQ已被自己绑定，允许注册
-                        CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册请求合法（角色可能丢失）.");
-                        return true;
+                        return States.RegisterState.RegisterRep;
                     }
                     else
                     {
-                        // QQ已被其他角色绑定，禁止注册
-                        MessageSender.SendLoginFailed(playerNumber, "该QQ已被其他角色绑定！");
-                        CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册请求被拒.");
-                        return false;
+                        return States.RegisterState.QQBound;
                     }
                 }
                 catch (Exception ex)
                 {
-                    // 程序出错
-                    MessageSender.SendLoginFailed(playerNumber, "数据库操作出错！");
-                    CommandBoardcast.ConsoleMessage("QQ验证模块 注册验证 出现错误，信息：" + ex.Message);
-                    return false;
+                    ErrorLog = ex.Message;
+                    return States.RegisterState.Error;
                 }
             }
         }
@@ -185,9 +221,8 @@ namespace ServerSideCharacter2.Services.Login
         /// <param name="banPlayer">封禁的用户</param>
         /// <param name="banReason">封禁的原因</param>
 		/// <returns>封禁成功返回true，封禁失败返回false</returns>
-        public bool Ban(ServerPlayer banPlayer, string banReason)
+        public bool BanPlayer(ServerPlayer banPlayer, string banReason)
         {
-            // serverPlayer是封禁操作者
             try
             {
                 MySqlConnection mycon = new MySqlConnection(_constr);
@@ -196,20 +231,18 @@ namespace ServerSideCharacter2.Services.Login
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.CommandText = "update users set ban = 1 , banner = @Banner , banreason = @BanReason where username = @UserName";
                 cmd.Parameters.AddWithValue("@UserName", banPlayer.Name);
-                cmd.Parameters.AddWithValue("@Banner", serverPlayer.Name);
+                cmd.Parameters.AddWithValue("@Banner", CharacterName);
                 cmd.Parameters.AddWithValue("@BanReason", banReason);
                 cmd.Cancel();
                 mycon.Close();
-                CommandBoardcast.ConsoleMessage($"{serverPlayer.Name} 封禁玩家 {banPlayer.Name} 成功.");
                 return true;
             }
             catch (Exception ex)
             {
-                // 程序出错
-                CommandBoardcast.ConsoleMessage("QQ验证模块 封禁用户 出现错误，信息：" + ex.Message);
+                ErrorLog = ex.Message;
                 return false;
             }
         }
-
+        
     }
 }
