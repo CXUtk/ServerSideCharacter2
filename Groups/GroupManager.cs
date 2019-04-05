@@ -67,7 +67,6 @@ namespace ServerSideCharacter2.Groups
 			admin.AddPermission("region-share");
 			admin.AddPermission("clear");
 			admin.AddPermission("match-new");
-            admin.AddPermission("set-pfx");
 			var superAdmin = new Group("superadmin")
 			{
 				ChatColor = Color.Cyan,
