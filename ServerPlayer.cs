@@ -427,27 +427,30 @@ namespace ServerSideCharacter2
 
 		public void SyncPlayerToInfo()
 		{
-			if (currentSaving != MainSaving || !IsLogin) return;
+			if (/*currentSaving != MainSaving ||*/ !IsLogin) return;
 			if (PrototypePlayer == null || !PrototypePlayer.active) return;
-			MainSaving.LifeMax = PrototypePlayer.statLifeMax;
-			MainSaving.StatLife = PrototypePlayer.statLife;
-			MainSaving.StatMana = PrototypePlayer.statMana;
-			MainSaving.ManaMax = PrototypePlayer.statManaMax;
-			MainSaving.inventory = PrototypePlayer.inventory;
-			MainSaving.armor = PrototypePlayer.armor;
-			MainSaving.dye = PrototypePlayer.dye;
-			MainSaving.miscEquips = PrototypePlayer.miscEquips;
-			MainSaving.miscDye = PrototypePlayer.miscDyes;
-			MainSaving.bank = PrototypePlayer.bank;
+			currentSaving.LifeMax = PrototypePlayer.statLifeMax;
+			currentSaving.StatLife = PrototypePlayer.statLife;
+			currentSaving.StatMana = PrototypePlayer.statMana;
+			currentSaving.ManaMax = PrototypePlayer.statManaMax;
+			currentSaving.inventory = PrototypePlayer.inventory;
+			currentSaving.armor = PrototypePlayer.armor;
+			currentSaving.dye = PrototypePlayer.dye;
+			currentSaving.miscEquips = PrototypePlayer.miscEquips;
+			currentSaving.miscDye = PrototypePlayer.miscDyes;
+			currentSaving.bank = PrototypePlayer.bank;
 			//bank2 = PrototypePlayer.bank2;
 			//bank3 = PrototypePlayer.bank3;
 
-			ServerUtils.CopyToItemData(MainSaving.inventory, _info.inventory);
-			ServerUtils.CopyToItemData(MainSaving.armor, _info.armor);
-			ServerUtils.CopyToItemData(MainSaving.dye, _info.dye);
-			ServerUtils.CopyToItemData(MainSaving.miscEquips, _info.miscEquips);
-			ServerUtils.CopyToItemData(MainSaving.miscDye, _info.miscDye);
-			ServerUtils.CopyToItemData(MainSaving.bank.item, _info.bank);
+			if (currentSaving == MainSaving)
+			{
+				ServerUtils.CopyToItemData(MainSaving.inventory, _info.inventory);
+				ServerUtils.CopyToItemData(MainSaving.armor, _info.armor);
+				ServerUtils.CopyToItemData(MainSaving.dye, _info.dye);
+				ServerUtils.CopyToItemData(MainSaving.miscEquips, _info.miscEquips);
+				ServerUtils.CopyToItemData(MainSaving.miscDye, _info.miscDye);
+				ServerUtils.CopyToItemData(MainSaving.bank.item, _info.bank);
+			}
 			//ServerUtils.CopyToItemData(bank2.item, _info.bank2);
 			//ServerUtils.CopyToItemData(bank3.item, _info.bank3);
 
