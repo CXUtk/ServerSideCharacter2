@@ -237,7 +237,7 @@ namespace ServerSideCharacter2
                         {
                             MySqlManager _dbm = new MySqlManager();
                             _dbm.Connect();
-                            MySqlCommand _cmd = dbm.command;
+                            MySqlCommand _cmd = _dbm.command;
                             _cmd.CommandText = "insert into users set qq = @QQ , username = @UserName , ban = 0";
                             _cmd.Parameters.AddWithValue("@QQ", QQ);
                             _cmd.Parameters.AddWithValue("@UserName", CharacterName);
