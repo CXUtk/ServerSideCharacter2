@@ -98,6 +98,60 @@ namespace ServerSideCharacter2
                 /// </summary>
                 Debug
             }
+
+        }
+        public class MySqlManager
+        {
+            public MySqlCommand command;
+            public static MySqlConnection connection;
+            public string connectionstr { get { return _constr; } }
+
+            public void Connect()
+            {
+                try
+                {
+                    if (connection == null)
+                    {
+                        connection = new MySqlConnection(connectionstr);
+                        connection.Open();
+                    }
+                    command = new MySqlCommand("set names utf8", connection)
+                    {
+                        CommandType = System.Data.CommandType.Text,
+                    };
+                }
+                catch
+                { Reconnect(); }
+            }
+            public void Reconnect()
+            {
+                try
+                {
+                    Disconnect();
+                    connection = new MySqlConnection(connectionstr);
+                    connection.Open();
+                    command = new MySqlCommand("set names utf8", connection)
+                    {
+                        CommandType = System.Data.CommandType.Text,
+                    };
+                }
+                catch(Exception)
+                { throw; }
+            }
+            public void Disconnect()
+            {
+                if (command != null)
+                {
+                    command.Cancel();
+                    command.Dispose();
+                }
+                if (connection != null)
+                {
+                    connection.Close();
+                    connection.Dispose();
+                }
+            }
+
         }
 
         // 方法
@@ -110,13 +164,10 @@ namespace ServerSideCharacter2
             { return States.LoginState.Debug; }
             try
             {
-                MySqlConnection mycon = new MySqlConnection(_constr);
-                mycon.Open();
-				MySqlCommand cmd = new MySqlCommand("set names utf8", mycon)
-				{
-					CommandType = System.Data.CommandType.Text,
-					CommandText = "select qq,openid,ban,banner,banreason,customchatprefix from users where username = @UserName"
-				};
+                MySqlManager dbm = new MySqlManager();
+                dbm.Connect();
+                MySqlCommand cmd = dbm.command;
+                cmd.CommandText = "select qq,openid,ban,banner,banreason,customchatprefix from users where username = @UserName";
 				cmd.Parameters.AddWithValue("@UserName", CharacterName);
                 MySqlDataReader mdr = cmd.ExecuteReader();
                 if (mdr.Read())
@@ -130,7 +181,6 @@ namespace ServerSideCharacter2
                 }
                 mdr.Close();
                 cmd.Cancel();
-                mycon.Close();
                 if (QQ == "" || OpenID == "")
                 {
                     return States.LoginState.Unbound;
@@ -169,10 +219,9 @@ namespace ServerSideCharacter2
             {
                 try
                 {
-                    MySqlConnection mycon = new MySqlConnection(_constr);
-                    mycon.Open();
-                    MySqlCommand cmd = new MySqlCommand("set names utf8", mycon);
-                    cmd.CommandType = System.Data.CommandType.Text;
+                    MySqlManager dbm = new MySqlManager();
+                    dbm.Connect();
+                    MySqlCommand cmd = dbm.command;
                     cmd.CommandText = "select username from users where qq = @QQ";
                     cmd.Parameters.AddWithValue("@QQ", QQ);
                     MySqlDataReader mdr = cmd.ExecuteReader();
@@ -182,23 +231,18 @@ namespace ServerSideCharacter2
                     }
                     mdr.Close();
                     cmd.Cancel();
-                    mycon.Close();
                     if (UserName == "")
                     {
                         try
                         {
-                            MySqlConnection _mycon = new MySqlConnection(_constr);
-                            _mycon.Open();
-							MySqlCommand _cmd = new MySqlCommand("set names utf8", _mycon)
-							{
-								CommandType = System.Data.CommandType.Text,
-								CommandText = "insert into users set qq = @QQ , username = @UserName , ban = 0"
-							};
-							_cmd.Parameters.AddWithValue("@QQ", QQ);
+                            MySqlManager _dbm = new MySqlManager();
+                            _dbm.Connect();
+                            MySqlCommand _cmd = dbm.command;
+                            _cmd.CommandText = "insert into users set qq = @QQ , username = @UserName , ban = 0";
+                            _cmd.Parameters.AddWithValue("@QQ", QQ);
                             _cmd.Parameters.AddWithValue("@UserName", CharacterName);
                             _cmd.ExecuteNonQuery();
                             _cmd.Cancel();
-                            _mycon.Close();
                             return States.RegisterState.RegisterSuccess;
                         }
                         catch (Exception ex)
@@ -233,18 +277,14 @@ namespace ServerSideCharacter2
         {
             try
             {
-                MySqlConnection mycon = new MySqlConnection(_constr);
-                mycon.Open();
-				MySqlCommand cmd = new MySqlCommand("set names utf8", mycon)
-				{
-					CommandType = System.Data.CommandType.Text,
-					CommandText = "update users set ban = 1 , banner = @Banner , banreason = @BanReason where username = @UserName"
-				};
+                MySqlManager dbm = new MySqlManager();
+                dbm.Connect();
+                MySqlCommand cmd = dbm.command;
+                cmd.CommandText = "update users set ban = 1 , banner = @Banner , banreason = @BanReason where username = @UserName";
 				cmd.Parameters.AddWithValue("@UserName", banPlayer.Name);
                 cmd.Parameters.AddWithValue("@Banner", CharacterName);
                 cmd.Parameters.AddWithValue("@BanReason", banReason);
                 cmd.Cancel();
-                mycon.Close();
                 return true;
             }
             catch (Exception ex)
@@ -262,17 +302,13 @@ namespace ServerSideCharacter2
         {
             try
             {
-                MySqlConnection mycon = new MySqlConnection(_constr);
-                mycon.Open();
-                MySqlCommand cmd = new MySqlCommand("set names utf8", mycon)
-                {
-                    CommandType = System.Data.CommandType.Text,
-                    CommandText = "update users set ban = 0 , banner = @Banner where username = @UserName"
-                };
+                MySqlManager dbm = new MySqlManager();
+                dbm.Connect();
+                MySqlCommand cmd = dbm.command;
+                cmd.CommandText = "update users set ban = 0 , banner = @Banner where username = @UserName";
                 cmd.Parameters.AddWithValue("@UserName", banPlayer.Name);
                 cmd.Parameters.AddWithValue("@Banner", CharacterName);
                 cmd.Cancel();
-                mycon.Close();
                 return true;
             }
             catch (Exception ex)
@@ -291,17 +327,13 @@ namespace ServerSideCharacter2
         {
             try
             {
-                MySqlConnection mycon = new MySqlConnection(_constr);
-                mycon.Open();
-                MySqlCommand cmd = new MySqlCommand("set names utf8", mycon)
-                {
-                    CommandType = System.Data.CommandType.Text,
-                    CommandText = "update users set customchatprefix = @Prefix where username = @UserName"
-                };
+                MySqlManager dbm = new MySqlManager();
+                dbm.Connect();
+                MySqlCommand cmd = dbm.command;
+                cmd.CommandText = "update users set customchatprefix = @Prefix where username = @UserName";
                 cmd.Parameters.AddWithValue("@UserName", toPlayer.Name);
                 cmd.Parameters.AddWithValue("@Prefix", Prefix);
                 cmd.Cancel();
-                mycon.Close();
                 return true;
             }
             catch (Exception ex)
