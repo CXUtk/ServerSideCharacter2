@@ -25,8 +25,9 @@ namespace ServerSideCharacter2
         public string Ban = "";
         public string Banner = "";
         public string BanReason = "";
-        public string ErrorLog = "";
         public string CustomChatPrefix = "";
+
+        public string ErrorLog = "";
 
         // 初始化
         /// <summary>
@@ -227,7 +228,7 @@ namespace ServerSideCharacter2
 		/// </summary>
         /// <param name="banPlayer">封禁的用户</param>
         /// <param name="banReason">封禁的原因</param>
-		/// <returns>封禁成功返回true，封禁失败返回false</returns>
+		/// <returns>成功返回true，失败返回false</returns>
         public bool BanPlayer(ServerPlayer banPlayer, string banReason)
         {
             try
@@ -252,6 +253,63 @@ namespace ServerSideCharacter2
                 return false;
             }
         }
-        
+        /// <summary>
+		/// 用户解封
+		/// </summary>
+        /// <param name="banPlayer">解封的用户</param>
+		/// <returns>成功返回true，失败返回false</returns>
+        public bool UnbanPlayer(ServerPlayer banPlayer)
+        {
+            try
+            {
+                MySqlConnection mycon = new MySqlConnection(_constr);
+                mycon.Open();
+                MySqlCommand cmd = new MySqlCommand("set names utf8", mycon)
+                {
+                    CommandType = System.Data.CommandType.Text,
+                    CommandText = "update users set ban = 0 , banner = @Banner where username = @UserName"
+                };
+                cmd.Parameters.AddWithValue("@UserName", banPlayer.Name);
+                cmd.Parameters.AddWithValue("@Banner", CharacterName);
+                cmd.Cancel();
+                mycon.Close();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ErrorLog = ex.Message;
+                return false;
+            }
+        }
+        /// <summary>
+        /// 头衔修改
+        /// </summary>
+        /// <param name="toPlayer">修改的用户</param>
+        /// <param name="Prefix">头衔</param>
+        /// <returns>成功返回true，失败返回false</returns>
+        public bool ChangePrefix(ServerPlayer toPlayer, string Prefix)
+        {
+            try
+            {
+                MySqlConnection mycon = new MySqlConnection(_constr);
+                mycon.Open();
+                MySqlCommand cmd = new MySqlCommand("set names utf8", mycon)
+                {
+                    CommandType = System.Data.CommandType.Text,
+                    CommandText = "update users set customchatprefix = @Prefix where username = @UserName"
+                };
+                cmd.Parameters.AddWithValue("@UserName", toPlayer.Name);
+                cmd.Parameters.AddWithValue("@Prefix", Prefix);
+                cmd.Cancel();
+                mycon.Close();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ErrorLog = ex.Message;
+                return false;
+            }
+        }
+
     }
 }
