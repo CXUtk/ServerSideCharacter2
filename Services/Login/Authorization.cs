@@ -104,7 +104,7 @@ namespace ServerSideCharacter2.Services.Login
                         else
                         {
 							// 如果忘记密码就要找管理员重置密码
-							serverPlayer.SendMessageBox("密码错误！", Color.Red);
+							MessageSender.SendLoginFailed(playerNumber, "密码错误！");
                             CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 认证失败：密码错误.");
                         }
                     }

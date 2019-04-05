@@ -85,6 +85,7 @@ namespace ServerSideCharacter2
 
 		private void SyncSavingToClient()
 		{
+			Main.player[playerID].trashItem = new Item();
 			for (var i = 0; i < 59; i++)
 			{
 				NetMessage.SendData(MessageID.SyncEquipment, -1, -1, NetworkText.FromLiteral(Main.player[playerID].inventory[i].Name), playerID, i, Main.player[playerID].inventory[i].prefix, 0f, 0, 0, 0);
