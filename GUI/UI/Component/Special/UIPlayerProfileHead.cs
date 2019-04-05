@@ -103,12 +103,12 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			}
 		}
 
-		public void SetPlayer(SimplifiedPlayerInfo info)
+        public void SetPlayer(SimplifiedPlayerInfo info)
 		{
 			_info = info;
 			infoList.Clear();
-			textName.SetText(info.Name);
-			var type = Ranking.GetRankType(info.Rank);
+            textName.SetText((info.CustomChatPrefix == "" ? "" : "【" + info.CustomChatPrefix + "】") + info.Name);
+            var type = Ranking.GetRankType(info.Rank);
 			var range = Ranking.GetRankRange(type);
 			rankLabel.SetText($"{info.Rank} / {range.Item2}");
 
@@ -127,7 +127,9 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 				var qqNumberText = new UIText($"QQ：{_info.QQNumber}");
 				infoList.Add(qqNumberText);
 			}
-			var playerIDText = new UIText($"玩家ID：{_info.PlayerID}");
+            if (ServerSideCharacter2.MainPlayerGroup.HasPermission("set-pfx"))
+            { textName.OnClick += textName_OnClick; }
+            var playerIDText = new UIText($"玩家ID：{_info.PlayerID}");
 			infoList.Add(playerIDText);
 
 			var killcountText = new UIText($"击杀数：{_info.KillCount}");
@@ -141,6 +143,10 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 
 			var regTimeText = new UIText($"注册时间：{_info.RegistedTime.ToString("g")}");
 			infoList.Add(regTimeText);
+        }
+        private void textName_OnClick(UIMouseEvent evt, UIElement listeningElement)
+        {
+            Main.NewText("暂未完成。");
         }
     }
 }

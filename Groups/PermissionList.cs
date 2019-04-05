@@ -42,7 +42,8 @@ namespace ServerSideCharacter2.Groups
 			AddPermission(new Permission("clear", "玩家可不可以改变领地的PVP模式"));
 			AddPermission(new Permission("match-new", "玩家可不可以把别人变成猪头"));
 			AddPermission(new Permission("match-join", "玩家可不可以把别人变成猪头"));
-		}
+            AddPermission(new Permission("set-pfx", "玩家可不可以更改头衔"));
+        }
 
 		public void AddPermission(Permission permission)
 		{
