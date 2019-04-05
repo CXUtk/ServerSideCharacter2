@@ -417,6 +417,10 @@ namespace ServerSideCharacter2
 			ServerUtils.InfoToItem(_info.miscEquips, MainSaving.miscEquips);
 			ServerUtils.InfoToItem(_info.miscDye, MainSaving.miscDye);
 			ServerUtils.InfoToItem(_info.bank, MainSaving.bank.item);
+			MainSaving.LifeMax = _info.LifeMax;
+			MainSaving.StatLife = _info.StatLife;
+			MainSaving.ManaMax = _info.ManaMax;
+			MainSaving.StatMana = _info.StatMana;
 			//ServerUtils.InfoToItem(_info.bank2, bank2.item);
 			//ServerUtils.InfoToItem(_info.bank3, bank3.item);
 		}
@@ -425,10 +429,10 @@ namespace ServerSideCharacter2
 		{
 			if (currentSaving != MainSaving || !IsLogin) return;
 			if (PrototypePlayer == null || !PrototypePlayer.active) return;
-			MainSaving.LifeMax = PrototypePlayer.statLifeMax2;
+			MainSaving.LifeMax = PrototypePlayer.statLifeMax;
 			MainSaving.StatLife = PrototypePlayer.statLife;
 			MainSaving.StatMana = PrototypePlayer.statMana;
-			MainSaving.ManaMax = PrototypePlayer.statManaMax2;
+			MainSaving.ManaMax = PrototypePlayer.statManaMax;
 			MainSaving.inventory = PrototypePlayer.inventory;
 			MainSaving.armor = PrototypePlayer.armor;
 			MainSaving.dye = PrototypePlayer.dye;
@@ -453,10 +457,10 @@ namespace ServerSideCharacter2
 		{
 			if (PrototypePlayer != null && PrototypePlayer.active && ConnectionAlive)
 			{
-				PrototypePlayer.statLifeMax2 = currentSaving.LifeMax;
+				PrototypePlayer.statLifeMax = currentSaving.LifeMax;
 				PrototypePlayer.statLife = currentSaving.StatLife;
 				PrototypePlayer.statMana = currentSaving.StatMana;
-				PrototypePlayer.statManaMax2 = currentSaving.ManaMax;
+				PrototypePlayer.statManaMax = currentSaving.ManaMax;
 
 				currentSaving.inventory.CopyTo(PrototypePlayer.inventory, 0);
 				currentSaving.armor.CopyTo(PrototypePlayer.armor, 0);
