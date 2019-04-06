@@ -78,6 +78,7 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.JoinMatchCommand, new Services.Matches.JoinMatchHandler() },
 				{SSCMessageType.KillCommand, new Services.Misc.KillHandler() },
 				{SSCMessageType.GetMatches, new Services.Matches.GetMatchesHandler() },
+				{SSCMessageType.SafeTeleport, new SafeTeleportHandler() },
 			};
 		}
 	}

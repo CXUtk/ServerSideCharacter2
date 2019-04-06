@@ -14,6 +14,7 @@ using ServerSideCharacter2.Unions;
 using ServerSideCharacter2.RankingSystem;
 using ServerSideCharacter2.Regions;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 
 namespace ServerSideCharacter2
 {
@@ -425,6 +426,28 @@ namespace ServerSideCharacter2
 			}
 		}
 
+		public void SafeTeleport(Vector2 position)
+		{
+			if (RealPlayer)
+			{
+				var p = PrototypePlayer;
+				p.grappling[0] = -1;
+				p.grapCount = 0;
+				PressurePlateHelper.UpdatePlayerPosition(p);
+				p.position = position;
+				p.fallStart = p.fallStart2 = (int)(p.position.Y / 16f);
+				p.noFallDmg = true;
+				PressurePlateHelper.UpdatePlayerPosition(p);
+				for (int j = 0; j < 3; j++)
+				{
+					p.UpdateSocialShadow();
+				}
+				p.oldPosition = p.position + p.BlehOldPositionFixer;
+
+				MessageSender.SendSafeTeleport(p.whoAmI, position);
+			}
+		}
+
 		public void SyncPlayerFromInfo()
 		{
 			ServerUtils.InfoToItem(_info.inventory, MainSaving.inventory);
@@ -501,6 +524,7 @@ namespace ServerSideCharacter2
 				//bank2.item.CopyTo(PrototypePlayer.bank2.item, 0);
 				//bank3.item.CopyTo(PrototypePlayer.bank3.item, 0);
 			}
+
 		}
 
 		public void ClearAllBuffs()

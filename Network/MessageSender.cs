@@ -167,12 +167,12 @@ namespace ServerSideCharacter2
 			p.Send();
 		}
 
-		public static void SendAuthRequest(int plr, string code)
+		public static void SendSafeTeleport(int plr, Vector2 pos)
 		{
 			var p = ServerSideCharacter2.Instance.GetPacket();
-			p.Write((int)SSCMessageType.RequestAuth);
+			p.Write((int)SSCMessageType.SafeTeleport);
 			p.Write((byte)plr);
-			p.Write(code);
+			p.WriteVector2(pos);
 			p.Send();
 		}
 

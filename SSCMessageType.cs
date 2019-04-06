@@ -9,7 +9,7 @@
 		RequestRegister,
 		RequestSetGroup,
 		RequestItem,
-		RequestAuth,
+		SafeTeleport,
 		ResetPassword,
 		LoginPassword,
 		SendTimeSet,

@@ -93,21 +93,24 @@ namespace ServerSideCharacter2
 		private void UpdateRegion(Player player)
 		{
 			var splayer = player.GetServerPlayer();
-			foreach (var pair in ServerSideCharacter2.RegionManager.Regions)
+			lock (splayer)
 			{
-				var region = pair.Value;
-				var rect = new Rectangle(region.Area.X * 16, region.Area.Y * 16, region.Area.Width * 16, region.Area.Height * 16);
-				if (player.Hitbox.Intersects(rect))
+				foreach (var pair in ServerSideCharacter2.RegionManager.Regions)
 				{
-					if (splayer.InRegion && splayer.CurrentRegion.Equals(region)) return;
-					splayer.SetCurRegion(region);
-					splayer.SendInfoMessage(region.WelcomeInfo());
-					return;
+					var region = pair.Value;
+					var rect = new Rectangle(region.Area.X * 16, region.Area.Y * 16, region.Area.Width * 16, region.Area.Height * 16);
+					if (player.Hitbox.Intersects(rect))
+					{
+						if (splayer.InRegion && splayer.CurrentRegion.Equals(region)) return;
+						splayer.SetCurRegion(region);
+						splayer.SendInfoMessage(region.WelcomeInfo());
+						return;
+					}
 				}
+				splayer.ApplyMainSaving();
+				splayer.SetCurRegion(null);
+				splayer.CheckPVP();
 			}
-			splayer.ApplyMainSaving();
-			splayer.SetCurRegion(null);
-			splayer.CheckPVP();
 		}
 
 		private void Do_Save(object state)
