@@ -191,16 +191,9 @@ namespace ServerSideCharacter2
 
 		public override void HandlePacket(BinaryReader reader, int whoAmI)
 		{
-			try
-			{
-				// 处理自定义消息的地方
-				var type = (SSCMessageType)reader.ReadInt32();
-				_sscPacketHandler.Handle(type, reader, whoAmI);
-			}
-			catch (Exception ex)
-			{
-				CommandBoardcast.ConsoleError(ex);
-			}
+			// 处理自定义消息的地方
+			var type = (SSCMessageType)reader.ReadInt32();
+			_sscPacketHandler.Handle(type, reader, whoAmI);
 		}
 		public override void Unload()
 		{

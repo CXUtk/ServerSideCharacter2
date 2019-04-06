@@ -54,7 +54,7 @@ namespace ServerSideCharacter2
 			{
 				_playerSavingList[name].Reset();
 				currentSaving = _playerSavingList[name];
-				ApplySavingToPlayer();
+				SendInfoMessage("存档已被置换");
 			}
 			else
 			{
@@ -68,23 +68,38 @@ namespace ServerSideCharacter2
 			{
 				SyncPlayerFromInfo();
 				currentSaving = MainSaving;
-				if (RealPlayer && ConnectionAlive)
-				{
-					ApplySavingToPlayer();
-				}
 			}
 		}
 
-		private void ApplySavingToPlayer()
+		public void ApplyMainSaving()
 		{
-			ApplyToPlayer();
-			ClearAllBuffs();
-			SyncSavingToClient();
+			if (currentSaving != MainSaving)
+			{
+				SyncPlayerFromInfo();
+				currentSaving = MainSaving;
+				ApplySavingToPlayer();
+			}
+		}
+
+		public void ApplySavingToPlayer()
+		{
+			if (RealPlayer && ConnectionAlive)
+			{
+				ApplyToPlayer();
+				SyncSavingToClient();
+			}
 		}
 
 
 		private void SyncSavingToClient()
 		{
+			NetMessage.SendData(MessageID.SyncPlayer, -1, -1, NetworkText.FromLiteral(Main.player[playerID].name), playerID, 0f, 0f, 0f, 0, 0, 0);
+			NetMessage.SendData(MessageID.PlayerControls, -1, -1, NetworkText.Empty, playerID, 0f, 0f, 0f, 0, 0, 0);
+			NetMessage.SendData(MessageID.PlayerHealth, -1, -1, NetworkText.Empty, playerID);
+			NetMessage.SendData(MessageID.PlayerPvP, -1, -1, NetworkText.Empty, playerID, 0f, 0f, 0f, 0, 0, 0);
+			NetMessage.SendData(MessageID.PlayerTeam, -1, -1, NetworkText.Empty, playerID, 0f, 0f, 0f, 0, 0, 0);
+			NetMessage.SendData(MessageID.PlayerMana, -1, -1, NetworkText.Empty, playerID);
+			NetMessage.SendData(MessageID.PlayerBuffs, -1, -1, NetworkText.Empty, playerID, 0f, 0f, 0f, 0, 0, 0);
 			Main.player[playerID].trashItem = new Item();
 			for (var i = 0; i < 59; i++)
 			{
@@ -461,18 +476,20 @@ namespace ServerSideCharacter2
 		{
 			if (PrototypePlayer != null && PrototypePlayer.active && ConnectionAlive)
 			{
-				PrototypePlayer.statLifeMax = currentSaving.LifeMax;
-				PrototypePlayer.statLife = currentSaving.StatLife;
-				PrototypePlayer.statMana = currentSaving.StatMana;
-				PrototypePlayer.statManaMax = currentSaving.ManaMax;
-
+				if (!PrototypePlayer.dead)
+				{
+					PrototypePlayer.statLifeMax = currentSaving.LifeMax;
+					PrototypePlayer.statLife = currentSaving.StatLife;
+					PrototypePlayer.statMana = currentSaving.StatMana;
+					PrototypePlayer.statManaMax = currentSaving.ManaMax;
+				}
 				currentSaving.inventory.CopyTo(PrototypePlayer.inventory, 0);
 				currentSaving.armor.CopyTo(PrototypePlayer.armor, 0);
 				currentSaving.miscEquips.CopyTo(PrototypePlayer.miscEquips, 0);
 				currentSaving.dye.CopyTo(PrototypePlayer.dye, 0);
 				currentSaving.miscDye.CopyTo(PrototypePlayer.miscDyes, 0);
 				currentSaving.bank.item.CopyTo(PrototypePlayer.bank.item, 0);
-				foreach(var item in PrototypePlayer.bank2.item)
+				foreach (var item in PrototypePlayer.bank2.item)
 				{
 					item.SetDefaults(0);
 				}
