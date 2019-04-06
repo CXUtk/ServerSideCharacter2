@@ -50,7 +50,6 @@ namespace ServerSideCharacter2
 				player.controlMount = false;
 				player.controlInv = false;
 				player.gravDir = 0f;
-				player.position = player.oldPosition;
 			}
 		}
 
@@ -70,6 +69,10 @@ namespace ServerSideCharacter2
 			{
 				player.statLife = player.statLifeMax2;
 				player.statMana = player.statManaMax2;
+			}
+			if (Locked)
+			{
+				player.position = player.oldPosition;
 			}
 			if(Main.netMode == 2)
 			{

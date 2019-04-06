@@ -105,7 +105,7 @@ namespace ServerSideCharacter2
 					return;
 				}
 			}
-			splayer.UseMainSaving();
+			splayer.ApplyMainSaving();
 			splayer.SetCurRegion(null);
 			splayer.CheckPVP();
 		}
