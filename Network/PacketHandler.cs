@@ -69,7 +69,7 @@ namespace ServerSideCharacter2.Network
                                         //NetManager.Instance.Broadcast(packet, -1);
                                         //MessageSender.SendChatMessageToClient(playernumber, Main.player[(int)playernumber].name, msg.Text, splayer.Group);
                     MessageSender.SendChatMessageToClient(playernumber, Main.player[(int)playernumber].name, msg.Text, splayer.Group, splayer.qqAuth.CustomChatPrefix);
-                    Console.WriteLine($"{splayer.Name} : {text}");
+                    CommandBoardcast.ConsoleNormalText($"<{splayer.Name}> : {text}");
 					return true;
 				}
 			}

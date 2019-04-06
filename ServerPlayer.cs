@@ -478,11 +478,11 @@ namespace ServerSideCharacter2
 			{
 				if (!PrototypePlayer.dead)
 				{
-					PrototypePlayer.statLifeMax = currentSaving.LifeMax;
 					PrototypePlayer.statLife = currentSaving.StatLife;
 					PrototypePlayer.statMana = currentSaving.StatMana;
-					PrototypePlayer.statManaMax = currentSaving.ManaMax;
 				}
+				PrototypePlayer.statLifeMax = currentSaving.LifeMax;
+				PrototypePlayer.statManaMax = currentSaving.ManaMax;
 				currentSaving.inventory.CopyTo(PrototypePlayer.inventory, 0);
 				currentSaving.armor.CopyTo(PrototypePlayer.armor, 0);
 				currentSaving.miscEquips.CopyTo(PrototypePlayer.miscEquips, 0);
@@ -505,6 +505,7 @@ namespace ServerSideCharacter2
 
 		public void ClearAllBuffs()
 		{
+			if (!RealPlayer) return;
 			for(var i = 0; i < PrototypePlayer.buffType.Length; i++)
 			{
 				PrototypePlayer.DelBuff(i);
@@ -515,6 +516,7 @@ namespace ServerSideCharacter2
 
 		public void Lock()
 		{
+			if (!RealPlayer) return;
 			PrototypePlayer.AddBuff(ServerSideCharacter2.Instance.BuffType("Locked"), 18000, false);
 			PrototypePlayer.AddBuff(BuffID.Frozen, 18000, false);
 			NetMessage.SendData(MessageID.AddPlayerBuff, PrototypePlayer.whoAmI, -1,
@@ -613,6 +615,7 @@ namespace ServerSideCharacter2
 
 		public void CheckPVP()
 		{
+			if (!RealPlayer) return;
 			if (!InRegion || CurrentRegion.PVP == PVPMode.Normal)
 			{
 				if (ServerSideCharacter2.Config.PvpMode == PVPMode.Always && !PrototypePlayer.hostile)
