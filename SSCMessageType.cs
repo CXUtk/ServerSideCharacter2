@@ -41,6 +41,7 @@
 		SuccessLogin,
 		FailLogin,
 		WelcomeMessage,
+		MessageBox,
 		RequestOnlinePlayers,
 		OnlinePlayersData,
 		FriendRequest,
@@ -60,7 +61,8 @@
 		RegionForbidCommand,
 		RegionOwnerCommand,
 		NewMatchCommand,
-		JoinMatchCommand
+		JoinMatchCommand,
+		GetMatches
 	}
 
 	public enum GenerationType

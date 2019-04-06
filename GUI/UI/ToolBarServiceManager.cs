@@ -83,8 +83,10 @@ namespace ServerSideCharacter2.GUI.UI
 			Add(new Services.Login.LoginService());
 			Add(new Services.OnlinePlayer.OnlinePlayerService());
 			Add(new Services.HomePage.HomePageService());
-			Add(new Services.Union.UnionPageService());
 			Add(new Services.FriendSystem.CommunicationService());
+			Add(new Services.Matches.MatchService());
+			Add(new Services.Union.UnionPageService());
+			
 			if(Main.netMode == 0)
 			{
 				Add(new Services.Misc.ItemServices());

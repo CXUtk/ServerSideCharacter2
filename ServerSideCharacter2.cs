@@ -36,7 +36,7 @@ namespace ServerSideCharacter2
 {
 	public class ServerSideCharacter2 : Mod
 	{
-		public const bool DEBUGMODE = false;
+		public const bool DEBUGMODE = true;
 
 		internal static ServerSideCharacter2 Instance;
 
@@ -44,7 +44,7 @@ namespace ServerSideCharacter2
 
 		internal static PlayerCollection PlayerCollection;
 
-		internal static string APIVersion = "V0.14 正式";
+		internal static string APIVersion = "V0.15 测试";
 
 		internal static ErrorLogger ErrorLogger;
 

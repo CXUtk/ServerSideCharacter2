@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 using ServerSideCharacter2.Core;
 using ServerSideCharacter2.Crypto;
 using ServerSideCharacter2.Utils;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace ServerSideCharacter2
@@ -353,6 +355,21 @@ namespace ServerSideCharacter2
 				var p = ServerSideCharacter2.Instance.GetPacket();
 				p.Write((int)SSCMessageType.WelcomeMessage);
 				p.Write(msg);
+				p.WriteRGB(Color.White);
+				p.Write(240);
+				p.Send(to);
+			}
+		}
+
+		public static void SendBoxMessage(int to, string msg, int time, Color c)
+		{
+			if (Main.netMode == 2)
+			{
+				var p = ServerSideCharacter2.Instance.GetPacket();
+				p.Write((int)SSCMessageType.WelcomeMessage);
+				p.Write(msg);
+				p.WriteRGB(c);
+				p.Write(time);
 				p.Send(to);
 			}
 		}
@@ -399,6 +416,25 @@ namespace ServerSideCharacter2
 			}
 		}
 
+		public static void SendGetGames()
+		{
+			if (Main.netMode == 1)
+			{
+				var p = ServerSideCharacter2.Instance.GetPacket();
+				p.Write((int)SSCMessageType.GetMatches);
+				p.Send();
+			}
+		}
+
+		public static void SendMatchesData(int plr)
+		{
+			var data = JsonConvert.SerializeObject(ServerSideCharacter2.MatchingSystem.GetMatchInfo(), Formatting.None);
+			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			p.Write((int)SSCMessageType.GetMatches);
+			p.Write(data);
+			p.Send(plr);
+		}
+
 		public static void SendFriendsData(int to, string data)
 		{
 			if (Main.netMode == 2)
@@ -428,9 +464,9 @@ namespace ServerSideCharacter2
 				p.WriteRGB(c);
 				p.Send(to);
 			}
-			catch
+			catch(Exception ex)
 			{
-
+				CommandBoardcast.ConsoleError(ex);
 			}
 		}
 
@@ -501,6 +537,7 @@ namespace ServerSideCharacter2
 
 		public static void SendNewMatchCommand(string name)
 		{
+			if (Main.netMode != 1) return;
 			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.NewMatchCommand);
 			p.Write(name);
@@ -509,6 +546,7 @@ namespace ServerSideCharacter2
 
 		public static void SendJoinMatchCommand(string name)
 		{
+			if (Main.netMode != 1) return;
 			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.JoinMatchCommand);
 			p.Write(name);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServerSideCharacter2.JsonData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -50,6 +51,16 @@ namespace ServerSideCharacter2.Matches
 		public void StartMatch(string name)
 		{
 			Matches[name].Activate();
+		}
+
+		public MatchInfo GetMatchInfo()
+		{
+			MatchInfo matchInfo = new MatchInfo();
+			foreach(var match in Matches.ToList())
+			{
+				matchInfo.Matches.Add(match.Value.GetSimplified());
+			}
+			return matchInfo;
 		}
 
 		public void MatchPlayer(string name, ServerPlayer player)

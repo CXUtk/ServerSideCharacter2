@@ -417,11 +417,11 @@ namespace ServerSideCharacter2
 			}
 		}
 
-		public void SendMessageBox(string msg, Color c)
+		public void SendMessageBox(string msg, int time, Color c)
 		{
 			if (RealPlayer && ConnectionAlive)
 			{
-				MessageSender.SendInfoMessage(playerID, msg, c);
+				MessageSender.SendBoxMessage(playerID, msg, time, c);
 			}
 		}
 

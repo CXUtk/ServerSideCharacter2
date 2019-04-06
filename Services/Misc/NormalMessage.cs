@@ -9,17 +9,17 @@ namespace ServerSideCharacter2.Services.Misc
 {
 	public class NormalMessage : ISSCNetHandler
 	{
-		private readonly int time;
-		public NormalMessage(int time)
+		public NormalMessage()
 		{
-			this.time = time;
 		}
 		public void Handle(BinaryReader reader, int playerNumber)
 		{
 			if (Main.netMode == 1)
 			{
 				var msg = reader.ReadString();
-				ServerSideCharacter2.Instance.ShowMessage(msg, time, Color.White);
+				var color = reader.ReadRGB();
+				var time = reader.ReadInt32();
+				ServerSideCharacter2.Instance.ShowMessage(msg, time, color);
 			}
 		}
 	}

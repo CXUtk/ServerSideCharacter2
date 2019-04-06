@@ -163,11 +163,11 @@ namespace ServerSideCharacter2.Services.Login
 						if (result == 1 || result == -1)
 						{
 							serverPlayer.SendMessageBox("无法注册玩家：用户名" +
-								(result == 1 ? "过长" : "过短") + "\n" + "用户名应为2-10个字符", Color.Red);
+								(result == 1 ? "过长" : "过短") + "\n" + "用户名应为2-10个字符", 120, Color.Red);
 						}
 						else
 						{
-							serverPlayer.SendMessageBox("无法注册玩家：用户名不能含有下列特殊字符：$%^&*!@#:?|", Color.Red);
+							serverPlayer.SendMessageBox("无法注册玩家：用户名不能含有下列特殊字符：$%^&*!@#:?|", 120, Color.Red);
 						}
 					}
 				}

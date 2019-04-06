@@ -27,22 +27,23 @@ namespace ServerSideCharacter2.Services.Matches
 				var player = Main.player[playerNumber].GetServerPlayer();
 				if (!ServerSideCharacter2.MatchingSystem.HasMatch(name))
 				{
-					player.SendErrorInfo("不存在这个活动");
+					player.SendMessageBox("不存在这个活动", 120, Color.Red);
 					return;
 				}
 				if (player.InMatch)
 				{
-					player.SendErrorInfo("你已经在匹配中了，不能发起匹配多个活动");
+					player.SendMessageBox("你已经在匹配中了，不能发起匹配多个活动", 120, Color.Red);
 					return;
 				}
 				if (ServerSideCharacter2.MatchingSystem.Matches[name].IsActive)
 				{
-					player.SendErrorInfo("这个活动已经在匹配中了");
+					player.SendMessageBox("这个活动已经在匹配中了", 120, Color.Red);
 					return;
 				}
 				ServerSideCharacter2.MatchingSystem.StartMatch(name);
 				string str = $"玩家 {player.Name} 开启了 {name} 匹配，快加入吧";
 				ServerPlayer.SendInfoMessageToAll(str);
+				MessageSender.SendMatchesData(-1);
 				CommandBoardcast.ConsoleMessage(str);
 			}
 		}

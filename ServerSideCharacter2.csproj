@@ -137,6 +137,9 @@
     <Compile Include="Commands\LockCommand.cs" />
     <Compile Include="Commands\OnlinePlayerCommand.cs" />
     <Compile Include="Commands\SaveCommand.cs" />
+    <Compile Include="GUI\UI\Component\Special\UIMatchGameBar.cs" />
+    <Compile Include="GUI\UI\State\GameCenterState.cs" />
+    <Compile Include="JsonData\MatchInfo.cs" />
     <Compile Include="JsonData\PlayerSaving.cs" />
     <Compile Include="Matches\Match.cs" />
     <Compile Include="Matches\MatchingSystem.cs" />
@@ -222,7 +225,9 @@
     <Compile Include="ServerPlayer.cs" />
     <Compile Include="ServerSideCharacter2.cs" />
     <Compile Include="Services\FriendSystem\CommunicationService.cs" />
+    <Compile Include="Services\Matches\GetMatchesHandler.cs" />
     <Compile Include="Services\Matches\JoinMatchHandler.cs" />
+    <Compile Include="Services\Matches\MatchService.cs" />
     <Compile Include="Services\Matches\NewMatchHandler.cs" />
     <Compile Include="Services\Misc\KillHandler.cs" />
     <Compile Include="Services\Misc\KickHandler.cs" />

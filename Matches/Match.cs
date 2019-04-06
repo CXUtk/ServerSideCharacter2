@@ -29,11 +29,16 @@ namespace ServerSideCharacter2.Matches
 			IsActive = false;
 			IsMatched = false;
 			GameStarted = false;
-			innerCounter = 0;
+			innerCounter = MaxMatchingTime;
 		}
 
-		public void Activate() { IsActive = true; OnActive(); }
-		public void Deactivate() { IsActive = false; IsMatched = false; GameStarted = false; innerCounter = 0; OnDeactive(); }
+		public void Activate() { IsActive = true; innerCounter = MaxMatchingTime; OnActive(); }
+		public void Deactivate()
+		{
+			IsActive = false; IsMatched = false; GameStarted = false; innerCounter = 0;
+			MessageSender.SendMatchesData(-1);
+			OnDeactive();
+		}
 
 		protected abstract void OnActive();
 		protected abstract void OnDeactive();
@@ -42,12 +47,32 @@ namespace ServerSideCharacter2.Matches
 
 		public virtual void Update()
 		{
-			innerCounter++;
-			if(innerCounter > MaxMatchingTime)
+			if (!GameStarted)
 			{
-				OnMatched();
-				innerCounter = 0;
+				if (innerCounter > 0)
+				{
+					innerCounter--;
+				}
+				else
+				{
+					OnMatched();
+					innerCounter = MaxMatchingTime;
+				}
 			}
+		}
+
+		public SimplifiedMatchInfo GetSimplified()
+		{
+			SimplifiedMatchInfo info = new SimplifiedMatchInfo
+			{
+				Name = Name,
+				MaxPlayers = MaxPlayers,
+				MatchedPlayers = MatchedPlayers.Count,
+				IsMatching = IsActive,
+				IsGameStarted = GameStarted,
+				TimeRem = innerCounter
+			};
+			return info;
 		}
 	}
 }

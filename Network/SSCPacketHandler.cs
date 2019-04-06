@@ -44,13 +44,12 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.NotifyLogin,  new Services.Login.NotifyLoginClient()},
 				{SSCMessageType.SuccessLogin,  new Services.Login.LoginMessage(Color.Green)},
 				{SSCMessageType.FailLogin,  new Services.Login.LoginMessage(Color.Red)},
-				{SSCMessageType.WelcomeMessage,  new NormalMessage(240)},
+				{SSCMessageType.WelcomeMessage,  new NormalMessage()},
 				{SSCMessageType.RequestOnlinePlayers, new Services.OnlinePlayer.RequestPlayersHandler() },
 				{SSCMessageType.OnlinePlayersData, new Services.OnlinePlayer.OnlinePlayerHandler() },
 				{SSCMessageType.FriendRequest, new Services.FriendSystem.FriendRequestHandler() },
 				{SSCMessageType.FriendsData, new Services.FriendSystem.FriendsDataHandler() },
 				{SSCMessageType.GetFriends, new Services.FriendSystem.GetFriendsHandler() },
-				{SSCMessageType.SyncPlayerBank, new Services.OnlinePlayer.PlayerBankHandler() },
 				{SSCMessageType.ErrorMessage, new ErrorMessage() },
 				{SSCMessageType.InfoMessage, new InfoMessage() },
 				{SSCMessageType.ButcherCommand, new ButcherHandler() },
@@ -78,6 +77,7 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.NewMatchCommand, new Services.Matches.NewMatchHandler() },
 				{SSCMessageType.JoinMatchCommand, new Services.Matches.JoinMatchHandler() },
 				{SSCMessageType.KillCommand, new Services.Misc.KillHandler() },
+				{SSCMessageType.GetMatches, new Services.Matches.GetMatchesHandler() },
 			};
 		}
 	}

@@ -22,7 +22,8 @@ namespace ServerSideCharacter2.GUI
 		ItemPage,
 		ProfilePage,
 		NPCPage,
-		CommunicationPage
+		CommunicationPage,
+		GameCenterPage
 	}
 	public class GUIManager
 	{
@@ -32,6 +33,7 @@ namespace ServerSideCharacter2.GUI
 		private PlayerOnlineWindow _playerOnlineWindow;
 		private HomePageState _homePageState;
 		private CommunicationState _communicationState;
+		private GameCenterState _gameCenterState;
 		private UnionPageState _unionPageState;
 		private ItemUIState _getitemState;
 		private PlayerProfileState _playerProfileState;
@@ -105,6 +107,11 @@ namespace ServerSideCharacter2.GUI
 			var uinpcinterface = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.NPCPage]; });
 			uinpcinterface.SetState(_getnpcState);
 			_cdInterface.Add(uinpcinterface);
+
+			_gameCenterState = new GameCenterState();
+			var uiGameCenter = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.GameCenterPage]; });
+			uiGameCenter.SetState(_gameCenterState);
+			_cdInterface.Add(uiGameCenter);
 		}
 		
 

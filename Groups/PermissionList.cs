@@ -40,8 +40,8 @@ namespace ServerSideCharacter2.Groups
 			AddPermission(new Permission("region-share", "玩家可不可以共享领地"));
 			AddPermission(new Permission("pig", "玩家可不可以把别人变成猪头"));
 			AddPermission(new Permission("clear", "玩家可不可以改变领地的PVP模式"));
-			AddPermission(new Permission("match-new", "玩家可不可以把别人变成猪头"));
-			AddPermission(new Permission("match-join", "玩家可不可以把别人变成猪头"));
+			AddPermission(new Permission("match-new", "玩家可不可以创建活动匹配"));
+			AddPermission(new Permission("match-join", "玩家可不可以加入活动匹配"));
 		}
 
 		public void AddPermission(Permission permission)
