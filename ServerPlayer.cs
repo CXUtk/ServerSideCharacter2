@@ -680,5 +680,11 @@ namespace ServerSideCharacter2
 		{
 			NetMessage.SendPlayerDeath(playerID, PlayerDeathReason.ByCustomReason($"{Name} 遭到了天谴"), 99999, (new Random()).Next(-1, 1), false, -1, -1);
 		}
+
+		public void Ban(string reason)
+		{
+			qqAuth.BanPlayer(this, reason);
+			Kick("你被封禁了");
+		}
 	}
 }

@@ -75,6 +75,16 @@ namespace ServerSideCharacter2
 			p.Send();
 		}
 
+
+		public static void SendBanCommand(int target, string reason)
+		{
+			var p = ServerSideCharacter2.Instance.GetPacket();
+			p.Write((int)SSCMessageType.BanCommand);
+			p.Write(target);
+			p.Write(reason);
+			p.Send();
+		}
+
 		public static void SendTimeCommand(int plr, bool set, int time, bool day)
 		{
 			var name = Main.player[plr].name;

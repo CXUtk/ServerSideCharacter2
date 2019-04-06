@@ -120,6 +120,7 @@
     <Compile Include="Commands\GodCommand.cs" />
     <Compile Include="Commands\ForcePVPCommand.cs" />
     <Compile Include="Commands\ItemCommand.cs" />
+    <Compile Include="Commands\BanCommand.cs" />
     <Compile Include="Commands\KillCommand.cs" />
     <Compile Include="Commands\PigCommand.cs" />
     <Compile Include="Commands\RefuseCommand.cs" />
@@ -229,6 +230,7 @@
     <Compile Include="Services\Matches\JoinMatchHandler.cs" />
     <Compile Include="Services\Matches\MatchService.cs" />
     <Compile Include="Services\Matches\NewMatchHandler.cs" />
+    <Compile Include="Services\Misc\BanHandler.cs" />
     <Compile Include="Services\Misc\KillHandler.cs" />
     <Compile Include="Services\Misc\KickHandler.cs" />
     <Compile Include="Services\Misc\GodModeHandler.cs" />

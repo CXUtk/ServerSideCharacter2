@@ -16,6 +16,7 @@
 		HelpCommand,
 		KickCommand,
 		KillCommand,
+		BanCommand,
 		ListCommand,
 		SummonCommand,
 		TPHereCommand,
