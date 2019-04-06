@@ -686,5 +686,10 @@ namespace ServerSideCharacter2
 			qqAuth.BanPlayer(this, reason);
 			Kick("你被封禁了");
 		}
+
+		public void UnBan(string reason)
+		{
+			qqAuth.UnbanPlayer(this);
+		}
 	}
 }

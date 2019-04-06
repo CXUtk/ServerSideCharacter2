@@ -267,13 +267,43 @@ namespace ServerSideCharacter2
                 }
             }
         }
-        /// <summary>
+
+		/// <summary>
 		/// 用户封禁
 		/// </summary>
-        /// <param name="banPlayer">封禁的用户</param>
-        /// <param name="banReason">封禁的原因</param>
+		/// <param name="banPlayer">封禁的用户</param>
+		/// <param name="banReason">封禁的原因</param>
 		/// <returns>成功返回true，失败返回false</returns>
-        public bool BanPlayer(ServerPlayer banPlayer, string banReason)
+		public bool IsBanned(ServerPlayer banPlayer)
+		{
+			try
+			{
+				MySqlManager dbm = new MySqlManager();
+				dbm.Connect();
+				MySqlCommand cmd = dbm.command;
+				cmd.CommandText = "select ban from users where username = @UserName";
+				cmd.Parameters.AddWithValue("@UserName", banPlayer.Name);
+				MySqlDataReader mdr = cmd.ExecuteReader();
+				if (mdr.Read())
+				{
+					Ban = mdr["ban"].ToString();
+				}
+				cmd.Cancel();
+				return Ban == "1";
+			}
+			catch (Exception ex)
+			{
+				ErrorLog = ex.Message;
+				return false;
+			}
+		}
+		/// <summary>
+		/// 用户封禁
+		/// </summary>
+		/// <param name="banPlayer">封禁的用户</param>
+		/// <param name="banReason">封禁的原因</param>
+		/// <returns>成功返回true，失败返回false</returns>
+		public bool BanPlayer(ServerPlayer banPlayer, string banReason)
         {
             try
             {
