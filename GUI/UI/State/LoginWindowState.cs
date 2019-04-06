@@ -101,6 +101,12 @@ namespace ServerSideCharacter2.GUI.UI
                 // ServerSideCharacter2.Instance.ShowMessage("已经提交AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 120, Color.White);
                 StartWaiting();
             }
+            else
+            {
+                Main.NewText("密码不能为空！");
+                Main.NewText("请注意：中文输入法可能导致字符不能正确输入");
+                Main.NewText("请确保输入密码时输入法为英文输入状态");
+            }
 		}
 
 		private void StartWaiting()

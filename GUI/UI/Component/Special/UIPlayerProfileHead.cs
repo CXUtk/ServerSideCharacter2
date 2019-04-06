@@ -107,8 +107,8 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		{
 			_info = info;
 			infoList.Clear();
-			textName.SetText(info.Name);
-			var type = Ranking.GetRankType(info.Rank);
+            textName.SetText((info.CustomChatPrefix == "" ? "" : ("【" + info.CustomChatPrefix + "】")) + info.Name);
+            var type = Ranking.GetRankType(info.Rank);
 			var range = Ranking.GetRankRange(type);
 			rankLabel.SetText($"{info.Rank} / {range.Item2}");
 
