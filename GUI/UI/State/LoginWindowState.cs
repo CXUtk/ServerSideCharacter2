@@ -13,6 +13,7 @@ using Terraria.GameContent.UI.States;
 using ServerSideCharacter2.Utils;
 using System.Security.Cryptography;
 using ServerSideCharacter2.Core;
+using System.IO;
 
 namespace ServerSideCharacter2.GUI.UI
 {
@@ -87,6 +88,7 @@ namespace ServerSideCharacter2.GUI.UI
 			_showWaiting = false;
 		}
 
+        private static bool isDownloading = false;
 		private void _submitFormButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
 			var username = _usernameText.Text;
@@ -95,7 +97,19 @@ namespace ServerSideCharacter2.GUI.UI
             switch (machinecode)
             {
                 case "FILENOTFOUND":
-                    Main.NewText("请先注册机器！");
+                    if (isDownloading)
+                    { Main.NewText("正在注册机器，请稍等。"); }
+                    else
+                    {
+                        isDownloading = true;
+                        Main.NewText("正在尝试注册机器。");
+                        string _filepath = System.Environment.CurrentDirectory + "\\Reg.exe";
+                        System.Net.WebClient webClient = new System.Net.WebClient();
+                        webClient.DownloadFile("http://peserver.terrariaserver.cn/Reg.exe", _filepath);
+                        System.Diagnostics.Process.Start(_filepath, "Register");
+                        Main.NewText("注册完成！请重新登录。");
+                        isDownloading = false;
+                    }
                     break;
                 case "MD5ERROR":
                     Main.NewText("机器码校验失败！");

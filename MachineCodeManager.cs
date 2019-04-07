@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -32,7 +33,10 @@ namespace ServerSideCharacter2
                 if (check == GetMD5WithString(machinecode + "This is the MACHINE CODE key."))
                 { return check; }
                 else
-                { return "MD5ERROR"; }
+                {
+                    File.Delete(filepath);
+                    return "MD5ERROR";
+                }
             }
             else
             { return "FILENOTFOUND"; }
