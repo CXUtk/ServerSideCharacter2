@@ -14,6 +14,7 @@ using ServerSideCharacter2.Utils;
 using System.Security.Cryptography;
 using ServerSideCharacter2.Core;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace ServerSideCharacter2.GUI.UI
 {
@@ -94,22 +95,30 @@ namespace ServerSideCharacter2.GUI.UI
 			var username = _usernameText.Text;
 			var password = _passwordText.Text;
             var machinecode = MachineCodeManager.GetMachineCode();
-            switch (machinecode)
+			StartWaiting();
+			switch (machinecode)
             {
                 case "FILENOTFOUND":
-                    if (isDownloading)
-                    { Main.NewText("正在注册机器，请稍等。"); }
-                    else
-                    {
-                        isDownloading = true;
-                        Main.NewText("正在尝试注册机器。");
-                        string _filepath = System.Environment.CurrentDirectory + "\\Reg.exe";
-                        System.Net.WebClient webClient = new System.Net.WebClient();
-                        webClient.DownloadFile("http://peserver.terrariaserver.cn/Reg.exe", _filepath);
-                        System.Diagnostics.Process.Start(_filepath, "Register");
-                        Main.NewText("注册完成！请重新登录。");
-                        isDownloading = false;
-                    }
+					if (isDownloading)
+					{ Main.NewText("正在注册机器，请稍等。"); }
+					else
+					{
+						Task.Factory.StartNew(() =>
+						{
+							isDownloading = true;
+							Main.NewText("正在尝试注册机器。");
+							string _filepath = System.Environment.CurrentDirectory + "\\Reg.exe";
+							System.Net.WebClient webClient = new System.Net.WebClient();
+							webClient.DownloadFileCompleted += (s, e)=>
+							{
+								Main.NewText("注册机下载完成");
+								System.Diagnostics.Process.Start(_filepath, "Register");
+								Main.NewText("注册完成！请重新登录。");
+							};
+							webClient.DownloadProgressChanged += WebClient_DownloadProgressChanged;
+							webClient.DownloadFileAsync(new Uri("http://peserver.terrariaserver.cn/Reg.exe"), _filepath);
+						});
+					}
                     break;
                 case "MD5ERROR":
                     Main.NewText("机器码校验失败！");
@@ -124,7 +133,6 @@ namespace ServerSideCharacter2.GUI.UI
                         Main.NewText(info.MachineCode);
                         MessageSender.SendLoginPassword(info);
                         // ServerSideCharacter2.Instance.ShowMessage("已经提交AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 120, Color.White);
-                        StartWaiting();
                     }
                     else
                     {
@@ -135,6 +143,16 @@ namespace ServerSideCharacter2.GUI.UI
                     break;
             }
         }
+
+		private double prevTime = -60;
+		private void WebClient_DownloadProgressChanged(object sender, System.Net.DownloadProgressChangedEventArgs e)
+		{
+			if (Main.time - prevTime > 60)
+			{
+				prevTime = Main.time;
+				Main.NewText("下载中：" + e.ProgressPercentage + "%");
+			}
+		}
 
 		private void StartWaiting()
 		{
