@@ -483,6 +483,10 @@ namespace ServerSideCharacter2
 
 			if (currentSaving == MainSaving)
 			{
+				_info.LifeMax = MainSaving.LifeMax;
+				_info.StatLife = MainSaving.StatLife;
+				_info.ManaMax = MainSaving.ManaMax;
+				_info.StatMana = MainSaving.StatMana;
 				ServerUtils.CopyToItemData(MainSaving.inventory, _info.inventory);
 				ServerUtils.CopyToItemData(MainSaving.armor, _info.armor);
 				ServerUtils.CopyToItemData(MainSaving.dye, _info.dye);
