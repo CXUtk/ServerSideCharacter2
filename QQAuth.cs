@@ -15,19 +15,20 @@ using Terraria.Localization;
 
 namespace ServerSideCharacter2
 {
-    public class QQAuth
-    {
-        // 成员
-        private static string _constr = "server=localhost;User Id=mysqlserver;Password=258741369;Database=steamcityqqauth";
-        public string CharacterName = "";
-        public string QQ = "";
-        public string OpenID = "";
-        public string Ban = "";
-        public string Banner = "";
-        public string BanReason = "";
-        public string CustomChatPrefix = "";
+	public class QQAuth
+	{
+		// 成员
+		public static string ConnectionStr;
+		public string CharacterName = "";
+		public string QQ = "";
+		public string OpenID = "";
+		public string Ban = "";
+		public string Banner = "";
+		public string BanReason = "";
+		public string CustomChatPrefix = "";
 
-        public string ErrorLog = "";
+		public string ErrorLog = "";
+
 
         // 初始化
         /// <summary>
@@ -104,7 +105,7 @@ namespace ServerSideCharacter2
         {
             public MySqlCommand command;
             public static MySqlConnection connection;
-            public string connectionstr { get { return _constr; } }
+            public string connectionstr { get { return ConnectionStr; } }
 
             public void Connect()
             {

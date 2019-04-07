@@ -34,6 +34,8 @@ namespace ServerSideCharacter2.Utils
 					}
 
 					ServerSideCharacter2.Config = JsonConvert.DeserializeObject<ConfigData>(data);
+					QQAuth.ConnectionStr = $"server={ServerSideCharacter2.Config.ServerAddr};User Id={ServerSideCharacter2.Config.ServerUserID};Password={ServerSideCharacter2.Config.ServerPassword};" +
+						$"Database={ServerSideCharacter2.Config.DatabaseName};port={ServerSideCharacter2.Config.ServerPort}";
 				}
 				catch(Exception ex)
 				{

@@ -27,6 +27,12 @@ namespace ServerSideCharacter2.JsonData
 		public int NPCMaxSpawns;
 		public int NPCSpawnRate;
 
+		public string ServerAddr;
+		public string ServerUserID;
+		public string ServerPort;
+		public string ServerPassword;
+		public string DatabaseName;
+
 		public bool AutoSave { get; set; }
 		public int SaveInterval { get; set; }
 		public PVPMode PvpMode { get; set; }
@@ -59,6 +65,11 @@ namespace ServerSideCharacter2.JsonData
 			data.MaxRegionHeight = 10000;
 			data.NPCMaxSpawns = 5;
 			data.NPCSpawnRate = 600;
+			data.ServerPort = "3306";
+			data.ServerAddr = "localhost";
+			data.ServerUserID = "mysqlserver";
+			data.ServerPassword = "";
+			data.DatabaseName = "database";
 			return data;
 		}
 	}
