@@ -19,16 +19,19 @@ namespace ServerSideCharacter2
 	{
 		// 成员
 		public static string ConnectionStr;
+
 		public string CharacterName = "";
-		public string QQ = "";
+        public string MachineCode = "";
+
+        public string QQ = "";
 		public string OpenID = "";
 		public string Ban = "";
 		public string Banner = "";
 		public string BanReason = "";
 		public string CustomChatPrefix = "";
-        public string MachineCode = "";
+        public string MachineCode_DB = "";
 
-		public string ErrorLog = "";
+        public string ErrorLog = "";
 
 
         // 初始化
@@ -72,7 +75,15 @@ namespace ServerSideCharacter2
                 /// <summary>
                 /// Debug模式
                 /// </summary>
-                Debug
+                Debug,
+                /// <summary>
+                /// 获取机器码失败
+                /// </summary>
+                GetMCFailed,
+                /// <summary>
+                /// 机器码校验失败
+                /// </summary>
+                MCCheckFailed
             }
             /// <summary>
             /// 注册验证状态
@@ -102,7 +113,15 @@ namespace ServerSideCharacter2
                 /// <summary>
                 /// Debug模式
                 /// </summary>
-                Debug
+                Debug,
+                /// <summary>
+                /// 获取机器码失败
+                /// </summary>
+                GetMCFailed,
+                /// <summary>
+                /// 机器码已被绑定
+                /// </summary>
+                MCBound
             }
 
         }
@@ -174,7 +193,7 @@ namespace ServerSideCharacter2
                 MySqlManager dbm = new MySqlManager();
                 dbm.Connect();
                 MySqlCommand cmd = dbm.command;
-                cmd.CommandText = "select qq,openid,ban,banner,banreason,customchatprefix,setpwreq from users where username = @UserName";
+                cmd.CommandText = "select * from users where username = @UserName";
 				cmd.Parameters.AddWithValue("@UserName", CharacterName);
                 MySqlDataReader mdr = cmd.ExecuteReader();
                 if (mdr.Read())
@@ -186,10 +205,31 @@ namespace ServerSideCharacter2
                     BanReason = mdr["banreason"].ToString();
                     CustomChatPrefix = mdr["customchatprefix"].ToString();
                     ChangePasswordRequired = mdr["setpwreq"].ToString();
+                    MachineCode_DB = mdr["machinecode"].ToString();
                 }
                 mdr.Close();
                 cmd.Cancel();
-                if (QQ == "" || OpenID == "")
+
+                // 补充注册机器码的代码，以后删除
+                if (MachineCode_DB == "")
+                {
+                    MachineCode_DB = MachineCode;
+                    MySqlManager __dbm = new MySqlManager();
+                    __dbm.Connect();
+                    MySqlCommand __cmd = __dbm.command;
+                    __cmd.CommandText = "update users set machinecode = @MachineCode where username = @UserName";
+                    __cmd.Parameters.AddWithValue("@UserName", CharacterName);
+                    __cmd.Parameters.AddWithValue("@MachineCode", MachineCode);
+                    __cmd.ExecuteNonQuery();
+                    __cmd.Cancel();
+                }
+                // 补充注册机器码结束
+
+                if (MachineCode == "")
+                { return States.LoginState.GetMCFailed; }
+                else if (MachineCode != MachineCode_DB)
+                { return States.LoginState.MCCheckFailed; }
+                else if (QQ == "" || OpenID == "")
                 {
                     return States.LoginState.Unbound;
                 }
@@ -234,10 +274,27 @@ namespace ServerSideCharacter2
             {
                 return States.RegisterState.NullQQ;
             }
+            else if (MachineCode == "")
+            { return States.RegisterState.GetMCFailed; }
             else
             {
                 try
                 {
+                    MySqlManager __dbm = new MySqlManager();
+                    __dbm.Connect();
+                    MySqlCommand __cmd = __dbm.command;
+                    __cmd.CommandText = "select username from users where machinecode = @MachineCode";
+                    __cmd.Parameters.AddWithValue("@MachineCode", MachineCode);
+                    MySqlDataReader __mdr = __cmd.ExecuteReader();
+                    if (__mdr.Read())
+                    {
+                        UserName = __mdr["username"].ToString();
+                    }
+                    __mdr.Close();
+                    __cmd.Cancel();
+                    if (UserName != "" && UserName != CharacterName)
+                    { return States.RegisterState.MCBound; }
+
                     MySqlManager dbm = new MySqlManager();
                     dbm.Connect();
                     MySqlCommand cmd = dbm.command;
@@ -257,9 +314,10 @@ namespace ServerSideCharacter2
                             MySqlManager _dbm = new MySqlManager();
                             _dbm.Connect();
                             MySqlCommand _cmd = _dbm.command;
-                            _cmd.CommandText = "insert into users set qq = @QQ , username = @UserName , ban = 0 , setpwreq = 0 ";
+                            _cmd.CommandText = "insert into users set qq = @QQ , username = @UserName , machinecode = @MachineCode , ban = 0 , setpwreq = 0 ";
                             _cmd.Parameters.AddWithValue("@QQ", QQ);
                             _cmd.Parameters.AddWithValue("@UserName", CharacterName);
+                            _cmd.Parameters.AddWithValue("@MachineCode", MachineCode);
                             _cmd.ExecuteNonQuery();
                             _cmd.Cancel();
                             return States.RegisterState.RegisterSuccess;

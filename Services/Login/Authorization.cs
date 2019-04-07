@@ -89,6 +89,16 @@ namespace ServerSideCharacter2.Services.Login
                             MessageSender.SendLoginFailed(playerNumber, "申请改密已受理！请输入QQ和新密码完成改密。");
                             isLoginSuccess = false;
                             break;
+                        case QQAuth.States.LoginState.GetMCFailed:
+                            CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 认证失败：机器码获取失败.");
+                            MessageSender.SendLoginFailed(playerNumber, "机器码获取失败！请确认机器已经注册。");
+                            isLoginSuccess = false;
+                            break;
+                        case QQAuth.States.LoginState.MCCheckFailed:
+                            CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 认证失败：机器码不正确.");
+                            MessageSender.SendLoginFailed(playerNumber, "你不能使用非当前角色绑定的机器！");
+                            isLoginSuccess = false;
+                            break;
                         case QQAuth.States.LoginState.Error:
                             CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 登录错误，信息：" + serverPlayer.qqAuth.ErrorLog);
                             MessageSender.SendLoginFailed(playerNumber, "数据库操作出错！");
@@ -144,6 +154,16 @@ namespace ServerSideCharacter2.Services.Login
                             case QQAuth.States.RegisterState.QQBound:
                                 MessageSender.SendLoginFailed(playerNumber, "该QQ已被其他角色绑定！");
                                 CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册请求被拒（QQ已被绑定）.");
+                                isRegisterLegal = false;
+                                break;
+                            case QQAuth.States.RegisterState.GetMCFailed:
+                                MessageSender.SendLoginFailed(playerNumber, "机器码获取失败！请确认机器已经注册。");
+                                CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册请求被拒（获取机器码失败）.");
+                                isRegisterLegal = false;
+                                break;
+                            case QQAuth.States.RegisterState.MCBound:
+                                MessageSender.SendLoginFailed(playerNumber, "该机器已被其他角色绑定！");
+                                CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册请求被拒（机器已被绑定）.");
                                 isRegisterLegal = false;
                                 break;
                             case QQAuth.States.RegisterState.Error:
