@@ -83,6 +83,12 @@ namespace ServerSideCharacter2.Services.Login
                             CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} ,QQ {serverPlayer.qqAuth.QQ} 认证成功.");
                             isLoginSuccess = true;
                             break;
+                        case QQAuth.States.LoginState.ChangePasswordRequired:
+                            serverPlayer.HasPassword = false;
+                            CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} ,QQ {serverPlayer.qqAuth.QQ} 申请改密.");
+                            MessageSender.SendLoginFailed(playerNumber, "申请改密已受理！请输入QQ和新密码完成改密。");
+                            isLoginSuccess = false;
+                            break;
                         case QQAuth.States.LoginState.Error:
                             CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 登录错误，信息：" + serverPlayer.qqAuth.ErrorLog);
                             MessageSender.SendLoginFailed(playerNumber, "数据库操作出错！");

@@ -54,6 +54,10 @@ namespace ServerSideCharacter2
                 /// </summary>
                 LoginSuccess,
                 /// <summary>
+                /// 申请改密
+                /// </summary>
+                ChangePasswordRequired,
+                /// <summary>
                 /// 用户未绑定QQ
                 /// </summary>
                 Unbound,
@@ -68,11 +72,7 @@ namespace ServerSideCharacter2
                 /// <summary>
                 /// Debug模式
                 /// </summary>
-                Debug,
-                /// <summary>
-                /// 获取机器码失败
-                /// </summary>
-                GetMachineCodeFailed
+                Debug
             }
             /// <summary>
             /// 注册验证状态
@@ -170,10 +170,11 @@ namespace ServerSideCharacter2
             { return States.LoginState.Debug; }
             try
             {
+                string ChangePasswordRequired = "";
                 MySqlManager dbm = new MySqlManager();
                 dbm.Connect();
                 MySqlCommand cmd = dbm.command;
-                cmd.CommandText = "select qq,openid,ban,banner,banreason,customchatprefix from users where username = @UserName";
+                cmd.CommandText = "select qq,openid,ban,banner,banreason,customchatprefix,setpwreq from users where username = @UserName";
 				cmd.Parameters.AddWithValue("@UserName", CharacterName);
                 MySqlDataReader mdr = cmd.ExecuteReader();
                 if (mdr.Read())
@@ -184,6 +185,7 @@ namespace ServerSideCharacter2
                     Banner = mdr["banner"].ToString();
                     BanReason = mdr["banreason"].ToString();
                     CustomChatPrefix = mdr["customchatprefix"].ToString();
+                    ChangePasswordRequired = mdr["setpwreq"].ToString();
                 }
                 mdr.Close();
                 cmd.Cancel();
@@ -194,6 +196,17 @@ namespace ServerSideCharacter2
                 else if (Ban != "0")
                 {
                     return States.LoginState.Banned;
+                }
+                else if (ChangePasswordRequired != "0")
+                {
+                    MySqlManager _dbm = new MySqlManager();
+                    _dbm.Connect();
+                    MySqlCommand _cmd = _dbm.command;
+                    _cmd.CommandText = "update users set setpwreq = 0 where username = @UserName";
+                    _cmd.Parameters.AddWithValue("@UserName", CharacterName);
+                    _cmd.ExecuteNonQuery();
+                    _cmd.Cancel();
+                    return States.LoginState.ChangePasswordRequired;
                 }
                 else
                 {
@@ -244,7 +257,7 @@ namespace ServerSideCharacter2
                             MySqlManager _dbm = new MySqlManager();
                             _dbm.Connect();
                             MySqlCommand _cmd = _dbm.command;
-                            _cmd.CommandText = "insert into users set qq = @QQ , username = @UserName , ban = 0";
+                            _cmd.CommandText = "insert into users set qq = @QQ , username = @UserName , ban = 0 , setpwreq = 0 ";
                             _cmd.Parameters.AddWithValue("@QQ", QQ);
                             _cmd.Parameters.AddWithValue("@UserName", CharacterName);
                             _cmd.ExecuteNonQuery();
