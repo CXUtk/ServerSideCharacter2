@@ -27,8 +27,8 @@ namespace ServerSideCharacter2.Crypto
 		{
 			using (var rsa = new RSACryptoServiceProvider())
 			{
-				publicKey = rsa.ToXmlString(true);
-				privateKey = rsa.ToXmlString(false);
+				publicKey = rsa.ToXmlString(false);
+				privateKey = rsa.ToXmlString(true);
 				isSet = true;
 			}
 			using (var sw = new StreamWriter("SSC/publickey.xml"))
@@ -96,7 +96,7 @@ namespace ServerSideCharacter2.Crypto
 		{
 			try
 			{
-				return RsaDecrypt(data, publicKey);
+				return RsaDecrypt(data, privateKey);
 			}
 			catch(Exception ex)
 			{
