@@ -142,6 +142,7 @@
     <Compile Include="GUI\UI\State\GameCenterState.cs" />
     <Compile Include="JsonData\MatchInfo.cs" />
     <Compile Include="JsonData\PlayerSaving.cs" />
+    <Compile Include="MachineCodeManager.cs" />
     <Compile Include="Matches\Match.cs" />
     <Compile Include="Matches\MatchingSystem.cs" />
     <Compile Include="Dusts\HealDust.cs" />

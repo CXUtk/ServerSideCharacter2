@@ -26,6 +26,7 @@ namespace ServerSideCharacter2
 		public string Banner = "";
 		public string BanReason = "";
 		public string CustomChatPrefix = "";
+        public string MachineCode = "";
 
 		public string ErrorLog = "";
 
@@ -67,7 +68,11 @@ namespace ServerSideCharacter2
                 /// <summary>
                 /// Debug模式
                 /// </summary>
-                Debug
+                Debug,
+                /// <summary>
+                /// 获取机器码失败
+                /// </summary>
+                GetMachineCodeFailed
             }
             /// <summary>
             /// 注册验证状态

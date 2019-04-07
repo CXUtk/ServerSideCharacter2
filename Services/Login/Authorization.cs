@@ -53,6 +53,7 @@ namespace ServerSideCharacter2.Services.Login
 				var info = CryptedUserInfo.GetDecrypted(encrypted);
 				var serverPlayer = Main.player[playerNumber].GetServerPlayer();
                 serverPlayer.qqAuth.CharacterName = Main.player[playerNumber].name;
+                serverPlayer.qqAuth.MachineCode = info.MachineCode;
                 if (serverPlayer.IsLogin)
 				{
 					MessageSender.SendLoginSuccess(serverPlayer.PrototypePlayer.whoAmI, "你已经登录，请不要重复登录");

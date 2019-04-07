@@ -13,13 +13,15 @@ namespace ServerSideCharacter2.Core
 		public string UserName { get; set; }
 		public string Password { get; set; }
         public string OpenID { get; set; }
+        public string MachineCode { get; set; }
 
-		public static CryptedUserInfo Create(string username, string password)
-		{
+        public static CryptedUserInfo Create(string username, string password, string machinecode)
+        {
 			var info = new CryptedUserInfo
 			{
-				UserName = username
-			};
+				UserName = username,
+                MachineCode = machinecode
+            };
 			using (var md5Hash = MD5.Create())
 			{
 				var data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
@@ -33,7 +35,7 @@ namespace ServerSideCharacter2.Core
 			return info;
 		}
 
-		private string GetJson()
+        private string GetJson()
 		{
 			return JsonConvert.SerializeObject(this);
 		}

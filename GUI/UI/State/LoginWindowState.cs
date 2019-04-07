@@ -34,7 +34,7 @@ namespace ServerSideCharacter2.GUI.UI
 		private const float BUTTON_WIDTH = 80;
 		private const float BUTTON_HEIGHT = 35;
 
-		protected override void Initialize(UIAdvPanel WindowPanel)
+        protected override void Initialize(UIAdvPanel WindowPanel)
 		{
 			WindowPanel.MainTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack1"];
 			WindowPanel.Left.Set(Main.screenWidth / 2 - LOGIN_WIDTH / 2, 0f);
@@ -91,23 +91,36 @@ namespace ServerSideCharacter2.GUI.UI
 		{
 			var username = _usernameText.Text;
 			var password = _passwordText.Text;
-            if (password != "")
+            var machinecode = MachineCodeManager.GetMachineCode();
+            switch (machinecode)
             {
-                var info = CryptedUserInfo.Create(username, password);
-                Main.NewText(username);
-                Main.NewText("'" + password + "'(长度:" + password.Length);
-                Main.NewText(info.ToString());
-                MessageSender.SendLoginPassword(info);
-                // ServerSideCharacter2.Instance.ShowMessage("已经提交AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 120, Color.White);
-                StartWaiting();
+                case "FILENOTFOUND":
+                    Main.NewText("请先注册机器！");
+                    break;
+                case "MD5ERROR":
+                    Main.NewText("机器码校验失败！");
+                    break;
+                default:
+                    if (password != "")
+                    {
+                        var info = CryptedUserInfo.Create(username, password, machinecode);
+                        Main.NewText(username);
+                        Main.NewText("'" + password + "'(长度:" + password.Length);
+                        Main.NewText(info.ToString());
+                        Main.NewText(info.MachineCode);
+                        MessageSender.SendLoginPassword(info);
+                        // ServerSideCharacter2.Instance.ShowMessage("已经提交AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 120, Color.White);
+                        StartWaiting();
+                    }
+                    else
+                    {
+                        Main.NewText("密码不能为空！");
+                        Main.NewText("请注意：中文输入法可能导致字符不能正确输入");
+                        Main.NewText("请确保输入密码时输入法为英文输入状态");
+                    }
+                    break;
             }
-            else
-            {
-                Main.NewText("密码不能为空！");
-                Main.NewText("请注意：中文输入法可能导致字符不能正确输入");
-                Main.NewText("请确保输入密码时输入法为英文输入状态");
-            }
-		}
+        }
 
 		private void StartWaiting()
 		{
