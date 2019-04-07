@@ -5,6 +5,7 @@ using System.Text;
 using System.Security.Cryptography;
 using ServerSideCharacter2.Utils;
 using System.IO;
+using Terraria;
 
 namespace ServerSideCharacter2.Crypto
 {
@@ -52,12 +53,7 @@ namespace ServerSideCharacter2.Crypto
 
 			try
 			{
-				var arr = Encoding.UTF8.GetBytes(data);
-				byte[] encrypted;
-				var rsa = new RSACryptoServiceProvider();
-				rsa.FromXmlString(publicKey);
-				encrypted = rsa.Encrypt(arr, false);
-				return Convert.ToBase64String(encrypted);
+				return RsaEncrypt(data, publicKey);
 			}
 			catch(Exception ex)
 			{
@@ -66,21 +62,77 @@ namespace ServerSideCharacter2.Crypto
 			}
 		}
 
+		public static string RsaEncrypt(string rawInput, string publicKey)
+		{
+			using (var rsaProvider = new RSACryptoServiceProvider())
+			{
+				var inputBytes = Encoding.UTF8.GetBytes(rawInput);
+				rsaProvider.FromXmlString(publicKey);
+				//单块最大长度
+				int bufferSize = (rsaProvider.KeySize / 8) - 11;
+				var buffer = new byte[bufferSize];
+				using (MemoryStream inputStream = new MemoryStream(inputBytes),
+					 outputStream = new MemoryStream())
+				{
+					while (true)
+					{
+						int readSize = inputStream.Read(buffer, 0, bufferSize);
+						if (readSize <= 0)
+						{
+							break;
+						}
+
+						var temp = new byte[readSize];
+						Array.Copy(buffer, 0, temp, 0, readSize);
+						var encryptedBytes = rsaProvider.Encrypt(temp, false);
+						outputStream.Write(encryptedBytes, 0, encryptedBytes.Length);
+					}
+					return Convert.ToBase64String(outputStream.ToArray());
+				}
+			}
+		}
+
 		public static string Decrypt(string data)
 		{
 			try
 			{
-				var arr = Convert.FromBase64String(data);
-				byte[] decrypted;
-				var rsa = new RSACryptoServiceProvider();
-				rsa.FromXmlString(publicKey);
-				decrypted = rsa.Decrypt(arr, false);
-				return Encoding.UTF8.GetString(decrypted);
+				return RsaDecrypt(data, publicKey);
 			}
 			catch(Exception ex)
 			{
 				CommandBoardcast.ConsoleError(ex);
 				return null;
+			}
+		}
+
+
+		public static string RsaDecrypt(string encryptedInput, string privateKey)
+		{
+			using (var rsaProvider = new RSACryptoServiceProvider())
+			{
+				var inputBytes = Convert.FromBase64String(encryptedInput);
+				rsaProvider.FromXmlString(privateKey);
+				//单块最大长度
+				int bufferSize = rsaProvider.KeySize / 8;
+				var buffer = new byte[bufferSize];
+				using (MemoryStream inputStream = new MemoryStream(inputBytes),
+					 outputStream = new MemoryStream())
+				{
+					while (true)
+					{
+						int readSize = inputStream.Read(buffer, 0, bufferSize);
+						if (readSize <= 0)
+						{
+							break;
+						}
+
+						var temp = new byte[readSize];
+						Array.Copy(buffer, 0, temp, 0, readSize);
+						var rawBytes = rsaProvider.Decrypt(temp, false);
+						outputStream.Write(rawBytes, 0, rawBytes.Length);
+					}
+					return Encoding.UTF8.GetString(outputStream.ToArray());
+				}
 			}
 		}
 	}
