@@ -225,6 +225,14 @@ namespace ServerSideCharacter2
 			p.Send();
 		}
 
+		public static void SendUnionCreate(string name)
+		{
+			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			p.Write((int)SSCMessageType.CreateUnion);
+			p.Write(name);
+			p.Send();
+		}
+
 		public static void SendRegionRemove(string name)
 		{
 			var p = ServerSideCharacter2.Instance.GetPacket();

@@ -124,6 +124,7 @@
     <Compile Include="Commands\KillCommand.cs" />
     <Compile Include="Commands\PigCommand.cs" />
     <Compile Include="Commands\RefuseCommand.cs" />
+    <Compile Include="Commands\UnionCommand.cs" />
     <Compile Include="Commands\ResetPWCommand.cs" />
     <Compile Include="Commands\RankCommand.cs" />
     <Compile Include="Commands\SpawnControlCommand.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="Commands\SaveCommand.cs" />
     <Compile Include="GUI\UI\Component\Special\UIMatchGameBar.cs" />
     <Compile Include="GUI\UI\State\GameCenterState.cs" />
+    <Compile Include="JsonData\UnionInfo.cs" />
     <Compile Include="JsonData\MatchInfo.cs" />
     <Compile Include="JsonData\PlayerSaving.cs" />
     <Compile Include="MachineCodeManager.cs" />
@@ -276,6 +278,7 @@
     <Compile Include="Services\Regions\RegionSyncHandler.cs" />
     <Compile Include="Services\Regions\RegionCreateHandler.cs" />
     <Compile Include="Services\SSCCommandHandler.cs" />
+    <Compile Include="Services\Union\UnionCreateHandler.cs" />
     <Compile Include="Services\Union\UnionPageService.cs" />
     <Compile Include="SSCException.cs" />
     <Compile Include="SSCMessageType.cs" />

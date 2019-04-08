@@ -63,7 +63,8 @@
 		RegionOwnerCommand,
 		NewMatchCommand,
 		JoinMatchCommand,
-		GetMatches
+		GetMatches,
+		CreateUnion
 	}
 
 	public enum GenerationType

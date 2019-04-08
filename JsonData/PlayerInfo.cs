@@ -60,6 +60,8 @@ namespace ServerSideCharacter2.JsonData
 
 		public PlayerInfo()
 		{
+			Union = "";
+
 			for (var i = 0; i < inventory.Length; i++)
 			{
 				inventory[i] = new ItemInfo();

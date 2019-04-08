@@ -6,6 +6,7 @@ using ServerSideCharacter2.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace ServerSideCharacter2.Matches
 {
@@ -95,20 +96,33 @@ namespace ServerSideCharacter2.Matches
 
 		public virtual void Update()
 		{
-			lock (this)
+			bool lockTaken = false;
+			Monitor.TryEnter(this, 3000, ref lockTaken);
+			if (lockTaken)
 			{
-				if (!GameStarted)
+				try
 				{
-					if (innerCounter > 0)
+					if (!GameStarted)
 					{
-						innerCounter--;
-					}
-					else
-					{
-						CompleteMatch();
-						innerCounter = MaxMatchingTime;
+						if (innerCounter > 0)
+						{
+							innerCounter--;
+						}
+						else
+						{
+							CompleteMatch();
+							innerCounter = MaxMatchingTime;
+						}
 					}
 				}
+				finally
+				{
+					Monitor.Exit(this);
+				}
+			}
+			else
+			{
+				throw new SSCException("获取锁失败，可能导致死锁");
 			}
 		}
 

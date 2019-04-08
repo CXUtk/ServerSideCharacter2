@@ -20,54 +20,49 @@ namespace ServerSideCharacter2.Regions
 		}
 		public void CreateNewRegion(Rectangle rect, string name, ServerPlayer player)
 		{
-			lock (Regions)
+
+			Region playerRegion = new Region(name, rect)
 			{
-				Region playerRegion = new Region(name, rect)
-				{
-					OwnerGUID = player.GUID
-				};
-				Regions.Add(name, playerRegion);
-				player.Regions.Add(name);
-			}
+				OwnerGUID = player.GUID
+			};
+			Regions.Add(name, playerRegion);
+			player.Regions.Add(name);
+
 		}
 		public void CreateNewRegion(Rectangle rect, string name)
 		{
-			lock (Regions)
+
+			Region playerRegion = new Region(name, rect)
 			{
-				Region playerRegion = new Region(name, rect)
-				{
-					OwnerGUID = -1
-				};
-				Regions.Add(name, playerRegion);
-			}
+				OwnerGUID = -1
+			};
+			Regions.Add(name, playerRegion);
+
 		}
 
 		public void AddRegion(Region region)
 		{
-			lock (Regions)
-			{
-				Regions.Add(region.Name, region);
-			}
+
+			Regions.Add(region.Name, region);
+
 		}
 
 		public void RemoveRegionWithName(string name)
 		{
-			lock (Regions)
+			if (Regions.ContainsKey(name))
 			{
-				if (Regions.ContainsKey(name))
+				if (Regions[name].OwnerGUID != -1)
 				{
-					if (Regions[name].OwnerGUID != -1)
-					{
-						var owner = Regions[name].Owner;
-						owner.Regions.Remove(name);
-					}
-					Regions.Remove(name);
+					var owner = Regions[name].Owner;
+					owner.Regions.Remove(name);
 				}
-				else
-				{
-					throw new SSCException($"无法移除领地 {name}，不存在该领地");
-				}
+				Regions.Remove(name);
 			}
+			else
+			{
+				throw new SSCException($"无法移除领地 {name}，不存在该领地");
+			}
+
 		}
 
 		public bool Contains(string name)
@@ -155,7 +150,7 @@ namespace ServerSideCharacter2.Regions
 
 		internal bool ValidRegion(ServerPlayer player, string name, Rectangle area, out string errmsg)
 		{
-			if(name.Length < 2 || name.Length > 20)
+			if (name.Length < 2 || name.Length > 20)
 			{
 				errmsg = "领地名字长度不合法，应为2-20个字符！";
 				return false;
@@ -165,7 +160,7 @@ namespace ServerSideCharacter2.Regions
 				errmsg = "已经存在相同名字的领地！";
 				return false;
 			}
-			else if(Regions.Count >= ServerSideCharacter2.Config.MaxRegions)
+			else if (Regions.Count >= ServerSideCharacter2.Config.MaxRegions)
 			{
 				errmsg = "领地数量达到服务器规定上限";
 				return false;

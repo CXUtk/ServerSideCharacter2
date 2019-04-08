@@ -146,6 +146,9 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			var playerIDText = new UIText($"玩家ID：{_info.PlayerID}");
 			infoList.Add(playerIDText);
 
+			var unionText = new UIText($"所属公会：{_info.UnionName}");
+			infoList.Add(unionText);
+
 			var killcountText = new UIText($"击杀数：{_info.KillCount}");
 			infoList.Add(killcountText);
 

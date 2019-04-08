@@ -17,6 +17,8 @@ namespace ServerSideCharacter2.JsonData
 
 		public string GroupName;
 
+		public string UnionName;
+
 		public string ChatPrefix;
 
         public string CustomChatPrefix;

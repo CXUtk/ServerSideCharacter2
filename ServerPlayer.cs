@@ -216,6 +216,7 @@ namespace ServerSideCharacter2
 		{
 			get
 			{
+				if (_info.Union == null) return null;
 				if (ServerSideCharacter2.UnionManager.Unions.ContainsKey(_info.Union))
 				{
 					return ServerSideCharacter2.UnionManager.Unions[_info.Union];
@@ -387,7 +388,7 @@ namespace ServerSideCharacter2
 				HasPassword = false,
 				IsMuted = false,
 				Group = "default",
-				Union = null,
+				Union = "",
 				Password = "",
 				LifeMax = 100,
 				StatLife = 100,
@@ -607,16 +608,17 @@ namespace ServerSideCharacter2
 		{
 			var isFriend = (id == 255) ||(id == this.playerID) 
 				|| (Main.player[id].GetServerPlayer().Friends.Contains(this.Name));
-            return new SimplifiedPlayerInfo
-            {
-                Name = this.Name,
-                IsLogin = this.IsLogin,
-                PlayerID = playerID,
-                GUID = this._info.ID,
-                ChatColor = Group.ChatColor,
-                ChatPrefix = Group.ChatPrefix,
-                CustomChatPrefix = this.qqAuth.CustomChatPrefix,
-                GroupName = Group.Name,
+			return new SimplifiedPlayerInfo
+			{
+				Name = this.Name,
+				IsLogin = this.IsLogin,
+				PlayerID = playerID,
+				GUID = this._info.ID,
+				ChatColor = Group.ChatColor,
+				ChatPrefix = Group.ChatPrefix,
+				CustomChatPrefix = this.qqAuth.CustomChatPrefix,
+				GroupName = Group.Name,
+				UnionName = Union == null ? "无" : this.Union.Name,
                 IsFriend = isFriend,
                 Rank = this.Rank,
                 KillCount = this.KillCount,

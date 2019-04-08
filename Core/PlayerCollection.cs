@@ -50,6 +50,7 @@ namespace ServerSideCharacter2.Core
 
 		public ServerPlayer Get(string name)
 		{
+			if (!_playerList.ContainsKey(name)) return null;
 			return _playerList[name];
 		}
 

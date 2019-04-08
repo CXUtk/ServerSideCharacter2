@@ -22,6 +22,7 @@ namespace ServerSideCharacter2.Services.FriendSystem
 				foreach (var f in player.Friends)
 				{
 					var friend = ServerSideCharacter2.PlayerCollection.Get(f);
+					if (friend == null) continue;
 					ret.Player.Add(friend.GetSimplified(playerNumber));
 				}
 				ret.Player.Add(player.GetSimplified(playerNumber));
