@@ -118,10 +118,7 @@ namespace ServerSideCharacter2
 			try
 			{
 				CommandBoardcast.ConsoleSaveInfo();
-				lock (ServerSideCharacter2.PlayerCollection)
-				{
-					ServerSideCharacter2.PlayerDoc.SavePlayersData();
-				}
+				ServerSideCharacter2.PlayerDoc.SavePlayersData();
 				ConfigLoader.Save();
 				WorldFile.saveWorld();
 			}

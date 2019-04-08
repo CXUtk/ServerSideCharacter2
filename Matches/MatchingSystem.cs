@@ -35,15 +35,12 @@ namespace ServerSideCharacter2.Matches
 
 		public void Run()
 		{
-			foreach(var pair in Matches)
+			foreach (var pair in Matches)
 			{
 				var match = pair.Value;
-				lock (match)
+				if (match.IsActive)
 				{
-					if (match.IsActive)
-					{
-						match.Update();
-					}
+					match.Update();
 				}
 			}
 		}
@@ -66,16 +63,7 @@ namespace ServerSideCharacter2.Matches
 		public void MatchPlayer(string name, ServerPlayer player)
 		{ 
 			var match = Matches[name];
-			lock (match)
-			{
-				match.MatchedPlayers.Add(player);
-				player.InMatch = true;
-				if (match.MatchedPlayers.Count == match.MaxPlayers)
-				{
-					match.OnMatched();
-				}
-			}
-
+			match.MatchNewPlayer(player);
 		}
 	}
 }

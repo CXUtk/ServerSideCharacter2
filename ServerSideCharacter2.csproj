@@ -265,7 +265,6 @@
     <Compile Include="Services\Misc\LockHandler.cs" />
     <Compile Include="Services\NPC\SpawnControlHandler.cs" />
     <Compile Include="Services\OnlinePlayer\OnlinePlayerHandler.cs" />
-    <Compile Include="Services\OnlinePlayer\PlayerBankHandler.cs" />
     <Compile Include="Services\OnlinePlayer\RequestPlayersHandler.cs" />
     <Compile Include="Services\OnlinePlayer\OnlinePlayerService.cs" />
     <Compile Include="Services\Misc\ReceiveRSA.cs" />

@@ -32,7 +32,15 @@ namespace ServerSideCharacter2.Matches
 			innerCounter = MaxMatchingTime;
 		}
 
-		public void Activate() { IsActive = true; innerCounter = MaxMatchingTime; OnActive(); }
+		public void Activate()
+		{
+			lock (this)
+			{
+				IsActive = true; GameStarted = false;
+				innerCounter = MaxMatchingTime;
+				OnActive();
+			}
+		}
 		public void Deactivate()
 		{
 			IsActive = false; IsMatched = false; GameStarted = false; innerCounter = 0;
@@ -43,20 +51,55 @@ namespace ServerSideCharacter2.Matches
 		protected abstract void OnActive();
 		protected abstract void OnDeactive();
 
-		public abstract void OnMatched();
-
-		public virtual void Update()
+		public void CompleteMatch()
 		{
-			if (!GameStarted)
+			IsMatched = true;
+			OnMatched();
+		}
+
+		protected abstract void OnMatched();
+
+		public void MatchNewPlayer(ServerPlayer player)
+		{
+			lock (this)
 			{
-				if (innerCounter > 0)
+				if (!IsActive)
 				{
-					innerCounter--;
+					player.SendMessageBox("这个活动还没有开始匹配", 120, Color.Red);
+					return;
+				}
+				if (IsMatched)
+				{
+					player.SendMessageBox("这个活动的匹配已经结束了，等待下一轮吧", 120, Color.Red);
+					return;
 				}
 				else
 				{
-					OnMatched();
-					innerCounter = MaxMatchingTime;
+					MatchedPlayers.Add(player);
+					player.InMatch = true;
+					if (MatchedPlayers.Count == MaxPlayers)
+					{
+						CompleteMatch();
+					}
+				}
+			}
+		}
+
+		public virtual void Update()
+		{
+			lock (this)
+			{
+				if (!GameStarted)
+				{
+					if (innerCounter > 0)
+					{
+						innerCounter--;
+					}
+					else
+					{
+						CompleteMatch();
+						innerCounter = MaxMatchingTime;
+					}
 				}
 			}
 		}

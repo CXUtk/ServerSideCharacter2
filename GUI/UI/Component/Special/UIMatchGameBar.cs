@@ -42,7 +42,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			matchInfo = info;
 			this.dividerTexture = TextureManager.Load("Images/UI/Divider");
 			this.Width.Set(0, 1f);
-			this.Height.Set(50f, 0f);
+			this.Height.Set(140f, 0f);
 			this.CornerSize = new Vector2(8, 8);
 			base.MainTexture = ServerSideCharacter2.ModTexturesTable["Box"];
 			base.SetPadding(6f);
@@ -194,7 +194,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		public override void Click(UIMouseEvent evt)
 		{
 			_expanded ^= true;
-			this.Height.Set(_expanded ? 140f : 50f, 0f);
+			//this.Height.Set(_expanded ? 140f : 50f, 0f);
 			Recalculate();
 			
 			base.Click(evt);
