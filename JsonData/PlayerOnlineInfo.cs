@@ -36,6 +36,8 @@ namespace ServerSideCharacter2.JsonData
 		public DateTime RegistedTime;
 
         public string QQNumber;
+
+		public string CurrentMatch;
 	}
 
 	[JsonObject]

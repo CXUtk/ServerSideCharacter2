@@ -194,7 +194,8 @@ namespace ServerSideCharacter2.GUI.UI
 					KillCount = 50,
 					ChatPrefix = "公民",
 					ChatColor = Color.Red,
-					RegistedTime = DateTime.Now
+					RegistedTime = DateTime.Now,
+					CurrentMatch = "吃鸡"
 				};
 				uIPlayerProfileHead.SetPlayer(info);
 			}

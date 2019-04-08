@@ -46,6 +46,10 @@ namespace ServerSideCharacter2.Matches
 			IsActive = false; IsMatched = false; GameStarted = false; innerCounter = 0;
 			MessageSender.SendMatchesData(-1);
 			OnDeactive();
+			foreach (var player in MatchedPlayers)
+			{
+				player.CurrentMatch = null;
+			}
 		}
 
 		protected abstract void OnActive();
@@ -54,6 +58,10 @@ namespace ServerSideCharacter2.Matches
 		public void CompleteMatch()
 		{
 			IsMatched = true;
+			foreach (var player in MatchedPlayers)
+			{
+				player.CurrentMatch = this;
+			}
 			OnMatched();
 		}
 

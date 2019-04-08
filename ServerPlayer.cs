@@ -15,6 +15,7 @@ using ServerSideCharacter2.RankingSystem;
 using ServerSideCharacter2.Regions;
 using Terraria.DataStructures;
 using Terraria.GameContent;
+using ServerSideCharacter2.Matches;
 
 namespace ServerSideCharacter2
 {
@@ -174,6 +175,12 @@ namespace ServerSideCharacter2
 			{
 				return _info.ID;
 			}
+		}
+
+		public Match CurrentMatch
+		{
+			get;
+			set;
 		}
 
 
@@ -615,6 +622,7 @@ namespace ServerSideCharacter2
                 KillCount = this.KillCount,
                 RegistedTime = this.RegistedTime,
                 QQNumber = this.qqAuth.QQ,
+				CurrentMatch = this.CurrentMatch == null ? "" : this.CurrentMatch.Name,
 			};
 		}
 

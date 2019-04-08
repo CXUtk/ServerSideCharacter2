@@ -103,6 +103,17 @@ namespace ServerSideCharacter2.Core
 			return ret;
 		}
 
+		public PlayerOnlineInfo GetAllInfo()
+		{
+			var ret = new PlayerOnlineInfo();
+
+			foreach (var player in _playerList)
+			{
+				ret.Player.Add(player.Value.GetSimplified(255));
+			}
+			return ret;
+		}
+
 		public IEnumerator<KeyValuePair<string, ServerPlayer>> GetEnumerator()
 		{
 			return _playerList.GetEnumerator();

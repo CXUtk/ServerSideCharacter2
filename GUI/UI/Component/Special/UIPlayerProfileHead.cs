@@ -103,6 +103,11 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			}
 		}
 
+		private string addColor(string str, Color c)
+		{
+			return $"[c/{c.Hex3()}:{str}]";
+		}
+
 		public void SetPlayer(SimplifiedPlayerInfo info)
 		{
 			_info = info;
@@ -119,6 +124,17 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			rankimage.Left.Set(center.X - rankimage.Width.Pixels / 2, 0);
 			rankimage.Top.Set(center.Y - rankimage.Height.Pixels / 2, 0);
 			rankimage.Tooltip = Ranking.GetName(type);
+
+			var stateText = new UIText("");
+			infoList.Add(stateText);
+			if(_info.CurrentMatch == "")
+			{
+				stateText.SetText($"状态：{addColor("空闲", Color.Green)}");
+			}
+			else
+			{
+				stateText.SetText($"状态：{addColor(_info.CurrentMatch + " 游戏中", Color.Yellow)}");
+			}
 
 			if (Main.netMode == 0 || ServerSideCharacter2.MainPlayerGroup.IsSuperAdmin)
 			{
