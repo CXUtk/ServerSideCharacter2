@@ -36,7 +36,7 @@ namespace ServerSideCharacter2
 {
 	public class ServerSideCharacter2 : Mod
 	{
-		public const bool DEBUGMODE = false;
+		public const bool DEBUGMODE = true;
 
 		internal static ServerSideCharacter2 Instance;
 
@@ -106,96 +106,6 @@ namespace ServerSideCharacter2
 		{
 		}
 
-		public override bool HijackSendData(int whoAmI, int msgType, int remoteClient, int ignoreClient, NetworkText text, int number, float number2, float number3, float number4, int number5, int number6, int number7)
-		{
-			try
-			{
-				switch (msgType)
-				{
-					case MessageID.WorldData:
-						{
-							if (Main.netMode != 2) // we will not process this message in client-side
-							{
-								break;
-							}
-							MessageBuffer obj = NetMessage.buffer[whoAmI];
-							bool lockTaken = false;
-							Monitor.TryEnter(obj, 3000, ref lockTaken);
-							if (lockTaken)
-							{
-								try
-								{
-									BinaryWriter binaryWriter = NetMessage.buffer[whoAmI].writer;
-									if (binaryWriter == null)
-									{
-										NetMessage.buffer[whoAmI].ResetWriter();
-										binaryWriter = NetMessage.buffer[whoAmI].writer;
-									}
-									binaryWriter.BaseStream.Position = 0L;
-									long position = binaryWriter.BaseStream.Position;
-									binaryWriter.BaseStream.Position += 2L;
-									binaryWriter.Write(MessageID.WorldData);
-
-									PacketModifier.ModifyWorldData(ref binaryWriter);
-
-									var currentPosition = (int)binaryWriter.BaseStream.Position;
-									binaryWriter.BaseStream.Position = position;
-									binaryWriter.Write((short)currentPosition);
-									binaryWriter.BaseStream.Position = currentPosition;
-
-									var data = NetMessage.buffer[whoAmI].writeBuffer;
-
-									// Resend the packet
-									if (remoteClient == -1)
-									{
-										for (var index = 0; index < 256; index++)
-										{
-											if (index != ignoreClient && (NetMessage.buffer[index].broadcast || Netplay.Clients[index].State >= 3 && msgType == 10) && Netplay.Clients[index].IsConnected())
-											{
-												NetMessage.buffer[index].spamCount++;
-												Main.txMsg++;
-												Main.txData += currentPosition;
-												Main.txMsgType[msgType]++;
-												Main.txDataType[msgType] += currentPosition;
-												Netplay.Clients[index].Socket.AsyncSend(data, 0, data.Length,
-													Netplay.Clients[index].ServerWriteCallBack);
-											}
-										}
-									}
-									else if (Netplay.Clients[remoteClient].IsConnected())
-									{
-										NetMessage.buffer[remoteClient].spamCount++;
-										Main.txMsg++;
-										Main.txData += currentPosition;
-										Main.txMsgType[msgType]++;
-										Main.txDataType[msgType] += currentPosition;
-										Netplay.Clients[remoteClient].Socket.AsyncSend(NetMessage.buffer[whoAmI].writeBuffer, 0, currentPosition, Netplay.Clients[remoteClient].ServerWriteCallBack, null);
-									}
-
-								}
-								finally
-								{
-									Monitor.Exit(obj);
-								}
-							}
-							else
-							{
-								CommandBoardcast.ConsoleError("死锁检测于HijackSendData");
-							}
-							return true;
-						}
-
-					default:
-						return false;
-				}
-			}
-			catch(Exception ex)
-			{
-				CommandBoardcast.ConsoleError(ex);
-			}
-
-			return false;
-		}
 
 
 		public override bool HijackGetData(ref byte messageType, ref BinaryReader reader, int playerNumber)
