@@ -20,6 +20,7 @@ namespace ServerSideCharacter2.GUI
 		HomePage,
 		UnionPage,
 		UnionPage2,
+		UnionPage3,
 		ItemPage,
 		ProfilePage,
 		NPCPage,
@@ -36,6 +37,7 @@ namespace ServerSideCharacter2.GUI
 		private CommunicationState _communicationState;
 		private GameCenterState _gameCenterState;
 		private UnionPageState _unionPageState;
+		private UnionCreatePage _unionCreateState;
 		private ItemUIState _getitemState;
 		private PlayerProfileState _playerProfileState;
 		private NPCUIState _getnpcState;
@@ -93,6 +95,11 @@ namespace ServerSideCharacter2.GUI
 			var unionpage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.UnionPage]; });
 			unionpage.SetState(_unionPageState);
 			_cdInterface.Add(unionpage);
+
+			_unionCreateState = new UnionCreatePage();
+			var unionpage2 = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.UnionPage2]; });
+			unionpage2.SetState(_unionCreateState);
+			_cdInterface.Add(unionpage2);
 
 			_getitemState = new ItemUIState();
 			var itempage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.ItemPage]; });
@@ -162,6 +169,12 @@ namespace ServerSideCharacter2.GUI
 		{
 			if (!_canShowUITable.ContainsKey(state)) throw new ArgumentException("不存在此UI状态");
 			_canShowUITable[state] ^= true;
+		}
+
+		internal void SetState(SSCUIState state, bool value)
+		{
+			if (!_canShowUITable.ContainsKey(state)) throw new ArgumentException("不存在此UI状态");
+			_canShowUITable[state] = value;
 		}
 
 		public void ShowMessage(string msg, int time, Color color)

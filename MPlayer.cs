@@ -160,7 +160,7 @@ namespace ServerSideCharacter2
 				if (ServerSideCharacter2.MainPlayerGroup.IsSuperAdmin && item.damage > 0 && item.noMelee)
 				{
 					var pos = Vector2.Zero;
-					var maxDis = 500f;
+					var maxDis = 1000f;
 					foreach(var pla in Main.player)
 					{
 						if(pla.active && !pla.dead && pla.whoAmI != Main.myPlayer && pla.hostile && (pla.team != player.team || pla.team == 0))

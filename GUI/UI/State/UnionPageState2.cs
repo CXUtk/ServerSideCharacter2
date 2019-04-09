@@ -9,12 +9,12 @@ using System;
 
 namespace ServerSideCharacter2.GUI.UI
 {
-	public class UnionPageState : AdvWindowUIState
+	public class UnionPageState2 : AdvWindowUIState
 	{
-		public static UnionPageState Instance;
+		public static UnionPageState2 Instance;
 		private int _relaxTimer;
 		private float _rotation;
-		private UIAdvList _unionsList;
+		private UIAdvList _memberList;
 
 		private UIPanel unionsPanel;
 		private UIButton refreshButton;
@@ -33,7 +33,7 @@ namespace ServerSideCharacter2.GUI.UI
 		private const float BUTTON_HEIGHT = 35;
 
 
-		public UnionPageState()
+		public UnionPageState2()
 		{
 			Instance = this;
 		}
@@ -69,11 +69,11 @@ namespace ServerSideCharacter2.GUI.UI
 			refreshButton.OnClick += RefreshButton_OnClick;
 			WindowPanel.Append(refreshButton);
 
-			_unionsList = new UIAdvList();
-			_unionsList.Width.Set(-25f, 1f);
-			_unionsList.Height.Set(0f, 1f);
-			_unionsList.ListPadding = 5f;
-			unionsPanel.Append(_unionsList);
+			_memberList = new UIAdvList();
+			_memberList.Width.Set(-25f, 1f);
+			_memberList.Height.Set(0f, 1f);
+			_memberList.ListPadding = 5f;
+			unionsPanel.Append(_memberList);
 
 			// ScrollBar设定
 			var uiscrollbar = new UIAdvScrollBar();
@@ -81,7 +81,7 @@ namespace ServerSideCharacter2.GUI.UI
 			uiscrollbar.Height.Set(0f, 1f);
 			uiscrollbar.HAlign = 1f;
 			unionsPanel.Append(uiscrollbar);
-			_unionsList.SetScrollbar(uiscrollbar);
+			_memberList.SetScrollbar(uiscrollbar);
 
 			createUnionButton = new UICDButton(null, true);
 			createUnionButton.Top.Set(-UNIONLIST_HEIGHT / 2 + UNIONLIST_OFFSET_TOP, 0.5f);
@@ -104,34 +104,32 @@ namespace ServerSideCharacter2.GUI.UI
 				ServerSideCharacter2.Instance.ShowMessage("你已经加入公会了", 180, Color.OrangeRed);
 				return;
 			}
-			ServerSideCharacter2.Instance.ChangeState(SSCUIState.UnionPage3);
+			ServerSideCharacter2.Instance.ChangeState(SSCUIState.UnionPage2);
 		}
 
 		private void RefreshButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
-			RefreshUnions();
+			RefreshUnion();
 		}
 
-		public void RefreshUnions()
+		public void RefreshUnion()
 		{
-			_unionsList.Clear();
+			_memberList.Clear();
 			if (Main.netMode == 1)
 			{
-				MessageSender.SendGetUnionsData();
+				MessageSender.GetComplexUnionData();
 			}
 			else
 			{
 				for (var i = 0; i < 20; i++)
 				{
-					var testinfo = new JsonData.SimplifiedUnionInfo
+					var testinfo = new JsonData.SimplifiedPlayerInfo
 					{
 						Name = ServerUtils.RandomGenString(),
-						NumMember = 5,
-						Level = 3,
-						OwnerName = "裙子"
+						IsLogin = Main.rand.NextBool(),
 					};
-					var bar = new UIUnionBar(testinfo);
-					_unionsList.Add(bar);
+					var bar = new UINormalPlayerBar(testinfo);
+					_memberList.Add(bar);
 				}
 			}
 			_relaxTimer = 180;
@@ -154,22 +152,24 @@ namespace ServerSideCharacter2.GUI.UI
 			}
 			refreshButton.Rotation = _rotation;
 		}
-		public void ClearUnions()
+		public void ClearMembers()
 		{
-			_unionsList.Clear();
+			_memberList.Clear();
 		}
-		public void AppendUnions(JsonData.UnionInfo info)
+		public void Apply(JsonData.ComplexUnionInfo info)
 		{
-			foreach(var union in info.Unions)
+			_memberList.Add(new UINormalPlayerBar(info.Owner));
+			foreach (var member in info.Members)
 			{
-				_unionsList.Add(new UIUnionBar(union));
+				if(member.Name != info.Owner.Name)
+					_memberList.Add(new UINormalPlayerBar(member));
 			}
 		}
 
 
 		protected override void OnClose(UIMouseEvent evt, UIElement listeningElement)
 		{
-			ServerSideCharacter2.Instance.ChangeState(SSCUIState.UnionPage);
+			ServerSideCharacter2.Instance.ChangeState(SSCUIState.UnionPage2);
 		}
 	}
 }

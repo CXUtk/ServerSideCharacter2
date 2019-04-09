@@ -605,6 +605,11 @@ namespace ServerSideCharacter2
 			}
 		}
 
+		/// <summary>
+		/// 相对于玩家id为id的玩家的简化玩家信息，便于确认是否是玩家的好友
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		public SimplifiedPlayerInfo GetSimplified(int id)
 		{
 			var isFriend = (id == 255) ||(id == this.playerID) 
@@ -705,6 +710,14 @@ namespace ServerSideCharacter2
 		public void UnBan(string reason)
 		{
 			qqAuth.UnbanPlayer(this);
+		}
+
+		public void SyncUnionInfo()
+		{
+			if(RealPlayer && ConnectionAlive)
+			{
+				MessageSender.NotifyClientUnion(playerID);
+			}
 		}
 	}
 }

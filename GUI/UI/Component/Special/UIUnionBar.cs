@@ -80,21 +80,16 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 
 		protected virtual void AddExtraButtons(List<UICDButton> buttons)
 		{
-			if (Main.netMode == 0 || (ServerSideCharacter2.MainPlayerGroup.HasPermission("union-join") 
-				&& ServerSideCharacter2.ClientUnion != null))
-			{
-				var unionjoinButton = new UICDButton(null, true);
-				unionjoinButton.Width.Set(70f, 0f);
-				unionjoinButton.Height.Set(38f, 0f);
-				unionjoinButton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
-				unionjoinButton.ButtonDefaultColor = new Color(200, 200, 200);
-				unionjoinButton.ButtonChangeColor = Color.White;
-				unionjoinButton.CornerSize = new Vector2(12, 12);
-				unionjoinButton.ButtonText = "申请";
-				unionjoinButton.OnClick += UnionjoinButton_OnClick;
-				buttons.Add(unionjoinButton);
-			}
-			
+			var unionjoinButton = new UICDButton(null, true);
+			unionjoinButton.Width.Set(70f, 0f);
+			unionjoinButton.Height.Set(38f, 0f);
+			unionjoinButton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
+			unionjoinButton.ButtonDefaultColor = new Color(200, 200, 200);
+			unionjoinButton.ButtonChangeColor = Color.White;
+			unionjoinButton.CornerSize = new Vector2(12, 12);
+			unionjoinButton.ButtonText = "申请";
+			unionjoinButton.OnClick += UnionjoinButton_OnClick;
+			buttons.Add(unionjoinButton);
 		}
 
 		private void UnionjoinButton_OnClick(UIMouseEvent evt, UIElement listeningElement)

@@ -24,17 +24,17 @@ namespace ServerSideCharacter2.Services.Union
 				p.Write((int)SSCMessageType.UnionsInfo);
 				p.Write(JsonConvert.SerializeObject(ServerSideCharacter2.UnionManager.GetUnionsData(), Formatting.None));
 				p.Send();
-				CommandBoardcast.ConsoleMessage($"公会信息已经发送给{Main.player[playerNumber].name}");
+				CommandBoardcast.ConsoleMessage($"全局公会信息已经发送给{Main.player[playerNumber].name}");
 			}
 			else
 			{
 				var data = reader.ReadString();
 				var info = JsonConvert.DeserializeObject<UnionInfo>(data);
-				//lock (GameCenterState.Instance)
-				//{
-				//	GameCenterState.Instance.ClearMatches();
-				//	GameCenterState.Instance.AppendMatches(info);
-				//}
+				lock (UnionPageState.Instance)
+				{
+					UnionPageState.Instance.ClearUnions();
+					UnionPageState.Instance.AppendUnions(info);
+				}
 			}
 		}
 	}

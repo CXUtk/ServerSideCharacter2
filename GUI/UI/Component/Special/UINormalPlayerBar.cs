@@ -51,6 +51,10 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			nameLabel = new UIText(playerInfo.Name);
 			nameLabel.Top.Set(10, 0f);
 			nameLabel.Left.Set(5, 0);
+			if (!info.IsLogin)
+			{
+				nameLabel.TextColor = Color.Gray;
+			}
 			Append(nameLabel);
 
 			//bool male = Main.player[playerInfo.PlayerID].Male;

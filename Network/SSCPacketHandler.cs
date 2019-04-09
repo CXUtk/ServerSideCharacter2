@@ -82,6 +82,8 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.BanCommand, new BanHandler() },
 				{SSCMessageType.CreateUnion, new Services.Union.UnionCreateHandler() },
 				{SSCMessageType.UnionsInfo, new Services.Union.GetUnionsHandler() },
+				{SSCMessageType.NotifyClientUnion, new Services.Union.ClientUnionHandler() },
+				{SSCMessageType.UnionInfoComplex, new Services.Union.GetUnionComplexHandler() },
 			};
 		}
 	}

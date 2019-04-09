@@ -58,8 +58,10 @@ namespace ServerSideCharacter2.Unions
 				{
 					Union union = new Union(name);
 					union.AddMember(owner);
-					union.Owner = owner;
+					union.Owner = owner.Name;
 					Unions.Add(name, union);
+					owner.SetUnion(name);
+					owner.SyncUnionInfo();
 				}
 				finally
 				{
@@ -78,7 +80,8 @@ namespace ServerSideCharacter2.Unions
 			union.IncreaseEXP(amount);
 			foreach(var member in union.Members)
 			{
-				member.SendInfoMessage($"玩家 {player.Name} 给公会捐献了 {amount} 财富", Color.Green);
+				var splayer = ServerSideCharacter2.PlayerCollection.Get(member);
+				splayer?.SendInfoMessage($"玩家 {player.Name} 给公会捐献了 {amount} 财富", Color.Green);
 			}
 			CommandBoardcast.ConsoleMessage($"玩家 {player.Name} 给公会 {name} 捐献了 {amount} 财富");
 		}
@@ -96,7 +99,23 @@ namespace ServerSideCharacter2.Unions
 			{
 				try
 				{
+					var union = Unions[name];
+					var members = union.Members.ToList();
 					Unions.Remove(name);
+					foreach(var member in members)
+					{
+						var player = ServerSideCharacter2.PlayerCollection.Get(member);
+						player.SendMessageBox($"你所在的公会 {name} 已经解散！", 180, Color.OrangeRed);
+						if(player != null)
+						{
+							player.SetUnion("");
+							player.SyncUnionInfo();
+						}
+					}
+				}
+				catch(Exception ex)
+				{
+					CommandBoardcast.ConsoleError(ex);
 				}
 				finally
 				{

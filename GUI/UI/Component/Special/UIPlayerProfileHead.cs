@@ -112,7 +112,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		{
 			_info = info;
 			infoList.Clear();
-            textName.SetText((info.CustomChatPrefix == "" ? "" : ("【" + info.CustomChatPrefix + "】")) + info.Name);
+            textName.SetText((string.IsNullOrWhiteSpace(info.CustomChatPrefix) ? "" : ("【" + info.CustomChatPrefix + "】")) + info.Name);
             var type = Ranking.GetRankType(info.Rank);
 			var range = Ranking.GetRankRange(type);
 			rankLabel.SetText($"{info.Rank} / {range.Item2}");
@@ -127,7 +127,11 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 
 			var stateText = new UIText("");
 			infoList.Add(stateText);
-			if(_info.CurrentMatch == "")
+			if (!_info.IsLogin)
+			{
+				stateText.SetText($"状态：{addColor("离线", Color.Gray)}");
+			}
+			else if(_info.CurrentMatch == "")
 			{
 				stateText.SetText($"状态：{addColor("空闲", Color.Green)}");
 			}

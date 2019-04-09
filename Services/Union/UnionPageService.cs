@@ -15,9 +15,9 @@ namespace ServerSideCharacter2.Services.Union
 	{
 		public Texture2D Texture => ServerSideCharacter2.ModTexturesTable["Home"];
 
-		public string Tooltip => "工会";
+		public string Tooltip => "公会";
 
-		public string Name => "SSC: 工会";
+		public string Name => "SSC: 公会";
 
 		public bool Enabled { get; set; }
 
@@ -33,10 +33,21 @@ namespace ServerSideCharacter2.Services.Union
 				Main.NewText("您还没有登录，请先登录", Color.Red);
 				return;
 			}
-			ServerSideCharacter2.Instance.ChangeState(SSCUIState.UnionPage);
-			if (ServerSideCharacter2.GuiManager.IsActive(SSCUIState.UnionPage))
+			if (ServerSideCharacter2.ClientUnion != null)
 			{
-				UnionPageState.Instance.RefreshUnions();
+				ServerSideCharacter2.Instance.ChangeState(SSCUIState.UnionPage2);
+				if (ServerSideCharacter2.GuiManager.IsActive(SSCUIState.UnionPage2))
+				{
+					UnionPageState2.Instance.RefreshUnion();
+				}
+			}
+			else
+			{
+				ServerSideCharacter2.Instance.ChangeState(SSCUIState.UnionPage);
+				if (ServerSideCharacter2.GuiManager.IsActive(SSCUIState.UnionPage))
+				{
+					UnionPageState.Instance.RefreshUnions();
+				}
 			}
 		}
 	}

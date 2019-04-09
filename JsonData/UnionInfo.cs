@@ -21,10 +21,12 @@ namespace ServerSideCharacter2.JsonData
 	{
 		public string Name;
 		public int Level;
+		public long CurrentEXP;
+		public long EXPToNext;
 		public long Wealth;
-		public string OwnerName;
-		public HashSet<string> Members;
-		public string Owner;
+		public SimplifiedPlayerInfo Owner;
+		public HashSet<SimplifiedPlayerInfo> Members;
+		public HashSet<SimplifiedPlayerInfo> Requests;
 	}
 
 	public class UnionInfo

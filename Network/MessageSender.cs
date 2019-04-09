@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using ServerSideCharacter2.Core;
 using ServerSideCharacter2.Crypto;
+using ServerSideCharacter2.Unions;
 using ServerSideCharacter2.Utils;
 using System;
 using Terraria;
@@ -227,6 +228,7 @@ namespace ServerSideCharacter2
 
 		public static void SendUnionCreate(string name)
 		{
+			if (Main.netMode != 1) return;
 			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.CreateUnion);
 			p.Write(name);
@@ -239,6 +241,37 @@ namespace ServerSideCharacter2
 			p.Write((int)SSCMessageType.UnionsInfo);
 			p.Send();
 		}
+		public static void GetComplexUnionData()
+		{
+			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			p.Write((int)SSCMessageType.UnionInfoComplex);
+			p.Send();
+		}
+
+		public static void SendComplexUnionData(Union union, int to)
+		{
+			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			p.Write((int)SSCMessageType.UnionInfoComplex);
+			p.Write(JsonConvert.SerializeObject(union.GetComplex(), Formatting.None));
+			p.Send(to);
+		}
+
+		public static void NotifyClientUnion(int to)
+		{
+			if (Main.netMode == 2)
+			{
+				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				p.Write((int)SSCMessageType.NotifyClientUnion);
+				var splayer = Main.player[to].GetServerPlayer();
+				p.Write(splayer.Union == null ? "无": splayer.Union.Name);
+				if (splayer.Union != null)
+				{
+					p.Write(splayer.Union.Owner);
+				}
+				p.Send(to);
+			}
+		}
+
 
 		public static void SendRegionRemove(string name)
 		{

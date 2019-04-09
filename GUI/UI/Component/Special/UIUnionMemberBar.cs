@@ -17,14 +17,20 @@ using System.Collections.Generic;
 
 namespace ServerSideCharacter2.GUI.UI.Component.Special
 {
-	public class UIFriendBar : UINormalPlayerBar
+	public class UIUnionMemberBar : UINormalPlayerBar
 	{
 		private const float LABEL_MAX_WIDTH = 100;
 		private const float GENDER_ICON_SIZE = 25;
+		private bool _isOwner;
 
-		public UIFriendBar(SimplifiedPlayerInfo info) : base(info)
+		public UIUnionMemberBar(SimplifiedPlayerInfo info, bool owner) : base(info)
 		{
-			// nameLabel.TextColor = info.IsLogin ? Color.LimeGreen : new Color(180, 180, 180);
+			nameLabel.TextColor = info.IsLogin ? Color.LimeGreen : new Color(180, 180, 180);
+			_isOwner = owner;
+			var classText = new UIText(owner ? "会长" : "成员");
+			classText.Top.Set(10, 0f);
+			classText.Left.Set(120, 0);
+			Append(classText);
 		}
 
 		protected override void AddExtraButtons(List<UICDButton> buttons)
@@ -40,8 +46,6 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			profilebutton.OnClick += Profilebutton_OnClick;
 			buttons.Add(profilebutton);
 
-
-
 			if (Main.netMode == 0 || ServerSideCharacter2.MainPlayerGroup.HasPermission("tp"))
 			{
 				var tpbutton = new UICDButton(null, true);
@@ -56,34 +60,9 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 				buttons.Add(tpbutton);
 			}
 
-
-			if (Main.netMode == 0 || ServerSideCharacter2.MainPlayerGroup.HasPermission("lock"))
-			{
-				var lockButton = new UICDButton(null, true);
-				lockButton.Width.Set(70f, 0f);
-				lockButton.Height.Set(38f, 0f);
-				lockButton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
-				lockButton.ButtonDefaultColor = new Color(200, 200, 200);
-				lockButton.ButtonChangeColor = Color.White;
-				lockButton.CornerSize = new Vector2(12, 12);
-				lockButton.ButtonText = "锁住";
-				lockButton.OnClick += LockButton_OnClick;
-				buttons.Add(lockButton);
-			}
 		}
-		//public override void Click(UIMouseEvent evt)
-		//{
-		//	this.Width.Set(100, 0f);
-		//	Recalculate();
-		//	base.Click(evt);
-		//}
 
-		public override int CompareTo(object obj)
-		{
-			var other = obj as UIFriendBar;
 
-			return string.Compare(this.playerInfo.Name, other.playerInfo.Name);
-		}
 
 
 	}

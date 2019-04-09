@@ -431,6 +431,7 @@ namespace ServerSideCharacter2.Network
 					player.IsLogin = false;
 					player.ClearAllBuffs();
 					player.Lock();
+					player.SyncUnionInfo();
 
 					MessageSender.SendWelcomeMessage(plr,
 						player.HasPassword ? GameLanguage.GetText("welcomeold") : GameLanguage.GetText("welcomenew"));

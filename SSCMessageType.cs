@@ -65,7 +65,9 @@
 		JoinMatchCommand,
 		GetMatches,
 		CreateUnion,
-		UnionsInfo
+		UnionsInfo,
+		UnionInfoComplex,
+		NotifyClientUnion
 	}
 
 	public enum GenerationType
