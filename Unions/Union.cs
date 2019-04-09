@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 using ServerSideCharacter2.JsonData;
 using ServerSideCharacter2.Utils;
 using System;
@@ -49,6 +50,7 @@ namespace ServerSideCharacter2.Unions
 			Level = 1;
 			Wealth = 0;
 			Members = new HashSet<string>();
+			Candidates = new HashSet<string>();
 		} 
 
 		public SimplifiedUnionInfo GetSimplified()
@@ -91,7 +93,7 @@ namespace ServerSideCharacter2.Unions
 			foreach (var candidate in Candidates)
 			{
 				var player = ServerSideCharacter2.PlayerCollection.Get(candidate);
-				info.Members.Add(player.GetSimplified(plr));
+				info.Requests.Add(player.GetSimplified(plr));
 			}
 			return info;
 		}
@@ -117,10 +119,24 @@ namespace ServerSideCharacter2.Unions
 		{
 			lock (this)
 			{
-				if (player.Union != null) return;
-				if (Candidates.Count >= MAX_CANDIDATES) return;
+				if (player.Union != null)
+				{
+					player.SendMessageBox("您你已经有公会了", 180, Color.Yellow);
+					return;
+				}
+				if (Candidates.Contains(player.Name))
+				{
+					player.SendMessageBox("您已经在工会的申请列表中，请耐心等待审核", 180, Color.Yellow);
+					return;
+				}
+				if (Candidates.Count >= MAX_CANDIDATES)
+				{
+					player.SendMessageBox("公会申请人数已满，无法申请", 180, Color.OrangeRed);
+					return;
+				}
 				Candidates.Add(player.Name);
 				SyncToOwner();
+				player.SendMessageBox("申请成功，请等待会长审核", 180, Color.LimeGreen);
 			}
 		}
 
@@ -155,6 +171,17 @@ namespace ServerSideCharacter2.Unions
 			}
 		}
 
+		public void RejectCandidate(ServerPlayer player)
+		{
+			lock (this)
+			{
+				if (player.Union != null) return;
+				if (!Candidates.Contains(player.Name)) return;
+				Candidates.Remove(player.Name);
+				player.SendMessageBox($"很抱歉，公会 {Name} 拒绝了您的申请", 180, Color.Red);
+			}
+		}
+
 		public void IncreaseEXP(int amount)
 		{
 			lock (this)
@@ -168,9 +195,10 @@ namespace ServerSideCharacter2.Unions
 		{
 			lock (this)
 			{
-				Members.Add(player.Name);
 				player.SetUnion(this.Name);
+				Members.Add(player.Name);
 				SyncToAllMembers();
+				player.SyncUnionInfo();
 			}
 		}
 
@@ -182,7 +210,7 @@ namespace ServerSideCharacter2.Unions
 		public void SyncToOwner()
 		{
 			var player = ServerSideCharacter2.PlayerCollection.Get(Owner);
-			if (player.PrototypePlayer != null)
+			if (player.PrototypePlayer != null && player.RealPlayer && player.ConnectionAlive)
 			{
 				MessageSender.SendComplexUnionData(this, player.PrototypePlayer.whoAmI);
 			}
@@ -190,14 +218,14 @@ namespace ServerSideCharacter2.Unions
 
 		public void SyncToAllMembers()
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
-			p.Write((int)SSCMessageType.UnionInfoComplex);
-			p.Write(JsonConvert.SerializeObject(GetComplex(), Formatting.None));
-
 			foreach (var member in Members)
 			{
 				var player = ServerSideCharacter2.PlayerCollection.Get(member);
-				if (player.PrototypePlayer != null) {
+				if (player.PrototypePlayer != null && player.RealPlayer && player.ConnectionAlive) {
+					ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+					p.Write((int)SSCMessageType.UnionInfoComplex);
+					var tmp = JsonConvert.SerializeObject(this.GetComplex(player.PrototypePlayer.whoAmI), Formatting.None);
+					p.Write(tmp);
 					p.Send(player.PrototypePlayer.whoAmI);
 				}
 			}

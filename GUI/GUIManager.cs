@@ -21,6 +21,7 @@ namespace ServerSideCharacter2.GUI
 		UnionPage,
 		UnionPage2,
 		UnionPage3,
+		UnionCandidatePage,
 		ItemPage,
 		ProfilePage,
 		NPCPage,
@@ -37,7 +38,9 @@ namespace ServerSideCharacter2.GUI
 		private CommunicationState _communicationState;
 		private GameCenterState _gameCenterState;
 		private UnionPageState _unionPageState;
+		private UnionPageState2 _unionPageState2;
 		private UnionCreatePage _unionCreateState;
+		private UnionCandidatePage _unionCandidateState;
 		private ItemUIState _getitemState;
 		private PlayerProfileState _playerProfileState;
 		private NPCUIState _getnpcState;
@@ -96,10 +99,20 @@ namespace ServerSideCharacter2.GUI
 			unionpage.SetState(_unionPageState);
 			_cdInterface.Add(unionpage);
 
-			_unionCreateState = new UnionCreatePage();
+			_unionPageState2 = new UnionPageState2();
 			var unionpage2 = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.UnionPage2]; });
-			unionpage2.SetState(_unionCreateState);
+			unionpage2.SetState(_unionPageState2);
 			_cdInterface.Add(unionpage2);
+
+			_unionCandidateState = new UnionCandidatePage();
+			var cddpage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.UnionCandidatePage]; });
+			cddpage.SetState(_unionCandidateState);
+			_cdInterface.Add(cddpage);
+
+			_unionCreateState = new UnionCreatePage();
+			var unioncreatepage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.UnionPage3]; });
+			unioncreatepage.SetState(_unionCreateState);
+			_cdInterface.Add(unioncreatepage);
 
 			_getitemState = new ItemUIState();
 			var itempage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.ItemPage]; });

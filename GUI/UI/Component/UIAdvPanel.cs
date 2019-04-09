@@ -51,6 +51,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
+			if (!Visible) return;
 			this.DrawPanel(spriteBatch, MainTexture, Color);
 			PostDraw?.Invoke(this, spriteBatch);
 			base.DrawSelf(spriteBatch);

@@ -139,11 +139,13 @@
     <Compile Include="Commands\LockCommand.cs" />
     <Compile Include="Commands\OnlinePlayerCommand.cs" />
     <Compile Include="Commands\SaveCommand.cs" />
+    <Compile Include="GUI\UI\Component\Special\UIUnionCandidateBar.cs" />
     <Compile Include="GUI\UI\Component\Special\UIUnionMemberBar.cs" />
     <Compile Include="GUI\UI\Component\Special\UIUnionBar.cs" />
     <Compile Include="GUI\UI\Component\Special\UIMatchGameBar.cs" />
     <Compile Include="GUI\UI\State\GameCenterState.cs" />
     <Compile Include="GUI\UI\State\UnionCreatePage.cs" />
+    <Compile Include="GUI\UI\State\UnionCandidatePage.cs" />
     <Compile Include="GUI\UI\State\UnionPageState2.cs" />
     <Compile Include="JsonData\UnionInfo.cs" />
     <Compile Include="JsonData\MatchInfo.cs" />
@@ -284,6 +286,8 @@
     <Compile Include="Services\SSCCommandHandler.cs" />
     <Compile Include="Services\Union\ClientUnionHandler.cs" />
     <Compile Include="Services\Union\GetUnionComplexHandler.cs" />
+    <Compile Include="Services\Union\UnionCandidateHandler.cs" />
+    <Compile Include="Services\Union\UnionJoinHandler.cs" />
     <Compile Include="Services\Union\GetUnionsHandler.cs" />
     <Compile Include="Services\Union\UnionCreateHandler.cs" />
     <Compile Include="Services\Union\UnionPageService.cs" />

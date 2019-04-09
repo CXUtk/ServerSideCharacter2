@@ -28,6 +28,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		private const float EXTRA_BUTTON_MARGIN_RIGHT = 10f;
 
 		internal static Color DefaultUIBlue = new Color(73, 94, 171);
+		protected Color _defaultColor = DefaultUIBlue;
 		private Texture2D dividerTexture;
 		private UICDButton addFriendButton;
 
@@ -35,6 +36,9 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 
 		protected UIText nameLabel;
 		protected SimplifiedPlayerInfo playerInfo;
+
+		protected float collapsedHeight = 50f;
+		protected float expandedHeight = 100f;
 
 		public UINormalPlayerBar(SimplifiedPlayerInfo info)
 		{
@@ -48,7 +52,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			this.OverflowHidden = true;
 
 
-			nameLabel = new UIText(playerInfo.Name);
+			nameLabel = new UIText(info.Name);
 			nameLabel.Top.Set(10, 0f);
 			nameLabel.Left.Set(5, 0);
 			if (!info.IsLogin)
@@ -65,7 +69,15 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			//_genderImage.Height.Set(GENDER_ICON_SIZE, 0);
 			//_onlinePlayerPanel.Append(_genderImage);
 
-			if (!info.IsFriend)
+			AddExtraButtons(extraButtons);
+
+			SetUpExtraButtons();
+
+		}
+
+		protected void AddFriendButton()
+		{
+			if (!playerInfo.IsFriend)
 			{
 				addFriendButton = new UICDButton(null, true);
 				addFriendButton.Top.Set(0f, 0f);
@@ -81,15 +93,11 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 				Append(addFriendButton);
 			}
 
-			AddExtraButtons(extraButtons);
-
-			SetUpExtraButtons();
-
 		}
 
 		protected virtual void AddExtraButtons(List<UICDButton> buttons)
 		{
-
+			AddFriendButton();
 			var profilebutton = new UICDButton(null, true);
 			profilebutton.Width.Set(70f, 0f);
 			profilebutton.Height.Set(38f, 0f);
@@ -203,13 +211,13 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		public override void MouseOver(UIMouseEvent evt)
 		{
 			Main.PlaySound(12, -1, -1, 1, 1f, 0f);
-			this.Color = DefaultUIBlue;
+			this.Color = _defaultColor;
 			base.MouseOver(evt);
 		}
 
 		public override void MouseOut(UIMouseEvent evt)
 		{
-			this.Color = DefaultUIBlue * 0.7f;
+			this.Color = _defaultColor * 0.7f;
 			base.MouseOut(evt);
 		}
 		
@@ -217,7 +225,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		public override void Click(UIMouseEvent evt)
 		{
 			_expanded ^= true;
-			this.Height.Set(_expanded ? 100f : 50f, 0f);
+			this.Height.Set(_expanded ? expandedHeight : collapsedHeight, 0f);
 			Recalculate();
 			
 			base.Click(evt);

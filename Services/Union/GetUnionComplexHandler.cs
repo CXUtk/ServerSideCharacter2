@@ -42,6 +42,8 @@ namespace ServerSideCharacter2.Services.Union
 				{
 					UnionPageState2.Instance.ClearMembers();
 					UnionPageState2.Instance.Apply(info);
+					UnionCandidatePage.Instance.ClearCandidates();
+					UnionCandidatePage.Instance.AppendCandidates(info);
 				}
 			}
 		}

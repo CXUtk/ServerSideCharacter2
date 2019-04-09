@@ -19,22 +19,25 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 {
 	public class UIUnionMemberBar : UINormalPlayerBar
 	{
-		private const float LABEL_MAX_WIDTH = 100;
-		private const float GENDER_ICON_SIZE = 25;
 		private bool _isOwner;
 
 		public UIUnionMemberBar(SimplifiedPlayerInfo info, bool owner) : base(info)
 		{
-			nameLabel.TextColor = info.IsLogin ? Color.LimeGreen : new Color(180, 180, 180);
+			if (owner)
+			{
+				_defaultColor = Color.LimeGreen;
+				this.Color = _defaultColor * 0.7f;
+			}
 			_isOwner = owner;
 			var classText = new UIText(owner ? "会长" : "成员");
 			classText.Top.Set(10, 0f);
-			classText.Left.Set(120, 0);
+			classText.Left.Set(130, 0);
 			Append(classText);
 		}
 
 		protected override void AddExtraButtons(List<UICDButton> buttons)
 		{
+			AddFriendButton();
 			var profilebutton = new UICDButton(null, true);
 			profilebutton.Width.Set(70f, 0f);
 			profilebutton.Height.Set(38f, 0f);
@@ -62,7 +65,14 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 
 		}
 
-
+		public override int CompareTo(object obj)
+		{
+			var other = obj as UIUnionMemberBar;
+			if (this._isOwner && !other._isOwner) return -1;
+			else if (playerInfo.IsLogin && !other.playerInfo.IsLogin) return -1;
+			else if (!playerInfo.IsLogin && other.playerInfo.IsLogin) return 1;
+			else return 0;
+		}
 
 
 	}

@@ -57,10 +57,9 @@ namespace ServerSideCharacter2.Unions
 				try
 				{
 					Union union = new Union(name);
-					union.AddMember(owner);
 					union.Owner = owner.Name;
+					union.AddMember(owner);
 					Unions.Add(name, union);
-					owner.SetUnion(name);
 					owner.SyncUnionInfo();
 				}
 				finally

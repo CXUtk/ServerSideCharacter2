@@ -124,7 +124,7 @@ namespace ServerSideCharacter2
 			if (Main.netMode == 1)
 			{
 				// 给玩家一个很长世界的锁debuff，直到服务器解除
-				player.AddBuff(mod.BuffType("Locked"), 18000);
+				// player.AddBuff(mod.BuffType("Locked"), 18000);
 			}
 			Piggify = false;
 			if (Main.netMode != 2)

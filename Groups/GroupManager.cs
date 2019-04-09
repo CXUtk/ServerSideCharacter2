@@ -38,6 +38,9 @@ namespace ServerSideCharacter2.Groups
 			defaultGroup.AddPermission("pvp");
 			defaultGroup.AddPermission("pig");
 			defaultGroup.AddPermission("match-join");
+			defaultGroup.AddPermission("match-new");
+			defaultGroup.AddPermission("union-join");
+			defaultGroup.AddPermission("union-new");
 			var admin = new Group("admin")
 			{
 				ChatColor = Color.Red,
@@ -66,7 +69,6 @@ namespace ServerSideCharacter2.Groups
 			admin.AddPermission("region-owner");
 			admin.AddPermission("region-share");
 			admin.AddPermission("clear");
-			admin.AddPermission("match-new");
 			var superAdmin = new Group("superadmin")
 			{
 				ChatColor = Color.Cyan,

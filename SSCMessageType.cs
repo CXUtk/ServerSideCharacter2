@@ -67,7 +67,9 @@
 		CreateUnion,
 		UnionsInfo,
 		UnionInfoComplex,
-		NotifyClientUnion
+		NotifyClientUnion,
+		RequestJoinUnion,
+		UnionCandidateOp
 	}
 
 	public enum GenerationType

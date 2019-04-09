@@ -8,9 +8,8 @@ using Terraria.UI;
 
 namespace ServerSideCharacter2.GUI.UI.Component
 {
-	public class UIAdvElement : UIElement
+	public class UIAdvElement : ToggableElement
 	{
-
 		public static Rectangle GetRectIntersections(Rectangle r1, Rectangle r2)
 		{
 			var xmin = Math.Max(r1.X, r2.X);

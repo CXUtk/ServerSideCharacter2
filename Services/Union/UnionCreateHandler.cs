@@ -24,7 +24,7 @@ namespace ServerSideCharacter2.Services.Union
 				var splayer = player.GetServerPlayer();
 				if (splayer.Union != null)
 				{
-					splayer.SendMessageBox("你已经有公会了", 120, Color.OrangeRed);
+					splayer.SendMessageBox("你已经有公会了", 120, Color.Yellow);
 					return;
 				}
 				if (ServerSideCharacter2.UnionManager.ContainsUnion(name))
@@ -39,7 +39,7 @@ namespace ServerSideCharacter2.Services.Union
 				}
 				ServerSideCharacter2.UnionManager.CreateUnion(name, splayer);
 				splayer.SendMessageBox("公会创建成功", 180, Color.LimeGreen);
-				var s = $"玩家 {splayer.Name} 创建了公会 ${name}，快来看看吧";
+				var s = $"玩家 {splayer.Name} 创建了公会 {name}，快来看看吧";
 				ServerPlayer.SendInfoMessageToAll(s);
 				CommandBoardcast.ConsoleMessage(s);
 			}

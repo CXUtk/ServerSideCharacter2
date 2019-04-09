@@ -38,5 +38,6 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			if (!Visible) return;
 			base.DrawSelf(spriteBatch);
 		}
+
 	}
 }

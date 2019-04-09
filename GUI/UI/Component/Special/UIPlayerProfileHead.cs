@@ -133,7 +133,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			}
 			else if(_info.CurrentMatch == "")
 			{
-				stateText.SetText($"状态：{addColor("空闲", Color.Green)}");
+				stateText.SetText($"状态：{addColor("在线", Color.LimeGreen)}");
 			}
 			else
 			{

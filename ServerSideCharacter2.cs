@@ -225,6 +225,12 @@ namespace ServerSideCharacter2
 				ResourceLoader.LoadAll();
 				GuiManager = new GUIManager(this);
 				IsLoginClientSide = false;
+				ClientUnion = null;
+				if (DEBUGMODE)
+				{
+					ClientUnion = new Union("裙中世界");
+					ClientUnion.Owner = "我不是裙子";
+				}
 			}
 			else
 			{

@@ -16,7 +16,7 @@ namespace ServerSideCharacter2.GUI.UI
 		private float _rotation;
 		private UIAdvList _unionsList;
 
-		private UIPanel unionsPanel;
+		private UIAdvPanel unionsPanel;
 		private UIButton refreshButton;
 		private UIButton createUnionButton;
 
@@ -48,11 +48,16 @@ namespace ServerSideCharacter2.GUI.UI
 			WindowPanel.Height.Set(WINDOW_HEIGHT, 0f);
 			WindowPanel.Color = Color.White * 0.8f;
 
-			unionsPanel = new UIPanel();
+			unionsPanel = new UIAdvPanel(ServerSideCharacter2.ModTexturesTable["Box"])
+			{
+				CornerSize = new Vector2(8, 8),
+				OverflowHidden = true
+			};
 			unionsPanel.Top.Set(-UNIONLIST_HEIGHT / 2 + UNIONLIST_OFFSET_TOP, 0.5f);
 			unionsPanel.Left.Set(-UNIONLIST_WIDTH / 2 + UNIONLIST_OFFSET_RIGHT, 0.5f);
 			unionsPanel.Width.Set(UNIONLIST_WIDTH, 0f);
 			unionsPanel.Height.Set(UNIONLIST_HEIGHT, 0f);
+			unionsPanel.SetPadding(10f);
 
 			WindowPanel.Append(unionsPanel);
 
@@ -73,6 +78,7 @@ namespace ServerSideCharacter2.GUI.UI
 			_unionsList.Width.Set(-25f, 1f);
 			_unionsList.Height.Set(0f, 1f);
 			_unionsList.ListPadding = 5f;
+			_unionsList.OverflowHidden = true;
 			unionsPanel.Append(_unionsList);
 
 			// ScrollBar设定
@@ -82,6 +88,11 @@ namespace ServerSideCharacter2.GUI.UI
 			uiscrollbar.HAlign = 1f;
 			unionsPanel.Append(uiscrollbar);
 			_unionsList.SetScrollbar(uiscrollbar);
+
+			var label = new UIText("", 0.7f, true);
+			label.Top.Set(40, 0f);
+			label.Left.Set(-UNIONLIST_WIDTH / 2 + UNIONLIST_OFFSET_RIGHT + 5, 0.5f);
+			WindowPanel.Append(label);
 
 			createUnionButton = new UICDButton(null, true);
 			createUnionButton.Top.Set(-UNIONLIST_HEIGHT / 2 + UNIONLIST_OFFSET_TOP, 0.5f);

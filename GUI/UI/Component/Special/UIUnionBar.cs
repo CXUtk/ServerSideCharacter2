@@ -94,7 +94,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 
 		private void UnionjoinButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
-			throw new NotImplementedException();
+			MessageSender.SendRequestJoinUnion(unionInfo.Name);
 		}
 
 		private void SetUpExtraButtons()

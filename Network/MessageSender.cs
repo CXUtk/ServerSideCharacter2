@@ -243,17 +243,47 @@ namespace ServerSideCharacter2
 		}
 		public static void GetComplexUnionData()
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
-			p.Write((int)SSCMessageType.UnionInfoComplex);
-			p.Send();
+			if (Main.netMode == 1)
+			{
+				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				p.Write((int)SSCMessageType.UnionInfoComplex);
+				p.Send();
+			}
 		}
 
 		public static void SendComplexUnionData(Union union, int to)
 		{
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
-			p.Write((int)SSCMessageType.UnionInfoComplex);
-			p.Write(JsonConvert.SerializeObject(union.GetComplex(), Formatting.None));
-			p.Send(to);
+			if (Main.netMode == 2)
+			{
+				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				p.Write((int)SSCMessageType.UnionInfoComplex);
+				var tmp = JsonConvert.SerializeObject(union.GetComplex(to), Formatting.None);
+				p.Write(tmp);
+				p.Send(to);
+			}
+		}
+
+		public static void SendCandidateOperation(string name, bool accept)
+		{
+			if (Main.netMode == 1)
+			{
+				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				p.Write((int)SSCMessageType.UnionCandidateOp);
+				p.Write(name);
+				p.Write(accept);
+				p.Send();
+			}
+		}
+
+		public static void SendRequestJoinUnion(string name)
+		{
+			if (Main.netMode == 1)
+			{
+				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				p.Write((int)SSCMessageType.RequestJoinUnion);
+				p.Write(name);
+				p.Send();
+			}
 		}
 
 		public static void NotifyClientUnion(int to)

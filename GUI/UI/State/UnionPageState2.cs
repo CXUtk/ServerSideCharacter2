@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 using System;
+using System.Collections.Generic;
 
 namespace ServerSideCharacter2.GUI.UI
 {
@@ -16,22 +17,23 @@ namespace ServerSideCharacter2.GUI.UI
 		private float _rotation;
 		private UIAdvList _memberList;
 
-		private UIPanel unionsPanel;
+		private UIAdvPanel unionsPanel;
 		private UIButton refreshButton;
 		private UIButton createUnionButton;
+		private UIText unionNameText;
+		private UIAdvList _buttonList;
 
 
-		private const float WINDOW_WIDTH = 640;
-		private const float WINDOW_HEIGHT = 500;
+		private float windowWidth = 600;
+		private float windowHeight = 500;
 		private const float UNIONLIST_WIDTH = 400;
 		private const float UNIONLIST_HEIGHT = 360;
-		private const float UNIONLIST_OFFSET_RIGHT = -80;
-		private const float UNIONLIST_OFFSET_TOP = 50;
-		private const float Y_OFFSET = 20;
-		private const float X_OFFSET = 20;
-		private const float BUTTON_WIDTH = 80;
-		private const float BUTTON_HEIGHT = 35;
+		private const float UNIONLIST_OFFSET_RIGHT = 32;
+		private const float UNIONLIST_OFFSET_TOP = 120;
 
+		private const float CANDIDATE_OFFSET_RIGHT = 580;
+		private const float CANDIDATE_OFFSET_TOP = 120;
+		private const float CANDIDATE_WIDTH = 240;
 
 		public UnionPageState2()
 		{
@@ -41,24 +43,31 @@ namespace ServerSideCharacter2.GUI.UI
 
 		protected override void Initialize(UIAdvPanel WindowPanel)
 		{
+			WindowPanel.OverflowHidden = true;
 			WindowPanel.MainTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack1"];
-			WindowPanel.Left.Set(Main.screenWidth / 2 - WINDOW_WIDTH / 2, 0f);
-			WindowPanel.Top.Set(Main.screenHeight / 2 - WINDOW_HEIGHT / 2, 0f);
-			WindowPanel.Width.Set(WINDOW_WIDTH, 0f);
-			WindowPanel.Height.Set(WINDOW_HEIGHT, 0f);
+			WindowPanel.Left.Set(Main.screenWidth / 2 - windowWidth / 2, 0f);
+			WindowPanel.Top.Set(Main.screenHeight / 2 - windowHeight / 2, 0f);
+			WindowPanel.Width.Set(windowWidth, 0f);
+			WindowPanel.Height.Set(windowHeight, 0f);
 			WindowPanel.Color = Color.White * 0.8f;
 
-			unionsPanel = new UIPanel();
-			unionsPanel.Top.Set(-UNIONLIST_HEIGHT / 2 + UNIONLIST_OFFSET_TOP, 0.5f);
-			unionsPanel.Left.Set(-UNIONLIST_WIDTH / 2 + UNIONLIST_OFFSET_RIGHT, 0.5f);
+			unionsPanel = new UIAdvPanel(ServerSideCharacter2.ModTexturesTable["Box"])
+			{
+				CornerSize = new Vector2(8, 8),
+				OverflowHidden = true
+			};
+			unionsPanel.Top.Set(UNIONLIST_OFFSET_TOP, 0f);
+			unionsPanel.Left.Set(UNIONLIST_OFFSET_RIGHT, 0f);
 			unionsPanel.Width.Set(UNIONLIST_WIDTH, 0f);
 			unionsPanel.Height.Set(UNIONLIST_HEIGHT, 0f);
+			unionsPanel.SetPadding(10f);
 
 			WindowPanel.Append(unionsPanel);
 
+
 			refreshButton = new UIButton(ServerSideCharacter2.ModTexturesTable["Refresh"], false);
-			refreshButton.Top.Set(-UNIONLIST_HEIGHT / 2 + UNIONLIST_OFFSET_TOP - 50, 0.5f);
-			refreshButton.Left.Set(UNIONLIST_OFFSET_RIGHT + UNIONLIST_WIDTH / 2 - 35, 0.5f);
+			refreshButton.Top.Set(UNIONLIST_OFFSET_TOP - 50, 0f);
+			refreshButton.Left.Set(UNIONLIST_OFFSET_RIGHT + UNIONLIST_WIDTH - 35, 0f);
 			refreshButton.Width.Set(35, 0f);
 			refreshButton.Height.Set(35, 0f);
 			refreshButton.ButtonDefaultColor = new Color(200, 200, 200);
@@ -73,7 +82,29 @@ namespace ServerSideCharacter2.GUI.UI
 			_memberList.Width.Set(-25f, 1f);
 			_memberList.Height.Set(0f, 1f);
 			_memberList.ListPadding = 5f;
+			_memberList.OverflowHidden = true;
 			unionsPanel.Append(_memberList);
+
+
+
+			var buttonPanel = new UIAdvPanel(ServerSideCharacter2.ModTexturesTable["Box"])
+			{
+				CornerSize = new Vector2(8, 8),
+				OverflowHidden = true
+			};
+			buttonPanel.Top.Set(UNIONLIST_OFFSET_TOP, 0f);
+			buttonPanel.Left.Set(UNIONLIST_OFFSET_RIGHT + UNIONLIST_WIDTH + 10, 0f);
+			buttonPanel.Width.Set(150, 0f);
+			buttonPanel.Height.Set(UNIONLIST_HEIGHT, 0f);
+			buttonPanel.SetPadding(10f);
+			buttonPanel.Visible = false;
+			WindowPanel.Append(buttonPanel);
+
+			_buttonList = new UIAdvList();
+			_buttonList.Width.Set(-25f, 1f);
+			_buttonList.Height.Set(0f, 1f);
+			_buttonList.ListPadding = 5f;
+			buttonPanel.Append(_buttonList);
 
 			// ScrollBar设定
 			var uiscrollbar = new UIAdvScrollBar();
@@ -83,29 +114,13 @@ namespace ServerSideCharacter2.GUI.UI
 			unionsPanel.Append(uiscrollbar);
 			_memberList.SetScrollbar(uiscrollbar);
 
-			createUnionButton = new UICDButton(null, true);
-			createUnionButton.Top.Set(-UNIONLIST_HEIGHT / 2 + UNIONLIST_OFFSET_TOP, 0.5f);
-			createUnionButton.Left.Set(-150, 1f);
-			createUnionButton.Width.Set(100, 0f);
-			createUnionButton.Height.Set(35, 0f);
-			createUnionButton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
-			createUnionButton.ButtonDefaultColor = new Color(200, 200, 200);
-			createUnionButton.ButtonChangeColor = Color.White;
-			createUnionButton.CornerSize = new Vector2(12, 12);
-			createUnionButton.ButtonText = "创建";
-			createUnionButton.OnClick += CreateUnionButton_OnClick;
-			WindowPanel.Append(createUnionButton);
+
+			unionNameText = new UIText("", 0.7f, true);
+			unionNameText.Top.Set(UNIONLIST_OFFSET_TOP - 40, 0f);
+			unionNameText.Left.Set(UNIONLIST_OFFSET_RIGHT + 5, 0f);
+			WindowPanel.Append(unionNameText);
 		}
 
-		private void CreateUnionButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
-		{
-			if(ServerSideCharacter2.ClientUnion != null)
-			{
-				ServerSideCharacter2.Instance.ShowMessage("你已经加入公会了", 180, Color.OrangeRed);
-				return;
-			}
-			ServerSideCharacter2.Instance.ChangeState(SSCUIState.UnionPage2);
-		}
 
 		private void RefreshButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
@@ -121,16 +136,25 @@ namespace ServerSideCharacter2.GUI.UI
 			}
 			else
 			{
-				for (var i = 0; i < 20; i++)
+				for (var i = 0; i < 19; i++)
 				{
 					var testinfo = new JsonData.SimplifiedPlayerInfo
 					{
 						Name = ServerUtils.RandomGenString(),
 						IsLogin = Main.rand.NextBool(),
 					};
-					var bar = new UINormalPlayerBar(testinfo);
+					var bar = new UIUnionMemberBar(testinfo, false);
 					_memberList.Add(bar);
 				}
+				var ownerinfo = new JsonData.SimplifiedPlayerInfo
+				{
+					Name = "Skirt",
+					IsLogin = true,
+				};
+				_memberList.Add(new UIUnionMemberBar(ownerinfo, true));
+				_memberList.Sort();
+				unionNameText.SetText("裙中世界");
+				AdjustOwnerUI(true);
 			}
 			_relaxTimer = 180;
 			_rotation = 0f;
@@ -158,12 +182,89 @@ namespace ServerSideCharacter2.GUI.UI
 		}
 		public void Apply(JsonData.ComplexUnionInfo info)
 		{
-			_memberList.Add(new UINormalPlayerBar(info.Owner));
+			_memberList.Add(new UIUnionMemberBar(info.Owner, true));
 			foreach (var member in info.Members)
 			{
 				if(member.Name != info.Owner.Name)
-					_memberList.Add(new UINormalPlayerBar(member));
+					_memberList.Add(new UIUnionMemberBar(member, false));
 			}
+			_memberList.Sort();
+			unionNameText.SetText(info.Name);
+			AdjustOwnerUI(info.Owner.Name == Main.LocalPlayer.name);
+		}
+
+
+		private void AdjustOwnerUI(bool owner)
+		{
+			_buttonList.Clear();
+			if (owner)
+			{
+				var candidateButton = new UICDButton(null, true);
+				candidateButton.Width.Set(0, 1f);
+				candidateButton.Height.Set(50f, 0f);
+				candidateButton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
+				candidateButton.ButtonDefaultColor = new Color(200, 200, 200);
+				candidateButton.ButtonChangeColor = Color.White;
+				candidateButton.CornerSize = new Vector2(12, 12);
+				candidateButton.ButtonText = "申请信息";
+				candidateButton.OnClick += CandidateButton_OnClick;
+				_buttonList.Add(candidateButton);
+
+				var exitButton = new UICDButton(null, true);
+				exitButton.Width.Set(0, 1f);
+				exitButton.Height.Set(50f, 0f);
+				exitButton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
+				exitButton.ButtonDefaultColor = new Color(200, 200, 200);
+				exitButton.ButtonChangeColor = Color.White;
+				exitButton.CornerSize = new Vector2(12, 12);
+				exitButton.ButtonText = "解散";
+				exitButton.OnClick += ExitButton_OnClick1;
+				_buttonList.Add(exitButton);
+			}
+			else
+			{
+				var exitButton = new UICDButton(null, true);
+				exitButton.Width.Set(0, 1f);
+				exitButton.Height.Set(50f, 0f);
+				exitButton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
+				exitButton.ButtonDefaultColor = new Color(200, 200, 200);
+				exitButton.ButtonChangeColor = Color.White;
+				exitButton.CornerSize = new Vector2(12, 12);
+				exitButton.ButtonText = "退出";
+				exitButton.OnClick += ExitButton_OnClick;
+				_buttonList.Add(exitButton);
+			}
+
+			var donateButton = new UICDButton(null, true);
+			donateButton.Width.Set(0, 1f);
+			donateButton.Height.Set(50, 0f);
+			donateButton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
+			donateButton.ButtonDefaultColor = new Color(200, 200, 200);
+			donateButton.ButtonChangeColor = Color.White;
+			donateButton.CornerSize = new Vector2(12, 12);
+			donateButton.ButtonText = "捐献";
+			donateButton.OnClick += DonateButton_OnClick;
+			_buttonList.Add(donateButton);
+		}
+
+		private void ExitButton_OnClick1(UIMouseEvent evt, UIElement listeningElement)
+		{
+			throw new NotImplementedException();
+		}
+
+		private void DonateButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
+		{
+			throw new NotImplementedException();
+		}
+
+		private void ExitButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
+		{
+			throw new NotImplementedException();
+		}
+
+		private void CandidateButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
+		{
+			ServerSideCharacter2.Instance.ChangeState(SSCUIState.UnionCandidatePage);
 		}
 
 
