@@ -118,49 +118,73 @@ namespace ServerSideCharacter2
 							{
 								break;
 							}
-
-							var memoryStream = new MemoryStream();
-							var binaryWriter = new BinaryWriter(memoryStream);
-							var position = binaryWriter.BaseStream.Position;
-							binaryWriter.BaseStream.Position += 2L;
-							binaryWriter.Write(MessageID.WorldData);
-
-							PacketModifier.ModifyWorldData(ref binaryWriter);
-
-							var currentPosition = (int)binaryWriter.BaseStream.Position;
-							binaryWriter.BaseStream.Position = position;
-							binaryWriter.Write((short)currentPosition);
-							binaryWriter.BaseStream.Position = currentPosition;
-
-							var data = memoryStream.ToArray();
-							binaryWriter.Close();
-
-							// Resend the packet
-							if (remoteClient == -1)
+							MessageBuffer obj = NetMessage.buffer[whoAmI];
+							bool lockTaken = false;
+							Monitor.TryEnter(obj, 3000, ref lockTaken);
+							if (lockTaken)
 							{
-								for (var index = 0; index < 256; index++)
+								try
 								{
-									if (index != ignoreClient && (NetMessage.buffer[index].broadcast || Netplay.Clients[index].State >= 3 && msgType == 10) && Netplay.Clients[index].IsConnected())
+									BinaryWriter binaryWriter = NetMessage.buffer[whoAmI].writer;
+									if (binaryWriter == null)
 									{
-										NetMessage.buffer[index].spamCount++;
+										NetMessage.buffer[whoAmI].ResetWriter();
+										binaryWriter = NetMessage.buffer[whoAmI].writer;
+									}
+									binaryWriter.BaseStream.Position = 0L;
+									long position = binaryWriter.BaseStream.Position;
+									binaryWriter.BaseStream.Position += 2L;
+									binaryWriter.Write(MessageID.WorldData);
+
+									PacketModifier.ModifyWorldData(ref binaryWriter);
+
+									var currentPosition = (int)binaryWriter.BaseStream.Position;
+									binaryWriter.BaseStream.Position = position;
+									binaryWriter.Write((short)currentPosition);
+									binaryWriter.BaseStream.Position = currentPosition;
+
+									var data = NetMessage.buffer[whoAmI].writeBuffer;
+
+									// Resend the packet
+									if (remoteClient == -1)
+									{
+										for (var index = 0; index < 256; index++)
+										{
+											if (index != ignoreClient && (NetMessage.buffer[index].broadcast || Netplay.Clients[index].State >= 3 && msgType == 10) && Netplay.Clients[index].IsConnected())
+											{
+												NetMessage.buffer[index].spamCount++;
+												Main.txMsg++;
+												Main.txData += currentPosition;
+												Main.txMsgType[msgType]++;
+												Main.txDataType[msgType] += currentPosition;
+												Netplay.Clients[index].Socket.AsyncSend(data, 0, data.Length,
+													Netplay.Clients[index].ServerWriteCallBack);
+											}
+										}
+									}
+									else if (Netplay.Clients[remoteClient].IsConnected())
+									{
+										NetMessage.buffer[remoteClient].spamCount++;
 										Main.txMsg++;
 										Main.txData += currentPosition;
 										Main.txMsgType[msgType]++;
 										Main.txDataType[msgType] += currentPosition;
-										Netplay.Clients[index].Socket.AsyncSend(data, 0, data.Length,
-											Netplay.Clients[index].ServerWriteCallBack);
+										Netplay.Clients[remoteClient].Socket.AsyncSend(NetMessage.buffer[whoAmI].writeBuffer, 0, currentPosition, Netplay.Clients[remoteClient].ServerWriteCallBack, null);
 									}
+
+								}
+								finally
+								{
+									Monitor.Exit(obj);
 								}
 							}
 							else
 							{
-								Netplay.Clients[remoteClient].Socket.AsyncSend(data, 0, data.Length,
-									Netplay.Clients[remoteClient].ServerWriteCallBack);
-
+								CommandBoardcast.ConsoleError("死锁检测于HijackSendData");
 							}
-
 							return true;
 						}
+
 					default:
 						return false;
 				}
