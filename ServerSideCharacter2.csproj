@@ -139,6 +139,7 @@
     <Compile Include="Commands\LockCommand.cs" />
     <Compile Include="Commands\OnlinePlayerCommand.cs" />
     <Compile Include="Commands\SaveCommand.cs" />
+    <Compile Include="GUI\UI\Component\Special\UIUnionBar.cs" />
     <Compile Include="GUI\UI\Component\Special\UIMatchGameBar.cs" />
     <Compile Include="GUI\UI\State\GameCenterState.cs" />
     <Compile Include="JsonData\UnionInfo.cs" />
@@ -278,6 +279,7 @@
     <Compile Include="Services\Regions\RegionSyncHandler.cs" />
     <Compile Include="Services\Regions\RegionCreateHandler.cs" />
     <Compile Include="Services\SSCCommandHandler.cs" />
+    <Compile Include="Services\Union\GetUnionsHandler.cs" />
     <Compile Include="Services\Union\UnionCreateHandler.cs" />
     <Compile Include="Services\Union\UnionPageService.cs" />
     <Compile Include="SSCException.cs" />

@@ -171,10 +171,6 @@ namespace ServerSideCharacter2.GUI.UI
 			_matchedGameList.Clear();
 		}
 
-
-
-
-
 		protected override void OnClose(UIMouseEvent evt, UIElement listeningElement)
 		{
 			ServerSideCharacter2.Instance.ChangeState(SSCUIState.GameCenterPage);

@@ -233,6 +233,13 @@ namespace ServerSideCharacter2
 			p.Send();
 		}
 
+		public static void SendGetUnionsData()
+		{
+			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			p.Write((int)SSCMessageType.UnionsInfo);
+			p.Send();
+		}
+
 		public static void SendRegionRemove(string name)
 		{
 			var p = ServerSideCharacter2.Instance.GetPacket();

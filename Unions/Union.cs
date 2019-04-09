@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using ServerSideCharacter2.JsonData;
 using ServerSideCharacter2.Utils;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,6 @@ namespace ServerSideCharacter2.Unions
 	{
 
 		private const int EXP_BASE = 200;
-
-
 		public int Level { get; set; }
 
 		[JsonIgnore]
@@ -20,16 +19,47 @@ namespace ServerSideCharacter2.Unions
 		public long CurrentEXP { get; set; }
 		public long Wealth { get; set; }
 		public string Name { get; set; }
-		public HashSet<ServerPlayer> Members { get; set; }
+		public HashSet<string> Members { get; set; }
 		public ServerPlayer Owner { get; set; }
+
+
+		public static int GetMaxMembers(int level)
+		{
+			if(level == 8)
+			{
+				return 20;
+			}
+			else if(level >= 4)
+			{
+				return 15;
+			}
+			else
+			{
+				return 10;
+			}
+		}
 
 		public Union(string name)
 		{
 			Name = name;
 			CurrentEXP = 0;
 			Level = 1;
-			Members = new HashSet<ServerPlayer>();
+			Wealth = 0;
+			Members = new HashSet<string>();
 		} 
+
+		public SimplifiedUnionInfo GetSimplified()
+		{
+			var info = new SimplifiedUnionInfo
+			{
+				Name = Name,
+				Level = Level,
+				NumMember = Members.Count,
+				OwnerName = Owner.Name,
+				Wealth = Wealth
+			};
+			return info;
+		}
 
 		public void IncreaseEXP(int amount)
 		{
@@ -39,7 +69,7 @@ namespace ServerSideCharacter2.Unions
 
 		public void AddMember(ServerPlayer player)
 		{
-			Members.Add(player);
+			Members.Add(name);
 			player.SetUnion(this.Name);
 			// TODO: 联机同步
 		}

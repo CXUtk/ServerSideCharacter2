@@ -20,8 +20,6 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 {
 	public class UIMatchGameBar : UIAdvPanel
 	{
-		private bool _expanded = false;
-
 		private const float LABEL_MAX_WIDTH = 100;
 		private const float GENDER_ICON_SIZE = 25;
 		private const float EXTRA_BUTTON_MARGIN_LEFT = 5f;
@@ -191,14 +189,6 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		}
 		
 
-		public override void Click(UIMouseEvent evt)
-		{
-			_expanded ^= true;
-			//this.Height.Set(_expanded ? 140f : 50f, 0f);
-			Recalculate();
-			
-			base.Click(evt);
-		}
 
 		public override void Update(GameTime gameTime)
 		{
@@ -215,7 +205,6 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		{
 			// spriteBatch.Draw(Main.magicPixel, spriteBatch.GraphicsDevice.ScissorRectangle, Color.Blue * 0.4f);
 			base.DrawSelf(spriteBatch);
-			if (!_expanded) return;
 			var innerDimensions = base.GetInnerDimensions();
 			var position = new Vector2(innerDimensions.X + 5f, innerDimensions.Y + 40);
 			spriteBatch.Draw(this.dividerTexture, position, null, Color.White, 0f, Vector2.Zero,

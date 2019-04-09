@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ServerSideCharacter2.GUI;
+using ServerSideCharacter2.GUI.UI;
 using Terraria;
 using Terraria.UI;
 
@@ -32,12 +33,10 @@ namespace ServerSideCharacter2.Services.Union
 				Main.NewText("您还没有登录，请先登录", Color.Red);
 				return;
 			}
-			Main.NewText("这个功能还没完成，所以暂时不能使用", Color.Red);
-			return;
 			ServerSideCharacter2.Instance.ChangeState(SSCUIState.UnionPage);
 			if (ServerSideCharacter2.GuiManager.IsActive(SSCUIState.UnionPage))
 			{
-				ServerSideCharacter2.GuiManager.RefreshFriends();
+				UnionPageState.Instance.RefreshUnions();
 			}
 		}
 	}

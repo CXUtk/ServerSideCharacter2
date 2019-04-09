@@ -1,48 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.UI;
-using Terraria.GameContent.UI.Elements;
+﻿using Microsoft.Xna.Framework;
 using ServerSideCharacter2.GUI.UI.Component;
-using Terraria.GameContent.UI.States;
-using ServerSideCharacter2.Utils;
-using System.Security.Cryptography;
-using ServerSideCharacter2.Core;
 using ServerSideCharacter2.GUI.UI.Component.Special;
+using ServerSideCharacter2.Utils;
+using Terraria;
+using Terraria.GameContent.UI.Elements;
+using Terraria.UI;
+using System;
 
 namespace ServerSideCharacter2.GUI.UI
 {
 	public class UnionPageState : AdvWindowUIState
 	{
-
+		public static UnionPageState Instance;
 		private int _relaxTimer;
 		private float _rotation;
-		private List<UIFriendBar> uIFriendBars;
-		private UIList _onlinePlayerList;
+		private UIAdvList _unionsList;
 
-		private UIPanel _onlinePlayerPanel;
+		private UIPanel unionsPanel;
 		private UIButton refreshButton;
-		private UIButton changeSortModeButton;
+		private UIButton createUnionButton;
 
-		private const float WINDOW_WIDTH = 600;
-		private const float WINDOW_HEIGHT = 480;
-		private const float FRIENDLIST_WIDTH = 320;
-		private const float FRIENDLIST_HEIGHT = 360;
-		private const float FRIENDLIST_OFFSET_RIGHT = 120;
+
+		private const float WINDOW_WIDTH = 640;
+		private const float WINDOW_HEIGHT = 500;
+		private const float UNIONLIST_WIDTH = 400;
+		private const float UNIONLIST_HEIGHT = 360;
+		private const float UNIONLIST_OFFSET_RIGHT = -80;
+		private const float UNIONLIST_OFFSET_TOP = 50;
 		private const float Y_OFFSET = 20;
 		private const float X_OFFSET = 20;
 		private const float BUTTON_WIDTH = 80;
 		private const float BUTTON_HEIGHT = 35;
 
 
+		public UnionPageState()
+		{
+			Instance = this;
+		}
+
+
 		protected override void Initialize(UIAdvPanel WindowPanel)
 		{
-			uIFriendBars = new List<UIFriendBar>();
 			WindowPanel.MainTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack1"];
 			WindowPanel.Left.Set(Main.screenWidth / 2 - WINDOW_WIDTH / 2, 0f);
 			WindowPanel.Top.Set(Main.screenHeight / 2 - WINDOW_HEIGHT / 2, 0f);
@@ -50,22 +48,17 @@ namespace ServerSideCharacter2.GUI.UI
 			WindowPanel.Height.Set(WINDOW_HEIGHT, 0f);
 			WindowPanel.Color = Color.White * 0.8f;
 
-			_onlinePlayerPanel = new UIPanel();
-			_onlinePlayerPanel.Top.Set(-FRIENDLIST_HEIGHT / 2, 0.5f);
-			_onlinePlayerPanel.Left.Set(-FRIENDLIST_WIDTH / 2 + FRIENDLIST_OFFSET_RIGHT, 0.5f);
-			_onlinePlayerPanel.Width.Set(FRIENDLIST_WIDTH, 0f);
-			_onlinePlayerPanel.Height.Set(FRIENDLIST_HEIGHT, 0f);
+			unionsPanel = new UIPanel();
+			unionsPanel.Top.Set(-UNIONLIST_HEIGHT / 2 + UNIONLIST_OFFSET_TOP, 0.5f);
+			unionsPanel.Left.Set(-UNIONLIST_WIDTH / 2 + UNIONLIST_OFFSET_RIGHT, 0.5f);
+			unionsPanel.Width.Set(UNIONLIST_WIDTH, 0f);
+			unionsPanel.Height.Set(UNIONLIST_HEIGHT, 0f);
 
-			var onlinelabel = new UIText("好友列表");
-			onlinelabel.Top.Set(-35, 0f);
-			var texSize = Main.fontMouseText.MeasureString(onlinelabel.Text);
-			onlinelabel.Left.Set(-texSize.X / 2, 0.5f);
-			_onlinePlayerPanel.Append(onlinelabel);
-			WindowPanel.Append(_onlinePlayerPanel);
+			WindowPanel.Append(unionsPanel);
 
 			refreshButton = new UIButton(ServerSideCharacter2.ModTexturesTable["Refresh"], false);
-			refreshButton.Top.Set(-50, 1f);
-			refreshButton.Left.Set(FRIENDLIST_OFFSET_RIGHT - 35 / 2, 0.5f);
+			refreshButton.Top.Set(-UNIONLIST_HEIGHT / 2 + UNIONLIST_OFFSET_TOP - 50, 0.5f);
+			refreshButton.Left.Set(UNIONLIST_OFFSET_RIGHT + UNIONLIST_WIDTH / 2 - 35, 0.5f);
 			refreshButton.Width.Set(35, 0f);
 			refreshButton.Height.Set(35, 0f);
 			refreshButton.ButtonDefaultColor = new Color(200, 200, 200);
@@ -76,46 +69,69 @@ namespace ServerSideCharacter2.GUI.UI
 			refreshButton.OnClick += RefreshButton_OnClick;
 			WindowPanel.Append(refreshButton);
 
-			_onlinePlayerList = new UIList();
-			_onlinePlayerList.Width.Set(-25f, 1f);
-			_onlinePlayerList.Height.Set(0f, 1f);
-			_onlinePlayerList.ListPadding = 5f;
-			_onlinePlayerPanel.Append(_onlinePlayerList);
+			_unionsList = new UIAdvList();
+			_unionsList.Width.Set(-25f, 1f);
+			_unionsList.Height.Set(0f, 1f);
+			_unionsList.ListPadding = 5f;
+			unionsPanel.Append(_unionsList);
 
 			// ScrollBar设定
-			var uiscrollbar = new UIScrollbar();
+			var uiscrollbar = new UIAdvScrollBar();
 			uiscrollbar.SetView(100f, 1000f);
 			uiscrollbar.Height.Set(0f, 1f);
 			uiscrollbar.HAlign = 1f;
-			_onlinePlayerPanel.Append(uiscrollbar);
-			_onlinePlayerList.SetScrollbar(uiscrollbar);
+			unionsPanel.Append(uiscrollbar);
+			_unionsList.SetScrollbar(uiscrollbar);
+
+			createUnionButton = new UICDButton(null, true);
+			createUnionButton.Top.Set(-UNIONLIST_HEIGHT / 2 + UNIONLIST_OFFSET_TOP, 0.5f);
+			createUnionButton.Left.Set(-150, 1f);
+			createUnionButton.Width.Set(100, 0f);
+			createUnionButton.Height.Set(35, 0f);
+			createUnionButton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
+			createUnionButton.ButtonDefaultColor = new Color(200, 200, 200);
+			createUnionButton.ButtonChangeColor = Color.White;
+			createUnionButton.CornerSize = new Vector2(12, 12);
+			createUnionButton.ButtonText = "创建";
+			createUnionButton.OnClick += CreateUnionButton_OnClick;
+			WindowPanel.Append(createUnionButton);
+		}
+
+		private void CreateUnionButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
+		{
+			if(ServerSideCharacter2.ClientUnion != null)
+			{
+				ServerSideCharacter2.Instance.ShowMessage("你已经加入公会了", 180, Color.OrangeRed);
+				return;
+			}
+
 		}
 
 		private void RefreshButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
-			RefreshFriends();
+			RefreshUnions();
 		}
 
-		public void RefreshFriends()
+		public void RefreshUnions()
 		{
-			uIFriendBars.Clear();
-			_onlinePlayerList.Clear();
-
+			_unionsList.Clear();
 			if (Main.netMode == 1)
 			{
-				MessageSender.SendGetFriends();
+				MessageSender.SendGetUnionsData();
 			}
 			else
 			{
 				for (var i = 0; i < 20; i++)
 				{
-					var testinfo = new JsonData.SimplifiedPlayerInfo
+					var testinfo = new JsonData.SimplifiedUnionInfo
 					{
-						Name = ServerUtils.RandomGenString()
+						Name = ServerUtils.RandomGenString(),
+						NumMember = 5,
+						Level = 3,
+						OwnerName = "裙子"
 					};
-					var bar = new UIFriendBar(testinfo);
-					uIFriendBars.Add(bar);
-					_onlinePlayerList.Add(bar);
+					var bar = new UIUnionBar(testinfo);
+					_unionsList.Add(bar);
 				}
 			}
 			_relaxTimer = 180;
@@ -139,12 +155,12 @@ namespace ServerSideCharacter2.GUI.UI
 			refreshButton.Rotation = _rotation;
 		}
 
-		public void AppendFriends(JsonData.SimplifiedPlayerInfo info)
-		{
-			var bar = new UIFriendBar(info);
-			uIFriendBars.Add(bar);
-			_onlinePlayerList.Add(bar);
-		}
+		//public void AppendFriends(JsonData.SimplifiedPlayerInfo info)
+		//{
+		//	var bar = new UIFriendBar(info);
+		//	uIFriendBars.Add(bar);
+		//	_onlinePlayerList.Add(bar);
+		//}
 
 
 		protected override void OnClose(UIMouseEvent evt, UIElement listeningElement)

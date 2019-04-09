@@ -64,7 +64,8 @@
 		NewMatchCommand,
 		JoinMatchCommand,
 		GetMatches,
-		CreateUnion
+		CreateUnion,
+		UnionsInfo
 	}
 
 	public enum GenerationType

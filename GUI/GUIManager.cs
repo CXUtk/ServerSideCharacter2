@@ -19,6 +19,7 @@ namespace ServerSideCharacter2.GUI
 		PlayerOnlineWindow,
 		HomePage,
 		UnionPage,
+		UnionPage2,
 		ItemPage,
 		ProfilePage,
 		NPCPage,
@@ -98,11 +99,6 @@ namespace ServerSideCharacter2.GUI
 			itempage.SetState(_getitemState);
 			_cdInterface.Add(itempage);
 
-			_playerProfileState = new PlayerProfileState();
-			var profileinterface = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.ProfilePage]; });
-			profileinterface.SetState(_playerProfileState);
-			_cdInterface.Add(profileinterface);
-
 			_getnpcState = new NPCUIState();
 			var uinpcinterface = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.NPCPage]; });
 			uinpcinterface.SetState(_getnpcState);
@@ -112,8 +108,16 @@ namespace ServerSideCharacter2.GUI
 			var uiGameCenter = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.GameCenterPage]; });
 			uiGameCenter.SetState(_gameCenterState);
 			_cdInterface.Add(uiGameCenter);
+
+
+			// 置顶
+			_playerProfileState = new PlayerProfileState();
+			var profileinterface = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.ProfilePage]; });
+			profileinterface.SetState(_playerProfileState);
+			_cdInterface.Add(profileinterface);
+
 		}
-		
+
 
 
 		public void SetNPCDefaults()

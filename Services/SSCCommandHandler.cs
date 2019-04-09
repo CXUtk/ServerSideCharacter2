@@ -19,7 +19,7 @@ namespace ServerSideCharacter2.Services
 			if (Main.netMode == 2)
 			{
 				var player = Main.player[playerNumber].GetServerPlayer();
-				if (!Permission.CheckPermission(player, PermissionName))
+				if (PermissionName != "" && !Permission.CheckPermission(player, PermissionName))
 				{
 					player.SendErrorInfo("你没有权限使用这个指令");
 					return;

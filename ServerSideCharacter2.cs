@@ -70,6 +70,8 @@ namespace ServerSideCharacter2
 
 		internal static Group MainPlayerGroup;
 
+		internal static Union ClientUnion;
+
 		private PacketHandler _packetHandler;
 
 		private SSCPacketHandler _sscPacketHandler;

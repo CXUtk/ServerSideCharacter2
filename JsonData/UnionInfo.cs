@@ -13,16 +13,26 @@ namespace ServerSideCharacter2.JsonData
 		public string Name;
 		public int Level;
 		public long Wealth;
-		public int OwnerName;
+		public string OwnerName;
 		public int NumMember;
+	}
+
+	public struct ComplexUnionInfo
+	{
+		public string Name;
+		public int Level;
+		public long Wealth;
+		public string OwnerName;
+		public HashSet<string> Members;
+		public string Owner;
 	}
 
 	public class UnionInfo
 	{
-		public List<SimplifiedMatchInfo> Unions;
+		public List<SimplifiedUnionInfo> Unions;
 		public UnionInfo()
 		{
-			Unions = new List<SimplifiedMatchInfo>();
+			Unions = new List<SimplifiedUnionInfo>();
 		}
 	}
 }

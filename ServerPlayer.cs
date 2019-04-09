@@ -204,6 +204,7 @@ namespace ServerSideCharacter2
 		{
 			get
 			{
+				if (_info.Group == null) return null;
 				if (ServerSideCharacter2.GroupManager.Groups.ContainsKey(_info.Group))
 				{
 					return ServerSideCharacter2.GroupManager.Groups[_info.Group];

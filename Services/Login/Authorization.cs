@@ -26,7 +26,7 @@ namespace ServerSideCharacter2.Services.Login
 		/// </summary>
 		/// <param name="name"></param>
 		/// <returns>如果过短返回-1，过长返回1，否则返回0</returns>
-		private int CheckName(string name)
+		public static int CheckName(string name)
 		{
 			if (name.Length < 2)
 			{

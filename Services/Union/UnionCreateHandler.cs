@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using ServerSideCharacter2.Services.Login;
 using ServerSideCharacter2.Utils;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Text;
 using Terraria;
 
-namespace ServerSideCharacter2.Services.Regions
+namespace ServerSideCharacter2.Services.Union
 {
 	public class UnionCreateHandler : SSCCommandHandler
 	{
@@ -19,23 +20,28 @@ namespace ServerSideCharacter2.Services.Regions
 			if (Main.netMode == 2)
 			{
 				var name = reader.ReadString();
-				var upperleft = new Point(reader.ReadInt32(), reader.ReadInt32());
-				var lowerright = new Point(reader.ReadInt32(), reader.ReadInt32());
-				var splayer = Main.player[playerNumber].GetServerPlayer();
-				var rectangle = new Rectangle(upperleft.X, upperleft.Y,
-					lowerright.X - upperleft.X, lowerright.Y - upperleft.Y);
-				string err;
-				if(ServerSideCharacter2.RegionManager.ValidRegion(splayer, name, rectangle, out err))
+				var player = Main.player[playerNumber];
+				var splayer = player.GetServerPlayer();
+				if (splayer.Union != null)
 				{
-					ServerSideCharacter2.RegionManager.CreateNewRegion(rectangle, name, splayer);
-					MessageSender.SyncRegionsToClient(-1);
-					splayer.SendInfoMessage($"领地 {name} 创建成功！", Color.LimeGreen);
+					splayer.SendMessageBox("你已经有公会了", 120, Color.OrangeRed);
+					return;
 				}
-				else
+				if (ServerSideCharacter2.UnionManager.ContainsUnion(name))
 				{
-					splayer.SendErrorInfo($"创建领地失败: {err}");
-					CommandBoardcast.ConsoleMessage($"玩家 {splayer.Name} 创建领地失败，原因： {err}");
+					splayer.SendMessageBox("该名字的公会已经存在", 120, Color.OrangeRed);
+					return;
 				}
+				if (Authorization.CheckName(name) != 0)
+				{
+					splayer.SendMessageBox("公会名字不合法，长度应为2-10之间，且不能包含非法字符", 120, Color.OrangeRed);
+					return;
+				}
+				ServerSideCharacter2.UnionManager.CreateUnion(name, splayer);
+				splayer.SendMessageBox("公会创建成功", 180, Color.LimeGreen);
+				var s = $"玩家 {splayer.Name} 创建了公会 ${name}，快来看看吧";
+				ServerPlayer.SendInfoMessageToAll(s);
+				CommandBoardcast.ConsoleMessage(s);
 			}
 		}
 	}

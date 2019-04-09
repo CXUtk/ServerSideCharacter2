@@ -26,18 +26,22 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Usage
 		{
-			get { return " /union <new|remove> [公会名字]"; }
+			get { return " /union <new|remove|see> [公会名字]"; }
 		}
 
 		public override void Action(CommandCaller caller, string input, string[] args)
 		{
 			if (args[0] == "new")
 			{
-				MessageSender.SendRegionCreate(args[1]);
+				MessageSender.SendUnionCreate(args[1]);
 			}
 			else if (args[0] == "remove")
 			{
 				MessageSender.SendRegionRemove(args[1]);
+			}
+			else if(args[0] == "see")
+			{
+				MessageSender.SendGetUnionsData();
 			}
 		}
 	}
