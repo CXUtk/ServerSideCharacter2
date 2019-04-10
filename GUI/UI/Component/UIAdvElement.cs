@@ -10,6 +10,11 @@ namespace ServerSideCharacter2.GUI.UI.Component
 {
 	public class UIAdvElement : ToggableElement
 	{
+
+		public UIAdvElement() : base()
+		{
+
+		}
 		public static Rectangle GetRectIntersections(Rectangle r1, Rectangle r2)
 		{
 			var xmin = Math.Max(r1.X, r2.X);

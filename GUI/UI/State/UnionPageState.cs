@@ -89,7 +89,7 @@ namespace ServerSideCharacter2.GUI.UI
 			unionsPanel.Append(uiscrollbar);
 			_unionsList.SetScrollbar(uiscrollbar);
 
-			var label = new UIText("", 0.7f, true);
+			var label = new UIText("公会列表", 0.7f, true);
 			label.Top.Set(40, 0f);
 			label.Left.Set(-UNIONLIST_WIDTH / 2 + UNIONLIST_OFFSET_RIGHT + 5, 0.5f);
 			WindowPanel.Append(label);

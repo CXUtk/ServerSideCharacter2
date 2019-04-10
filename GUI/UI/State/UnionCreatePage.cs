@@ -14,6 +14,8 @@ using ServerSideCharacter2.Utils;
 using System.Security.Cryptography;
 using ServerSideCharacter2.Core;
 using ServerSideCharacter2.GUI.UI.Component.Special;
+using Terraria.GameContent.UI;
+using ServerSideCharacter2.Unions;
 
 namespace ServerSideCharacter2.GUI.UI
 {

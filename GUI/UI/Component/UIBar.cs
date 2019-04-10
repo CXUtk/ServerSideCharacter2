@@ -24,6 +24,12 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		}
 
 
+		public Color BackGroundColor
+		{
+			get;
+			set;
+		}
+
 		public Vector2 BarFrameTexCornerSize
 		{
 			get;
@@ -81,7 +87,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			var pos = GetInnerDimensions().Position();
 			var fillpos = pos + FillerDrawOffset;
 			sb.Draw(Main.magicPixel,
-				new Rectangle((int)fillpos.X, (int)fillpos.Y, (int)(FillerSize.X), (int)FillerSize.Y), Color.Black);
+				new Rectangle((int)fillpos.X, (int)fillpos.Y, (int)(FillerSize.X), (int)FillerSize.Y), BackGroundColor);
 			sb.Draw(BarFillTex,
 				new Rectangle((int)fillpos.X, (int)fillpos.Y, (int)(FillerSize.X * Value), (int)FillerSize.Y), FillerColor);
 			Drawing.DrawAdvBox(sb, GetInnerDimensions().ToRectangle(), Color.White, BarFrameTex, BarFrameTexCornerSize);

@@ -73,18 +73,6 @@ namespace ServerSideCharacter2.Unions
 			}
 		}
 
-		public void Donate(ServerPlayer player, string name, int amount)
-		{
-			var union = Unions[name];
-			union.IncreaseEXP(amount);
-			foreach(var member in union.Members)
-			{
-				var splayer = ServerSideCharacter2.PlayerCollection.Get(member);
-				splayer?.SendInfoMessage($"玩家 {player.Name} 给公会捐献了 {amount} 财富", Color.Green);
-			}
-			CommandBoardcast.ConsoleMessage($"玩家 {player.Name} 给公会 {name} 捐献了 {amount} 财富");
-		}
-
 
 		/// <summary>
 		/// 移除领地，移除之前需要确保名字存在

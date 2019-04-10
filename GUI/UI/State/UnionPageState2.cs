@@ -7,6 +7,7 @@ using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 using System;
 using System.Collections.Generic;
+using ServerSideCharacter2.Unions;
 
 namespace ServerSideCharacter2.GUI.UI
 {
@@ -34,6 +35,11 @@ namespace ServerSideCharacter2.GUI.UI
 		private const float CANDIDATE_OFFSET_RIGHT = 580;
 		private const float CANDIDATE_OFFSET_TOP = 120;
 		private const float CANDIDATE_WIDTH = 240;
+		private const float BAR_WIDTH = 280;
+		private const float BAR_HEIGHT = 16;
+
+		private UISlot uiSlot;
+		private UIBar expBar;
 
 		public UnionPageState2()
 		{
@@ -95,7 +101,7 @@ namespace ServerSideCharacter2.GUI.UI
 			buttonPanel.Top.Set(UNIONLIST_OFFSET_TOP, 0f);
 			buttonPanel.Left.Set(UNIONLIST_OFFSET_RIGHT + UNIONLIST_WIDTH + 10, 0f);
 			buttonPanel.Width.Set(150, 0f);
-			buttonPanel.Height.Set(UNIONLIST_HEIGHT, 0f);
+			buttonPanel.Height.Set(180, 0f);
 			buttonPanel.SetPadding(10f);
 			buttonPanel.Visible = false;
 			WindowPanel.Append(buttonPanel);
@@ -116,9 +122,39 @@ namespace ServerSideCharacter2.GUI.UI
 
 
 			unionNameText = new UIText("", 0.7f, true);
-			unionNameText.Top.Set(UNIONLIST_OFFSET_TOP - 40, 0f);
+			unionNameText.Top.Set(UNIONLIST_OFFSET_TOP - 80, 0f);
 			unionNameText.Left.Set(UNIONLIST_OFFSET_RIGHT + 5, 0f);
 			WindowPanel.Append(unionNameText);
+
+			expBar = new UIBar
+			{
+				BarFrameTex = ServerSideCharacter2.ModTexturesTable["ExpBarFrame"],
+				BarFillTex = Main.magicPixel,
+				FillerColor = Color.Yellow,
+				BackGroundColor = Color.Transparent,
+				BarFrameTexCornerSize = new Vector2(6, 6),
+				FillerDrawOffset = new Vector2(6, 6),
+				FillerSize = new Vector2(BAR_WIDTH - 12, BAR_HEIGHT - 12)
+			};
+			expBar.Top.Set(80f, 0f);
+			expBar.Left.Set(40, 0f);
+			expBar.Width.Set(BAR_WIDTH, 0f);
+			expBar.Height.Set(BAR_HEIGHT, 0f);
+			expBar.Value = 0.3f;
+			WindowPanel.Append(expBar);
+
+			uiSlot = new UISlot(ServerSideCharacter2.ModTexturesTable["AdvInvBack1"]);
+			uiSlot.Left.Set(475, 0f);
+			uiSlot.Top.Set(340, 0f);
+			uiSlot.Width.Set(60, 0f);
+			uiSlot.Height.Set(60, 0f);
+			uiSlot.CanPutInSlot = new CheckPutSlotCondition((item) =>
+			{
+				return item.type == UnionManager.CurrencyType;
+			});
+			uiSlot.Tooltip = "在这放置咕币来捐献";
+			uiSlot.DrawColor = Color.White;
+			WindowPanel.Append(uiSlot);
 		}
 
 
@@ -191,6 +227,7 @@ namespace ServerSideCharacter2.GUI.UI
 			_memberList.Sort();
 			unionNameText.SetText(info.Name);
 			AdjustOwnerUI(info.Owner.Name == Main.LocalPlayer.name);
+			expBar.Value = (float)(info.CurrentEXP / (double)info.EXPToNext);
 		}
 
 
@@ -236,7 +273,9 @@ namespace ServerSideCharacter2.GUI.UI
 			}
 
 			var donateButton = new UICDButton(null, true);
-			donateButton.Width.Set(0, 1f);
+			donateButton.Left.Set(450, 0f);
+			donateButton.Top.Set(420, 0f);
+			donateButton.Width.Set(108, 0f);
 			donateButton.Height.Set(50, 0f);
 			donateButton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
 			donateButton.ButtonDefaultColor = new Color(200, 200, 200);
@@ -244,22 +283,27 @@ namespace ServerSideCharacter2.GUI.UI
 			donateButton.CornerSize = new Vector2(12, 12);
 			donateButton.ButtonText = "捐献";
 			donateButton.OnClick += DonateButton_OnClick;
-			_buttonList.Add(donateButton);
+			WindowPanel.Append(donateButton);
 		}
 
 		private void ExitButton_OnClick1(UIMouseEvent evt, UIElement listeningElement)
 		{
-			throw new NotImplementedException();
+			ServerSideCharacter2.Instance.ShowMessage("请使用/union remove <公会名字> 进行公会解散", 360, Color.Yellow);
 		}
 
 		private void DonateButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
-			throw new NotImplementedException();
+			if (uiSlot.ContainedItem.type == UnionManager.CurrencyType && uiSlot.ContainedItem.stack > 0)
+			{
+				Main.PlaySound(7, -1, -1, 1, 1f, 0.0f);
+				MessageSender.SendDonateUnion(uiSlot.ContainedItem.stack);
+				uiSlot.ContainedItem = new Item();
+			}
 		}
 
 		private void ExitButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
-			throw new NotImplementedException();
+			ServerSideCharacter2.Instance.ShowMessage("请使用/union exit <公会名字> 来退出公会", 360, Color.Yellow);
 		}
 
 		private void CandidateButton_OnClick(UIMouseEvent evt, UIElement listeningElement)

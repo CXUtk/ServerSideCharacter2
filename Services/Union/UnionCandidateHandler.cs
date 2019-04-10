@@ -48,6 +48,11 @@ namespace ServerSideCharacter2.Services.Union
 				var union = player.Union;
 				if (accept)
 				{
+					if (!union.CanAccept())
+					{
+						player.SendErrorInfo("公会人数已经达到上限");
+						return;
+					}
 					union.AcceptCandidate(target);
 				}
 				else

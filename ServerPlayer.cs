@@ -92,17 +92,8 @@ namespace ServerSideCharacter2
 			}
 		}
 
-
-		private void SyncSavingToClient()
+		public void SyncItemData()
 		{
-			NetMessage.SendData(MessageID.SyncPlayer, -1, -1, NetworkText.FromLiteral(Main.player[playerID].name), playerID, 0f, 0f, 0f, 0, 0, 0);
-			NetMessage.SendData(MessageID.PlayerControls, -1, -1, NetworkText.Empty, playerID, 0f, 0f, 0f, 0, 0, 0);
-			NetMessage.SendData(MessageID.PlayerHealth, -1, -1, NetworkText.Empty, playerID);
-			NetMessage.SendData(MessageID.PlayerPvP, -1, -1, NetworkText.Empty, playerID, 0f, 0f, 0f, 0, 0, 0);
-			NetMessage.SendData(MessageID.PlayerTeam, -1, -1, NetworkText.Empty, playerID, 0f, 0f, 0f, 0, 0, 0);
-			NetMessage.SendData(MessageID.PlayerMana, -1, -1, NetworkText.Empty, playerID);
-			NetMessage.SendData(MessageID.PlayerBuffs, -1, -1, NetworkText.Empty, playerID, 0f, 0f, 0f, 0, 0, 0);
-			Main.player[playerID].trashItem = new Item();
 			for (var i = 0; i < 59; i++)
 			{
 				NetMessage.SendData(MessageID.SyncEquipment, -1, -1, NetworkText.FromLiteral(Main.player[playerID].inventory[i].Name), playerID, i, Main.player[playerID].inventory[i].prefix, 0f, 0, 0, 0);
@@ -143,6 +134,19 @@ namespace ServerSideCharacter2
 					58 + Main.player[playerID].armor.Length + Main.player[playerID].dye.Length +
 				Main.player[playerID].miscEquips.Length + Main.player[playerID].bank.item.Length + Main.player[playerID].bank2.item.Length + 2 + i, Main.player[playerID].bank2.item[i].prefix, 0f, 0, 0, 0);
 			}
+		}
+
+		private void SyncSavingToClient()
+		{
+			NetMessage.SendData(MessageID.SyncPlayer, -1, -1, NetworkText.FromLiteral(Main.player[playerID].name), playerID, 0f, 0f, 0f, 0, 0, 0);
+			NetMessage.SendData(MessageID.PlayerControls, -1, -1, NetworkText.Empty, playerID, 0f, 0f, 0f, 0, 0, 0);
+			NetMessage.SendData(MessageID.PlayerHealth, -1, -1, NetworkText.Empty, playerID);
+			NetMessage.SendData(MessageID.PlayerPvP, -1, -1, NetworkText.Empty, playerID, 0f, 0f, 0f, 0, 0, 0);
+			NetMessage.SendData(MessageID.PlayerTeam, -1, -1, NetworkText.Empty, playerID, 0f, 0f, 0f, 0, 0, 0);
+			NetMessage.SendData(MessageID.PlayerMana, -1, -1, NetworkText.Empty, playerID);
+			NetMessage.SendData(MessageID.PlayerBuffs, -1, -1, NetworkText.Empty, playerID, 0f, 0f, 0f, 0, 0, 0);
+			Main.player[playerID].trashItem = new Item();
+			SyncItemData();
 			PlayerHooks.SyncPlayer(Main.player[playerID], -1, -1, false);
 		}
 

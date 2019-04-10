@@ -49,7 +49,6 @@ namespace ServerSideCharacter2.Services.Union
 				{
 					ServerSideCharacter2.GuiManager.SetState(SSCUIState.UnionPage2, true);
 				}
-				
 			}
 		}
 	}

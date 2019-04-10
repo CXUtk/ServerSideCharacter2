@@ -15,10 +15,11 @@ namespace ServerSideCharacter2.Unions
 
 		private const int EXP_BASE = 200;
 		private const int MAX_CANDIDATES = 10;
+		private const int MAX_LEVEL = 15;
 		public int Level { get; set; }
 
 		[JsonIgnore]
-		public long EXPtoNextLevel => EXP_BASE * (long)Math.Exp(Level);
+		public long EXPForNextLevel => EXP_BASE * (long)Math.Exp(Level);
 		public long CurrentEXP { get; set; }
 		public long Wealth { get; set; }
 		public string Name { get; set; }
@@ -74,7 +75,7 @@ namespace ServerSideCharacter2.Unions
 				Name = Name,
 				Level = Level,
 				CurrentEXP = CurrentEXP,
-				EXPToNext = EXPtoNextLevel,
+				EXPToNext = EXPForNextLevel,
 				Wealth = Wealth
 			};
 			info.Members = new HashSet<SimplifiedPlayerInfo>();
@@ -182,14 +183,48 @@ namespace ServerSideCharacter2.Unions
 			}
 		}
 
-		public void IncreaseEXP(int amount)
+		private void IncreaseEXP(int amount)
+		{
+			CurrentEXP += amount;
+			while(CurrentEXP >= EXPForNextLevel)
+			{
+				Level++;
+				foreach (var member in Members)
+				{
+					var player = ServerSideCharacter2.PlayerCollection.Get(member);
+					if (player.PrototypePlayer != null)
+					{
+						player.SendInfoMessage($"公会等级成功升级至 {Level} 级");
+					}
+				}
+			}
+			SyncToAllMembers();
+		}
+
+
+		private void IncreaseWealth(int amount)
+		{
+			Wealth += amount;
+		}
+
+		public void Donate(ServerPlayer splayer, int amount)
 		{
 			lock (this)
 			{
-				CurrentEXP += amount;
+				IncreaseEXP(amount);
+				IncreaseWealth(amount);
+				foreach (var member in Members)
+				{
+					var player = ServerSideCharacter2.PlayerCollection.Get(member);
+					if (player.PrototypePlayer != null)
+					{
+						player.SendInfoMessage($"玩家 {splayer.Name} 给公会捐献了 {amount} 财富", Color.LimeGreen);
+					}
+				}
 				SyncToAllMembers();
 			}
 		}
+
 
 		public void AddMember(ServerPlayer player)
 		{
@@ -202,10 +237,6 @@ namespace ServerSideCharacter2.Unions
 			}
 		}
 
-		public void RemoveMember(ServerPlayer player)
-		{
-			throw new NotImplementedException();
-		}
 
 		public void SyncToOwner()
 		{
@@ -231,13 +262,22 @@ namespace ServerSideCharacter2.Unions
 			}
 		}
 
-		public void RemoveMember(string name)
+		public void RemoveMember(ServerPlayer player)
 		{
 			lock (this)
 			{
-				if (name == Owner) return;
-				Members.Remove(name);
+				if (player == null) return;
+				if (player.Name == Owner) return;
+				Members.Remove(player.Name);
+				player.SetUnion("");
 				SyncToAllMembers();
+				player.SyncUnionInfo();
+				string s = $"玩家 {player.Name} 退出了公会";
+				foreach (var member in Members)
+				{
+					var splayer = ServerSideCharacter2.PlayerCollection.Get(member);
+					splayer?.SendInfoMessage(s);
+				}
 			}
 		}
 	}

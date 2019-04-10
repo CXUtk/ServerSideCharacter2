@@ -69,7 +69,9 @@
 		UnionInfoComplex,
 		NotifyClientUnion,
 		RequestJoinUnion,
-		UnionCandidateOp
+		UnionCandidateOp,
+		UnionRemoveCommand,
+		UnionDonate
 	}
 
 	public enum GenerationType

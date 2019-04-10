@@ -86,6 +86,7 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.UnionInfoComplex, new Services.Union.GetUnionComplexHandler() },
 				{SSCMessageType.RequestJoinUnion, new Services.Union.UnionJoinHandler() },
 				{SSCMessageType.UnionCandidateOp, new Services.Union.UnionCandidateHandler() },
+				{SSCMessageType.UnionRemoveCommand, new Services.Union.UnionRemoveHandler() },
 			};
 		}
 	}

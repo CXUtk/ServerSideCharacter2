@@ -41,6 +41,7 @@ namespace ServerSideCharacter2.Groups
 			defaultGroup.AddPermission("match-new");
 			defaultGroup.AddPermission("union-join");
 			defaultGroup.AddPermission("union-new");
+			defaultGroup.AddPermission("union-remove");
 			var admin = new Group("admin")
 			{
 				ChatColor = Color.Red,
