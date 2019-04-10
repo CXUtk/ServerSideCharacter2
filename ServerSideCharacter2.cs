@@ -36,7 +36,7 @@ namespace ServerSideCharacter2
 {
 	public class ServerSideCharacter2 : Mod
 	{
-		public const bool DEBUGMODE = true;
+		public const bool DEBUGMODE = false;
 
 		internal static ServerSideCharacter2 Instance;
 

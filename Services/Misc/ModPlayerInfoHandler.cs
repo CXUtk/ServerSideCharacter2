@@ -16,8 +16,9 @@ namespace ServerSideCharacter2.Services.Misc
 			{
 				plr = playerNumber;
 			}
-			var mPlayer = Main.player[plr].GetModPlayer<MPlayer>();
 			BitsByte bb = reader.ReadByte();
+			if (plr < 0 || plr >= 255) return;
+			var mPlayer = Main.player[plr].GetModPlayer<MPlayer>();
 			mPlayer.GodMode = bb[0];
 			mPlayer.Piggify = bb[1];
 			mPlayer.ShowOverHead = bb[2];

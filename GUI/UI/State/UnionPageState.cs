@@ -23,9 +23,9 @@ namespace ServerSideCharacter2.GUI.UI
 
 		private const float WINDOW_WIDTH = 640;
 		private const float WINDOW_HEIGHT = 500;
-		private const float UNIONLIST_WIDTH = 400;
+		private const float UNIONLIST_WIDTH = 480;
 		private const float UNIONLIST_HEIGHT = 360;
-		private const float UNIONLIST_OFFSET_RIGHT = -80;
+		private const float UNIONLIST_OFFSET_RIGHT = -60;
 		private const float UNIONLIST_OFFSET_TOP = 50;
 		private const float Y_OFFSET = 20;
 		private const float X_OFFSET = 20;
@@ -96,7 +96,7 @@ namespace ServerSideCharacter2.GUI.UI
 
 			createUnionButton = new UICDButton(null, true);
 			createUnionButton.Top.Set(-UNIONLIST_HEIGHT / 2 + UNIONLIST_OFFSET_TOP, 0.5f);
-			createUnionButton.Left.Set(-150, 1f);
+			createUnionButton.Left.Set(-120, 1f);
 			createUnionButton.Width.Set(100, 0f);
 			createUnionButton.Height.Set(35, 0f);
 			createUnionButton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];

@@ -30,9 +30,20 @@ namespace ServerSideCharacter2.Services.Matches
 					player.SendMessageBox("不存在这个活动", 120, Color.Red);
 					return;
 				}
+				var match = ServerSideCharacter2.MatchingSystem.Matches[name];
 				if (player.InMatch)
 				{
 					player.SendMessageBox("你已经在匹配中了", 120, Color.Red);
+					return;
+				}
+				if (!match.IsActive)
+				{
+					player.SendMessageBox("这个活动还没开始匹配", 120, Color.Red);
+					return;
+				}
+				if (match.GameStarted)
+				{
+					player.SendMessageBox("这个活动正在进行，请等待下一轮", 120, Color.Red);
 					return;
 				}
 				ServerSideCharacter2.MatchingSystem.MatchPlayer(name, player);
