@@ -23,6 +23,9 @@ namespace ServerSideCharacter2.GUI.UI
 		private UIButton createUnionButton;
 		private UIText unionNameText;
 		private UIAdvList _buttonList;
+		private UISlot uiSlot;
+		private UIBar expBar;
+		private UIText unionLevelText;
 
 
 		private float windowWidth = 600;
@@ -38,8 +41,7 @@ namespace ServerSideCharacter2.GUI.UI
 		private const float BAR_WIDTH = 280;
 		private const float BAR_HEIGHT = 16;
 
-		private UISlot uiSlot;
-		private UIBar expBar;
+
 
 		public UnionPageState2()
 		{
@@ -126,22 +128,28 @@ namespace ServerSideCharacter2.GUI.UI
 			unionNameText.Left.Set(UNIONLIST_OFFSET_RIGHT + 5, 0f);
 			WindowPanel.Append(unionNameText);
 
-			expBar = new UIBar
-			{
-				BarFrameTex = ServerSideCharacter2.ModTexturesTable["ExpBarFrame"],
-				BarFillTex = Main.magicPixel,
-				FillerColor = Color.Yellow,
-				BackGroundColor = Color.Transparent,
-				BarFrameTexCornerSize = new Vector2(6, 6),
-				FillerDrawOffset = new Vector2(6, 6),
-				FillerSize = new Vector2(BAR_WIDTH - 12, BAR_HEIGHT - 12)
-			};
-			expBar.Top.Set(80f, 0f);
-			expBar.Left.Set(40, 0f);
-			expBar.Width.Set(BAR_WIDTH, 0f);
-			expBar.Height.Set(BAR_HEIGHT, 0f);
-			expBar.Value = 0.3f;
-			WindowPanel.Append(expBar);
+			//expBar = new UIBar
+			//{
+			//	BarFrameTex = ServerSideCharacter2.ModTexturesTable["ExpBarFrame"],
+			//	BarFillTex = Main.magicPixel,
+			//	FillerColor = Color.Yellow,
+			//	BackGroundColor = Color.Transparent,
+			//	BarFrameTexCornerSize = new Vector2(6, 6),
+			//	FillerDrawOffset = new Vector2(6, 6),
+			//	FillerSize = new Vector2(BAR_WIDTH - 12, BAR_HEIGHT - 12)
+			//};
+			//expBar.Top.Set(80f, 0f);
+			//expBar.Left.Set(40, 0f);
+			//expBar.Width.Set(BAR_WIDTH, 0f);
+			//expBar.Height.Set(BAR_HEIGHT, 0f);
+			//expBar.Value = 0.3f;
+			//WindowPanel.Append(expBar);
+
+			unionLevelText = new UIText("");
+			unionLevelText.Top.Set(80f, 0f);
+			unionLevelText.Left.Set(40, 0f);
+			unionLevelText.SetText($"等级: {8} EXP: {10000000} / {30000000}");
+			WindowPanel.Append(unionLevelText);
 
 			uiSlot = new UISlot(ServerSideCharacter2.ModTexturesTable["AdvInvBack1"]);
 			uiSlot.Left.Set(475, 0f);
@@ -227,7 +235,8 @@ namespace ServerSideCharacter2.GUI.UI
 			_memberList.Sort();
 			unionNameText.SetText(info.Name);
 			AdjustOwnerUI(info.Owner.Name == Main.LocalPlayer.name);
-			expBar.Value = (float)(info.CurrentEXP / (double)info.EXPToNext);
+			// expBar.Value = (float)(info.CurrentEXP / (double)info.EXPToNext);
+			unionLevelText.SetText($"等级: {info.Level} EXP: {info.CurrentEXP} / {info.EXPToNext}");
 		}
 
 

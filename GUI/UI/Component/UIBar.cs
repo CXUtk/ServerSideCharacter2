@@ -15,6 +15,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
         public UIBar()
         {
 			FillerColor = Color.White;
+			BackGroundColor = Color.Black;
         }
 
 		public Texture2D BarFrameTex
