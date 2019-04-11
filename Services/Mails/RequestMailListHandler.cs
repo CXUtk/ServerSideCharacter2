@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
+using ServerSideCharacter2.GUI.UI;
 using ServerSideCharacter2.JsonData;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,10 @@ namespace ServerSideCharacter2.Services.Mails
 				MailsHeadInfo info = new MailsHeadInfo();
 				info = JsonConvert.DeserializeObject<MailsHeadInfo>(str);
 				// 同步到UI
+				lock (MailPageState.Instance)
+				{
+					MailPageState.Instance.AppendMailList(info);
+				}
 			}
 		}
 	}

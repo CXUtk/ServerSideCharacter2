@@ -10,7 +10,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 {
 
 	// Token: 0x020002BB RID: 699
-	public class UIAdvGrid : UIElement
+	public class UIAdvGrid : UIAdvElement
 	{
 		// Token: 0x170001C9 RID: 457
 		// (get) Token: 0x06001B79 RID: 7033 RVA: 0x00013BF0 File Offset: 0x00011DF0
@@ -62,6 +62,11 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			this._innerList.Append(item);
 			// this.UpdateOrder();
 			this._innerList.Recalculate();
+		}
+
+		public List<UIElement> GetList()
+		{
+			return this._items;
 		}
 
 		// Token: 0x06001B7E RID: 7038 RVA: 0x00431164 File Offset: 0x0042F364

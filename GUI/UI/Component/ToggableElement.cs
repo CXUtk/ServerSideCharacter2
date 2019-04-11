@@ -27,10 +27,17 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			set;
 		}
 
+		public int Index
+		{
+			get;
+			set;
+		}
+
 		public ToggableElement() : base()
 		{
 			Enabled = true;
 			Visible = true;
+			Index = 0;
 		}
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)

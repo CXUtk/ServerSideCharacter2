@@ -119,6 +119,7 @@
     <Compile Include="Commands\ClearCommand.cs" />
     <Compile Include="Commands\GodCommand.cs" />
     <Compile Include="Commands\ForcePVPCommand.cs" />
+    <Compile Include="Commands\RewardCommand.cs" />
     <Compile Include="Commands\ItemCommand.cs" />
     <Compile Include="Commands\BanCommand.cs" />
     <Compile Include="Commands\KillCommand.cs" />
@@ -242,6 +243,7 @@
     <Compile Include="ServerPlayer.cs" />
     <Compile Include="ServerSideCharacter2.cs" />
     <Compile Include="Services\FriendSystem\CommunicationService.cs" />
+    <Compile Include="Services\Mails\PickMailSlotHandler.cs" />
     <Compile Include="Services\Mails\RequestMailContentHandler.cs" />
     <Compile Include="Services\Mails\RequestMailListHandler.cs" />
     <Compile Include="Services\Mails\MailPageService.cs" />

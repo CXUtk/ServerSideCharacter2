@@ -25,6 +25,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		public Color DrawColor { get; set; }
 		public string Tooltip { get; set; }
 		public event ExchangeItemHandler PostExchangeItem;
+		public event ExchangeItemHandler OnPickItem;
 
 		public UISlot(Texture2D texture = default(Texture2D)) : base()
 		{
@@ -48,6 +49,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 
 		public override void Click(UIMouseEvent evt)
 		{
+			Main.playerInventory = true;
 			if (Main.mouseItem.type == 0 && ContainedItem.type != 0)
 			{
 				if (CanTakeOutSlot == null || CanTakeOutSlot(ContainedItem))
@@ -55,6 +57,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 					Main.mouseItem = ContainedItem.Clone();
 					ContainedItem = new Item();
 					ContainedItem.SetDefaults(0, true);
+					OnPickItem?.Invoke(this);
 				}
 			}
 			else if (Main.mouseItem.type != 0 && ContainedItem.type == 0)
@@ -68,6 +71,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			}
 			else if (Main.mouseItem.type != 0 && ContainedItem.type != 0)
 			{
+				if (!(CanPutInSlot == null || CanPutInSlot(Main.mouseItem))) return;
 				if (Main.mouseItem.type == ContainedItem.type)
 				{
 					ContainedItem.stack += Main.mouseItem.stack;

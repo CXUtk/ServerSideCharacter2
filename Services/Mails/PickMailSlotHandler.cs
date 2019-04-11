@@ -13,7 +13,7 @@ using Terraria.ModLoader;
 
 namespace ServerSideCharacter2.Services.Mails
 {
-	public class RequestMailContentHandler : ISSCNetHandler
+	public class PickMailSlotHandler : ISSCNetHandler
 	{
 		public void Handle(BinaryReader reader, int playerNumber)
 		{
@@ -21,6 +21,7 @@ namespace ServerSideCharacter2.Services.Mails
 			if (Main.netMode == 2)
 			{
 				var id = reader.ReadUInt64();
+				var slotid = reader.ReadByte();
 				var player = Main.player[playerNumber].GetServerPlayer();
 				var mailist = player.MailList;
 				Mail target = null;
@@ -37,25 +38,8 @@ namespace ServerSideCharacter2.Services.Mails
 					player.SendMessageBox("这个邮件不存在", 180, Color.Yellow);
 					return;
 				}
-				target.MailHead.IsRead = true;
-				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
-				p.Write((int)SSCMessageType.MailGetContent);
-				p.Write(target.Content);
-				p.Write(JsonConvert.SerializeObject(target.AttachedItems));
-				p.Send(playerNumber);
-			}
-			else
-			{
-				var content = reader.ReadString();
-				var items = reader.ReadString();
-				List<ItemInfo> itemInfos = new List<ItemInfo>();
-				var itemlist = JsonConvert.DeserializeObject<List<ItemInfo>>(items);
-
-				// 同步到UI
-				lock (MailPageState.Instance)
-				{
-					MailPageState.Instance.SetContent(content, itemlist);
-				}
+				target.AttachedItems[slotid] = new ItemInfo();
+				return;
 			}
 		}
 	}

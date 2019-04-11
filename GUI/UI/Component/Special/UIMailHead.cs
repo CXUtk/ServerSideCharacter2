@@ -20,8 +20,21 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 {
 	public class UIMailHead : UIAdvPanel
 	{
+
+		public ulong MailID
+		{
+			get
+			{
+				return head.MailID;
+			}
+		}
+		private MailHead head;
+		private int _innerCD = 0;
+		private UIText titleText;
+
 		public UIMailHead(MailHead info)
 		{
+			head = info;
 			this.Width.Set(0, 1f);
 			this.Height.Set(50f, 0f);
 			this.CornerSize = new Vector2(8, 8);
@@ -41,13 +54,46 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 					break;
 				}
 			}
-			UIText titleText = new UIText(sb.ToString());
-			titleText.VAlign = 0.5f;
+			titleText = new UIText(sb.ToString())
+			{
+				VAlign = 0.5f
+			};
 			if (!info.IsRead)
 			{
 				titleText.TextColor = Color.Yellow;
 			}
 			this.Append(titleText);
+		}
+
+		public override void MouseOver(UIMouseEvent evt)
+		{
+			Main.PlaySound(12, -1, -1, 1, 1f, 0f);
+			this.Color = Drawing.DefaultBoxColor * 1.2f;
+			base.MouseOver(evt);
+		}
+
+		public override void MouseOut(UIMouseEvent evt)
+		{
+			this.Color = Drawing.DefaultBoxColor * 0.7f;
+			base.MouseOut(evt);
+		}
+
+		public override void Click(UIMouseEvent evt)
+		{
+			base.Click(evt);
+			if (_innerCD > 0) return;
+			MailPageState.Instance.ClearContent();
+			MailPageState.Instance.SelectedMailItem = this;
+			MailPageState.Instance.GetContent(head.Title);
+			_innerCD = 60;
+			titleText.TextColor = Color.White;
+		}
+
+		public override void Update(GameTime gameTime)
+		{
+			base.Update(gameTime);
+			if (_innerCD > 0)
+				_innerCD--;
 		}
 
 	}

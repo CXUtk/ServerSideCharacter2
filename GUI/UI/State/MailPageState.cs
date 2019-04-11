@@ -7,6 +7,8 @@ using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 using System;
 using ServerSideCharacter2.Mailing;
+using ServerSideCharacter2.JsonData;
+using System.Collections.Generic;
 
 namespace ServerSideCharacter2.GUI.UI
 {
@@ -25,6 +27,7 @@ namespace ServerSideCharacter2.GUI.UI
 		private UIMessageBox _mailContent;
 		private UIText _uiTitle;
 		private UIAdvGrid _uiItemGrid;
+		
 
 
 		private const float WINDOW_WIDTH = 900;
@@ -37,9 +40,13 @@ namespace ServerSideCharacter2.GUI.UI
 		private const float X_OFFSET = 20;
 		private const float ITEMSLOT_HEIGHT = 80;
 
+
+		public UIMailHead SelectedMailItem { get; set; }
+
 		public MailPageState()
 		{
 			Instance = this;
+			SelectedMailItem = null;
 		}
 
 
@@ -170,37 +177,94 @@ namespace ServerSideCharacter2.GUI.UI
 			itemSlotPanel.Append(_uiItemGrid);
 		}
 
+		internal void ClearContent()
+		{
+			_uiTitle.SetText("标题");
+			_mailContent.SetText("（空）");
+			_uiItemGrid.Clear();
+		}
+
+		internal void GetContent(string title)
+		{
+			if (SelectedMailItem == null) return;
+			_uiTitle.SetText(title);
+			MessageSender.SendGetMail(SelectedMailItem.MailID);
+		}
+
+		internal void SetContent(string content, List<ItemInfo> items)
+		{
+			_mailContent.SetText(content);
+			int id = 0;
+			foreach(var info in items)
+			{
+				var item = info.ToItem();
+				UISlot slot = new UISlot(ServerSideCharacter2.ModTexturesTable["Box"]);
+				slot.Width.Set(60, 0f);
+				slot.Height.Set(60, 0f);
+				slot.CanPutInSlot += (i) => false;
+				slot.DrawColor = Drawing.DefaultBoxColor * 0.75f;
+				slot.OnPickItem += Slot_OnPickItem;
+				slot.ContainedItem = item;
+				slot.Index = id++;
+				_uiItemGrid.Add(slot);
+			}
+		}
+
+		private void Slot_OnPickItem(UIElement target)
+		{
+			UISlot slot = (UISlot)target;
+			MessageSender.SendPickMailItem(SelectedMailItem.MailID, (byte)slot.Index);
+		}
+
 		internal void GetMailList()
 		{
-			_uiItemGrid.Clear();
-			_mailList.Clear();
-			if(Main.netMode == 0)
+			lock (this)
 			{
-				for (int i = 0; i < 5; i++)
+				SelectedMailItem = null;
+				ClearContent();
+				_mailList.Clear();
+				if (Main.netMode == 0)
 				{
-					UISlot slot = new UISlot(ServerSideCharacter2.ModTexturesTable["Box"]);
-					slot.Width.Set(60, 0f);
-					slot.Height.Set(60, 0f);
-					slot.CanPutInSlot += (item) => false;
-					slot.DrawColor = Drawing.DefaultBoxColor * 0.75f;
-					_uiItemGrid.Add(slot);
-				}
-
-				for (int i = 0; i < 5; i++)
-				{
-					var testinfo = new MailHead(ServerUtils.RandomGenString())
+					for (int i = 0; i < 5; i++)
 					{
-						IsRead = Main.rand.NextBool()
-					};
-					var bar = new UIMailHead(testinfo);
-					_mailList.Add(bar);
+						UISlot slot = new UISlot(ServerSideCharacter2.ModTexturesTable["Box"]);
+						slot.Width.Set(60, 0f);
+						slot.Height.Set(60, 0f);
+						slot.CanPutInSlot += (item) => false;
+						slot.DrawColor = Drawing.DefaultBoxColor * 0.75f;
+						_uiItemGrid.Add(slot);
+					}
+
+					for (int i = 0; i < 5; i++)
+					{
+						var testinfo = new MailHead(ServerUtils.RandomGenString())
+						{
+							IsRead = Main.rand.NextBool()
+						};
+						var bar = new UIMailHead(testinfo);
+						_mailList.Add(bar);
+					}
 				}
+				else
+				{
+					MessageSender.SendGetMailsHead();
+				}
+			}
+		}
+
+		internal void AppendMailList(JsonData.MailsHeadInfo info)
+		{
+			info.Mails.Reverse();
+			foreach (var head in info.Mails)
+			{
+				var bar = new UIMailHead(head);
+				_mailList.Add(bar);
 			}
 		}
 
 		private void RefreshButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
-			throw new NotImplementedException();
+			GetMailList();
 		}
 
 		protected override void OnClose(UIMouseEvent evt, UIElement listeningElement)

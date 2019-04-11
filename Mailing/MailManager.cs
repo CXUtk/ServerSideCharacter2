@@ -28,7 +28,7 @@ namespace ServerSideCharacter2.Mailing
 	{
 		public Dictionary<ulong, Mail> MailList { get; set; }
 		internal ulong MainCurrentID;
-		private const string FILENAME = "mails.json";
+		private const string FILENAME = "SSC/mails.json";
 		
 		public void Load()
 		{
@@ -69,7 +69,7 @@ namespace ServerSideCharacter2.Mailing
 				MainCurrentID = MainCurrentID,
 				Mails = MailList.Values.ToList()
 			};
-			
+			data.SaveTo(FILENAME);
 		}
 
 		public MailManager()
@@ -80,22 +80,28 @@ namespace ServerSideCharacter2.Mailing
 
 		public void ServerSendMail(ServerPlayer target, string title, string content, List<Item> items)
 		{
-			Mail mail = new Mail
+			if (Main.netMode == 2)
 			{
-				MailHead = MailHead.GenerateHead(title, "<系统>", target.Name),
-				Content = content
-			};
-			foreach (var item in items)
-			{
-				var info = new ItemInfo();
-				info.FromItem(item);
-				mail.AttachedItems.Add(info);
-			}
-			MailList.Add(mail.MailHead.MailID, mail);
-			target.MailList.Add(mail);
-			if (target.MailList.Count > ServerSideCharacter2.Config.MaxMailsPerPlayer)
-			{
-				target.MailList.RemoveAt(0);
+				Mail mail = new Mail
+				{
+					MailHead = MailHead.GenerateHead(title, "<系统>", target.Name),
+					Content = content
+				};
+				foreach (var item in items)
+				{
+					var info = new ItemInfo();
+					info.FromItem(item);
+					mail.AttachedItems.Add(info);
+				}
+				lock (target.MailList)
+				{
+					MailList.Add(mail.MailHead.MailID, mail);
+					target.MailList.Add(mail);
+					if (target.MailList.Count > ServerSideCharacter2.Config.MaxMailsPerPlayer)
+					{
+						target.MailList.RemoveAt(0);
+					}
+				}
 			}
 		}
 	}

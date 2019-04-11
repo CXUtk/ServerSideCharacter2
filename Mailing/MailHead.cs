@@ -27,7 +27,12 @@ namespace ServerSideCharacter2.Mailing
 			return head;
 		}
 
-		internal MailHead(string title)
+		public MailHead()
+		{
+
+		}
+
+		public MailHead(string title)
 		{
 			Sender = "<系统>";
 			Recevier = "";

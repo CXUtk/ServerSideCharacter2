@@ -24,6 +24,7 @@ namespace ServerSideCharacter2.JsonData
 		{
 			IsMod = false;
 			ID = 0;
+			Stack = 0;
 		}
 
 		public void FromItem(Item item)

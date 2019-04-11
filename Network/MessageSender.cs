@@ -330,7 +330,7 @@ namespace ServerSideCharacter2
 			p.Send();
 		}
 
-		public static void SendGetMail(long ID)
+		public static void SendGetMail(ulong ID)
 		{
 			if (Main.netMode == 1)
 			{
@@ -341,14 +341,14 @@ namespace ServerSideCharacter2
 			}
 		}
 
-		public static void SendPickMailItem(long ID, byte pos)
+		public static void SendPickMailItem(ulong ID, byte pos)
 		{
 			if (Main.netMode == 1)
 			{
 				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
 				p.Write((int)SSCMessageType.MailPickItem);
 				p.Write(ID);
-				p.Write((byte)pos);
+				p.Write(pos);
 				p.Send();
 			}
 		}
