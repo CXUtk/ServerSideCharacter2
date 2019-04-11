@@ -13,21 +13,25 @@ namespace ServerSideCharacter2.Mailing
 		public string Sender { get; set; }
 		public string Recevier { get; set; }
 		public DateTime SendTime { get; set; }
+		public string Title { get; set; }
 
 
-		public static MailHead GenerateHead(string sender, string recevier)
+		public static MailHead GenerateHead(string title, string sender, string recevier)
 		{
-			MailHead head = new MailHead
+			MailHead head = new MailHead(title)
 			{
-				MailID = ServerSideCharacter2.MailManager.MainCurrentID++
+				MailID = ServerSideCharacter2.MailManager.MainCurrentID++,
+				Sender = sender,
+				Recevier = recevier
 			};
 			return head;
 		}
 
-		internal MailHead()
+		internal MailHead(string title)
 		{
 			Sender = "<系统>";
 			Recevier = "";
+			Title = title;
 			SendTime = DateTime.Now;
 			IsRead = false;
 		}

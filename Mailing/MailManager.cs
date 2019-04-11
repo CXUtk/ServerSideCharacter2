@@ -1,10 +1,12 @@
 ﻿using Newtonsoft.Json;
+using ServerSideCharacter2.JsonData;
 using ServerSideCharacter2.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Terraria;
 
 namespace ServerSideCharacter2.Mailing
 {
@@ -76,14 +78,19 @@ namespace ServerSideCharacter2.Mailing
 			Load();
 		}
 
-		public void ServerSendMail(ServerPlayer target, string title, string content)
+		public void ServerSendMail(ServerPlayer target, string title, string content, List<Item> items)
 		{
 			Mail mail = new Mail
 			{
-				MailHead = MailHead.GenerateHead("<系统>", target.Name),
-				Title = title,
+				MailHead = MailHead.GenerateHead(title, "<系统>", target.Name),
 				Content = content
 			};
+			foreach (var item in items)
+			{
+				var info = new ItemInfo();
+				info.FromItem(item);
+				mail.AttachedItems.Add(info);
+			}
 			MailList.Add(mail.MailHead.MailID, mail);
 			target.MailList.Add(mail);
 			if (target.MailList.Count > ServerSideCharacter2.Config.MaxMailsPerPlayer)

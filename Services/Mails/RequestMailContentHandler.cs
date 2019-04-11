@@ -38,7 +38,6 @@ namespace ServerSideCharacter2.Services.Mails
 				}
 				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
 				p.Write((int)SSCMessageType.MailGetContent);
-				p.Write(target.Title);
 				p.Write(target.Content);
 				p.Write(JsonConvert.SerializeObject(target.AttachedItems));
 				p.Send(playerNumber);
