@@ -116,7 +116,8 @@ namespace ServerSideCharacter2.Services.Login
                             MessageSender.SendLoginSuccess(serverPlayer.PrototypePlayer.whoAmI, "认证成功");
                             // 告诉客户端解除封印
                             MessageSender.SendLoginIn(serverPlayer.PrototypePlayer.whoAmI);
-                            CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 认证成功.");
+							NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(serverPlayer.Name + " 登入了游戏"), new Color(255, 255, 240, 20), -1);
+							CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 认证成功.");
                         }
                         else
                         {

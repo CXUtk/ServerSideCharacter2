@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using ServerSideCharacter2.GUI;
+using ServerSideCharacter2.GUI.UI.Component;
 using Terraria.UI;
 
 namespace ServerSideCharacter2.Services.Login
@@ -17,6 +18,8 @@ namespace ServerSideCharacter2.Services.Login
 		public string Name => "SSC: 登录";
 
 		public bool Enabled { get; set; }
+
+		public UIDrawEventHandler DrawEvent => null;
 
 		public LoginService()
 		{

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ServerSideCharacter2.GUI.UI.Component;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,6 +16,11 @@ namespace ServerSideCharacter2.Services
 		/// 35x35的工具栏图标
 		/// </summary>
 		Texture2D Texture { get; }
+
+		/// <summary>
+		/// 要对按钮进行的额外绘制操作
+		/// </summary>
+		UIDrawEventHandler DrawEvent { get; }
 
 		/// <summary>
 		/// 35x35的工具栏图标

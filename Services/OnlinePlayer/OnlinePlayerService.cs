@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ServerSideCharacter2.GUI;
+using ServerSideCharacter2.GUI.UI.Component;
 using Terraria;
 using Terraria.UI;
 
@@ -19,6 +20,8 @@ namespace ServerSideCharacter2.Services.OnlinePlayer
 		public string Name => "SSC: 在线玩家";
 
 		public bool Enabled { get; set; }
+
+		public UIDrawEventHandler DrawEvent => null;
 
 		public OnlinePlayerService()
 		{

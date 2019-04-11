@@ -102,6 +102,7 @@ namespace ServerSideCharacter2.Mailing
 						target.MailList.RemoveAt(0);
 					}
 				}
+				target.SendMailList();
 			}
 		}
 	}

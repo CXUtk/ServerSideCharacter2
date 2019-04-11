@@ -353,6 +353,22 @@ namespace ServerSideCharacter2
 
 		}
 
+		public void SendMailList()
+		{
+			if (RealPlayer && ConnectionAlive)
+			{
+				MailsHeadInfo info = new MailsHeadInfo();
+				foreach (var mail in MailList)
+				{
+					info.Mails.Add(mail.MailHead);
+				}
+				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				p.Write((int)SSCMessageType.MailGetHeads);
+				p.Write(info.GetJson());
+				p.Send(playerID);
+			}
+		}
+
 		public ServerPlayer()
 		{
 			SetupPlayer();

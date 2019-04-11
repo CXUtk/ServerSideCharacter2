@@ -432,6 +432,7 @@ namespace ServerSideCharacter2.Network
 					player.ClearAllBuffs();
 					player.Lock();
 					player.SyncUnionInfo();
+					player.SendMailList();
 
 					MessageSender.SendWelcomeMessage(plr,
 						player.HasPassword ? GameLanguage.GetText("welcomeold") : GameLanguage.GetText("welcomenew"));
@@ -491,7 +492,6 @@ namespace ServerSideCharacter2.Network
 				if (!Netplay.Clients[plr].IsAnnouncementCompleted)
 				{
 					Netplay.Clients[plr].IsAnnouncementCompleted = true;
-					NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(Main.player[plr].name + GameLanguage.GetText("entergame")), new Color(255, 255, 240, 20), plr);
 					if (Main.dedServ)
 					{
 						Console.WriteLine(Main.player[plr].name + GameLanguage.GetText("entergame"));

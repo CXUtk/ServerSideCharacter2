@@ -57,6 +57,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		public new event UIElement.MouseEvent OnClick;
 		public new event UIElement.MouseEvent OnMouseDown;
 		public new event UIElement.MouseEvent OnMouseUp;
+		public event UIDrawEventHandler PostDraw;
 
 		public UIButton(Texture2D texture, bool withBox = true)
         {
@@ -160,6 +161,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 					ButtonTextColor,
 					Color.Black, txtMeasure * 0.5f);
 			}
+			PostDraw?.Invoke(this, sb);
 		}
     }
 }

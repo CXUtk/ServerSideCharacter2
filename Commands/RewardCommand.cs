@@ -23,29 +23,35 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Description
 		{
-			get { return "给一名玩家奖赏"; }
+			get { return "给所有玩家奖赏"; }
 		}
 
 		public override string Usage
 		{
-			get { return "/reward <player ID>"; }
+			get { return "/reward"; }
 		}
 
 		public override void Action(CommandCaller caller, string input, string[] args)
 		{
-			int who = Convert.ToInt32(args[0]);
-			if (who < 0 || who > 255 || !Main.player[who].active)
+			//int who = Convert.ToInt32(args[0]);
+			//if (who < 0 || who > 255 || !Main.player[who].active)
+			//{
+			//	Console.WriteLine("该玩家不存在");
+			//	return;
+			//}
+			foreach (var pair in ServerSideCharacter2.PlayerCollection)
 			{
-				Console.WriteLine("该玩家不存在");
-				return;
+				var player = pair.Value;
+				Item item = new Item();
+				item.SetDefaults(ItemID.GoldCoin);
+				item.stack = 5;
+				Item item2 = new Item();
+				item2.SetDefaults(ItemID.LifeCrystal);
+				item2.stack = 5;
+				ServerSideCharacter2.MailManager.ServerSendMail(player, "系统奖励", "这是系统给你的奖励",
+					new System.Collections.Generic.List<Item>() { item, item2 });
+				CommandBoardcast.ConsoleMessage($"奖励邮件已经发送给玩家 {player.Name}");
 			}
-			var player = Main.player[who].GetServerPlayer();
-			Item item = new Item();
-			item.SetDefaults(ItemID.LifeCrystal);
-			item.stack = 5;
-			ServerSideCharacter2.MailManager.ServerSendMail(player, "系统奖励", "这是系统给你的奖励",
-				new System.Collections.Generic.List<Item>() { item });
-			CommandBoardcast.ConsoleMessage($"邮件已经发送给玩家 {player.Name}");
 		}
 	}
 }

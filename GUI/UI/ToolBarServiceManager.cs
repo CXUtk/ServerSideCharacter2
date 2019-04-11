@@ -58,17 +58,21 @@ namespace ServerSideCharacter2.GUI.UI
 		internal void GetButtons(List<UIButton> list)
 		{
 			list.Clear();
-			foreach (var s in _services)
+			foreach (var service in _services)
 			{
-				if (!s.Enabled) continue;
+				if (!service.Enabled) continue;
 				var boxTex = ServerSideCharacter2.ModTexturesTable["Box"];
-				var button = new UIButton(s.Texture, false);
-				button.OnClick += s.OnButtonClicked;
+				var button = new UIButton(service.Texture, false);
+				button.OnClick += service.OnButtonClicked;
 				button.Width.Set(35, 0f);
 				button.Height.Set(35, 0f);
 				button.ButtonDefaultColor = new Color(200, 200, 200);
 				button.ButtonChangeColor = Color.White;
-				button.Tooltip = s.Tooltip;
+				button.Tooltip = service.Tooltip;
+				if (service.DrawEvent != null)
+				{
+					button.PostDraw += service.DrawEvent;
+				}
 				list.Add(button);
 			}
 		}

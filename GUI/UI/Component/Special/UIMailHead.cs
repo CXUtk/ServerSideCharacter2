@@ -86,7 +86,12 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			MailPageState.Instance.SelectedMailItem = this;
 			MailPageState.Instance.GetContent(head.Title);
 			_innerCD = 60;
-			titleText.TextColor = Color.White;
+			if (!head.IsRead)
+			{
+				head.IsRead = true;
+				titleText.TextColor = Color.White;
+				ServerSideCharacter2.UnreadCount--;
+			}
 		}
 
 		public override void Update(GameTime gameTime)

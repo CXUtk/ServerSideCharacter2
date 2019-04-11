@@ -37,7 +37,7 @@ namespace ServerSideCharacter2
 {
 	public class ServerSideCharacter2 : Mod
 	{
-		public const bool DEBUGMODE = true;
+		public const bool DEBUGMODE = false;
 
 		internal static ServerSideCharacter2 Instance;
 
@@ -45,7 +45,7 @@ namespace ServerSideCharacter2
 
 		internal static PlayerCollection PlayerCollection;
 
-		internal static string APIVersion = "V0.15 测试";
+		internal static string APIVersion = "V0.16 测试";
 
 		internal static ErrorLogger ErrorLogger;
 
@@ -80,6 +80,8 @@ namespace ServerSideCharacter2
 		private SSCPacketHandler _sscPacketHandler;
 
 		private bool Loaded { get; set; }
+
+		public static int UnreadCount = 0;
 
 		public static Point RegionUpperLeft { get; internal set; }
 		public static Point RegionLowerRight { get; internal set; }

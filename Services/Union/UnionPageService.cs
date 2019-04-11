@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ServerSideCharacter2.GUI;
 using ServerSideCharacter2.GUI.UI;
+using ServerSideCharacter2.GUI.UI.Component;
 using Terraria;
 using Terraria.UI;
 
@@ -20,6 +21,8 @@ namespace ServerSideCharacter2.Services.Union
 		public string Name => "SSC: 公会";
 
 		public bool Enabled { get; set; }
+
+		public UIDrawEventHandler DrawEvent => null;
 
 		public UnionPageService()
 		{

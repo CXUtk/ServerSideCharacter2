@@ -255,10 +255,15 @@ namespace ServerSideCharacter2.GUI.UI
 		internal void AppendMailList(JsonData.MailsHeadInfo info)
 		{
 			info.Mails.Reverse();
+			ServerSideCharacter2.UnreadCount = 0;
 			foreach (var head in info.Mails)
 			{
 				var bar = new UIMailHead(head);
 				_mailList.Add(bar);
+				if (!head.IsRead)
+				{
+					ServerSideCharacter2.UnreadCount++;
+				}
 			}
 		}
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ServerSideCharacter2.GUI;
+using ServerSideCharacter2.GUI.UI.Component;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,8 @@ namespace ServerSideCharacter2.Services.Misc
 		public string Name => "SSC: NPC";
 
 		public bool Enabled { get; set; }
+
+		public UIDrawEventHandler DrawEvent => null;
 
 		public NPCService()
 		{
