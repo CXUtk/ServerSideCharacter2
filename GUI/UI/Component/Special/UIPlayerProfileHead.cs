@@ -159,8 +159,11 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			var grouptext = new UIText($"权限组：[c/{_info.ChatColor.Hex3()}:{_info.ChatPrefix}]");
 			infoList.Add(grouptext);
 
-			var sexText = new UIText($"性别：{((Main.player[_info.PlayerID].Male) ? "男" : "女")}");
-			infoList.Add(sexText);
+			if (_info.PlayerID >= 0)
+			{
+				var sexText = new UIText($"性别：{((Main.player[_info.PlayerID].Male) ? "男" : "女")}");
+				infoList.Add(sexText);
+			}
 
 			var regTimeText = new UIText($"注册时间：{_info.RegistedTime.ToString("g")}");
 			infoList.Add(regTimeText);

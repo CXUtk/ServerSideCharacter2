@@ -71,7 +71,10 @@
 		RequestJoinUnion,
 		UnionCandidateOp,
 		UnionRemoveCommand,
-		UnionDonate
+		UnionDonate,
+		MailGetHeads,
+		MailGetContent,
+		MailPickItem
 	}
 
 	public enum GenerationType

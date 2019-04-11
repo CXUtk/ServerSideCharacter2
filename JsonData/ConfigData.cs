@@ -22,6 +22,7 @@ namespace ServerSideCharacter2.JsonData
 		public int MaxRegionWidth;
 		public int MaxRegionHeight;
 		public int MaxRegions;
+		public int MaxMailsPerPlayer;
 
 		// 未生效
 		public int NPCMaxSpawns;
@@ -37,6 +38,9 @@ namespace ServerSideCharacter2.JsonData
 		public int SaveInterval { get; set; }
 		public PVPMode PvpMode { get; set; }
 		public bool MediumcoreOnly { get; set; }
+
+
+
 		public ConfigData()
 		{
 			startUpInventory = new List<ItemInfo>();
@@ -70,6 +74,7 @@ namespace ServerSideCharacter2.JsonData
 			data.ServerUserID = "mysqlserver";
 			data.ServerPassword = "";
 			data.DatabaseName = "database";
+			data.MaxMailsPerPlayer = 35;
 			return data;
 		}
 	}

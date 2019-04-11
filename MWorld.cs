@@ -132,6 +132,7 @@ namespace ServerSideCharacter2
 			{
 				CommandBoardcast.ConsoleSaveInfo();
 				ServerSideCharacter2.PlayerDoc.SavePlayersData();
+				ServerSideCharacter2.MailManager.Save();
 				ConfigLoader.Save();
 				WorldFile.saveWorld();
 			}

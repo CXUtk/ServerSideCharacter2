@@ -31,6 +31,7 @@ using ServerSideCharacter2.Regions;
 using ServerSideCharacter2.GUI.UI.Component;
 using ServerSideCharacter2.Items;
 using ServerSideCharacter2.Matches;
+using ServerSideCharacter2.Mailing;
 
 namespace ServerSideCharacter2
 {
@@ -61,6 +62,8 @@ namespace ServerSideCharacter2
 		internal static UnionManager UnionManager;
 
 		public static RegionManager RegionManager;
+
+		public static MailManager MailManager;
 
 		public static Dictionary<string, Region> ClientRegions = new Dictionary<string, Region>();
 
@@ -242,6 +245,7 @@ namespace ServerSideCharacter2
 				GroupManager.SetGroups();
 				UnionManager = new UnionManager();
 				RegionManager = new RegionManager();
+				MailManager = new MailManager();
 				// 服务器端生成RSA私钥
 				RSACrypto.GenKey();
 				ConfigLoader.Load();

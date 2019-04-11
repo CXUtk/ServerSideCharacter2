@@ -323,6 +323,35 @@ namespace ServerSideCharacter2
 				p.Send();
 			}
 		}
+		public static void SendGetMailsHead()
+		{
+			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			p.Write((int)SSCMessageType.MailGetHeads);
+			p.Send();
+		}
+
+		public static void SendGetMail(long ID)
+		{
+			if (Main.netMode == 1)
+			{
+				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				p.Write((int)SSCMessageType.MailGetContent);
+				p.Write(ID);
+				p.Send();
+			}
+		}
+
+		public static void SendPickMailItem(long ID, byte pos)
+		{
+			if (Main.netMode == 1)
+			{
+				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				p.Write((int)SSCMessageType.MailPickItem);
+				p.Write(ID);
+				p.Write((byte)pos);
+				p.Send();
+			}
+		}
 
 
 		public static void SendRegionRemove(string name)

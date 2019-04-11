@@ -4,6 +4,9 @@
 		"savedText": "保存完毕！",
 		"readingPlayerDoc": "读取玩家数据中……",
 		"creatingPlayerDoc": "创建玩家数据中……",
+		"creatingMailsData": "创建邮件数据中……",
+		"readingMailsData": "读取邮件数据中……",
+		"finishReadPlayerDoc": "邮件数据读取完毕",
 		"recognizedPlayer": "已识别玩家{0}的身份",
 		"newPlayer": "新玩家{0}加入，玩家数据已创建",
 		"FinishReadPlayerDoc": "玩家数据读取完毕",
@@ -15,6 +18,6 @@
 		"welcomeold": "欢迎新来的小伙伴，点击旁边的齿轮就可以跳到登录界面哦！",
 		"groupconfigcreate": "权限组文件创建完成",
 		"unionconfigcreate": "工会存档文件创建完成",
-		"regionconfigcreate" :  "领地信息存档文件创建完成",
+		"regionconfigcreate": "领地信息存档文件创建完成"
 	}
 }

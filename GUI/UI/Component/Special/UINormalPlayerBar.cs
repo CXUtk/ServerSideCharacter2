@@ -39,6 +39,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 
 		protected float collapsedHeight = 50f;
 		protected float expandedHeight = 100f;
+		protected bool shouldDrawDivider = true;
 
 		public UINormalPlayerBar(SimplifiedPlayerInfo info)
 		{
@@ -234,7 +235,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		{
 			// spriteBatch.Draw(Main.magicPixel, spriteBatch.GraphicsDevice.ScissorRectangle, Color.Blue * 0.4f);
 			base.DrawSelf(spriteBatch);
-			if (!_expanded) return;
+			if (!_expanded || !shouldDrawDivider) return;
 			var innerDimensions = base.GetInnerDimensions();
 			var position = new Vector2(innerDimensions.X + 5f, innerDimensions.Y + 40);
 			spriteBatch.Draw(this.dividerTexture, position, null, Color.White, 0f, Vector2.Zero,

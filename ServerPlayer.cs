@@ -16,6 +16,7 @@ using ServerSideCharacter2.Regions;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using ServerSideCharacter2.Matches;
+using ServerSideCharacter2.Mailing;
 
 namespace ServerSideCharacter2
 {
@@ -44,6 +45,8 @@ namespace ServerSideCharacter2
         public QQAuth qqAuth = new QQAuth();
 
 		private Dictionary<string, PlayerSaving> _playerSavingList = new Dictionary<string, PlayerSaving>();
+
+		public List<Mail> MailList { get; set; }
 
 		/// <summary>
 		/// 玩家当前正在使用的存档
@@ -332,6 +335,8 @@ namespace ServerSideCharacter2
 
 		private void SetupPlayer()
 		{
+			MailList = new List<Mail>();
+			CurrentMatch = null;
 			curRegionName = "";
 			ShouldSyncDocument = true;
 			MainSaving = new PlayerSaving("Main");

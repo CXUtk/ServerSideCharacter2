@@ -19,7 +19,7 @@ namespace ServerSideCharacter2.Services.Login
 			NetMessage.SendData(MessageID.PlayerBuffs, -1, -1, NetworkText.Empty, player.PrototypePlayer.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 		}
 
-		private static string bannedchars = "$%^&*!@#:?|";
+		private static string bannedchars = "$%^&*!@#:?|<>";
 
 		/// <summary>
 		/// 检测名字是否符合要求，如果名字长度小于2或者大于10就不合法
@@ -194,7 +194,7 @@ namespace ServerSideCharacter2.Services.Login
 						}
 						else
 						{
-							serverPlayer.SendMessageBox("无法注册玩家：用户名不能含有下列特殊字符：$%^&*!@#:?|", 120, Color.Red);
+							serverPlayer.SendMessageBox("无法注册玩家：用户名不能含有下列特殊字符：$%^&*!@#:?|<>", 120, Color.Red);
 						}
 					}
 				}

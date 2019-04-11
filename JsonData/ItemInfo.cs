@@ -18,6 +18,7 @@ namespace ServerSideCharacter2.JsonData
 		public int Stack { get; set; }
 		public byte Prefix { get; set; }
 		public bool Favorite { get; set; }
+		public TagCompound data { get; set; }
 
 		public ItemInfo()
 		{
@@ -25,30 +26,31 @@ namespace ServerSideCharacter2.JsonData
 			ID = 0;
 		}
 
-		public static ItemInfo CreateInfo(Item item)
+		public void FromItem(Item item)
 		{
-			var info = new ItemInfo();
 			if(item.type > Main.maxItemTypes || item.modItem != null)
 			{
-				info.IsMod = true;
-				info.FullName = item.modItem.GetType().FullName;
+				this.IsMod = true;
+				this.FullName = item.modItem.GetType().FullName;
 			}
 			else
 			{
-				info.ID = item.type;
+				this.ID = item.type;
 			}
 
-			info.Prefix = item.prefix;
-			info.Stack = item.stack;
-			info.Favorite = item.favorited;
-			return info;
+			this.Prefix = item.prefix;
+			this.Stack = item.stack;
+			this.Favorite = item.favorited;
+
 		}
 
 		public static ItemInfo CreateInfo(int id)
 		{
 			var item = new Item();
 			item.SetDefaults(id);
-			return CreateInfo(item);
+			ItemInfo info = new ItemInfo();
+			info.FromItem(item);
+			return info;
 		}
 
 		public Item ToItem()

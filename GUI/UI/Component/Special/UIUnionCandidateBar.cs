@@ -22,6 +22,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		public UIUnionCandidateBar(SimplifiedPlayerInfo info) : base(info)
 		{
 			collapsedHeight = expandedHeight = 50f;
+			shouldDrawDivider = false;
 			var acceptCandidateButton = new UICDButton(null, true);
 			acceptCandidateButton.Top.Set(0f, 0f);
 			acceptCandidateButton.Left.Set(-70f, 1f);

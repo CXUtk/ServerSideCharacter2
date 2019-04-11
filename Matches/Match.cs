@@ -96,33 +96,20 @@ namespace ServerSideCharacter2.Matches
 
 		public virtual void Update()
 		{
-			bool lockTaken = false;
-			Monitor.TryEnter(this, 3000, ref lockTaken);
-			if (lockTaken)
+			lock (this)
 			{
-				try
+				if (!GameStarted)
 				{
-					if (!GameStarted)
+					if (innerCounter > 0)
 					{
-						if (innerCounter > 0)
-						{
-							innerCounter--;
-						}
-						else
-						{
-							CompleteMatch();
-							innerCounter = MaxMatchingTime;
-						}
+						innerCounter--;
+					}
+					else
+					{
+						CompleteMatch();
+						innerCounter = MaxMatchingTime;
 					}
 				}
-				finally
-				{
-					Monitor.Exit(this);
-				}
-			}
-			else
-			{
-				throw new SSCException("获取锁失败，可能导致死锁");
 			}
 		}
 
