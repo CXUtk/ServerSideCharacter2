@@ -119,7 +119,6 @@
     <Compile Include="Commands\ClearCommand.cs" />
     <Compile Include="Commands\GodCommand.cs" />
     <Compile Include="Commands\ForcePVPCommand.cs" />
-    <Compile Include="Commands\RewardCommand.cs" />
     <Compile Include="Commands\ItemCommand.cs" />
     <Compile Include="Commands\BanCommand.cs" />
     <Compile Include="Commands\KillCommand.cs" />

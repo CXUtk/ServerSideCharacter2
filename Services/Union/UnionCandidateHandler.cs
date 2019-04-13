@@ -25,7 +25,7 @@ namespace ServerSideCharacter2.Services.Union
 				bool accept = reader.ReadBoolean();
 				var player = Main.player[playerNumber].GetServerPlayer();
 				var target = ServerSideCharacter2.PlayerCollection.Get(name);
-				if(target == null)
+				if (target == null)
 				{
 					player.SendErrorInfo("不存在这个玩家");
 					return;
@@ -59,7 +59,7 @@ namespace ServerSideCharacter2.Services.Union
 				{
 					union.RejectCandidate(target);
 				}
-				CommandBoardcast.ConsoleMessage($"公会 {union.Name} 拒绝了 {target.Name} 的加入申请");
+				CommandBoardcast.ConsoleMessage($"公会 {union.Name} {(accept ? "接受" : "拒绝")}了 {target.Name} 的加入申请");
 			}
 		}
 

@@ -86,6 +86,19 @@ namespace ServerSideCharacter2.GUI.UI
 			refreshButton.OnClick += RefreshButton_OnClick;
 			WindowPanel.Append(refreshButton);
 
+			var returnButton = new UICDButton(null, true);
+			returnButton.Top.Set(UNIONLIST_OFFSET_TOP - 50, 0f);
+			returnButton.Left.Set(UNIONLIST_OFFSET_RIGHT + UNIONLIST_WIDTH + 20, 0f);
+			returnButton.Width.Set(105f, 0f);
+			returnButton.Height.Set(50f, 0f);
+			returnButton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
+			returnButton.ButtonDefaultColor = new Color(200, 200, 200);
+			returnButton.ButtonChangeColor = Color.White;
+			returnButton.CornerSize = new Vector2(12, 12);
+			returnButton.ButtonText = "返回大厅";
+			returnButton.OnClick += ReturnButton_OnClick;
+			WindowPanel.Append(returnButton);
+
 			_memberList = new UIAdvList();
 			_memberList.Width.Set(-25f, 1f);
 			_memberList.Height.Set(0f, 1f);
@@ -178,6 +191,10 @@ namespace ServerSideCharacter2.GUI.UI
 			WindowPanel.Append(donateButton);
 		}
 
+		private void ReturnButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
+		{
+			ServerSideCharacter2.Instance.ChangeState(SSCUIState.UnionPage);
+		}
 
 		private void RefreshButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{

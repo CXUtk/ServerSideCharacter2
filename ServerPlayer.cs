@@ -418,7 +418,8 @@ namespace ServerSideCharacter2
 				ManaMax = 20,
 				StatMana = 20,
 				KillCount = 0,
-				Rank = 1500
+				Rank = 1500,
+				EloRank = 1500,
 			};
 			var i = 0;
 			foreach (var item in ServerSideCharacter2.Config.startUpInventory)
@@ -718,9 +719,9 @@ namespace ServerSideCharacter2
 			_info.Rank += rank;
 		}
 
-		public void AdjustEloRank(int rank)
+		public void IncreaseElo(int rank)
 		{
-			_info.EloRank = rank;
+			_info.EloRank += rank;
 		}
 
 		public void Kill()

@@ -37,13 +37,13 @@ namespace ServerSideCharacter2
 {
 	public class ServerSideCharacter2 : Mod
 	{
-		public const bool DEBUGMODE = true;
+		public const bool DEBUGMODE = false;
 
 		internal static ServerSideCharacter2 Instance;
 
 		internal static Dictionary<string, Texture2D> ModTexturesTable = new Dictionary<string, Texture2D>();
 
-		internal static PlayerCollection PlayerCollection;
+		public static PlayerCollection PlayerCollection;
 
 		internal static string APIVersion = "V0.16 测试";
 
@@ -96,6 +96,11 @@ namespace ServerSideCharacter2
 		internal void TurnOffAllState()
 		{
 			GuiManager.TurnOffAll();
+		}
+
+		public static ServerPlayer GetPlayer(string name)
+		{
+			return PlayerCollection.Get(name);
 		}
 
 		public ServerSideCharacter2()

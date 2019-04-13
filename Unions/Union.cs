@@ -122,12 +122,12 @@ namespace ServerSideCharacter2.Unions
 			{
 				if (player.Union != null)
 				{
-					player.SendMessageBox("您你已经有公会了", 180, Color.Yellow);
+					player.SendMessageBox("您已经有公会了", 180, Color.Yellow);
 					return;
 				}
 				if (Candidates.Contains(player.Name))
 				{
-					player.SendMessageBox("您已经在工会的申请列表中，请耐心等待审核", 180, Color.Yellow);
+					player.SendMessageBox("您已经在公会的申请列表中，请耐心等待审核", 180, Color.Yellow);
 					return;
 				}
 				if (Candidates.Count >= MAX_CANDIDATES)
@@ -151,7 +151,7 @@ namespace ServerSideCharacter2.Unions
 
 		public bool CanAccept()
 		{
-			return Candidates.Count < MAX_CANDIDATES;
+			return Members.Count < GetMaxMembers(Level);
 		}
 
 		public void AcceptCandidate(ServerPlayer player)

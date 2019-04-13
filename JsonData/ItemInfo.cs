@@ -18,7 +18,6 @@ namespace ServerSideCharacter2.JsonData
 		public int Stack { get; set; }
 		public byte Prefix { get; set; }
 		public bool Favorite { get; set; }
-		public TagCompound data { get; set; }
 
 		public ItemInfo()
 		{

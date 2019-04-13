@@ -38,8 +38,8 @@ namespace ServerSideCharacter2.RankingSystem
 
 		public static Tuple<int, int> ComputeRank(ServerPlayer win, ServerPlayer lose)
 		{
-			var rA = win.Rank;
-			var rB = lose.Rank;
+			var rA = win.EloRank;
+			var rB = lose.EloRank;
 			var eA = 1.0 / (1.0 + Math.Pow(10, (rB - rA) / 400.0));
 			var eB = 1.0 / (1.0 + Math.Pow(10, (rA - rB) / 400.0));
 			return new Tuple<int, int>((int)(getR(rA) * (1.0 - eA)), (int)(getR(rB) * (0.0 - eB)));

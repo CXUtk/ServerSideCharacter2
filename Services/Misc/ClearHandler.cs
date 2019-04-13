@@ -32,7 +32,7 @@ namespace ServerSideCharacter2.Services.Misc
 						int cleared = 0;
 						for (int i = 0; i < Main.npc.Length; i++)
 						{
-							if (Main.npc[i].active)
+							if (Main.npc[i].active && !Main.npc[i].townNPC)
 							{
 								Main.npc[i].active = false;
 								Main.npc[i].type = 0;
