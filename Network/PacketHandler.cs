@@ -350,6 +350,12 @@ namespace ServerSideCharacter2.Network
 					NetworkText.FromLiteral("你必须使用中核难度的人物"), 0, 0f, 0f, 0f, 0, 0, 0);
 				return true;
 			}
+			else if(!ServerSideCharacter2.Config.MediumcoreOnly && player.difficulty >= 1)
+			{
+				NetMessage.SendData(2, id, -1,
+					NetworkText.FromLiteral("请不要使用中核难度的人物"), 0, 0f, 0f, 0f, 0, 0, 0);
+				return true;
+			}
 			//如果数据中没有玩家的信息
 			if (!ServerSideCharacter2.PlayerCollection.ContainsKey(Main.player[playerNumber].name))
 			{
@@ -375,9 +381,9 @@ namespace ServerSideCharacter2.Network
 				Netplay.Clients[playerNumber].State = 10;
 				NetMessage.greetPlayer(playerNumber);
 				NetMessage.buffer[playerNumber].broadcast = true;
-				SyncConnectedPlayer(playerNumber);
 				MessageSender.SendRSAPublic();
-				
+				SyncConnectedPlayer(playerNumber);
+
 				NetMessage.SendData(MessageID.SpawnPlayer, -1, playerNumber, NetworkText.Empty, playerNumber, 0f, 0f, 0f, 0, 0, 0);
 				NetMessage.SendData(MessageID.AnglerQuest, playerNumber, -1, NetworkText.FromLiteral(Main.player[playerNumber].name), Main.anglerQuest, 0f, 0f, 0f, 0, 0, 0);
 				return true;
@@ -388,7 +394,7 @@ namespace ServerSideCharacter2.Network
 
 		public static void SyncConnectedPlayer(int plr)
 		{
-			SyncOnePlayer(plr, -1, plr);
+			SyncOnePlayer(plr, -1, -1);
 			for (var i = 0; i < 255; i++)
 			{
 				if (plr != i && Main.player[i].active)
@@ -416,16 +422,14 @@ namespace ServerSideCharacter2.Network
 				player.ApplyToPlayer();
 				Main.player[plr].trashItem = new Item();
 
-				NetMessage.SendData(MessageID.PlayerActive, -1, -1, NetworkText.Empty, plr, active, 0f, 0f, 0, 0, 0);
-				NetMessage.SendData(MessageID.SyncPlayer, -1, -1, NetworkText.FromLiteral(Main.player[plr].name), plr, 0f, 0f, 0f, 0, 0, 0);
-				NetMessage.SendData(MessageID.PlayerControls, -1, -1, NetworkText.Empty, plr, 0f, 0f, 0f, 0, 0, 0);
-				NetMessage.SendData(MessageID.PlayerHealth, -1, -1, NetworkText.Empty, plr);
-				//MessageSender.SyncPlayerHealth(plr, -1, -1);
-				NetMessage.SendData(MessageID.PlayerPvP, -1, -1, NetworkText.Empty, plr, 0f, 0f, 0f, 0, 0, 0);
-				NetMessage.SendData(MessageID.PlayerTeam, -1, -1, NetworkText.Empty, plr, 0f, 0f, 0f, 0, 0, 0);
-				NetMessage.SendData(MessageID.PlayerMana, -1, -1, NetworkText.Empty, plr);
-				//MessageSender.SyncPlayerMana(plr, -1, -1);
-				NetMessage.SendData(MessageID.PlayerBuffs, -1, -1, NetworkText.Empty, plr, 0f, 0f, 0f, 0, 0, 0);
+				NetMessage.SendData(MessageID.PlayerActive, toWho, fromWho, null, plr, active, 0f, 0f, 0, 0, 0);
+				NetMessage.SendData(MessageID.SyncPlayer, toWho, fromWho, null, plr, 0f, 0f, 0f, 0, 0, 0);
+				NetMessage.SendData(MessageID.PlayerControls, toWho, fromWho, null, plr, 0f, 0f, 0f, 0, 0, 0);
+				NetMessage.SendData(MessageID.PlayerHealth, toWho, fromWho, null, plr);
+				NetMessage.SendData(MessageID.PlayerPvP, toWho, fromWho, null, plr, 0f, 0f, 0f, 0, 0, 0);
+				NetMessage.SendData(MessageID.PlayerTeam, toWho, fromWho, null, plr, 0f, 0f, 0f, 0, 0, 0);
+				NetMessage.SendData(MessageID.PlayerMana, toWho, fromWho, null, plr);
+				NetMessage.SendData(MessageID.PlayerBuffs, toWho, fromWho, null, plr, 0f, 0f, 0f, 0, 0, 0);
 				if (toWho == -1)
 				{
 					player.IsLogin = false;
@@ -450,41 +454,41 @@ namespace ServerSideCharacter2.Network
 
 				for (var i = 0; i < 59; i++)
 				{
-					NetMessage.SendData(MessageID.SyncEquipment, -1, -1, NetworkText.FromLiteral(Main.player[plr].inventory[i].Name), plr, i, Main.player[plr].inventory[i].prefix, 0f, 0, 0, 0);
+					NetMessage.SendData(MessageID.SyncEquipment, toWho, fromWho, NetworkText.FromLiteral(Main.player[plr].inventory[i].Name), plr, i, Main.player[plr].inventory[i].prefix, 0f, 0, 0, 0);
 				}
 				for (var j = 0; j < Main.player[plr].armor.Length; j++)
 				{
-					NetMessage.SendData(MessageID.SyncEquipment, -1, -1, NetworkText.FromLiteral(Main.player[plr].armor[j].Name), plr, (59 + j), Main.player[plr].armor[j].prefix, 0f, 0, 0, 0);
+					NetMessage.SendData(MessageID.SyncEquipment, toWho, fromWho, NetworkText.FromLiteral(Main.player[plr].armor[j].Name), plr, (59 + j), Main.player[plr].armor[j].prefix, 0f, 0, 0, 0);
 				}
 				for (var k = 0; k < Main.player[plr].dye.Length; k++)
 				{
-					NetMessage.SendData(MessageID.SyncEquipment, -1, -1, NetworkText.FromLiteral(Main.player[plr].dye[k].Name), plr, (58 + Main.player[plr].armor.Length + 1 + k), Main.player[plr].dye[k].prefix, 0f, 0, 0, 0);
+					NetMessage.SendData(MessageID.SyncEquipment, toWho, fromWho, NetworkText.FromLiteral(Main.player[plr].dye[k].Name), plr, (58 + Main.player[plr].armor.Length + 1 + k), Main.player[plr].dye[k].prefix, 0f, 0, 0, 0);
 				}
 				for (var l = 0; l < Main.player[plr].miscEquips.Length; l++)
 				{
-					NetMessage.SendData(MessageID.SyncEquipment, -1, -1, NetworkText.Empty, plr, 58 + Main.player[plr].armor.Length + Main.player[plr].dye.Length + 1 + l, Main.player[plr].miscEquips[l].prefix, 0f, 0, 0, 0);
+					NetMessage.SendData(MessageID.SyncEquipment, toWho, fromWho, NetworkText.Empty, plr, 58 + Main.player[plr].armor.Length + Main.player[plr].dye.Length + 1 + l, Main.player[plr].miscEquips[l].prefix, 0f, 0, 0, 0);
 				}
 				for (var m = 0; m < Main.player[plr].miscDyes.Length; m++)
 				{
-					NetMessage.SendData(MessageID.SyncEquipment, -1, -1, NetworkText.Empty, plr, 58 + Main.player[plr].armor.Length + Main.player[plr].dye.Length + Main.player[plr].miscEquips.Length + 1 + m, Main.player[plr].miscDyes[m].prefix, 0f, 0, 0, 0);
+					NetMessage.SendData(MessageID.SyncEquipment, toWho, fromWho, NetworkText.Empty, plr, 58 + Main.player[plr].armor.Length + Main.player[plr].dye.Length + Main.player[plr].miscEquips.Length + 1 + m, Main.player[plr].miscDyes[m].prefix, 0f, 0, 0, 0);
 				}
 				for (var i = 0; i < Main.player[plr].bank.item.Length; i++)
 				{
-					NetMessage.SendData(MessageID.SyncEquipment, -1, -1, null, plr,
+					NetMessage.SendData(MessageID.SyncEquipment, toWho, fromWho, null, plr,
 						58 + Main.player[plr].armor.Length + Main.player[plr].dye.Length + Main.player[plr].miscEquips.Length + Main.player[plr].miscDyes.Length + 1 + i, Main.player[plr].bank.item[i].prefix, 0f, 0, 0, 0);
 				}
 				for (var i = 0; i < Main.player[plr].bank2.item.Length; i++)
 				{
-					NetMessage.SendData(MessageID.SyncEquipment, -1, -1, null, plr,
+					NetMessage.SendData(MessageID.SyncEquipment, toWho, fromWho, null, plr,
 						58 + Main.player[plr].armor.Length + Main.player[plr].dye.Length + Main.player[plr].miscEquips.Length + Main.player[plr].miscDyes.Length + Main.player[plr].bank.item.Length + 1 + i, Main.player[plr].bank2.item[i].prefix, 0f, 0, 0, 0);
 				}
-				NetMessage.SendData(MessageID.SyncEquipment, -1, -1, null,
+				NetMessage.SendData(MessageID.SyncEquipment, toWho, fromWho, null,
 					plr, 58 + Main.player[plr].armor.Length + Main.player[plr].dye.Length +
 					Main.player[plr].miscEquips.Length + Main.player[plr].bank.item.Length + Main.player[plr].bank2.item.Length + 1, Main.player[plr].trashItem.prefix);
 
 				for (var i = 0; i < Main.player[plr].bank3.item.Length; i++)
 				{
-					NetMessage.SendData(MessageID.SyncEquipment, -1, -1, null, plr,
+					NetMessage.SendData(MessageID.SyncEquipment, toWho, fromWho, null, plr,
 						58 + Main.player[plr].armor.Length + Main.player[plr].dye.Length +
 					Main.player[plr].miscEquips.Length + Main.player[plr].bank.item.Length + Main.player[plr].bank2.item.Length + 2 + i, Main.player[plr].bank2.item[i].prefix, 0f, 0, 0, 0);
 				}

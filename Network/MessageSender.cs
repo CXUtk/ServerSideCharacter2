@@ -313,6 +313,17 @@ namespace ServerSideCharacter2
 			}
 		}
 
+		public static void SendUnionKick(string name)
+		{
+			if (Main.netMode == 1)
+			{
+				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				p.Write((int)SSCMessageType.UnionKick);
+				p.Write(name);
+				p.Send();
+			}
+		}
+
 		public static void SendDonateUnion(int amount)
 		{
 			if (Main.netMode == 1)

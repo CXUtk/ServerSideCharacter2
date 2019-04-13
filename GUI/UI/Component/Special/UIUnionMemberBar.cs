@@ -29,6 +29,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 				this.Color = _defaultColor * 0.7f;
 			}
 			_isOwner = owner;
+
 			var classText = new UIText(owner ? "会长" : "成员");
 			classText.Top.Set(10, 0f);
 			classText.Left.Set(130, 0);
@@ -63,6 +64,26 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 				buttons.Add(tpbutton);
 			}
 
+
+			if (Main.netMode == 0 || ServerSideCharacter2.ClientUnion.Owner == Main.LocalPlayer.name)
+			{
+				var kickButton = new UICDButton(null, true);
+				kickButton.Width.Set(70f, 0f);
+				kickButton.Height.Set(38f, 0f);
+				kickButton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack3"];
+				kickButton.ButtonDefaultColor = new Color(200, 200, 200);
+				kickButton.ButtonChangeColor = Color.White;
+				kickButton.CornerSize = new Vector2(12, 12);
+				kickButton.ButtonText = "踢出";
+				kickButton.OnClick += KickButton_OnClick1;
+				buttons.Add(kickButton);
+			}
+
+		}
+
+		private void KickButton_OnClick1(UIMouseEvent evt, UIElement listeningElement)
+		{
+			MessageSender.SendUnionKick(playerInfo.Name);
 		}
 
 		public override int CompareTo(object obj)

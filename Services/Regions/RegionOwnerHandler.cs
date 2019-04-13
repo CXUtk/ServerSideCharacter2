@@ -34,7 +34,7 @@ namespace ServerSideCharacter2.Services.Regions
 					return;
 				}
 				var region = ServerSideCharacter2.RegionManager.Get(name);
-				region.OwnerGUID = guid;
+				region.OwnerName = splayer.Name;
 				MessageSender.SyncRegionsToClient(-1);
 				var s = $"成功将领地 {region.Name} 的所有权转移给了 {owner.Name}";
 				splayer.SendInfoMessage(s, Color.Lime);

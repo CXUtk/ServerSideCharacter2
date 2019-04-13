@@ -31,10 +31,21 @@ namespace ServerSideCharacter2.Commands
 			{
 				if (args.Length == 1)
 				{
-					var info = ServerSideCharacter2.PlayerCollection.GetAllInfo();
-					var s = JsonConvert.SerializeObject(info, Formatting.Indented);
-					CommandBoardcast.ConsoleMessage(s);
-					ServerSideCharacter2.ErrorLogger.WriteToFile(s);
+					if (args[0] == "all")
+					{
+						var info = ServerSideCharacter2.PlayerCollection.GetAllInfo();
+						var s = JsonConvert.SerializeObject(info, Formatting.Indented);
+						CommandBoardcast.ConsoleMessage(s);
+						ServerSideCharacter2.ErrorLogger.WriteToFile(s);
+					}
+					else if(args[0] == "elo")
+					{
+						foreach(var pair in ServerSideCharacter2.PlayerCollection)
+						{
+							var player = pair.Value;
+							CommandBoardcast.ConsoleMessage($"玩家 {player.Name} 的隐藏分为 {player.EloRank}");
+						}
+					}
 				}
 				else
 				{

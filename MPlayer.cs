@@ -190,33 +190,33 @@ namespace ServerSideCharacter2
 
 		public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
 		{
-			//if (Main.netMode == 2)
-			//{
-			//	if (pvp && damageSource.SourcePlayerIndex != -1)
-			//	{
-			//		var winplayer = Main.player[damageSource.SourcePlayerIndex].GetServerPlayer();
-			//		var loseplayer = player.GetServerPlayer();
-			//		if (!loseplayer.IsLogin)
-			//		{
-			//			MessageSender.SendInfoMessage(winplayer.PrototypePlayer.whoAmI, "杀死没有登录的玩家不算分", Color.Yellow);
-			//			return;
-			//		}
-			//		winplayer.KillCount++;
-			//		var changes = Ranking.ComputeRank(winplayer, loseplayer);
-			//		winplayer.IncreaseRank(changes.Item1);
-			//		loseplayer.IncreaseRank(changes.Item2);
+			if (Main.netMode == 2)
+			{
+				if (pvp && damageSource.SourcePlayerIndex != -1)
+				{
+					var winplayer = Main.player[damageSource.SourcePlayerIndex].GetServerPlayer();
+					var loseplayer = player.GetServerPlayer();
+					if (!loseplayer.IsLogin)
+					{
+						MessageSender.SendInfoMessage(winplayer.PrototypePlayer.whoAmI, "杀死没有登录的玩家不算分", Color.Yellow);
+						return;
+					}
+					winplayer.KillCount++;
+					//var changes = Ranking.ComputeRank(winplayer, loseplayer);
+					//winplayer.IncreaseRank(changes.Item1);
+					//loseplayer.IncreaseRank(changes.Item2);
 
-			//		var winmsg = $"你击杀了 {loseplayer.Name} 并且获得 {changes.Item1} 点积分";
-			//		MessageSender.SendInfoMessage(winplayer.PrototypePlayer.whoAmI, winmsg, Color.LimeGreen);
+					//var winmsg = $"你击杀了 {loseplayer.Name} 并且获得 {changes.Item1} 点积分";
+					//MessageSender.SendInfoMessage(winplayer.PrototypePlayer.whoAmI, winmsg, Color.LimeGreen);
 
-			//		var losemsg = $"你被 {winplayer.Name} 击杀了，为此你的积分降低了 {-changes.Item2}";
-			//		MessageSender.SendInfoMessage(loseplayer.PrototypePlayer.whoAmI, losemsg, Color.OrangeRed);
+					//var losemsg = $"你被 {winplayer.Name} 击杀了，为此你的积分降低了 {-changes.Item2}";
+					//MessageSender.SendInfoMessage(loseplayer.PrototypePlayer.whoAmI, losemsg, Color.OrangeRed);
 
-			//		var servermsg = $"玩家 {winplayer.Name} (+{changes.Item1}) 击杀了 {loseplayer.Name} ((-{changes.Item2}))\n" +
-			//			$"双方的排位积分分别为 {winplayer.Rank} 和 {loseplayer.Rank}";
-			//		CommandBoardcast.ConsoleMessage(servermsg);
-			//	}
-			//}
+					//var servermsg = $"玩家 {winplayer.Name} (+{changes.Item1}) 击杀了 {loseplayer.Name} ((-{changes.Item2}))\n" +
+					//	$"双方的排位积分分别为 {winplayer.Rank} 和 {loseplayer.Rank}";
+					//CommandBoardcast.ConsoleMessage(servermsg);
+				}
+			}
 		}
 
 		public override void UpdateEquips(ref bool wallSpeedBuff, ref bool tileSpeedBuff, ref bool tileRangeBuff)

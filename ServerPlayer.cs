@@ -227,12 +227,10 @@ namespace ServerSideCharacter2
 			set;
 		}
 
-		public HashSet<string> Regions
+		public List<Region> Regions
 		{
-			get
-			{
-				return _info.OwnedRegions;
-			}
+			get;
+			set;
 		}
 
 		public int Rank
@@ -338,6 +336,7 @@ namespace ServerSideCharacter2
 
 		private void SetupPlayer()
 		{
+			Regions = new List<Region>();
 			MailList = new List<Mail>();
 			CurrentMatch = null;
 			curRegionName = "";

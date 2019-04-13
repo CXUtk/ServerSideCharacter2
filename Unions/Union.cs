@@ -280,5 +280,24 @@ namespace ServerSideCharacter2.Unions
 				}
 			}
 		}
+
+		public void KickMember(ServerPlayer player)
+		{
+			lock (this)
+			{
+				if (player == null) return;
+				if (player.Name == Owner) return;
+				Members.Remove(player.Name);
+				player.Union = null;
+				SyncToAllMembers();
+				player.SyncUnionInfo();
+				string s = $"玩家 {player.Name} 被踢出了公会";
+				foreach (var member in Members)
+				{
+					var splayer = ServerSideCharacter2.PlayerCollection.Get(member);
+					splayer?.SendInfoMessage(s);
+				}
+			}
+		}
 	}
 }

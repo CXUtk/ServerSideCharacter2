@@ -23,6 +23,16 @@ namespace ServerSideCharacter2.Regions
 		public override void Receive(Dictionary<string, Region> data)
 		{
 			ServerSideCharacter2.RegionManager.Regions = data;
+
+			foreach(var pair in ServerSideCharacter2.RegionManager.Regions)
+			{
+				var region = pair.Value;
+				var player = ServerSideCharacter2.PlayerCollection.Get(region.OwnerName);
+				if(player != null)
+				{
+					player.Regions.Add(region);
+				}
+			}
 		}
 	}
 	//public class RegionData

@@ -71,6 +71,7 @@
 		RequestJoinUnion,
 		UnionCandidateOp,
 		UnionRemoveCommand,
+		UnionKick,
 		UnionDonate,
 		MailGetHeads,
 		MailGetContent,

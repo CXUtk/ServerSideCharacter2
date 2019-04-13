@@ -12,7 +12,6 @@ namespace ServerSideCharacter2.Regions
 	public class Region : IName
 	{
 		public string Name { get; set; }
-		public int OwnerGUID { get; set; }
 		[JsonConverter(typeof(MyRectangleConverter))]
 		public Rectangle Area { get; set; }
 		public string OwnerName { get; set; }
@@ -24,8 +23,7 @@ namespace ServerSideCharacter2.Regions
 		{
 			get
 			{
-				if (OwnerGUID == -1) return null;
-				return ServerSideCharacter2.PlayerCollection.Get(OwnerGUID);
+				return ServerSideCharacter2.PlayerCollection.Get(OwnerName);
 			}
 		}
 
@@ -33,7 +31,6 @@ namespace ServerSideCharacter2.Regions
 		{
 			Name = name;
 			Area = rect;
-			OwnerGUID = -1;
 			OwnerName = "";
 			PVP = 0;
 			Forbidden = false;
@@ -43,7 +40,7 @@ namespace ServerSideCharacter2.Regions
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.AppendLine(string.Format("欢迎来到领地 '{0}'!", Name));
-			sb.AppendLine(string.Format("领地主人: {0}", OwnerGUID == -1 ? "无主" : Owner.Name));
+			sb.AppendLine(string.Format("领地主人: {0}", Owner == null ? "无" : Owner.Name));
 			sb.Append(string.Format("领地面积: {0}", Area.ToString()));
 			return sb.ToString();
 		}
@@ -59,6 +56,7 @@ namespace ServerSideCharacter2.Regions
 			var reg = (Region)obj;
 			return this.Name.Equals(reg.Name);
 		}
+
 	}
 
 	public class MyRectangleConverter : JsonConverter

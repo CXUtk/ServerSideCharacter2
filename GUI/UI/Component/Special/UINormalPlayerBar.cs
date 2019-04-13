@@ -40,6 +40,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		protected float collapsedHeight = 50f;
 		protected float expandedHeight = 100f;
 		protected bool shouldDrawDivider = true;
+		protected float buttonTopOffset = 50f;
 
 		public UINormalPlayerBar(SimplifiedPlayerInfo info)
 		{
@@ -186,7 +187,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			for (var i = 0; i < extraButtons.Count; i++)
 			{
 				var but = extraButtons[i];
-				but.Top.Set(50, 0f);
+				but.Top.Set(buttonTopOffset, 0f);
 				but.Left.Set(currentLeft, 0f);
 				Append(but);
 				currentLeft += but.Width.Pixels + EXTRA_BUTTON_MARGIN_RIGHT;

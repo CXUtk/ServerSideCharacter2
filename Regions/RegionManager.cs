@@ -23,10 +23,10 @@ namespace ServerSideCharacter2.Regions
 
 			Region playerRegion = new Region(name, rect)
 			{
-				OwnerGUID = player.GUID
+				OwnerName = player.Name
 			};
 			Regions.Add(name, playerRegion);
-			player.Regions.Add(name);
+			player.Regions.Add(playerRegion);
 
 		}
 		public void CreateNewRegion(Rectangle rect, string name)
@@ -34,7 +34,7 @@ namespace ServerSideCharacter2.Regions
 
 			Region playerRegion = new Region(name, rect)
 			{
-				OwnerGUID = -1
+				OwnerName = "无"
 			};
 			Regions.Add(name, playerRegion);
 
@@ -51,10 +51,10 @@ namespace ServerSideCharacter2.Regions
 		{
 			if (Regions.ContainsKey(name))
 			{
-				if (Regions[name].OwnerGUID != -1)
+				if (Regions[name].Owner != null)
 				{
 					var owner = Regions[name].Owner;
-					owner.Regions.Remove(name);
+					owner.Regions.Remove(Regions[name]);
 				}
 				Regions.Remove(name);
 			}
@@ -72,7 +72,7 @@ namespace ServerSideCharacter2.Regions
 
 		public bool CheckPlayerRegionMax(ServerPlayer player)
 		{
-			return Regions.Count(info => info.Value.OwnerGUID != -1 && info.Value.Owner.Equals(player)) < ServerSideCharacter2.Config.PlayerMaxRegions;
+			return Regions.Count(info => info.Value.Owner != null && info.Value.OwnerName.Equals(player)) < ServerSideCharacter2.Config.PlayerMaxRegions;
 		}
 
 		public bool CheckRegionConflict(Rectangle rect)
