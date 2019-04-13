@@ -30,6 +30,7 @@ namespace ServerSideCharacter2.Commands
 			{
 				Console.WriteLine(GameLanguage.GetText("savingText"));
 				ServerSideCharacter2.PlayerDoc.SavePlayersData();
+				ServerSideCharacter2.MailManager.Save();
 				ConfigLoader.Save();
 				WorldFile.saveWorld();
 				Console.WriteLine(GameLanguage.GetText("savedText"));
@@ -64,6 +65,7 @@ namespace ServerSideCharacter2.Commands
 			{
 				Console.WriteLine(GameLanguage.GetText("savingText"));
 				ServerSideCharacter2.PlayerDoc.SavePlayersData();
+				ServerSideCharacter2.MailManager.Save();
 				ConfigLoader.Save();
 				WorldFile.saveWorld();
 				Console.WriteLine(GameLanguage.GetText("savedText"));

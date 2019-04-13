@@ -39,18 +39,42 @@ namespace ServerSideCharacter2.Commands
 			//	Console.WriteLine("该玩家不存在");
 			//	return;
 			//}
-			foreach (var pair in ServerSideCharacter2.PlayerCollection)
+			if (args.Length > 0)
 			{
-				var player = pair.Value;
-				Item item = new Item();
-				item.SetDefaults(ItemID.GoldCoin);
-				item.stack = 5;
-				Item item2 = new Item();
-				item2.SetDefaults(ItemID.LifeCrystal);
-				item2.stack = 5;
-				ServerSideCharacter2.MailManager.ServerSendMail(player, "系统奖励", "这是系统给你的奖励",
-					new System.Collections.Generic.List<Item>() { item, item2 });
-				CommandBoardcast.ConsoleMessage($"奖励邮件已经发送给玩家 {player.Name}");
+				var target = ServerSideCharacter2.PlayerCollection.Get(Convert.ToInt32(args[0]));
+				if(target == null)
+				{
+					Console.WriteLine("该玩家不存在");
+					return;
+				}
+				else
+				{
+					Item item = new Item();
+					item.SetDefaults(ItemID.GoldCoin);
+					item.stack = 5;
+					Item item2 = new Item();
+					item2.SetDefaults(ItemID.LifeCrystal);
+					item2.stack = 5;
+					ServerSideCharacter2.MailManager.ServerSendMail(target, "系统奖励", "这是系统给你的奖励，感谢您支持蒸汽之城服务器，有什么建议都可以在群里提出来哦~",
+						new System.Collections.Generic.List<Item>() { item, item2 });
+					CommandBoardcast.ConsoleMessage($"奖励邮件已经发送给玩家 {target.Name}");
+				}
+			}
+			else
+			{
+				foreach (var pair in ServerSideCharacter2.PlayerCollection)
+				{
+					var player = pair.Value;
+					Item item = new Item();
+					item.SetDefaults(ItemID.GoldCoin);
+					item.stack = 5;
+					Item item2 = new Item();
+					item2.SetDefaults(ItemID.LifeCrystal);
+					item2.stack = 5;
+					ServerSideCharacter2.MailManager.ServerSendMail(player, "系统奖励", "这是系统给你的奖励，感谢您支持蒸汽之城服务器，有什么建议都可以在群里提出来哦~",
+						new System.Collections.Generic.List<Item>() { item, item2 });
+					CommandBoardcast.ConsoleMessage($"奖励邮件已经发送给玩家 {player.Name}");
+				}
 			}
 		}
 	}

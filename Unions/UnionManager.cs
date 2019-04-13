@@ -95,7 +95,7 @@ namespace ServerSideCharacter2.Unions
 						player.SendMessageBox($"你所在的公会 {name} 已经解散！", 180, Color.OrangeRed);
 						if(player != null)
 						{
-							player.SetUnion("");
+							player.Union = null;
 							player.SyncUnionInfo();
 						}
 					}

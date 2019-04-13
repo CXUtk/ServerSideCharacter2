@@ -51,6 +51,7 @@ namespace ServerSideCharacter2.Matches
 			{
 				player.CurrentMatch = null;
 			}
+			MatchedPlayers.Clear();
 		}
 
 		protected abstract void OnActive();

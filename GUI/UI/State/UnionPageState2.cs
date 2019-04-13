@@ -163,6 +163,19 @@ namespace ServerSideCharacter2.GUI.UI
 			uiSlot.Tooltip = "在这放置咕币来捐献";
 			uiSlot.DrawColor = Color.White;
 			WindowPanel.Append(uiSlot);
+
+			var donateButton = new UICDButton(null, true);
+			donateButton.Left.Set(450, 0f);
+			donateButton.Top.Set(420, 0f);
+			donateButton.Width.Set(108, 0f);
+			donateButton.Height.Set(50, 0f);
+			donateButton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
+			donateButton.ButtonDefaultColor = new Color(200, 200, 200);
+			donateButton.ButtonChangeColor = Color.White;
+			donateButton.CornerSize = new Vector2(12, 12);
+			donateButton.ButtonText = "捐献";
+			donateButton.OnClick += DonateButton_OnClick;
+			WindowPanel.Append(donateButton);
 		}
 
 
@@ -280,19 +293,6 @@ namespace ServerSideCharacter2.GUI.UI
 				exitButton.OnClick += ExitButton_OnClick;
 				_buttonList.Add(exitButton);
 			}
-
-			var donateButton = new UICDButton(null, true);
-			donateButton.Left.Set(450, 0f);
-			donateButton.Top.Set(420, 0f);
-			donateButton.Width.Set(108, 0f);
-			donateButton.Height.Set(50, 0f);
-			donateButton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
-			donateButton.ButtonDefaultColor = new Color(200, 200, 200);
-			donateButton.ButtonChangeColor = Color.White;
-			donateButton.CornerSize = new Vector2(12, 12);
-			donateButton.ButtonText = "捐献";
-			donateButton.OnClick += DonateButton_OnClick;
-			WindowPanel.Append(donateButton);
 		}
 
 		private void ExitButton_OnClick1(UIMouseEvent evt, UIElement listeningElement)

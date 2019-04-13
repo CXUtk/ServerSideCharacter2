@@ -65,6 +65,21 @@ namespace ServerSideCharacter2.Utils
 				Main.NewText(text, Color.Yellow);
 		}
 
+		public static void ShowInfoAccordingToSide(string text)
+		{
+			if (TEST_MODE)
+			{
+				if(Main.netMode == 2)
+				{
+					Console.WriteLine(text);
+				}
+				else
+				{
+					Main.NewText(text);
+				}
+			}
+		}
+
 		//public static void SendErrorToPlayer(int plr, string msg)
 		//{
 		//	NetMessage.SendData(MessageID.ChatText, plr, -1,

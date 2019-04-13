@@ -34,7 +34,7 @@ namespace ServerSideCharacter2.JsonData
 
 		public string Group;
 
-		public string Union;
+		public int EloRank;
 
 		public int Rank;
 
@@ -60,8 +60,6 @@ namespace ServerSideCharacter2.JsonData
 
 		public PlayerInfo()
 		{
-			Union = "";
-
 			for (var i = 0; i < inventory.Length; i++)
 			{
 				inventory[i] = new ItemInfo();

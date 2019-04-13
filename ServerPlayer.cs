@@ -90,6 +90,7 @@ namespace ServerSideCharacter2
 		{
 			if (RealPlayer && ConnectionAlive)
 			{
+				Console.WriteLine($"给玩家 {Name} 应用存档");
 				ApplyToPlayer();
 				SyncSavingToClient();
 			}
@@ -222,15 +223,8 @@ namespace ServerSideCharacter2
 
 		public Union Union
 		{
-			get
-			{
-				if (_info.Union == null) return null;
-				if (ServerSideCharacter2.UnionManager.Unions.ContainsKey(_info.Union))
-				{
-					return ServerSideCharacter2.UnionManager.Unions[_info.Union];
-				}
-				return null;
-			}
+			get;
+			set;
 		}
 
 		public HashSet<string> Regions
@@ -248,6 +242,15 @@ namespace ServerSideCharacter2
 				return _info.Rank;
 			}
 		}
+
+		public int EloRank
+		{
+			get
+			{
+				return _info.EloRank;
+			}
+		}
+
 
 
 		public int KillCount
@@ -386,11 +389,6 @@ namespace ServerSideCharacter2
 			playerID = id;
 		}
 
-		public void SetUnion(string name)
-		{
-			_info.Union = name;
-		}
-
 		public void ApplyLockBuffs(int time = 180)
 		{
 			PrototypePlayer.AddBuff(ServerSideCharacter2.Instance.BuffType("Locked"), time * 2, false);
@@ -414,7 +412,6 @@ namespace ServerSideCharacter2
 				HasPassword = false,
 				IsMuted = false,
 				Group = "default",
-				Union = "",
 				Password = "",
 				LifeMax = 100,
 				StatLife = 100,
@@ -719,6 +716,11 @@ namespace ServerSideCharacter2
 				SendInfoMessage($"恭喜，你从 {Ranking.GetName(type)} 晋级到了 {Ranking.GetName(Ranking.GetRankType(_info.Rank + rank))}");
 			}
 			_info.Rank += rank;
+		}
+
+		public void AdjustEloRank(int rank)
+		{
+			_info.EloRank = rank;
 		}
 
 		public void Kill()

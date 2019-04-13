@@ -50,9 +50,16 @@ namespace ServerSideCharacter2.Mailing
 				}
 
 				var list = JsonConvert.DeserializeObject<MailsData>(data);
+				MainCurrentID = list.MainCurrentID;
 				foreach(var mail in list.Mails)
 				{
 					MailList.Add(mail.MailHead.MailID, mail);
+					var player = ServerSideCharacter2.PlayerCollection.Get(mail.MailHead.Recevier);
+					player?.MailList.Add(mail);
+				}
+				foreach(var pair in ServerSideCharacter2.PlayerCollection)
+				{
+					pair.Value.MailList.Sort();
 				}
 				CommandBoardcast.ConsoleMessage(GameLanguage.GetText("finishReadPlayerDoc"));
 			}
@@ -99,6 +106,7 @@ namespace ServerSideCharacter2.Mailing
 					target.MailList.Add(mail);
 					if (target.MailList.Count > ServerSideCharacter2.Config.MaxMailsPerPlayer)
 					{
+						MailList.Remove(target.MailList.ElementAt(0).MailHead.MailID);
 						target.MailList.RemoveAt(0);
 					}
 				}

@@ -23,6 +23,16 @@ namespace ServerSideCharacter2.Unions
 		public override void Receive(Dictionary<string, Union> data)
 		{
 			ServerSideCharacter2.UnionManager.Unions = data;
+			foreach (var pair in ServerSideCharacter2.UnionManager.Unions)
+			{
+				var union = pair.Value;
+				foreach (var player in union.Members)
+				{
+					var splayer = ServerSideCharacter2.PlayerCollection.Get(player);
+					if (splayer == null) return;
+					splayer.Union = union;
+				}
+			}
 		}
 	}
 	//public class UnionData

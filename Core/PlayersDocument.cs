@@ -66,6 +66,7 @@ namespace ServerSideCharacter2.Core
 
 				}
 				CommandBoardcast.ConsoleMessage(GameLanguage.GetText("FinishReadPlayerDoc"));
+				CommandBoardcast.ConsoleMessage($"共计 {ServerSideCharacter2.PlayerCollection.Count} 名玩家的存档");
 			}
 			catch (Exception ex)
 			{

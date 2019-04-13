@@ -45,7 +45,6 @@ namespace ServerSideCharacter2
 						TileMessageCD[i]--;
 					}
 				}
-				ServerSideCharacter2.MatchingSystem.Run();
 				if (_timer % 300 < 1)
 				{
 					foreach(var player in Main.player)
@@ -76,6 +75,7 @@ namespace ServerSideCharacter2
 					UpdateRegion(p);
 					// CommandBoardcast.ConsoleMessage($"玩家 {player.Name} 物品栏第一 {player.inventory[0].type}");
 				}
+				ServerSideCharacter2.MatchingSystem.Run();
 				if (ServerSideCharacter2.Config.AutoSave && _timer % ServerSideCharacter2.Config.SaveInterval < 1)
 				{
 					ThreadPool.QueueUserWorkItem(Do_Save);
@@ -93,36 +93,26 @@ namespace ServerSideCharacter2
 		private void UpdateRegion(Player player)
 		{
 			var splayer = player.GetServerPlayer();
-			bool lockTaken = false;
-			Monitor.TryEnter(splayer, 3000, ref lockTaken);
-			if (lockTaken)
+			if (splayer.PrototypePlayer == null) return;
+			if (!splayer.PrototypePlayer.active || splayer.PrototypePlayer.dead) return;
+
+			foreach (var pair in ServerSideCharacter2.RegionManager.Regions)
 			{
-				try
+				var region = pair.Value;
+				var rect = new Rectangle(region.Area.X * 16, region.Area.Y * 16, region.Area.Width * 16, region.Area.Height * 16);
+				if (player.Hitbox.Intersects(rect))
 				{
-					foreach (var pair in ServerSideCharacter2.RegionManager.Regions)
-					{
-						var region = pair.Value;
-						var rect = new Rectangle(region.Area.X * 16, region.Area.Y * 16, region.Area.Width * 16, region.Area.Height * 16);
-						if (player.Hitbox.Intersects(rect))
-						{
-							if (splayer.InRegion && splayer.CurrentRegion.Equals(region)) return;
-							splayer.SetCurRegion(region);
-							splayer.SendInfoMessage(region.WelcomeInfo());
-							return;
-						}
-					}
-					splayer.ApplyMainSaving();
-					splayer.SetCurRegion(null);
-					splayer.CheckPVP();
-				}
-				finally
-				{
-					Monitor.Exit(splayer);
+					if (splayer.InRegion && splayer.CurrentRegion.Equals(region)) return;
+					splayer.SetCurRegion(region);
+					splayer.SendInfoMessage(region.WelcomeInfo());
+					return;
 				}
 			}
-			else
+			if (!splayer.InMatch)
 			{
-				throw new SSCException("获取锁失败，可能导致死锁");
+				splayer.ApplyMainSaving();
+				splayer.SetCurRegion(null);
+				splayer.CheckPVP();
 			}
 		}
 

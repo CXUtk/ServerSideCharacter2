@@ -230,7 +230,7 @@ namespace ServerSideCharacter2.Unions
 		{
 			lock (this)
 			{
-				player.SetUnion(this.Name);
+				player.Union = this;
 				Members.Add(player.Name);
 				SyncToAllMembers();
 				player.SyncUnionInfo();
@@ -269,7 +269,7 @@ namespace ServerSideCharacter2.Unions
 				if (player == null) return;
 				if (player.Name == Owner) return;
 				Members.Remove(player.Name);
-				player.SetUnion("");
+				player.Union = null;
 				SyncToAllMembers();
 				player.SyncUnionInfo();
 				string s = $"玩家 {player.Name} 退出了公会";

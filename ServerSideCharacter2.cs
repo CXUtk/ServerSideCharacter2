@@ -37,7 +37,7 @@ namespace ServerSideCharacter2
 {
 	public class ServerSideCharacter2 : Mod
 	{
-		public const bool DEBUGMODE = false;
+		public const bool DEBUGMODE = true;
 
 		internal static ServerSideCharacter2 Instance;
 
@@ -71,7 +71,7 @@ namespace ServerSideCharacter2
 
 		public bool IsLoginClientSide { get; set; }
 
-		internal static Group MainPlayerGroup;
+		public static Group MainPlayerGroup;
 
 		internal static Union ClientUnion;
 
@@ -240,6 +240,7 @@ namespace ServerSideCharacter2
 			else
 			{
 				// 生成玩家存档，这里用json文件存储玩家信息
+				// 顺序一定不能错
 				PlayerCollection = new PlayerCollection();
 				PlayerDoc = new PlayersDocument("players.json");
 				PlayerDoc.ExtractPlayersData();
