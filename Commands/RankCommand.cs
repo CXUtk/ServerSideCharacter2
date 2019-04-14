@@ -26,7 +26,7 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Usage
 		{
-			get { return " /rank $[玩家GUID] <rank分数>"; }
+			get { return " /rank [n|e] $[玩家GUID] <rank分数>"; }
 		}
 		//static private string[] GetArgs(string[] source)
 		//{
@@ -47,23 +47,37 @@ namespace ServerSideCharacter2.Commands
 		public override void Action(CommandCaller caller, string input, string[] args)
 		{
 			ServerPlayer player = null;
-			if (args[0][0] == '$')
+			if (args.Length < 3)
 			{
-				var GUID = Convert.ToInt32(args[0].Substring(1));
+				Console.WriteLine("用法： /rank [n|e] $[玩家GUID] <rank分数>");
+				return;
+			}
+			
+			if (args[1][0] == '$')
+			{
+				var GUID = Convert.ToInt32(args[1].Substring(1));
 				player = ServerSideCharacter2.PlayerCollection.Get(GUID);
 			}
 			else
 			{
-				player = ServerSideCharacter2.PlayerCollection.Get(args[0]);
+				player = ServerSideCharacter2.PlayerCollection.Get(args[1]);
 			}
 			if (player != null)
 			{
 				try
 				{
-					var rank = Convert.ToInt32(args[1]);
-					player.IncreaseRank(rank - player.Rank);
-					player.SendInfoMessage($"系统将你的排位积分设为了 {rank}");
-					CommandBoardcast.ConsoleMessage($"成功设置玩家 {player.Name} 的段位分数为 {rank}");
+					var rank = Convert.ToInt32(args[2]);
+					if (args[0] == "n")
+					{
+						player.IncreaseRank(rank - player.Rank);
+						player.SendInfoMessage($"系统将你的排位积分设为了 {rank}");
+						CommandBoardcast.ConsoleMessage($"成功设置玩家 {player.Name} 的段位分数为 {rank}");
+					}
+					else
+					{
+						player.IncreaseElo(rank - player.EloRank);
+						CommandBoardcast.ConsoleMessage($"成功设置玩家 {player.Name} 隐藏分为 {rank}");
+					}
 				}
 				catch (Exception ex)
 				{

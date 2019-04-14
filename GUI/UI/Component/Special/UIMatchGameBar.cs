@@ -26,7 +26,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		private const float EXTRA_BUTTON_MARGIN_RIGHT = 10f;
 
 		internal static Color DefaultUIBlue = new Color(73, 94, 171);
-		private Texture2D dividerTexture;
+		private readonly Texture2D dividerTexture;
 		private UIText _matchingStateText;
 		private UIText matchTimeRem;
 

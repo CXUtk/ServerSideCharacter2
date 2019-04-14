@@ -32,9 +32,11 @@ using ServerSideCharacter2.GUI.UI.Component;
 using ServerSideCharacter2.Items;
 using ServerSideCharacter2.Matches;
 using ServerSideCharacter2.Mailing;
+using ServerSideCharacter2.RankingSystem;
 
 namespace ServerSideCharacter2
 {
+	public delegate void RankBoardEventHandler(List<SimplifiedPlayerInfo> players);
 	public class ServerSideCharacter2 : Mod
 	{
 		public const bool DEBUGMODE = true;
@@ -85,6 +87,8 @@ namespace ServerSideCharacter2
 
 		public static Point RegionUpperLeft { get; internal set; }
 		public static Point RegionLowerRight { get; internal set; }
+
+		public static RankData RankData;
 
 		public static MatchingSystem MatchingSystem;
 

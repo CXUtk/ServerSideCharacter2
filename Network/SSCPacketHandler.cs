@@ -45,6 +45,7 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.SuccessLogin,  new Services.Login.LoginMessage(Color.Green)},
 				{SSCMessageType.FailLogin,  new Services.Login.LoginMessage(Color.Red)},
 				{SSCMessageType.WelcomeMessage,  new NormalMessage()},
+				{SSCMessageType.RequestRankBoard, new Services.Rank.GetRankBoardHandler() },
 				{SSCMessageType.RequestOnlinePlayers, new Services.OnlinePlayer.RequestPlayersHandler() },
 				{SSCMessageType.OnlinePlayersData, new Services.OnlinePlayer.OnlinePlayerHandler() },
 				{SSCMessageType.FriendRequest, new Services.FriendSystem.FriendRequestHandler() },

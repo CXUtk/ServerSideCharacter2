@@ -89,6 +89,7 @@ namespace ServerSideCharacter2.GUI.UI
 			Add(new Services.HomePage.HomePageService());
 			Add(new Services.Mails.MailPageService());
 			Add(new Services.Matches.MatchService());
+			Add(new Services.Rank.RankBoardService());
 			Add(new Services.Union.UnionPageService());
 			Add(new Services.FriendSystem.CommunicationService());
 

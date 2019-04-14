@@ -40,6 +40,11 @@ namespace ServerSideCharacter2.JsonData
         public string QQNumber;
 
 		public string CurrentMatch;
+
+		public static int CompareA(SimplifiedPlayerInfo a, SimplifiedPlayerInfo b)
+		{
+			return a.Rank.CompareTo(b.Rank);
+		}
 	}
 
 	[JsonObject]

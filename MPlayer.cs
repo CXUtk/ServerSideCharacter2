@@ -225,6 +225,10 @@ namespace ServerSideCharacter2
 			{
 				player.noKnockback = true;
 			}
+			if (GodMode)
+			{
+				player.aggro = -9999;
+			}
 			base.UpdateEquips(ref wallSpeedBuff, ref tileSpeedBuff, ref tileRangeBuff);
 		}
 

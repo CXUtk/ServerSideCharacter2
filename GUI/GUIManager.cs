@@ -27,11 +27,13 @@ namespace ServerSideCharacter2.GUI
 		NPCPage,
 		CommunicationPage,
 		GameCenterPage,
-		MailPage
+		MailPage,
+		RankBoard,
+
 	}
 	public class GUIManager
 	{
-		private ServerSideCharacter2 _mod;
+		private readonly ServerSideCharacter2 _mod;
 
 		private LoginWindowState _loginWindowState;
 		private PlayerOnlineWindow _playerOnlineWindow;
@@ -46,6 +48,7 @@ namespace ServerSideCharacter2.GUI
 		private ItemUIState _getitemState;
 		private PlayerProfileState _playerProfileState;
 		private NPCUIState _getnpcState;
+		private RankBoardState _rankBoardState;
 
 		private UserInterface _toolBarInterface;
 		private CDInterfaceManager _cdInterface;
@@ -122,6 +125,12 @@ namespace ServerSideCharacter2.GUI
 			unioncreatepage.SetState(_unionCreateState);
 			_cdInterface.Add(unioncreatepage);
 
+
+			_rankBoardState = new RankBoardState();
+			var rankpage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.RankBoard]; });
+			rankpage.SetState(_rankBoardState);
+			_cdInterface.Add(rankpage);
+
 			_getitemState = new ItemUIState();
 			var itempage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.ItemPage]; });
 			itempage.SetState(_getitemState);
@@ -131,6 +140,7 @@ namespace ServerSideCharacter2.GUI
 			var uinpcinterface = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.NPCPage]; });
 			uinpcinterface.SetState(_getnpcState);
 			_cdInterface.Add(uinpcinterface);
+
 
 			_gameCenterState = new GameCenterState();
 			var uiGameCenter = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.GameCenterPage]; });

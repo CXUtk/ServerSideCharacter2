@@ -26,6 +26,7 @@ namespace ServerSideCharacter2.GUI.UI
 		private UISlot uiSlot;
 		private UIBar expBar;
 		private UIText unionLevelText;
+		private UIText unionWealthText;
 
 
 		private float windowWidth = 600;
@@ -137,7 +138,7 @@ namespace ServerSideCharacter2.GUI.UI
 
 
 			unionNameText = new UIText("", 0.7f, true);
-			unionNameText.Top.Set(UNIONLIST_OFFSET_TOP - 80, 0f);
+			unionNameText.Top.Set(UNIONLIST_OFFSET_TOP - 100, 0f);
 			unionNameText.Left.Set(UNIONLIST_OFFSET_RIGHT + 5, 0f);
 			WindowPanel.Append(unionNameText);
 
@@ -159,10 +160,16 @@ namespace ServerSideCharacter2.GUI.UI
 			//WindowPanel.Append(expBar);
 
 			unionLevelText = new UIText("");
-			unionLevelText.Top.Set(80f, 0f);
+			unionLevelText.Top.Set(60f, 0f);
 			unionLevelText.Left.Set(40, 0f);
 			unionLevelText.SetText($"等级: {8} EXP: {10000000} / {30000000}");
 			WindowPanel.Append(unionLevelText);
+
+			unionWealthText = new UIText("");
+			unionWealthText.Top.Set(90f, 0f);
+			unionWealthText.Left.Set(40, 0f);
+			unionWealthText.SetText($"财富值: 1000000");
+			WindowPanel.Append(unionWealthText);
 
 			uiSlot = new UISlot(ServerSideCharacter2.ModTexturesTable["AdvInvBack1"]);
 			uiSlot.Left.Set(475, 0f);
@@ -267,6 +274,7 @@ namespace ServerSideCharacter2.GUI.UI
 			AdjustOwnerUI(info.Owner.Name == Main.LocalPlayer.name);
 			// expBar.Value = (float)(info.CurrentEXP / (double)info.EXPToNext);
 			unionLevelText.SetText($"等级: {info.Level} EXP: {info.CurrentEXP} / {info.EXPToNext}");
+			unionWealthText.SetText($"财富值：{info.Wealth}");
 		}
 
 

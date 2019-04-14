@@ -7,6 +7,7 @@ using ServerSideCharacter2.JsonData;
 using Newtonsoft.Json;
 using ServerSideCharacter2.Groups;
 using ServerSideCharacter2.Regions;
+using ServerSideCharacter2.RankingSystem;
 
 namespace ServerSideCharacter2.Utils
 {
@@ -51,6 +52,7 @@ namespace ServerSideCharacter2.Utils
 			GroupConfigManager = new GroupConfig();
 			UnionDataManager = new Unions.UnionConfig();
 			RegionConfig = new RegionConfig();
+			ServerSideCharacter2.RankData = RankData.Load();
 
 			Save();
 		}
@@ -66,6 +68,7 @@ namespace ServerSideCharacter2.Utils
 			GroupConfigManager.Save();
 			UnionDataManager.Save();
 			RegionConfig.Save();
+			RankData.Save(ServerSideCharacter2.RankData);
 		}
 	}
 }

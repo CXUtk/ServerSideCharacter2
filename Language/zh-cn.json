@@ -18,6 +18,8 @@
 		"welcomeold": "欢迎新来的小伙伴，点击旁边的齿轮就可以跳到登录界面哦！",
 		"groupconfigcreate": "权限组文件创建完成",
 		"unionconfigcreate": "工会存档文件创建完成",
-		"regionconfigcreate": "领地信息存档文件创建完成"
+		"regionconfigcreate": "领地信息存档文件创建完成",
+		"rankboardcreate": "排行榜数据准备完成",
+		"rankannouncement": "排位奖励：\n根据玩家段位获取段位数*150咕奖励，高于黄金段位的玩家可以获得宠物包等物品。\n每个赛季排行榜前五名均可以获得奖杯放置物放在自己的公会领地。"
 	}
 }

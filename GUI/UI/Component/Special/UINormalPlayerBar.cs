@@ -29,7 +29,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 
 		internal static Color DefaultUIBlue = new Color(73, 94, 171);
 		protected Color _defaultColor = DefaultUIBlue;
-		private Texture2D dividerTexture;
+		private readonly Texture2D dividerTexture;
 		private UICDButton addFriendButton;
 
 		private List<UICDButton> extraButtons = new List<UICDButton>();
@@ -40,6 +40,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		protected float collapsedHeight = 50f;
 		protected float expandedHeight = 100f;
 		protected bool shouldDrawDivider = true;
+		protected bool shouldAddFriend = true;
 		protected float buttonTopOffset = 50f;
 
 		public UINormalPlayerBar(SimplifiedPlayerInfo info)
@@ -56,7 +57,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 
 			nameLabel = new UIText(info.Name);
 			nameLabel.Top.Set(10, 0f);
-			nameLabel.Left.Set(5, 0);
+			nameLabel.Left.Set(5f, 0);
 			if (!info.IsLogin)
 			{
 				nameLabel.TextColor = Color.Gray;

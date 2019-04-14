@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using ServerSideCharacter2.Core;
 using ServerSideCharacter2.Utils;
+using System;
 using System.IO;
 using System.Linq;
 using Terraria;
@@ -18,6 +19,8 @@ namespace ServerSideCharacter2.Services.Login
 			player.ClearAllBuffs();
 			NetMessage.SendData(MessageID.PlayerBuffs, -1, -1, NetworkText.Empty, player.PrototypePlayer.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 		}
+
+		public static event EventHandler OnPlayerRegistered;
 
 		private static string bannedchars = "$%^&*!@#:?|<>";
 
@@ -184,7 +187,8 @@ namespace ServerSideCharacter2.Services.Login
                             // 告诉客户端解除封印
                             // MessageSender.SendLoginIn(serverPlayer.PrototypePlayer.whoAmI);
                             CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册成功.");
-                        }
+							OnPlayerRegistered.Invoke(serverPlayer, new EventArgs());
+						}
                     }
                     else
 					{

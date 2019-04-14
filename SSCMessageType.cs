@@ -43,6 +43,7 @@
 		FailLogin,
 		WelcomeMessage,
 		MessageBox,
+		RequestRankBoard,
 		RequestOnlinePlayers,
 		OnlinePlayersData,
 		FriendRequest,

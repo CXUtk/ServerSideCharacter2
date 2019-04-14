@@ -83,6 +83,7 @@ namespace ServerSideCharacter2.Unions
 			{
 				// 成员的简化信息
 				var player = ServerSideCharacter2.PlayerCollection.Get(member);
+				if (player == null) continue;
 				var simplinfo = player.GetSimplified(plr);
 				info.Members.Add(simplinfo);
 				if(member == Owner)

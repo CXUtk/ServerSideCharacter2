@@ -634,7 +634,7 @@ namespace ServerSideCharacter2
 		/// <returns></returns>
 		public SimplifiedPlayerInfo GetSimplified(int id)
 		{
-			var isFriend = (id == 255) ||(id == this.playerID) 
+			var isFriend = (id == -1) ||(id == this.playerID) 
 				|| (Main.player[id].GetServerPlayer().Friends.Contains(this.Name));
 			return new SimplifiedPlayerInfo
 			{

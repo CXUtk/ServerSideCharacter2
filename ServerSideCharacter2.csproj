@@ -141,11 +141,13 @@
     <Compile Include="Commands\SaveCommand.cs" />
     <Compile Include="GUI\UI\Component\Special\UIMailHead.cs" />
     <Compile Include="GUI\UI\Component\Special\UIUnionCandidateBar.cs" />
+    <Compile Include="GUI\UI\Component\Special\UIRankBoardPlayer.cs" />
     <Compile Include="GUI\UI\Component\Special\UIUnionMemberBar.cs" />
     <Compile Include="GUI\UI\Component\Special\UIUnionBar.cs" />
     <Compile Include="GUI\UI\Component\Special\UIMatchGameBar.cs" />
     <Compile Include="GUI\UI\Component\UIMessageBox.cs" />
     <Compile Include="GUI\UI\State\GameCenterState.cs" />
+    <Compile Include="GUI\UI\State\RankBoardState.cs" />
     <Compile Include="GUI\UI\State\UnionCreatePage.cs" />
     <Compile Include="GUI\UI\State\UnionCandidatePage.cs" />
     <Compile Include="GUI\UI\State\MailPageState.cs" />
@@ -234,6 +236,7 @@
     <Compile Include="JsonData\PlayerInfo.cs" />
     <Compile Include="ErrorLogger.cs" />
     <Compile Include="QQAuth.cs" />
+    <Compile Include="RankingSystem\RankData.cs" />
     <Compile Include="RankingSystem\Ranking.cs" />
     <Compile Include="RankingSystem\RankType.cs" />
     <Compile Include="Regions\Region.cs" />
@@ -288,6 +291,8 @@
     <Compile Include="Services\OnlinePlayer\OnlinePlayerService.cs" />
     <Compile Include="Services\Misc\ReceiveRSA.cs" />
     <Compile Include="Services\Misc\NormalMessage.cs" />
+    <Compile Include="Services\Rank\GetRankBoardHandler.cs" />
+    <Compile Include="Services\Rank\RankBoardService.cs" />
     <Compile Include="Services\Regions\RegionOwnerHandler.cs" />
     <Compile Include="Services\Regions\RegionForbidHandler.cs" />
     <Compile Include="Services\Regions\RegionRemoveHandler.cs" />

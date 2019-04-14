@@ -14,6 +14,7 @@ namespace ServerSideCharacter2.JsonData
 		Never,
 		Always
 	}
+
 	[JsonObject]
 	public class ConfigData
 	{
@@ -38,7 +39,6 @@ namespace ServerSideCharacter2.JsonData
 		public int SaveInterval { get; set; }
 		public PVPMode PvpMode { get; set; }
 		public bool MediumcoreOnly { get; set; }
-
 
 
 		public ConfigData()

@@ -38,6 +38,11 @@ namespace ServerSideCharacter2.Core
 			_playerList.Add(p.name, player);
 		}
 
+		public List<ServerPlayer> GetPlayerList()
+		{
+			return _playerList.Values.ToList();
+		}
+
 		public void Add(ServerPlayer p)
 		{
 			_playerList.Add(p.Name, p);

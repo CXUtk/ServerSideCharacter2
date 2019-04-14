@@ -87,7 +87,7 @@ namespace ServerSideCharacter2.GUI.UI
 
 			WindowPanel.Append(mailContentPanel);
 
-			_mailContent = new UIMessageBox("（空）");
+			_mailContent = new UIMessageBox(GameLanguage.GetText("rankannouncement"));
 			_mailContent.Width.Set(-25f, 1f);
 			_mailContent.Height.Set(0f, 1f);
 			mailContentPanel.Append(_mailContent);

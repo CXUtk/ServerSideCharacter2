@@ -10,6 +10,9 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using ServerSideCharacter2.Utils;
 using ServerSideCharacter2.Matches;
+using ServerSideCharacter2.JsonData;
+using System.Collections.Generic;
+using ServerSideCharacter2.RankingSystem;
 
 namespace ServerSideCharacter2
 {
@@ -29,6 +32,7 @@ namespace ServerSideCharacter2
 				_timer++;
 				if (_timer > 10000000) _timer = 0;
 				ServerStarted = true;
+				Ranking.CheckRankBoard();
 				foreach (var player in ServerSideCharacter2.PlayerCollection)
 				{
 					if (player.Value.PrototypePlayer == null || !player.Value.PrototypePlayer.active)
@@ -89,6 +93,7 @@ namespace ServerSideCharacter2
 				Terraria.Social.SocialAPI.Shutdown();
 			}
 		}
+
 
 		private void UpdateRegion(Player player)
 		{

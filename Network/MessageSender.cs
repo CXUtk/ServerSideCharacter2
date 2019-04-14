@@ -524,6 +524,17 @@ namespace ServerSideCharacter2
 			}
 		}
 
+
+		public static void SendRequestRankBoard()
+		{
+			if (Main.netMode == 1)
+			{
+				var p = ServerSideCharacter2.Instance.GetPacket();
+				p.Write((int)SSCMessageType.RequestRankBoard);
+				p.Send();
+			}
+		}
+
 		public static void SendRequestOnlinePlayer()
 		{
 			if (Main.netMode == 1)

@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using ServerSideCharacter2.JsonData;
+using ServerSideCharacter2.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +11,40 @@ namespace ServerSideCharacter2.RankingSystem
 {
 	public class Ranking
 	{
-		public const int S_CHALLENGER = 3000;
-		public const int S_MASTER = 2500;
-		public const int S_DIAMOND = 2200;
+		public const int S_CHALLENGER = 2600;
+		public const int S_MASTER = 2400;
+		public const int S_DIAMOND = 2100;
 		public const int S_PLATINUM = 1900;
 		public const int S_GOLD = 1700;
-		public const int S_SILVER = 1200;
+		public const int S_SILVER = 1300;
+		public const int RANK_BOARD_PLAYER_MAX = 50;
+
+		public static event RankBoardEventHandler OnSeasonEnd;
+
+		public static void CheckRankBoard()
+		{
+			var config = ServerSideCharacter2.RankData;
+			if (config.LastRankBoardTime.Day != DateTime.Now.Day || config.LastBoard.Count == 0)
+			{
+				List<SimplifiedPlayerInfo> ranks = new List<SimplifiedPlayerInfo>();
+				foreach (var pair in ServerSideCharacter2.PlayerCollection)
+				{
+					ranks.Add(pair.Value.GetSimplified(-1));
+					if (ranks.Count == RANK_BOARD_PLAYER_MAX) break;
+				}
+				ranks.Sort(SimplifiedPlayerInfo.CompareA);
+				ranks.Reverse();
+				config.LastBoard = ranks;
+				config.LastRankBoardTime = DateTime.Now;
+				CommandBoardcast.ConsoleMessage("每日排行榜更新完成");
+			}
+			if (config.RankSeasonEndTime < DateTime.Now)
+			{
+				config.RankSeasonEndTime = DateTime.Now.AddDays(15.0);
+				OnSeasonEnd?.Invoke(config.LastBoard);
+				CommandBoardcast.ConsoleMessage("赛季已经结束");
+			}
+		}
 
 		private static int getR(int rank)
 		{
