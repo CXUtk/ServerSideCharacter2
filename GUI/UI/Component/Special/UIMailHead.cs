@@ -15,6 +15,7 @@ using ServerSideCharacter2.JsonData;
 using System;
 using System.Collections.Generic;
 using ServerSideCharacter2.Mailing;
+using Terraria.Graphics;
 
 namespace ServerSideCharacter2.GUI.UI.Component.Special
 {
@@ -31,12 +32,13 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		private MailHead head;
 		private int _innerCD = 0;
 		private UIText titleText;
+		private bool isExpanded = false;
 
 		public UIMailHead(MailHead info)
 		{
 			head = info;
 			this.Width.Set(0, 1f);
-			this.Height.Set(50f, 0f);
+			this.Height.Set(60f, 0f);
 			this.CornerSize = new Vector2(8, 8);
 			base.MainTexture = ServerSideCharacter2.ModTexturesTable["Box"];
 			base.SetPadding(6f);
@@ -56,13 +58,19 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			}
 			titleText = new UIText(sb.ToString())
 			{
-				VAlign = 0.5f
+				VAlign = 0f
 			};
+			titleText.PaddingTop = 5f;
+
 			if (!info.IsRead)
 			{
 				titleText.TextColor = Color.Yellow;
 			}
 			this.Append(titleText);
+
+			var senddateText = new UIText(info.SendTime.ToString("g"));
+			senddateText.VAlign = 1f;
+			this.Append(senddateText);
 		}
 
 		public override void MouseOver(UIMouseEvent evt)

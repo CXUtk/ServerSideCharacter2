@@ -31,11 +31,11 @@ namespace ServerSideCharacter2.Utils
 			return rect;
 		}
 
-		public static string RandomGenString()
+		public static string RandomGenString(int varlen = 9)
 		{
 			var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 			var sb = new StringBuilder();
-			var n = 2 + Main.rand.Next(9);
+			var n = 2 + Main.rand.Next(varlen);
 			for (var i = 0; i < n; i++)
 			{
 				sb.Append(chars[Main.rand.Next(chars.Length)]);

@@ -18,7 +18,7 @@ namespace ServerSideCharacter2.RankingSystem
 		public const int S_GOLD = 1700;
 		public const int S_SILVER = 1300;
 		public const int RANK_BOARD_PLAYER_MAX = 50;
-
+		public const int RANK_SEASON_INTERVAL_DAY = 15;
 		public static event RankBoardEventHandler OnSeasonEnd;
 
 		public static void CheckRankBoard()
@@ -40,7 +40,7 @@ namespace ServerSideCharacter2.RankingSystem
 			}
 			if (config.RankSeasonEndTime < DateTime.Now)
 			{
-				config.RankSeasonEndTime = DateTime.Now.AddDays(15.0);
+				config.RankSeasonEndTime = DateTime.Now.AddDays(RANK_SEASON_INTERVAL_DAY);
 				OnSeasonEnd?.Invoke(config.LastBoard);
 				CommandBoardcast.ConsoleMessage("赛季已经结束");
 			}
