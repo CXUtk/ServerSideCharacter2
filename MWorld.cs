@@ -110,12 +110,14 @@ namespace ServerSideCharacter2
 					if (splayer.InRegion && splayer.CurrentRegion.Equals(region)) return;
 					splayer.SetCurRegion(region);
 					splayer.SendInfoMessage(region.WelcomeInfo());
+					region.EnterRegion(splayer);
 					return;
 				}
 			}
-			if (!splayer.InMatch)
+			if (splayer.CurrentRegion != null)
 			{
 				splayer.ApplyMainSaving();
+				splayer.CurrentRegion.LeaveRegion(splayer);
 				splayer.SetCurRegion(null);
 				splayer.CheckPVP();
 			}

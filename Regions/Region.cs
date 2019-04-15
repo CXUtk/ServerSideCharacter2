@@ -9,6 +9,7 @@ using System.Text;
 
 namespace ServerSideCharacter2.Regions
 {
+	public delegate void PlayerInteractionHandler(Region sender, ServerPlayer player);
 	public class Region : IName
 	{
 		public string Name { get; set; }
@@ -17,7 +18,8 @@ namespace ServerSideCharacter2.Regions
 		public string OwnerName { get; set; }
 		public PVPMode PVP { get; set; }
 		public bool Forbidden { get; set; }
-
+		public event PlayerInteractionHandler OnEnter;
+		public event PlayerInteractionHandler OnExit;
 		[JsonIgnore]
 		public ServerPlayer Owner
 		{
@@ -40,14 +42,19 @@ namespace ServerSideCharacter2.Regions
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.AppendLine(string.Format("欢迎来到领地 '{0}'!", Name));
-			sb.AppendLine(string.Format("领地主人: {0}", Owner == null ? "无" : Owner.Name));
-			sb.Append(string.Format("领地面积: {0}", Area.ToString()));
+			sb.Append(string.Format("领地主人: {0}", Owner == null ? "无" : Owner.Name));
 			return sb.ToString();
 		}
 
-		public string LeaveInfo()
+		public void EnterRegion(ServerPlayer player)
 		{
-			return string.Format("你离开了领地 '{0}'", Name);
+			OnEnter?.Invoke(this, player);
+		}
+
+
+		public void LeaveRegion(ServerPlayer player)
+		{
+			OnExit?.Invoke(this, player);
 		}
 
 		public override bool Equals(object obj)
@@ -55,6 +62,11 @@ namespace ServerSideCharacter2.Regions
 			if (!(obj is Region)) return false;
 			var reg = (Region)obj;
 			return this.Name.Equals(reg.Name);
+		}
+
+		public Rectangle GetWorldHitBox()
+		{
+			return new Rectangle(Area.X * 16, Area.Y * 16, Area.Width * 16, Area.Height * 16);
 		}
 
 	}

@@ -145,6 +145,7 @@ namespace ServerSideCharacter2.Regions
 
 		public Region Get(string name)
 		{
+			if (!Regions.ContainsKey(name)) return null;
 			return Regions[name];
 		}
 

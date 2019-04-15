@@ -237,9 +237,10 @@ namespace ServerSideCharacter2.GUI.UI
 
 					for (int i = 0; i < 5; i++)
 					{
-						var testinfo = new MailHead(ServerUtils.RandomGenString())
+						var testinfo = new MailHead(ServerUtils.RandomGenString(40))
 						{
-							IsRead = Main.rand.NextBool()
+							IsRead = Main.rand.NextBool(),
+							Sender = "<系统>"
 						};
 						var bar = new UIMailHead(testinfo);
 						_mailList.Add(bar);

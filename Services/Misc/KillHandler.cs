@@ -29,7 +29,7 @@ namespace ServerSideCharacter2.Services.Misc
 				var target1 = target0.GetServerPlayer();
 
 				var str = $"玩家 {player.name} 击杀了玩家 {target0.name} ";
-				target1.Kill();
+				target1.Kill($"{target1.Name} 遭到了天谴……");
 				CommandBoardcast.ConsoleMessage(str);
 			}
 		}

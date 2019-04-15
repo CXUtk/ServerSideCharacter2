@@ -68,7 +68,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			}
 			this.Append(titleText);
 
-			var senddateText = new UIText(info.SendTime.ToString("g"));
+			var senddateText = new UIText($"发件人：{info.Sender}");
 			senddateText.VAlign = 1f;
 			this.Append(senddateText);
 		}

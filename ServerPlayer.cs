@@ -17,6 +17,7 @@ using Terraria.DataStructures;
 using Terraria.GameContent;
 using ServerSideCharacter2.Matches;
 using ServerSideCharacter2.Mailing;
+using ServerSideCharacter2.Buffs;
 
 namespace ServerSideCharacter2
 {
@@ -459,12 +460,18 @@ namespace ServerSideCharacter2
 
 		public void SafeTeleport(Vector2 position)
 		{
-			if (RealPlayer)
+			if (RealPlayer && ConnectionAlive)
 			{
 				var p = PrototypePlayer;
 				p.grappling[0] = -1;
 				p.grapCount = 0;
 				PressurePlateHelper.UpdatePlayerPosition(p);
+
+				p.AddBuff(ServerSideCharacter2.Instance.BuffType<Protection>(), 300, false);
+				NetMessage.SendData(MessageID.AddPlayerBuff, playerID, -1,
+				NetworkText.Empty, playerID,
+				ServerSideCharacter2.Instance.BuffType<Protection>(), 300, 0f, 0, 0, 0);
+
 				p.position = position;
 				p.fallStart = p.fallStart2 = (int)(p.position.Y / 16f);
 				p.noFallDmg = true;
@@ -616,6 +623,11 @@ namespace ServerSideCharacter2
 			MessageSender.SendInfoMessage(-1, msg, Color.Yellow);
 		}
 
+		public static void SendInfoMessageToAll(string msg, Color color)
+		{
+			MessageSender.SendInfoMessage(-1, msg, color);
+		}
+
 		public void Kick(string msg = "")
 		{
 			if (RealPlayer && ConnectionAlive)
@@ -723,9 +735,9 @@ namespace ServerSideCharacter2
 			_info.EloRank += rank;
 		}
 
-		public void Kill()
+		public void Kill(string msg = "")
 		{
-			NetMessage.SendPlayerDeath(playerID, PlayerDeathReason.ByCustomReason($"{Name} 遭到了天谴"), 99999, (new Random()).Next(-1, 1), false, -1, -1);
+			NetMessage.SendPlayerDeath(playerID, PlayerDeathReason.ByCustomReason(msg), 99999, (new Random()).Next(-1, 1), false, -1, -1);
 		}
 
 		public void Ban(string reason)

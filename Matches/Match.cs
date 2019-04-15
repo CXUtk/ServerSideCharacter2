@@ -49,6 +49,7 @@ namespace ServerSideCharacter2.Matches
 			OnDeactive();
 			foreach (var player in MatchedPlayers)
 			{
+				player.InMatch = false;
 				player.CurrentMatch = null;
 			}
 			MatchedPlayers.Clear();
@@ -112,6 +113,13 @@ namespace ServerSideCharacter2.Matches
 					}
 				}
 			}
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (!(obj is Match)) return false;
+			var other = (Match)obj;
+			return this.Name.Equals(other.Name);
 		}
 
 		public SimplifiedMatchInfo GetSimplified()

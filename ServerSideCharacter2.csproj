@@ -89,6 +89,7 @@
   <ItemGroup>
     <Content Include=".gitignore" />
     <Content Include="Buffs\Locked.png" />
+    <Content Include="Buffs\Protection.png" />
     <Content Include="build.txt" />
     <None Include="ChangeLog.md" />
     <Content Include="description.txt" />
@@ -116,6 +117,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Buffs\Locked.cs" />
+    <Compile Include="Buffs\Protection.cs" />
     <Compile Include="Commands\ClearCommand.cs" />
     <Compile Include="Commands\GodCommand.cs" />
     <Compile Include="Commands\ForcePVPCommand.cs" />

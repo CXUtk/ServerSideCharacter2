@@ -49,7 +49,7 @@ namespace ServerSideCharacter2.Commands
 				}
 				else
 				{
-					var info = ServerSideCharacter2.PlayerCollection.GetOnlineInfo(255);
+					var info = ServerSideCharacter2.PlayerCollection.GetOnlineInfo(-1);
 					var s = JsonConvert.SerializeObject(info, Formatting.Indented);
 					CommandBoardcast.ConsoleMessage(s);
 					ServerSideCharacter2.ErrorLogger.WriteToFile(s);

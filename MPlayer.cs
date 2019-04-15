@@ -218,7 +218,10 @@ namespace ServerSideCharacter2
 				}
 			}
 		}
-
+		public override bool ConsumeAmmo(Item weapon, Item ammo)
+		{
+			return !GodMode;
+		}
 		public override void UpdateEquips(ref bool wallSpeedBuff, ref bool tileSpeedBuff, ref bool tileRangeBuff)
 		{
 			if (Locked)
