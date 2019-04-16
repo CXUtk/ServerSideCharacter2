@@ -39,7 +39,7 @@ namespace ServerSideCharacter2
 	public delegate void RankBoardEventHandler(List<SimplifiedPlayerInfo> players);
 	public class ServerSideCharacter2 : Mod
 	{
-		public const bool DEBUGMODE = false;
+		public const bool DEBUGMODE = true;
 
 		internal static ServerSideCharacter2 Instance;
 
@@ -47,7 +47,7 @@ namespace ServerSideCharacter2
 
 		public static PlayerCollection PlayerCollection;
 
-		internal static string APIVersion = "V0.16 测试";
+		internal static string APIVersion = "V0.17 测试";
 
 		internal static ErrorLogger ErrorLogger;
 

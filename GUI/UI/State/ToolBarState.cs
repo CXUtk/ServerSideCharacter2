@@ -130,6 +130,10 @@ namespace ServerSideCharacter2.GUI.UI
 					windowPanel.Top.Pixels = Main.screenHeight;
 				}
 			}
+			if (windowPanel.Top.Pixels > Main.screenHeight)
+			{
+				windowPanel.Top.Set(Main.screenHeight, 0f);
+			}
 			_openButton.Left.Set(windowPanel.GetDimensions().Center().X - 24f, 0f);
 			_openButton.Top.Set(windowPanel.Top.Pixels - 12f, 0f);
 			base.Update(gameTime);
