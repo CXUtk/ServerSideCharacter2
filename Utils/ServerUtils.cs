@@ -15,6 +15,7 @@ namespace ServerSideCharacter2.Utils
 
 		public static void WriteRect(this BinaryWriter bb, Rectangle rect)
 		{
+			
 			bb.Write(rect.X);
 			bb.Write(rect.Y);
 			bb.Write(rect.Width);

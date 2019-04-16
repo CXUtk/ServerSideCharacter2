@@ -214,6 +214,14 @@ namespace ServerSideCharacter2
 			p.Send();
 		}
 
+		public static void SendInvasion(int type)
+		{
+			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			p.Write((int)SSCMessageType.Invasion);
+			p.Write((byte)type);
+			p.Send();
+		}
+
 		public static void SendRegionCreate(string name)
 		{
 			ModPacket p = ServerSideCharacter2.Instance.GetPacket();

@@ -93,6 +93,7 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.MailGetHeads, new Services.Mails.RequestMailListHandler() },
 				{SSCMessageType.MailGetContent, new Services.Mails.RequestMailContentHandler() },
 				{SSCMessageType.MailPickItem, new Services.Mails.PickMailSlotHandler() },
+				{SSCMessageType.Invasion, new Services.Misc.InvasionHandler() },
 			};
 		}
 	}

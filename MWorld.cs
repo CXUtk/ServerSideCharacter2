@@ -37,6 +37,7 @@ namespace ServerSideCharacter2
 				{
 					if (player.Value.PrototypePlayer == null || !player.Value.PrototypePlayer.active)
 					{
+						player.Value.posLock.ResetLock();
 						player.Value.IsLogin = false;
 						player.Value.SetID(-1);
 					}
@@ -44,14 +45,14 @@ namespace ServerSideCharacter2
 
 				for (var i = 0; i < Main.maxPlayers; i++)
 				{
-					if(TileMessageCD[i] > 0)
+					if (TileMessageCD[i] > 0)
 					{
 						TileMessageCD[i]--;
 					}
 				}
 				if (_timer % 300 < 1)
 				{
-					foreach(var player in Main.player)
+					foreach (var player in Main.player)
 					{
 						if (!player.active) continue;
 						var serverPlayer = player.GetServerPlayer();
@@ -71,9 +72,11 @@ namespace ServerSideCharacter2
 				}
 				foreach (var p in Main.player)
 				{
+				
 					if (p.whoAmI == 255) continue;
 					if (!p.active) continue;
 					var player = p.GetServerPlayer();
+					player.posLock.UpdateLock();
 					if (player.IsLogin)
 						player.SyncPlayerToInfo();
 					UpdateRegion(p);
@@ -88,6 +91,7 @@ namespace ServerSideCharacter2
 			catch (Exception ex)
 			{
 				CommandBoardcast.ConsoleError(ex);
+
 				WorldFile.saveWorld();
 				Netplay.disconnect = true;
 				Terraria.Social.SocialAPI.Shutdown();
@@ -97,6 +101,7 @@ namespace ServerSideCharacter2
 
 		private void UpdateRegion(Player player)
 		{
+
 			var splayer = player.GetServerPlayer();
 			if (splayer.PrototypePlayer == null) return;
 			if (!splayer.PrototypePlayer.active || splayer.PrototypePlayer.dead) return;
@@ -116,7 +121,6 @@ namespace ServerSideCharacter2
 			}
 			if (splayer.CurrentRegion != null)
 			{
-				splayer.ApplyMainSaving();
 				splayer.CurrentRegion.LeaveRegion(splayer);
 				splayer.SetCurRegion(null);
 				splayer.CheckPVP();

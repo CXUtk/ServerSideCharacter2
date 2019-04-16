@@ -224,25 +224,13 @@ namespace ServerSideCharacter2.Network
 
 		private bool PlayerControls(ref BinaryReader reader, int playerNumber)
 		{
-			if (Main.netMode == 2)
-			{
-				var plr = reader.ReadByte();
-				BitsByte control = reader.ReadByte();
-				BitsByte pulley = reader.ReadByte();
-				var item = reader.ReadByte();
-				var pos = reader.ReadVector2();
-				var player = Main.player[playerNumber];
-				var sPlayer = player.GetServerPlayer();
-				if (pulley[2])
-				{
-					var vel = reader.ReadVector2();
-				}
-				//if (ServerSideCharacter.Config.IsItemBanned(sPlayer.PrototypePlayer.inventory[item], sPlayer))
-				//{
-				//	sPlayer.ApplyLockBuffs();
-				//	sPlayer.SendErrorInfo("You used a banned item: " + player.inventory[item].Name);
-				//}
-			}
+			//if (Main.netMode == 2)
+			//{
+			//	if (Main.player[playerNumber].GetServerPlayer().posLock.LockedPos())
+			//	{
+			//		return true;
+			//	}
+			//}
 			return false;
 		}
 

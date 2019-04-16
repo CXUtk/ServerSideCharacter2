@@ -1,8 +1,10 @@
 ﻿using ServerSideCharacter2.JsonData;
+using ServerSideCharacter2.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Terraria;
 
 namespace ServerSideCharacter2.Matches
 {
@@ -41,6 +43,11 @@ namespace ServerSideCharacter2.Matches
 				if (match.IsActive)
 				{
 					match.Update();
+					//foreach (var player in Main.player)
+					//{
+					//	if (!player.active) continue;
+					//	CommandBoardcast.ConsoleMessage($"玩家 {player.name} 的位置为 {player.position}");
+					//}
 				}
 			}
 		}

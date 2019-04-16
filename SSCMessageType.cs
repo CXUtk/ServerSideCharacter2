@@ -76,7 +76,8 @@
 		UnionDonate,
 		MailGetHeads,
 		MailGetContent,
-		MailPickItem
+		MailPickItem,
+		Invasion
 	}
 
 	public enum GenerationType
