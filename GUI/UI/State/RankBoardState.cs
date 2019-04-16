@@ -160,7 +160,7 @@ namespace ServerSideCharacter2.GUI.UI
 					};
 					list.Add(testinfo);
 				}
-				list.Sort(SimplifiedPlayerInfo.CompareA);
+				list.Sort(SimplifiedPlayerInfo.CompareB);
 				list.Reverse();
 				int k = 1;
 				foreach (var info in list)
@@ -199,10 +199,10 @@ namespace ServerSideCharacter2.GUI.UI
 		}
 
 
-		public void Apply(RankData rankdata)
+		public void Apply(RankData rankdata, List<SimplifiedPlayerInfo> playerlist)
 		{
 			int k = 1;
-			foreach (var player in rankdata.LastBoard)
+			foreach (var player in playerlist)
 			{
 				var bar = new UIRankBoardPlayerBar(player, k++);
 				_onlinePlayerList.Add(bar);

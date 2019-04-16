@@ -41,9 +41,16 @@ namespace ServerSideCharacter2.JsonData
 
 		public string CurrentMatch;
 
-		public static int CompareA(SimplifiedPlayerInfo a, SimplifiedPlayerInfo b)
+		public static int CompareB(SimplifiedPlayerInfo a, SimplifiedPlayerInfo b)
 		{
 			return a.Rank.CompareTo(b.Rank);
+		}
+
+		public static int CompareA(string a, string b)
+		{
+			var aplayer = ServerSideCharacter2.PlayerCollection.Get(a);
+			var bplayer = ServerSideCharacter2.PlayerCollection.Get(b);
+			return aplayer.Rank.CompareTo(bplayer.Rank);
 		}
 	}
 

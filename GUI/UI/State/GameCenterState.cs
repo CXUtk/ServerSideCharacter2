@@ -143,18 +143,21 @@ namespace ServerSideCharacter2.GUI.UI
 		public override void Update(GameTime gameTime)
 		{
 			base.Update(gameTime);
-			if (_relaxTimer > 0)
+			lock (this)
 			{
-				_relaxTimer--;
-				_rotation += 0.1f;
-				refreshButton.Enabled = false;
+				if (_relaxTimer > 0)
+				{
+					_relaxTimer--;
+					_rotation += 0.1f;
+					refreshButton.Enabled = false;
+				}
+				else
+				{
+					_rotation = 0f;
+					refreshButton.Enabled = true;
+				}
+				refreshButton.Rotation = _rotation;
 			}
-			else
-			{
-				_rotation = 0f;
-				refreshButton.Enabled = true;
-			}
-			refreshButton.Rotation = _rotation;
 		}
 
 		public void AppendMatches(MatchInfo info)

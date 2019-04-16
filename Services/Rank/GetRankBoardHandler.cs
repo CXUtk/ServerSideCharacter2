@@ -19,22 +19,31 @@ namespace ServerSideCharacter2.Services.Rank
 		{
 			if (Main.netMode == 2)
 			{
+				List<SimplifiedPlayerInfo> infos = new List<SimplifiedPlayerInfo>();
+				foreach (var info in ServerSideCharacter2.RankData.LastBoard)
+				{
+					var simpl = ServerSideCharacter2.PlayerCollection.Get(info.Name).GetSimplified(-1);
+					simpl.Rank = info.Rank;
+					infos.Add(simpl);
+				}
 				string data = JsonConvert.SerializeObject(ServerSideCharacter2.RankData, Formatting.None);
+				string liststr = JsonConvert.SerializeObject(infos, Formatting.None);
 				var p = ServerSideCharacter2.Instance.GetPacket();
 				p.Write((int)SSCMessageType.RequestRankBoard);
 				p.Write(data);
+				p.Write(liststr);
 				p.Send(playerNumber);
 				CommandBoardcast.ConsoleMessage($"排位榜单已经发送给 {Main.player[playerNumber].name}");
 			}
 			else
 			{
 				string data = reader.ReadString();
+				string playerinfostr = reader.ReadString();
 				RankData rankdata = JsonConvert.DeserializeObject<RankData>(data);
-				rankdata.LastBoard.Sort(SimplifiedPlayerInfo.CompareA);
-				rankdata.LastBoard.Reverse();
+				List<SimplifiedPlayerInfo> infos = JsonConvert.DeserializeObject<List<SimplifiedPlayerInfo>>(playerinfostr);
 				lock (RankBoardState.Instance)
 				{
-					RankBoardState.Instance.Apply(rankdata);
+					RankBoardState.Instance.Apply(rankdata, infos);
 				}
 			}
 		}

@@ -128,17 +128,6 @@ namespace ServerSideCharacter2
 		public void SyncItemData()
 		{
 			Console.WriteLine($"正在给 {Name} 应用存档");
-			StringBuilder sb = new StringBuilder();
-			//设置为true，这样才能捕获到文件路径名和当前行数，当前行数为GetFrames代码的函数，也可以设置其他参数
-			StackTrace st = new StackTrace(true);
-			//得到当前的所以堆栈
-			StackFrame[] sf = st.GetFrames();
-			for (int i = 0; i < sf.Length; ++i)
-			{
-				sb.AppendLine($"{sf[i].GetMethod().Name} On Line {sf[i].GetFileLineNumber()}\n{sf[i].GetFileName()} {sf[i].GetMethod().DeclaringType.FullName}");
-					//" FileName=" + sf[i].GetFileName() + " fullname=" + sf[i].GetMethod().DeclaringType.FullName + " function=" + sf[i].GetMethod().Name + " FileLineNumber=" + sf[i].GetFileLineNumber());
-			}
-			Console.WriteLine(sb.ToString());
 
 			for (var i = 0; i < 59; i++)
 			{
@@ -766,7 +755,7 @@ namespace ServerSideCharacter2
 			}
 			else if(_info.Rank + rank > range.Item2)
 			{
-				Projectile.NewProjectile(PrototypePlayer.Center, new Vector2(0, -5f), ProjectileID.RocketFireworkRed, 100, 10, playerID);
+				// Projectile.NewProjectile(PrototypePlayer.Center, new Vector2(0, -5f), ProjectileID.RocketFireworkRed, 100, 10, playerID);
 				SendInfoMessage($"恭喜，你从 {Ranking.GetName(type)} 晋级到了 {Ranking.GetName(Ranking.GetRankType(_info.Rank + rank))}");
 			}
 			_info.Rank += rank;

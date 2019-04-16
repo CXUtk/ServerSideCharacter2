@@ -9,19 +9,36 @@ using System.Text;
 
 namespace ServerSideCharacter2.RankingSystem
 {
+
+	public class RankInfo2 : IComparable
+	{
+		public string Name;
+		public int Rank;
+		public RankInfo2(string name, int rank)
+		{
+			this.Name = name;
+			this.Rank = rank;
+		}
+
+		public int CompareTo(object obj)
+		{
+			RankInfo2 other = (RankInfo2)obj;
+			return -Rank.CompareTo(other.Rank);
+		}
+	}
 	[JsonObject]
 	public class RankData 
 	{
 		public DateTime LastRankBoardTime { get; set; }
 		public DateTime RankSeasonEndTime { get; set; }
-		public List<SimplifiedPlayerInfo> LastBoard { get; set; }
+		public List<RankInfo2> LastBoard { get; set; }
 
 
 		public RankData()
 		{
 			LastRankBoardTime = new DateTime(0);
 			RankSeasonEndTime = DateTime.Now.AddDays(15.0);
-			LastBoard = new List<SimplifiedPlayerInfo>();
+			LastBoard = new List<RankInfo2>();
 		}
 
 		private static string path = "SSC/ranks.json";
