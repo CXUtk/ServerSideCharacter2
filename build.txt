@@ -1,6 +1,6 @@
 ﻿displayName = 强制开荒v2
 author = DXTsT
-version = 0.14
+version = 0.17
 hideResources = true
 hideCode = true
 includePDB = true
