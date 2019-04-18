@@ -586,57 +586,149 @@ namespace ServerSideCharacter2.Network
 				{ MessageID.PlayerPvP, PlayerPVP },
 				{ MessageID.NetModules, HandleNetModules },
 				{ MessageID.TileChange, TileChange },
+				{ MessageID.ReadSign, ReadSign },
+				{ MessageID.ChangeDoor, ChangeDoor },
 				{ MessageID.PlayerControls, PlayerControls },
+				{ MessageID.TileEntityPlacement, HandlePlaceTileEntity },
+				{ MessageID.PlaceObject, PlaceObject },
 				//{ MessageID.RequestChestOpen, RequestChestOpen }
 			};
+		}
+
+		private bool PlaceObject(ref BinaryReader reader, int playerNumber)
+		{
+			int x = reader.ReadInt16();
+			int y = reader.ReadInt16();
+			short type10 = reader.ReadInt16();
+			int style2 = reader.ReadInt16();
+			int num172 = reader.ReadByte();
+			int random = reader.ReadSByte();
+			if (Main.netMode == 2)
+			{
+				var player = Main.player[playerNumber].GetServerPlayer();
+
+				if (!player.Group.HasPermission("changetile"))
+				{
+					if (MWorld.TileMessageCD[playerNumber] == 0)
+					{
+						MessageSender.SendErrorMessage(playerNumber, "你没有权限改变这个物块");
+						MWorld.TileMessageCD[playerNumber] = 60;
+					}
+					NetMessage.SendTileSquare(-1, x, y, 8);
+					return true;
+				}
+			}
+			return false;
+		}
+
+		private bool HandlePlaceTileEntity(ref BinaryReader reader, int playerNumber)
+		{
+			int x = reader.ReadInt16();
+			int y = reader.ReadInt16();
+			byte b4 = reader.ReadByte();
+			if (Main.netMode == 2)
+			{
+				var player = Main.player[playerNumber].GetServerPlayer();
+
+				if (!player.Group.HasPermission("changetile"))
+				{
+					if (MWorld.TileMessageCD[playerNumber] == 0)
+					{
+						MessageSender.SendErrorMessage(playerNumber, "你没有权限改变这个物块");
+						MWorld.TileMessageCD[playerNumber] = 60;
+					}
+					NetMessage.SendTileSquare(-1, x, y, 8);
+					return true;
+				}
+			}
+			return false;
+		}
+
+		private bool ChangeDoor(ref BinaryReader reader, int playerNumber)
+		{
+			byte b4 = reader.ReadByte();
+			int x = reader.ReadInt16();
+			int y = reader.ReadInt16();
+			if (Main.netMode == 2)
+			{
+				var player = Main.player[playerNumber].GetServerPlayer();
+
+				if (!player.Group.HasPermission("changetile"))
+				{
+					if (MWorld.TileMessageCD[playerNumber] == 0)
+					{
+						MessageSender.SendErrorMessage(playerNumber, "你没有权限改变这个物块");
+						MWorld.TileMessageCD[playerNumber] = 60;
+					}
+					NetMessage.SendTileSquare(-1, x, y, 8);
+					return true;
+				}
+			}
+			return false;
+		}
+
+		private bool ReadSign(ref BinaryReader reader, int playerNumber)
+		{
+			int num121 = reader.ReadInt16();
+			int x2 = reader.ReadInt16();
+			int y2 = reader.ReadInt16();
+			string text2 = reader.ReadString();
+			if (Main.netMode == 2)
+			{
+				var player = Main.player[playerNumber].GetServerPlayer();
+				if (!player.Group.HasPermission("changetile"))
+				{
+					if (MWorld.TileMessageCD[playerNumber] == 0)
+					{
+						MessageSender.SendErrorMessage(playerNumber, "你没有权限改变这个物块");
+						MWorld.TileMessageCD[playerNumber] = 60;
+					}
+					NetMessage.SendTileSquare(-1, x2, y2, 6);
+					return true;
+				}
+			}
+			return false;
 		}
 
 		private bool TileChange(ref BinaryReader reader, int playerNumber)
 		{
 			if (Main.netMode == 2)
 			{
-				try
+				var p = Main.player[playerNumber];
+				var player = p.GetServerPlayer();
+				int action = reader.ReadByte();
+				var X = reader.ReadInt16();
+				var Y = reader.ReadInt16();
+				var type = reader.ReadInt16();
+				int style = reader.ReadByte();
+				if (!player.Group.HasPermission("changetile"))
 				{
-					var p = Main.player[playerNumber];
-					var player = p.GetServerPlayer();
-					int action = reader.ReadByte();
-					var X = reader.ReadInt16();
-					var Y = reader.ReadInt16();
-					var type = reader.ReadInt16();
-					int style = reader.ReadByte();
-					if (!player.Group.HasPermission("changetile"))
+					if (MWorld.TileMessageCD[playerNumber] == 0)
 					{
-						if (MWorld.TileMessageCD[playerNumber] == 0)
-						{
-							MessageSender.SendErrorMessage(playerNumber, "你没有权限改变这个物块");
-							MWorld.TileMessageCD[playerNumber] = 60;
-						}
-						NetMessage.SendTileSquare(-1, X, Y, 4);
-						return true;
+						MessageSender.SendErrorMessage(playerNumber, "你没有权限改变这个物块");
+						MWorld.TileMessageCD[playerNumber] = 60;
 					}
-					//if (ServerSideCharacter.CheckSpawn(X, Y) && player.PermissionGroup.Name != "spadmin")
-					//{
-					//	player.SendErrorInfo("Warning: Spawn is protected from change");
-					//	NetMessage.SendTileSquare(-1, X, Y, 4);
-					//	return true;
-					//}
-					//else if (ServerSideCharacter.RegionManager.CheckRegion(X, Y, player))
-					//{
-					//	player.SendErrorInfo("Warning: You don't have permission to change this tile");
-					//	NetMessage.SendTileSquare(-1, X, Y, 4);
-					//	return true;
-					//}
-					//else if (player.PermissionGroup.Name == "criminal")
-					//{
-					//	player.SendErrorInfo("Warning: Criminals cannot change tiles");
-					//	NetMessage.SendTileSquare(-1, X, Y, 4);
-					//	return true;
-					//}
+					NetMessage.SendTileSquare(-1, X, Y, 4);
+					return true;
 				}
-				catch (Exception ex)
-				{
-					CommandBoardcast.ConsoleError(ex);
-				}
+				//if (ServerSideCharacter.CheckSpawn(X, Y) && player.PermissionGroup.Name != "spadmin")
+				//{
+				//	player.SendErrorInfo("Warning: Spawn is protected from change");
+				//	NetMessage.SendTileSquare(-1, X, Y, 4);
+				//	return true;
+				//}
+				//else if (ServerSideCharacter.RegionManager.CheckRegion(X, Y, player))
+				//{
+				//	player.SendErrorInfo("Warning: You don't have permission to change this tile");
+				//	NetMessage.SendTileSquare(-1, X, Y, 4);
+				//	return true;
+				//}
+				//else if (player.PermissionGroup.Name == "criminal")
+				//{
+				//	player.SendErrorInfo("Warning: Criminals cannot change tiles");
+				//	NetMessage.SendTileSquare(-1, X, Y, 4);
+				//	return true;
+				//}
 			}
 			return false;
 		}

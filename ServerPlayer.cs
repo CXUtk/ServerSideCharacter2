@@ -25,30 +25,6 @@ namespace ServerSideCharacter2
 {
 	public delegate void AppendSavingHandler(Dictionary<string, PlayerSaving> savings);
 
-	public class PosLock
-	{
-		private int _innerLock;
-
-		public PosLock()
-		{
-			_innerLock = 0;
-		}
-
-		public bool LockedPos()
-		{
-			return _innerLock > 0;
-		}
-
-		public void ResetLock() { _innerLock = 0; }
-
-		public void SetLock(int v) { _innerLock = v; }
-
-		public void UpdateLock()
-		{
-			if (_innerLock > 0) _innerLock--;
-		}
-	}
-
 	public class ServerPlayer
 	{
 
@@ -75,8 +51,6 @@ namespace ServerSideCharacter2
 		private Dictionary<string, PlayerSaving> _playerSavingList = new Dictionary<string, PlayerSaving>();
 
 		public List<Mail> MailList { get; set; }
-
-		public PosLock posLock = new PosLock();
 
 		/// <summary>
 		/// 玩家当前正在使用的存档
@@ -173,16 +147,19 @@ namespace ServerSideCharacter2
 
 		private void SyncSavingToClient()
 		{
-			NetMessage.SendData(MessageID.SyncPlayer, -1, -1, NetworkText.FromLiteral(Main.player[playerID].name), playerID, 0f, 0f, 0f, 0, 0, 0);
-			NetMessage.SendData(MessageID.PlayerControls, -1, -1, NetworkText.Empty, playerID, 0f, 0f, 0f, 0, 0, 0);
-			NetMessage.SendData(MessageID.PlayerHealth, -1, -1, NetworkText.Empty, playerID);
-			NetMessage.SendData(MessageID.PlayerPvP, -1, -1, NetworkText.Empty, playerID, 0f, 0f, 0f, 0, 0, 0);
-			NetMessage.SendData(MessageID.PlayerTeam, -1, -1, NetworkText.Empty, playerID, 0f, 0f, 0f, 0, 0, 0);
-			NetMessage.SendData(MessageID.PlayerMana, -1, -1, NetworkText.Empty, playerID);
-			NetMessage.SendData(MessageID.PlayerBuffs, -1, -1, NetworkText.Empty, playerID, 0f, 0f, 0f, 0, 0, 0);
-			Main.player[playerID].trashItem = new Item();
-			SyncItemData();
-			PlayerHooks.SyncPlayer(Main.player[playerID], -1, -1, false);
+			lock (this)
+			{
+				NetMessage.SendData(MessageID.SyncPlayer, -1, -1, NetworkText.FromLiteral(Main.player[playerID].name), playerID, 0f, 0f, 0f, 0, 0, 0);
+				NetMessage.SendData(MessageID.PlayerControls, -1, -1, NetworkText.Empty, playerID, 0f, 0f, 0f, 0, 0, 0);
+				NetMessage.SendData(MessageID.PlayerHealth, -1, -1, NetworkText.Empty, playerID);
+				NetMessage.SendData(MessageID.PlayerPvP, -1, -1, NetworkText.Empty, playerID, 0f, 0f, 0f, 0, 0, 0);
+				NetMessage.SendData(MessageID.PlayerTeam, -1, -1, NetworkText.Empty, playerID, 0f, 0f, 0f, 0, 0, 0);
+				NetMessage.SendData(MessageID.PlayerMana, -1, -1, NetworkText.Empty, playerID);
+				NetMessage.SendData(MessageID.PlayerBuffs, -1, -1, NetworkText.Empty, playerID, 0f, 0f, 0f, 0, 0, 0);
+				Main.player[playerID].trashItem = new Item();
+				SyncItemData();
+				PlayerHooks.SyncPlayer(Main.player[playerID], -1, -1, false);
+			}
 		}
 
 		public string GetSerializedString()
@@ -519,83 +496,91 @@ namespace ServerSideCharacter2
 
 		public void SyncPlayerFromInfo()
 		{
-			ServerUtils.InfoToItem(_info.inventory, MainSaving.inventory);
-			ServerUtils.InfoToItem(_info.armor, MainSaving.armor);
-			ServerUtils.InfoToItem(_info.dye, MainSaving.dye);
-			ServerUtils.InfoToItem(_info.miscEquips, MainSaving.miscEquips);
-			ServerUtils.InfoToItem(_info.miscDye, MainSaving.miscDye);
-			ServerUtils.InfoToItem(_info.bank, MainSaving.bank.item);
-			MainSaving.LifeMax = _info.LifeMax;
-			MainSaving.StatLife = _info.StatLife;
-			MainSaving.ManaMax = _info.ManaMax;
-			MainSaving.StatMana = _info.StatMana;
-			//ServerUtils.InfoToItem(_info.bank2, bank2.item);
-			//ServerUtils.InfoToItem(_info.bank3, bank3.item);
+			lock (this)
+			{
+				ServerUtils.InfoToItem(_info.inventory, MainSaving.inventory);
+				ServerUtils.InfoToItem(_info.armor, MainSaving.armor);
+				ServerUtils.InfoToItem(_info.dye, MainSaving.dye);
+				ServerUtils.InfoToItem(_info.miscEquips, MainSaving.miscEquips);
+				ServerUtils.InfoToItem(_info.miscDye, MainSaving.miscDye);
+				ServerUtils.InfoToItem(_info.bank, MainSaving.bank.item);
+				MainSaving.LifeMax = _info.LifeMax;
+				MainSaving.StatLife = _info.StatLife;
+				MainSaving.ManaMax = _info.ManaMax;
+				MainSaving.StatMana = _info.StatMana;
+				//ServerUtils.InfoToItem(_info.bank2, bank2.item);
+				//ServerUtils.InfoToItem(_info.bank3, bank3.item);
+			}
 		}
 
 		public void SyncPlayerToInfo()
 		{
-			if (/*currentSaving != MainSaving ||*/ !IsLogin) return;
-			if (PrototypePlayer == null || !PrototypePlayer.active) return;
-			currentSaving.LifeMax = PrototypePlayer.statLifeMax;
-			currentSaving.StatLife = PrototypePlayer.statLife;
-			currentSaving.StatMana = PrototypePlayer.statMana;
-			currentSaving.ManaMax = PrototypePlayer.statManaMax;
-			currentSaving.inventory = PrototypePlayer.inventory;
-			currentSaving.armor = PrototypePlayer.armor;
-			currentSaving.dye = PrototypePlayer.dye;
-			currentSaving.miscEquips = PrototypePlayer.miscEquips;
-			currentSaving.miscDye = PrototypePlayer.miscDyes;
-			currentSaving.bank = PrototypePlayer.bank;
-			//bank2 = PrototypePlayer.bank2;
-			//bank3 = PrototypePlayer.bank3;
-
-			if (currentSaving == MainSaving)
+			lock (this)
 			{
-				_info.LifeMax = MainSaving.LifeMax;
-				_info.StatLife = MainSaving.StatLife;
-				_info.ManaMax = MainSaving.ManaMax;
-				_info.StatMana = MainSaving.StatMana;
-				ServerUtils.CopyToItemData(MainSaving.inventory, _info.inventory);
-				ServerUtils.CopyToItemData(MainSaving.armor, _info.armor);
-				ServerUtils.CopyToItemData(MainSaving.dye, _info.dye);
-				ServerUtils.CopyToItemData(MainSaving.miscEquips, _info.miscEquips);
-				ServerUtils.CopyToItemData(MainSaving.miscDye, _info.miscDye);
-				ServerUtils.CopyToItemData(MainSaving.bank.item, _info.bank);
-			}
-			//ServerUtils.CopyToItemData(bank2.item, _info.bank2);
-			//ServerUtils.CopyToItemData(bank3.item, _info.bank3);
+				if (/*currentSaving != MainSaving ||*/ !IsLogin) return;
+				if (PrototypePlayer == null || !PrototypePlayer.active) return;
+				currentSaving.LifeMax = PrototypePlayer.statLifeMax;
+				currentSaving.StatLife = PrototypePlayer.statLife;
+				currentSaving.StatMana = PrototypePlayer.statMana;
+				currentSaving.ManaMax = PrototypePlayer.statManaMax;
+				currentSaving.inventory = PrototypePlayer.inventory;
+				currentSaving.armor = PrototypePlayer.armor;
+				currentSaving.dye = PrototypePlayer.dye;
+				currentSaving.miscEquips = PrototypePlayer.miscEquips;
+				currentSaving.miscDye = PrototypePlayer.miscDyes;
+				currentSaving.bank = PrototypePlayer.bank;
+				//bank2 = PrototypePlayer.bank2;
+				//bank3 = PrototypePlayer.bank3;
 
+				if (currentSaving == MainSaving)
+				{
+					_info.LifeMax = MainSaving.LifeMax;
+					_info.StatLife = MainSaving.StatLife;
+					_info.ManaMax = MainSaving.ManaMax;
+					_info.StatMana = MainSaving.StatMana;
+					ServerUtils.CopyToItemData(MainSaving.inventory, _info.inventory);
+					ServerUtils.CopyToItemData(MainSaving.armor, _info.armor);
+					ServerUtils.CopyToItemData(MainSaving.dye, _info.dye);
+					ServerUtils.CopyToItemData(MainSaving.miscEquips, _info.miscEquips);
+					ServerUtils.CopyToItemData(MainSaving.miscDye, _info.miscDye);
+					ServerUtils.CopyToItemData(MainSaving.bank.item, _info.bank);
+				}
+				//ServerUtils.CopyToItemData(bank2.item, _info.bank2);
+				//ServerUtils.CopyToItemData(bank3.item, _info.bank3);
+			}
 		}
 
 		public void ApplyToPlayer()
 		{
-			if (PrototypePlayer != null && PrototypePlayer.active && ConnectionAlive)
+			lock (this)
 			{
-				if (!PrototypePlayer.dead)
+				if (PrototypePlayer != null && PrototypePlayer.active && ConnectionAlive)
 				{
-					PrototypePlayer.statLife = currentSaving.StatLife;
-					PrototypePlayer.statMana = currentSaving.StatMana;
+					if (!PrototypePlayer.dead)
+					{
+						PrototypePlayer.statLife = currentSaving.StatLife;
+						PrototypePlayer.statMana = currentSaving.StatMana;
+					}
+					PrototypePlayer.statLifeMax = currentSaving.LifeMax;
+					PrototypePlayer.statManaMax = currentSaving.ManaMax;
+					currentSaving.inventory.CopyTo(PrototypePlayer.inventory, 0);
+					currentSaving.armor.CopyTo(PrototypePlayer.armor, 0);
+					currentSaving.miscEquips.CopyTo(PrototypePlayer.miscEquips, 0);
+					currentSaving.dye.CopyTo(PrototypePlayer.dye, 0);
+					currentSaving.miscDye.CopyTo(PrototypePlayer.miscDyes, 0);
+					currentSaving.bank.item.CopyTo(PrototypePlayer.bank.item, 0);
+					foreach (var item in PrototypePlayer.bank2.item)
+					{
+						item.SetDefaults(0);
+					}
+					foreach (var item in PrototypePlayer.bank3.item)
+					{
+						item.SetDefaults(0);
+					}
+					SyncGroupInfo();
+					//bank2.item.CopyTo(PrototypePlayer.bank2.item, 0);
+					//bank3.item.CopyTo(PrototypePlayer.bank3.item, 0);
 				}
-				PrototypePlayer.statLifeMax = currentSaving.LifeMax;
-				PrototypePlayer.statManaMax = currentSaving.ManaMax;
-				currentSaving.inventory.CopyTo(PrototypePlayer.inventory, 0);
-				currentSaving.armor.CopyTo(PrototypePlayer.armor, 0);
-				currentSaving.miscEquips.CopyTo(PrototypePlayer.miscEquips, 0);
-				currentSaving.dye.CopyTo(PrototypePlayer.dye, 0);
-				currentSaving.miscDye.CopyTo(PrototypePlayer.miscDyes, 0);
-				currentSaving.bank.item.CopyTo(PrototypePlayer.bank.item, 0);
-				foreach (var item in PrototypePlayer.bank2.item)
-				{
-					item.SetDefaults(0);
-				}
-				foreach (var item in PrototypePlayer.bank3.item)
-				{
-					item.SetDefaults(0);
-				}
-				SyncGroupInfo();
-				//bank2.item.CopyTo(PrototypePlayer.bank2.item, 0);
-				//bank3.item.CopyTo(PrototypePlayer.bank3.item, 0);
 			}
 
 		}

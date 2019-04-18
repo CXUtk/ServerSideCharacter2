@@ -17,6 +17,17 @@ namespace ServerSideCharacter2.Services.Misc
 	{
 		public override string PermissionName => "sm";
 
+		private void SwitchInvasion(int type)
+		{
+			if (Main.invasionType == type)
+			{
+				Main.invasionSize = -1;
+			}
+			Console.WriteLine(Main.invasionType);
+			Main.StartInvasion(type);
+			NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
+		}
+
 		public override void HandleCommand(BinaryReader reader, int playerNumber)
 		{
 			try
@@ -46,7 +57,7 @@ namespace ServerSideCharacter2.Services.Misc
 							}
 						case (byte)InvasionID.SnowLegion:
 							{
-								Main.StartInvasion(type);
+								SwitchInvasion(InvasionID.SnowLegion);
 								string str = $"玩家 {player.Name} 开启了雪人军团入侵";
 								ServerPlayer.SendInfoMessageToAll(str);
 								CommandBoardcast.ConsoleMessage(str);
@@ -54,7 +65,7 @@ namespace ServerSideCharacter2.Services.Misc
 							}
 						case (byte)InvasionID.GoblinArmy:
 							{
-								Main.StartInvasion(type);
+								SwitchInvasion(InvasionID.GoblinArmy);
 								string str = $"玩家 {player.Name} 开启了哥布林入侵";
 								ServerPlayer.SendInfoMessageToAll(str);
 								CommandBoardcast.ConsoleMessage(str);
@@ -62,15 +73,16 @@ namespace ServerSideCharacter2.Services.Misc
 							}
 						case (byte)InvasionID.MartianMadness:
 							{
-								Main.StartInvasion(type);
+								SwitchInvasion(InvasionID.MartianMadness);
 								string str = $"玩家 {player.Name} 开启了火星人入侵";
+
 								ServerPlayer.SendInfoMessageToAll(str);
 								CommandBoardcast.ConsoleMessage(str);
 								break;
 							}
 						case (byte)InvasionID.PirateInvasion:
 							{
-								Main.StartInvasion(type);
+								SwitchInvasion(InvasionID.PirateInvasion);
 								string str = $"玩家 {player.Name} 开启了海盗入侵";
 								ServerPlayer.SendInfoMessageToAll(str);
 								CommandBoardcast.ConsoleMessage(str);
@@ -88,6 +100,7 @@ namespace ServerSideCharacter2.Services.Misc
 								NPC.waveKills = 0f;
 								NPC.waveNumber = 1;
 								string str = $"玩家 {player.Name} {(Main.pumpkinMoon ? "开启" : "关闭")}了南瓜月事件";
+								NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
 								ServerPlayer.SendInfoMessageToAll(str);
 								CommandBoardcast.ConsoleMessage(str);
 								break;
@@ -104,6 +117,7 @@ namespace ServerSideCharacter2.Services.Misc
 								NPC.waveKills = 0f;
 								NPC.waveNumber = 1;
 								string str = $"玩家 {player.Name} {(Main.pumpkinMoon ? "开启" : "关闭")}了霜月事件";
+								NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
 								ServerPlayer.SendInfoMessageToAll(str);
 								CommandBoardcast.ConsoleMessage(str);
 								break;

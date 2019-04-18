@@ -73,10 +73,13 @@ namespace ServerSideCharacter2.Core
 
 		public void SyncPlayers()
 		{
-			foreach(var p in _playerList)
+			lock (this)
 			{
-				if(p.Value.IsLogin)
-				p.Value.SyncPlayerToInfo();
+				foreach (var p in _playerList)
+				{
+					if (p.Value.IsLogin)
+						p.Value.SyncPlayerToInfo();
+				}
 			}
 		}
 

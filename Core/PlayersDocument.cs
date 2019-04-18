@@ -25,6 +25,7 @@ namespace ServerSideCharacter2.Core
 
 		public void SavePlayersData()
 		{
+
 			ServerSideCharacter2.PlayerCollection.SyncPlayers();
 			var data = ServerSideCharacter2.PlayerCollection.GetJson();
 			using (var writer = new StreamWriter(FileName, false, Encoding.UTF8))

@@ -222,6 +222,14 @@ namespace ServerSideCharacter2
 		{
 			return !GodMode;
 		}
+
+		public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
+		{
+			if(Main.netMode == 1 && ServerSideCharacter2.MainPlayerGroup.IsSuperAdmin)
+			{
+				damage = (int)(damage * 0.8f);
+			}
+		}
 		public override void UpdateEquips(ref bool wallSpeedBuff, ref bool tileSpeedBuff, ref bool tileRangeBuff)
 		{
 			if (Locked)

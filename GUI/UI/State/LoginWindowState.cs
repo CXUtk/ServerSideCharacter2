@@ -94,8 +94,8 @@ namespace ServerSideCharacter2.GUI.UI
 		{
 			var username = _usernameText.Text;
 			var password = _passwordText.Text;
-            var machinecode = MachineCodeManager.GetMachineCode();
-			StartWaiting();
+			var machinecode = "ABCDEFGHIJKLMN";
+			//StartWaiting();
 			switch (machinecode)
             {
                 case "FILENOTFOUND":
@@ -128,9 +128,9 @@ namespace ServerSideCharacter2.GUI.UI
                     {
                         var info = CryptedUserInfo.Create(username, password, machinecode);
                         Main.NewText(username);
-                        Main.NewText("'" + password + "'(长度:" + password.Length);
-                        Main.NewText(info.ToString());
-                        Main.NewText(info.MachineCode);
+                        Main.NewText("您输入的密码为：" + password + "  长度为：" + password.Length + "请妥善保管您的密码");
+						Main.NewText("如果需要重置密码可以找管理员");
+						Main.NewText(info.ToString());
                         MessageSender.SendLoginPassword(info);
                         // ServerSideCharacter2.Instance.ShowMessage("已经提交AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 120, Color.White);
                     }

@@ -14,7 +14,7 @@ namespace ServerSideCharacter2.Services.Matches
 {
 	public class MatchService : ISSCToolBarService
 	{
-		public Texture2D Texture => ServerSideCharacter2.ModTexturesTable["Cog"];
+		public Texture2D Texture => ServerSideCharacter2.ModTexturesTable["Game"];
 
 		public string Tooltip => "游戏大厅";
 

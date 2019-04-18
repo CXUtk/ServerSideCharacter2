@@ -22,7 +22,9 @@ namespace ServerSideCharacter2.Services.Rank
 				List<SimplifiedPlayerInfo> infos = new List<SimplifiedPlayerInfo>();
 				foreach (var info in ServerSideCharacter2.RankData.LastBoard)
 				{
-					var simpl = ServerSideCharacter2.PlayerCollection.Get(info.Name).GetSimplified(-1);
+					var player = ServerSideCharacter2.PlayerCollection.Get(info.Name);
+					if (player == null) continue;
+					var simpl = player.GetSimplified(-1);
 					simpl.Rank = info.Rank;
 					infos.Add(simpl);
 				}

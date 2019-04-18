@@ -37,7 +37,6 @@ namespace ServerSideCharacter2
 				{
 					if (player.Value.PrototypePlayer == null || !player.Value.PrototypePlayer.active)
 					{
-						player.Value.posLock.ResetLock();
 						player.Value.IsLogin = false;
 						player.Value.SetID(-1);
 					}
@@ -76,7 +75,6 @@ namespace ServerSideCharacter2
 					if (p.whoAmI == 255) continue;
 					if (!p.active) continue;
 					var player = p.GetServerPlayer();
-					player.posLock.UpdateLock();
 					if (player.IsLogin)
 						player.SyncPlayerToInfo();
 					UpdateRegion(p);
