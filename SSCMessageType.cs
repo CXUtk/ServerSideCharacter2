@@ -12,6 +12,8 @@
 		SafeTeleport,
 		ResetPassword,
 		LoginPassword,
+		SyncSingleEquip,
+		SyncSingleEquip2,
 		SendTimeSet,
 		HelpCommand,
 		KickCommand,
@@ -77,7 +79,8 @@
 		MailGetHeads,
 		MailGetContent,
 		MailPickItem,
-		Invasion
+		Invasion,
+		GetEquipsOffline
 	}
 
 	public enum GenerationType

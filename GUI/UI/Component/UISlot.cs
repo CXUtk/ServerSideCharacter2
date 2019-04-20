@@ -26,7 +26,6 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		public string Tooltip { get; set; }
 		public event ExchangeItemHandler PostExchangeItem;
 		public event ExchangeItemHandler OnPickItem;
-
 		public UISlot(Texture2D texture = default(Texture2D)) : base()
 		{
 			ContainedItem = new Item();
@@ -47,8 +46,15 @@ namespace ServerSideCharacter2.GUI.UI.Component
 
 		}
 
+		public override void MouseUp(UIMouseEvent evt)
+		{
+
+			base.MouseUp(evt);
+		}
+
 		public override void Click(UIMouseEvent evt)
 		{
+			base.Click(evt);
 			Main.playerInventory = true;
 			if (Main.mouseItem.type == 0 && ContainedItem.type != 0)
 			{
@@ -98,7 +104,6 @@ namespace ServerSideCharacter2.GUI.UI.Component
 				return;
 			Main.PlaySound(7, -1, -1, 1, 1f, 0.0f);
 			PostExchangeItem?.Invoke(this);
-			base.Click(evt);
 		}
 
 

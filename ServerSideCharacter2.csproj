@@ -124,6 +124,7 @@
     <Compile Include="Commands\ItemCommand.cs" />
     <Compile Include="Commands\BanCommand.cs" />
     <Compile Include="Commands\KillCommand.cs" />
+    <Compile Include="Commands\LookCommand.cs" />
     <Compile Include="Commands\PigCommand.cs" />
     <Compile Include="Commands\RefuseCommand.cs" />
     <Compile Include="Commands\InvasionCommand.cs" />
@@ -150,6 +151,8 @@
     <Compile Include="GUI\UI\Component\Special\UIMatchGameBar.cs" />
     <Compile Include="GUI\UI\Component\UIMessageBox.cs" />
     <Compile Include="GUI\UI\State\GameCenterState.cs" />
+    <Compile Include="GUI\UI\State\PlayerInventoryState2.cs" />
+    <Compile Include="GUI\UI\State\PlayerInventoryState.cs" />
     <Compile Include="GUI\UI\State\RankBoardState.cs" />
     <Compile Include="GUI\UI\State\UnionCreatePage.cs" />
     <Compile Include="GUI\UI\State\UnionCandidatePage.cs" />
@@ -269,6 +272,8 @@
     <Compile Include="Services\Misc\ModPlayerInfoHandler.cs" />
     <Compile Include="Services\Misc\ChatTextHandler.cs" />
     <Compile Include="Services\Misc\ClearHandler.cs" />
+    <Compile Include="Services\Misc\PlayerInventoryHandler.cs" />
+    <Compile Include="Services\Misc\SyncEquipHandler.cs" />
     <Compile Include="Services\Misc\SyncGroupHandler.cs" />
     <Compile Include="Services\Misc\SafeTeleportHandler.cs" />
     <Compile Include="Services\Misc\TPHandler.cs" />
@@ -291,6 +296,7 @@
     <Compile Include="Services\Misc\LockHandler.cs" />
     <Compile Include="Services\NPC\SpawnControlHandler.cs" />
     <Compile Include="Services\OnlinePlayer\OnlinePlayerHandler.cs" />
+    <Compile Include="Services\OnlinePlayer\PlayerInventoryService.cs" />
     <Compile Include="Services\OnlinePlayer\RequestPlayersHandler.cs" />
     <Compile Include="Services\OnlinePlayer\OnlinePlayerService.cs" />
     <Compile Include="Services\Misc\ReceiveRSA.cs" />

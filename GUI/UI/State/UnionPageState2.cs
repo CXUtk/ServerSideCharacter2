@@ -201,6 +201,7 @@ namespace ServerSideCharacter2.GUI.UI
 		private void ReturnButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
 			ServerSideCharacter2.Instance.ChangeState(SSCUIState.UnionPage);
+			UnionPageState.Instance.RefreshUnions();
 		}
 
 		private void RefreshButton_OnClick(UIMouseEvent evt, UIElement listeningElement)

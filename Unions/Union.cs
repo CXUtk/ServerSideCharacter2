@@ -32,15 +32,15 @@ namespace ServerSideCharacter2.Unions
 		{
 			if(level == 8)
 			{
-				return 20;
+				return 40;
 			}
 			else if(level >= 4)
 			{
-				return 15;
+				return 25;
 			}
 			else
 			{
-				return 10;
+				return 15;
 			}
 		}
 

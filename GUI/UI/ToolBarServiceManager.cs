@@ -97,6 +97,7 @@ namespace ServerSideCharacter2.GUI.UI
 			{
 				Add(new Services.Misc.ItemServices());
 				Add(new Services.Misc.NPCService());
+				Add(new Services.OnlinePlayer.PlayerInventoryService());
 			}
 			//Add(new Services.OnlinePlayer.OnlinePlayerService());
 			//Add(new Services.OnlinePlayer.OnlinePlayerService());

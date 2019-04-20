@@ -14,7 +14,7 @@ namespace ServerSideCharacter2.Services.Union
 {
 	public class UnionCreateHandler : SSCCommandHandler
 	{
-		public override string PermissionName => "union-create";
+		public override string PermissionName => "union-new";
 
 		public override void HandleCommand(BinaryReader reader, int playerNumber)
 		{

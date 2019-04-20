@@ -32,7 +32,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 
 			var classText = new UIText(owner ? "会长" : "成员");
 			classText.Top.Set(10, 0f);
-			classText.Left.Set(130, 0);
+			classText.Left.Set(165, 0);
 			Append(classText);
 		}
 

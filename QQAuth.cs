@@ -301,12 +301,20 @@ namespace ServerSideCharacter2
                     cmd.CommandText = "select username from users where qq = @QQ";
                     cmd.Parameters.AddWithValue("@QQ", QQ);
                     MySqlDataReader mdr = cmd.ExecuteReader();
-                    if (mdr.Read())
-                    {
-                        UserName = mdr["username"].ToString();
-                    }
+					if (mdr.HasRows)
+					{
+						if (mdr.Read())
+						{
+							UserName = mdr["username"].ToString();
+						}
+					}
+					else
+					{
+						UserName = "";
+					}
                     mdr.Close();
                     cmd.Cancel();
+
                     if (UserName == "")
                     {
                         try

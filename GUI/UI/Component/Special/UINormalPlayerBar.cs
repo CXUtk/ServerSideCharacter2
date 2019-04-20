@@ -156,7 +156,10 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 				kickButton.OnClick += KickButton_OnClick;
 				buttons.Add(kickButton);
 			}
+
+
 		}
+
 
 		protected void KickButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
@@ -294,7 +297,6 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		{
 			//ServerSideCharacter2.Instance.ShowMessage("目前没有实现，等裙子有时间写", 120, Color.White);
 			MessageSender.SendFriendRequest(this.playerInfo.Name);
-			Main.NewText("Send");
 		}
 	}
 }

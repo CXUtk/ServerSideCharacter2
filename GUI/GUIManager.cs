@@ -24,6 +24,8 @@ namespace ServerSideCharacter2.GUI
 		UnionCandidatePage,
 		ItemPage,
 		ProfilePage,
+		InventoryPage,
+		InventoryPage2,
 		NPCPage,
 		CommunicationPage,
 		GameCenterPage,
@@ -49,6 +51,8 @@ namespace ServerSideCharacter2.GUI
 		private PlayerProfileState _playerProfileState;
 		private NPCUIState _getnpcState;
 		private RankBoardState _rankBoardState;
+		private PlayerInventoryState _playerInventoryState;
+		private PlayerInventoryState2 _playerInventoryState2;
 
 		private UserInterface _toolBarInterface;
 		private CDInterfaceManager _cdInterface;
@@ -147,6 +151,10 @@ namespace ServerSideCharacter2.GUI
 			uiGameCenter.SetState(_gameCenterState);
 			_cdInterface.Add(uiGameCenter);
 
+			_playerInventoryState = new PlayerInventoryState();
+			_playerInventoryState2 = new PlayerInventoryState2();
+			AddState(_playerInventoryState, SSCUIState.InventoryPage);
+			AddState(_playerInventoryState2, SSCUIState.InventoryPage2);
 
 			// 置顶
 			_playerProfileState = new PlayerProfileState();
@@ -156,6 +164,13 @@ namespace ServerSideCharacter2.GUI
 
 		}
 
+
+		private void AddState(UIState state, SSCUIState uistate)
+		{
+			var profileinterface = new ConditionalInterface(() => { return _canShowUITable[uistate]; });
+			profileinterface.SetState(state);
+			_cdInterface.Add(profileinterface);
+		}
 
 
 		public void SetNPCDefaults()
@@ -255,6 +270,27 @@ namespace ServerSideCharacter2.GUI
 				_canShowUITable[SSCUIState.ProfilePage] = true;
 			}
 			_playerProfileState.SetProfile(info);
+			if (Main.netMode == 0 || ServerSideCharacter2.MainPlayerGroup.HasPermission("see-inventory"))
+			{
+				OpenInventory(info);
+			}
+		}
+
+		public void OpenInventory(JsonData.SimplifiedPlayerInfo info)
+		{
+			if (!_canShowUITable[SSCUIState.InventoryPage])
+			{
+				_canShowUITable[SSCUIState.InventoryPage] = true;
+			}
+			_playerInventoryState.GetInventory(info.PlayerID);
+		}
+
+		public void OpenInventory2()
+		{
+			if (!_canShowUITable[SSCUIState.InventoryPage2])
+			{
+				_canShowUITable[SSCUIState.InventoryPage2] = true;
+			}
 		}
 
 

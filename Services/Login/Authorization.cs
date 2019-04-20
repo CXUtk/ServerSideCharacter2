@@ -183,7 +183,7 @@ namespace ServerSideCharacter2.Services.Login
                         {
                             serverPlayer.SetPassword(info);
                             // SuccessLogin(serverPlayer);
-                            MessageSender.SendLoginSuccess(serverPlayer.PrototypePlayer.whoAmI, "注册成功");
+                            MessageSender.SendLoginSuccess(serverPlayer.PrototypePlayer.whoAmI, "注册成功，输入密码即可登录");
                             // 告诉客户端解除封印
                             // MessageSender.SendLoginIn(serverPlayer.PrototypePlayer.whoAmI);
                             CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册成功.");

@@ -94,6 +94,9 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.MailGetContent, new Services.Mails.RequestMailContentHandler() },
 				{SSCMessageType.MailPickItem, new Services.Mails.PickMailSlotHandler() },
 				{SSCMessageType.Invasion, new Services.Misc.InvasionHandler() },
+				{SSCMessageType.SyncSingleEquip, new Services.Misc.SyncEquipHandler() },
+				{SSCMessageType.SyncSingleEquip2, new Services.Misc.SyncEquipHandler2() },
+				{SSCMessageType.GetEquipsOffline, new Services.Misc.PlayerInventoryHandler() }
 			};
 		}
 	}

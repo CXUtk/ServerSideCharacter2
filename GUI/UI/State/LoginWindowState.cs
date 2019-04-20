@@ -95,7 +95,7 @@ namespace ServerSideCharacter2.GUI.UI
 			var username = _usernameText.Text;
 			var password = _passwordText.Text;
 			var machinecode = "ABCDEFGHIJKLMN";
-			//StartWaiting();
+			StartWaiting();
 			switch (machinecode)
             {
                 case "FILENOTFOUND":

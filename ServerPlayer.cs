@@ -20,6 +20,7 @@ using ServerSideCharacter2.Mailing;
 using ServerSideCharacter2.Buffs;
 using System.Diagnostics;
 using System.Text;
+using System.Linq;
 
 namespace ServerSideCharacter2
 {
@@ -754,6 +755,17 @@ namespace ServerSideCharacter2
 		public void Kill(string msg = "")
 		{
 			NetMessage.SendPlayerDeath(playerID, PlayerDeathReason.ByCustomReason(msg), 99999, (new Random()).Next(-1, 1), false, -1, -1);
+		}
+
+
+		public List<Item> GetInventory()
+		{
+			return currentSaving.inventory.ToList();
+		}
+
+		public void SetInventory(int i, Item item)
+		{
+			currentSaving.inventory[i] = item;
 		}
 
 		public void Ban(string reason)

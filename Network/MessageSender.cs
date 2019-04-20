@@ -7,6 +7,8 @@ using ServerSideCharacter2.Utils;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
+
 namespace ServerSideCharacter2
 {
 	public class MessageSender
@@ -57,6 +59,40 @@ namespace ServerSideCharacter2
 			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.LoginPassword);
 			p.Write(info.GetEncryptedData());
+			p.Send();
+		}
+
+		public static void SyncSingleEquip(int target, int index, Item item)
+		{
+			var p = ServerSideCharacter2.Instance.GetPacket();
+			p.Write((int)SSCMessageType.SyncSingleEquip);
+			p.Write((byte)target);
+			p.Write((byte)index);
+			p.Write((short)item.netID);
+			p.Write((byte)item.prefix);
+			p.Write((short)item.stack);
+			ItemIO.SendModData(item, p);
+			p.Send();
+		}
+
+		public static void SyncSingleEquip2(string name, int index, Item item)
+		{
+			var p = ServerSideCharacter2.Instance.GetPacket();
+			p.Write((int)SSCMessageType.SyncSingleEquip2);
+			p.Write(name);
+			p.Write((byte)index);
+			p.Write((short)item.netID);
+			p.Write((byte)item.prefix);
+			p.Write((short)item.stack);
+			ItemIO.SendModData(item, p);
+			p.Send();
+		}
+
+		public static void SendOfflineInventory(int target)
+		{
+			var p = ServerSideCharacter2.Instance.GetPacket();
+			p.Write((int)SSCMessageType.GetEquipsOffline);
+			p.Write(target);
 			p.Send();
 		}
 
@@ -115,6 +151,7 @@ namespace ServerSideCharacter2
 			p.Write((byte)target);
 			p.Send();
 		}
+
 
 		public static void SendItemCommand(int type)
 		{

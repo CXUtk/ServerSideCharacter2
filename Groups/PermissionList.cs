@@ -45,6 +45,7 @@ namespace ServerSideCharacter2.Groups
 			AddPermission(new Permission("union-join", "玩家可不可以加入公会"));
 			AddPermission(new Permission("union-new", "玩家可不可以创建公会"));
 			AddPermission(new Permission("union-remove", "玩家可不可以解散、退出公会"));
+			AddPermission(new Permission("see-inventory", "管理专用背包查看权限"));
 		}
 
 		public void AddPermission(Permission permission)
