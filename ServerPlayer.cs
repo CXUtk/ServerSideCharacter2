@@ -64,7 +64,6 @@ namespace ServerSideCharacter2
 			{
 				_playerSavingList[name].Reset();
 				currentSaving = _playerSavingList[name];
-				SendInfoMessage("存档已被置换");
 			}
 			else
 			{
@@ -74,10 +73,18 @@ namespace ServerSideCharacter2
 
 		public void UseMainSaving()
 		{
-			if (currentSaving != MainSaving)
+			if (!IsMainSaving)
 			{
-				SyncPlayerFromInfo();
 				currentSaving = MainSaving;
+				SyncPlayerFromInfo();
+			}
+		}
+
+		public bool IsMainSaving
+		{
+			get
+			{
+				return currentSaving.Equals(MainSaving);
 			}
 		}
 
@@ -85,8 +92,8 @@ namespace ServerSideCharacter2
 		{
 			if (currentSaving != MainSaving)
 			{
-				SyncPlayerFromInfo();
 				currentSaving = MainSaving;
+				SyncPlayerFromInfo();
 				ApplySavingToPlayer();
 			}
 		}
@@ -292,7 +299,7 @@ namespace ServerSideCharacter2
 
 		public bool InMatch
 		{
-			get;set;
+			get; set;
 		}
 
 		public void SetCurRegion(Region reg)
@@ -440,6 +447,7 @@ namespace ServerSideCharacter2
 		}
 
 
+
 		public void SendErrorInfo(string msg)
 		{
 			if (RealPlayer && ConnectionAlive)
@@ -471,25 +479,13 @@ namespace ServerSideCharacter2
 			if (RealPlayer && ConnectionAlive)
 			{
 				var p = PrototypePlayer;
-				//p.grappling[0] = -1;
-				//p.grapCount = 0;
-				//PressurePlateHelper.UpdatePlayerPosition(p);
+
 
 				p.AddBuff(ServerSideCharacter2.Instance.BuffType<Protection>(), 300, false);
 				NetMessage.SendData(MessageID.AddPlayerBuff, playerID, -1,
 				NetworkText.Empty, playerID,
 				ServerSideCharacter2.Instance.BuffType<Protection>(), 300, 0f, 0, 0, 0);
 				RemoteClient.CheckSection(playerID, position);
-				//p.position = position;
-				//posLock.SetLock(60);
-				//p.fallStart = p.fallStart2 = (int)(p.position.Y / 16f);
-				//p.noFallDmg = true;
-				//PressurePlateHelper.UpdatePlayerPosition(p);
-				//for (int j = 0; j < 3; j++)
-				//{
-				//	p.UpdateSocialShadow();
-				//}
-				//p.oldPosition = p.position + p.BlehOldPositionFixer;
 
 				MessageSender.SendSafeTeleport(p.whoAmI, position);
 			}

@@ -50,7 +50,7 @@ namespace ServerSideCharacter2.Services.Misc
 					p.Write((byte)list[i].prefix);
 					ItemIO.SendModData(list[i], p);
 				}
-				p.Send();
+				p.Send(playerNumber);
 			}
 			else
 			{

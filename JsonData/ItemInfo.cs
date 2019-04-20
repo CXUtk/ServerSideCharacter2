@@ -32,9 +32,12 @@ namespace ServerSideCharacter2.JsonData
 			{
 				this.IsMod = true;
 				this.FullName = item.modItem.GetType().FullName;
+				this.ID = 0;
 			}
 			else
 			{
+				this.IsMod = false;
+				this.FullName = null;
 				this.ID = item.type;
 			}
 
@@ -84,7 +87,7 @@ namespace ServerSideCharacter2.JsonData
 				item.netDefaults(ID);
 			}
 
-			item.prefix = Prefix;
+			item.Prefix(Prefix);
 			item.stack = Stack;
 			item.favorited = Favorite;
 			return item;

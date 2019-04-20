@@ -33,6 +33,11 @@ namespace ServerSideCharacter2.Services.Union
 					splayer.SendMessageBox("捐献数量不合法", 120, Color.Red);
 					return;
 				}
+				if(amount > 9999)
+				{
+					splayer.SendMessageBox("捐献数量不合法", 120, Color.Red);
+					return;
+				}
 				var union = splayer.Union;
 				union.Donate(splayer, amount);
 				CommandBoardcast.ConsoleMessage($"玩家 {splayer.Name} 给公会 {union.Name} 捐献了 {amount} 财富");

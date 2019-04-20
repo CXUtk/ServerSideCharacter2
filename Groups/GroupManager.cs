@@ -69,6 +69,7 @@ namespace ServerSideCharacter2.Groups
 			admin.AddPermission("region-forbid");
 			admin.AddPermission("region-owner");
 			admin.AddPermission("region-share");
+			admin.AddPermission("see-inventory");
 			admin.AddPermission("clear");
 			var superAdmin = new Group("superadmin")
 			{

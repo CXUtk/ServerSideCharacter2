@@ -89,7 +89,6 @@ namespace ServerSideCharacter2
 			catch (Exception ex)
 			{
 				CommandBoardcast.ConsoleError(ex);
-
 				WorldFile.saveWorld();
 				Netplay.disconnect = true;
 				Terraria.Social.SocialAPI.Shutdown();

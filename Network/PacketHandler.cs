@@ -407,24 +407,16 @@ namespace ServerSideCharacter2.Network
 				var name = Main.player[plr].name;
 				var player = ServerSideCharacter2.PlayerCollection.Get(name);
 				player.SetID(plr);
-				player.ApplyToPlayer();
-				Main.player[plr].trashItem = new Item();
 
-				NetMessage.SendData(MessageID.PlayerActive, toWho, fromWho, null, plr, active, 0f, 0f, 0, 0, 0);
-				NetMessage.SendData(MessageID.SyncPlayer, toWho, fromWho, null, plr, 0f, 0f, 0f, 0, 0, 0);
-				NetMessage.SendData(MessageID.PlayerControls, toWho, fromWho, null, plr, 0f, 0f, 0f, 0, 0, 0);
-				NetMessage.SendData(MessageID.PlayerHealth, toWho, fromWho, null, plr);
-				NetMessage.SendData(MessageID.PlayerPvP, toWho, fromWho, null, plr, 0f, 0f, 0f, 0, 0, 0);
-				NetMessage.SendData(MessageID.PlayerTeam, toWho, fromWho, null, plr, 0f, 0f, 0f, 0, 0, 0);
-				NetMessage.SendData(MessageID.PlayerMana, toWho, fromWho, null, plr);
-				NetMessage.SendData(MessageID.PlayerBuffs, toWho, fromWho, null, plr, 0f, 0f, 0f, 0, 0, 0);
 				if (toWho == -1)
 				{
 					player.IsLogin = false;
+					player.ApplyToPlayer();
 					player.ClearAllBuffs();
 					player.Lock();
 					player.SyncUnionInfo();
 					player.SendMailList();
+
 
 					MessageSender.SendWelcomeMessage(plr,
 						player.HasPassword ? GameLanguage.GetText("welcomeold") : GameLanguage.GetText("welcomenew"));
@@ -439,7 +431,16 @@ namespace ServerSideCharacter2.Network
 					}
 				}
 
+				NetMessage.SendData(MessageID.PlayerActive, toWho, fromWho, null, plr, active, 0f, 0f, 0, 0, 0);
+				NetMessage.SendData(MessageID.SyncPlayer, toWho, fromWho, null, plr, 0f, 0f, 0f, 0, 0, 0);
+				NetMessage.SendData(MessageID.PlayerControls, toWho, fromWho, null, plr, 0f, 0f, 0f, 0, 0, 0);
+				NetMessage.SendData(MessageID.PlayerHealth, toWho, fromWho, null, plr);
+				NetMessage.SendData(MessageID.PlayerPvP, toWho, fromWho, null, plr, 0f, 0f, 0f, 0, 0, 0);
+				NetMessage.SendData(MessageID.PlayerTeam, toWho, fromWho, null, plr, 0f, 0f, 0f, 0, 0, 0);
+				NetMessage.SendData(MessageID.PlayerMana, toWho, fromWho, null, plr);
+				NetMessage.SendData(MessageID.PlayerBuffs, toWho, fromWho, null, plr, 0f, 0f, 0f, 0, 0, 0);
 
+				Main.player[plr].trashItem = new Item();
 				for (var i = 0; i < 59; i++)
 				{
 					NetMessage.SendData(MessageID.SyncEquipment, toWho, fromWho, NetworkText.FromLiteral(Main.player[plr].inventory[i].Name), plr, i, Main.player[plr].inventory[i].prefix, 0f, 0, 0, 0);
