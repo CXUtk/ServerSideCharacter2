@@ -15,11 +15,12 @@ namespace ServerSideCharacter2
 		/// </summary>
 		/// <param name="mac">网卡物理地址</param>
 		/// <param name="ipv4">IPv4地址</param>
-		public static void GetActiveIpAndMac2(out string mac, out string ipv4, out string ipv6)
+		public static void GetActiveIpAndMac2(out string mac)
 		{
+
 			mac = "";
-			ipv4 = "";
-			ipv6 = "";
+			string ipv4 = "";
+			string ipv6 = "";
 
 			NetworkInterface[] nics = NetworkInterface.GetAllNetworkInterfaces();
 			foreach (NetworkInterface adapter in nics)
@@ -80,25 +81,10 @@ namespace ServerSideCharacter2
 
         public static string GetMachineCode()
         {
-            string filepath = System.Environment.CurrentDirectory + "\\License.lic";
-            if (System.IO.File.Exists(filepath))
-            {
-                string license = System.IO.File.ReadAllText(filepath);
-                int sub = license.IndexOf("<Next>");
-                string machinecode = license.Substring(0, sub);
-                string check = license.Substring(sub + 6);
-                if (check == GetMD5WithString(machinecode + "This is the MACHINE CODE key."))
-                { return check; }
-                else
-                {
-                    File.Delete(filepath);
-                    return "MD5ERROR";
-                }
-            }
-            else
-            { return "FILENOTFOUND"; }
-
-        }
+			string mac;
+			GetActiveIpAndMac2(out mac);
+			return mac;
+		}
 
     }
 }

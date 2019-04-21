@@ -78,8 +78,9 @@ namespace ServerSideCharacter2.Services.Login
                             isLoginSuccess = false;
                             break;
                         case QQAuth.States.LoginState.Banned:
+							
                             CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 认证失败：玩家已被封禁.");
-                            MessageSender.SendLoginFailed(playerNumber, "您已被封禁！");
+                            MessageSender.SendLoginFailed(playerNumber, $"您已被封禁！原因：{serverPlayer.qqAuth.GetBanReason(serverPlayer)}");
                             isLoginSuccess = false;
                             break;
                         case QQAuth.States.LoginState.LoginSuccess:

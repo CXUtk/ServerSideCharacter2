@@ -224,13 +224,13 @@ namespace ServerSideCharacter2.Network
 
 		private bool PlayerControls(ref BinaryReader reader, int playerNumber)
 		{
-			//if (Main.netMode == 2)
-			//{
-			//	if (Main.player[playerNumber].GetServerPlayer().posLock.LockedPos())
-			//	{
-			//		return true;
-			//	}
-			//}
+			if (Main.netMode == 2)
+			{
+				if (!CheckLogin(playerNumber))
+				{
+					return true;
+				}
+			}
 			return false;
 		}
 
@@ -407,16 +407,23 @@ namespace ServerSideCharacter2.Network
 				var name = Main.player[plr].name;
 				var player = ServerSideCharacter2.PlayerCollection.Get(name);
 				player.SetID(plr);
+				player.ApplyToPlayer();
+				NetMessage.SendData(MessageID.PlayerActive, toWho, fromWho, null, plr, active, 0f, 0f, 0, 0, 0);
+				NetMessage.SendData(MessageID.SyncPlayer, toWho, fromWho, null, plr, 0f, 0f, 0f, 0, 0, 0);
+				NetMessage.SendData(MessageID.PlayerControls, toWho, fromWho, null, plr, 0f, 0f, 0f, 0, 0, 0);
+				NetMessage.SendData(MessageID.PlayerHealth, toWho, fromWho, null, plr);
+				NetMessage.SendData(MessageID.PlayerPvP, toWho, fromWho, null, plr, 0f, 0f, 0f, 0, 0, 0);
+				NetMessage.SendData(MessageID.PlayerTeam, toWho, fromWho, null, plr, 0f, 0f, 0f, 0, 0, 0);
+				NetMessage.SendData(MessageID.PlayerMana, toWho, fromWho, null, plr);
+				NetMessage.SendData(MessageID.PlayerBuffs, toWho, fromWho, null, plr, 0f, 0f, 0f, 0, 0, 0);
 
 				if (toWho == -1)
 				{
 					player.IsLogin = false;
-					player.ApplyToPlayer();
 					player.ClearAllBuffs();
 					player.Lock();
 					player.SyncUnionInfo();
 					player.SendMailList();
-
 
 					MessageSender.SendWelcomeMessage(plr,
 						player.HasPassword ? GameLanguage.GetText("welcomeold") : GameLanguage.GetText("welcomenew"));
@@ -430,15 +437,6 @@ namespace ServerSideCharacter2.Network
 						}
 					}
 				}
-
-				NetMessage.SendData(MessageID.PlayerActive, toWho, fromWho, null, plr, active, 0f, 0f, 0, 0, 0);
-				NetMessage.SendData(MessageID.SyncPlayer, toWho, fromWho, null, plr, 0f, 0f, 0f, 0, 0, 0);
-				NetMessage.SendData(MessageID.PlayerControls, toWho, fromWho, null, plr, 0f, 0f, 0f, 0, 0, 0);
-				NetMessage.SendData(MessageID.PlayerHealth, toWho, fromWho, null, plr);
-				NetMessage.SendData(MessageID.PlayerPvP, toWho, fromWho, null, plr, 0f, 0f, 0f, 0, 0, 0);
-				NetMessage.SendData(MessageID.PlayerTeam, toWho, fromWho, null, plr, 0f, 0f, 0f, 0, 0, 0);
-				NetMessage.SendData(MessageID.PlayerMana, toWho, fromWho, null, plr);
-				NetMessage.SendData(MessageID.PlayerBuffs, toWho, fromWho, null, plr, 0f, 0f, 0f, 0, 0, 0);
 
 				Main.player[plr].trashItem = new Item();
 				for (var i = 0; i < 59; i++)
@@ -596,6 +594,16 @@ namespace ServerSideCharacter2.Network
 			};
 		}
 
+		private bool CheckLogin(int plr)
+		{
+			if (Main.player[plr] != null && Main.player[plr].active
+				&& Main.player[plr].GetServerPlayer() != null && !Main.player[plr].GetServerPlayer().IsLogin)
+			{
+				return false;
+			}
+			return true;
+		}
+
 		private bool PlaceObject(ref BinaryReader reader, int playerNumber)
 		{
 			int x = reader.ReadInt16();
@@ -606,6 +614,7 @@ namespace ServerSideCharacter2.Network
 			int random = reader.ReadSByte();
 			if (Main.netMode == 2)
 			{
+				
 				var player = Main.player[playerNumber].GetServerPlayer();
 
 				if (!player.Group.HasPermission("changetile"))
@@ -629,6 +638,10 @@ namespace ServerSideCharacter2.Network
 			byte b4 = reader.ReadByte();
 			if (Main.netMode == 2)
 			{
+				if (!CheckLogin(playerNumber))
+				{
+					return true;
+				}
 				var player = Main.player[playerNumber].GetServerPlayer();
 
 				if (!player.Group.HasPermission("changetile"))
@@ -652,6 +665,10 @@ namespace ServerSideCharacter2.Network
 			int y = reader.ReadInt16();
 			if (Main.netMode == 2)
 			{
+				if (!CheckLogin(playerNumber))
+				{
+					return true;
+				}
 				var player = Main.player[playerNumber].GetServerPlayer();
 
 				if (!player.Group.HasPermission("changetile"))
@@ -676,6 +693,10 @@ namespace ServerSideCharacter2.Network
 			string text2 = reader.ReadString();
 			if (Main.netMode == 2)
 			{
+				if (!CheckLogin(playerNumber))
+				{
+					return true;
+				}
 				var player = Main.player[playerNumber].GetServerPlayer();
 				if (!player.Group.HasPermission("changetile"))
 				{
@@ -702,6 +723,10 @@ namespace ServerSideCharacter2.Network
 				var Y = reader.ReadInt16();
 				var type = reader.ReadInt16();
 				int style = reader.ReadByte();
+				if (!CheckLogin(playerNumber))
+				{
+					return true;
+				}
 				if (!player.Group.HasPermission("changetile"))
 				{
 					if (MWorld.TileMessageCD[playerNumber] == 0)

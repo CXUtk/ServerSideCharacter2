@@ -95,6 +95,7 @@ namespace ServerSideCharacter2.Unions
 			foreach (var candidate in Candidates)
 			{
 				var player = ServerSideCharacter2.PlayerCollection.Get(candidate);
+				if (player == null) continue;
 				info.Requests.Add(player.GetSimplified(plr));
 			}
 			return info;
@@ -108,7 +109,7 @@ namespace ServerSideCharacter2.Unions
 				foreach (var candidate in Candidates)
 				{
 					var player = ServerSideCharacter2.PlayerCollection.Get(candidate);
-					if (player.Union != null) { list.Add(candidate); }
+					if (player != null && player.Union != null) { list.Add(candidate); }
 				}
 				foreach (var del in list)
 				{

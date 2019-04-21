@@ -38,11 +38,11 @@ namespace ServerSideCharacter2.Commands
 				var player = new PlayerInfo
 				{
 					Name = p.Name,
-					ID = ServerSideCharacter2.PlayerCollection.GetNextID(),
-					HasPassword = false,
+					ID = p.GUID,
+					HasPassword = true,
 					IsMuted = false,
 					Group = "default",
-					Password = "",
+					Password = p.Password,
 					LifeMax = 100,
 					StatLife = 100,
 					ManaMax = 20,
@@ -50,6 +50,7 @@ namespace ServerSideCharacter2.Commands
 					KillCount = 0,
 					Rank = p.Rank,
 					EloRank = p.EloRank,
+					RegisteredTime = p.RegistedTime,
 				};
 				var i = 0;
 				foreach (var item in ServerSideCharacter2.Config.startUpInventory)

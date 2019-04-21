@@ -27,7 +27,8 @@ namespace ServerSideCharacter2.RankingSystem
 			List<RankInfo2> ranks = new List<RankInfo2>();
 			foreach (var pair in ServerSideCharacter2.PlayerCollection)
 			{
-				ranks.Add(new RankInfo2(pair.Value.Name, pair.Value.Rank));
+				if(pair.Value.HasPassword)
+					ranks.Add(new RankInfo2(pair.Value.Name, pair.Value.Rank));
 			}
 			ranks.Sort();
 

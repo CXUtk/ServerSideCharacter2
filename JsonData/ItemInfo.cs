@@ -40,11 +40,13 @@ namespace ServerSideCharacter2.JsonData
 				this.FullName = null;
 				this.ID = item.type;
 			}
-
 			this.Prefix = item.prefix;
 			this.Stack = item.stack;
 			this.Favorite = item.favorited;
-
+			if (item.stack > item.maxStack)
+			{
+				item.stack = item.maxStack;
+			}
 		}
 
 		public static ItemInfo CreateInfo(int id)
@@ -90,6 +92,11 @@ namespace ServerSideCharacter2.JsonData
 			item.Prefix(Prefix);
 			item.stack = Stack;
 			item.favorited = Favorite;
+			if (item.stack < 0) item.stack = 0;
+			else if (item.stack > item.maxStack)
+			{
+				item.stack = item.maxStack;
+			}
 			return item;
 		}
 	}

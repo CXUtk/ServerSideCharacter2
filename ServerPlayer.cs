@@ -325,6 +325,11 @@ namespace ServerSideCharacter2
 			}
 		}
 
+		public string Password
+		{
+			get { return _info.Password; }
+		}
+
 		public DateTime RegistedTime
 		{
 			get
@@ -406,14 +411,17 @@ namespace ServerSideCharacter2
 
 		public void ApplyLockBuffs(int time = 180)
 		{
-			PrototypePlayer.AddBuff(ServerSideCharacter2.Instance.BuffType("Locked"), time * 2, false);
-			PrototypePlayer.AddBuff(BuffID.Frozen, time, false);
-			NetMessage.SendData(MessageID.AddPlayerBuff, PrototypePlayer.whoAmI, -1,
-				NetworkText.Empty, PrototypePlayer.whoAmI,
-				ServerSideCharacter2.Instance.BuffType("Locked"), time * 2, 0f, 0, 0, 0);
-			NetMessage.SendData(MessageID.AddPlayerBuff, PrototypePlayer.whoAmI, -1,
-				NetworkText.Empty, PrototypePlayer.whoAmI,
-				BuffID.Frozen, time, 0f, 0, 0, 0);
+			if (RealPlayer)
+			{
+				PrototypePlayer.AddBuff(ServerSideCharacter2.Instance.BuffType("Locked"), time * 2, false);
+				PrototypePlayer.AddBuff(BuffID.Frozen, time, false);
+				NetMessage.SendData(MessageID.AddPlayerBuff, PrototypePlayer.whoAmI, -1,
+					NetworkText.Empty, PrototypePlayer.whoAmI,
+					ServerSideCharacter2.Instance.BuffType("Locked"), time * 2, 0f, 0, 0, 0);
+				NetMessage.SendData(MessageID.AddPlayerBuff, PrototypePlayer.whoAmI, -1,
+					NetworkText.Empty, PrototypePlayer.whoAmI,
+					BuffID.Frozen, time, 0f, 0, 0, 0);
+			}
 		}
 
 		public static ServerPlayer CreateNewPlayer(Player p)
@@ -495,12 +503,19 @@ namespace ServerSideCharacter2
 		{
 			lock (this)
 			{
-				ServerUtils.InfoToItem(_info.inventory, MainSaving.inventory);
-				ServerUtils.InfoToItem(_info.armor, MainSaving.armor);
-				ServerUtils.InfoToItem(_info.dye, MainSaving.dye);
-				ServerUtils.InfoToItem(_info.miscEquips, MainSaving.miscEquips);
-				ServerUtils.InfoToItem(_info.miscDye, MainSaving.miscDye);
-				ServerUtils.InfoToItem(_info.bank, MainSaving.bank.item);
+				//try
+				//{
+					ServerUtils.InfoToItem(_info.inventory, MainSaving.inventory);
+					ServerUtils.InfoToItem(_info.armor, MainSaving.armor);
+					ServerUtils.InfoToItem(_info.dye, MainSaving.dye);
+					ServerUtils.InfoToItem(_info.miscEquips, MainSaving.miscEquips);
+					ServerUtils.InfoToItem(_info.miscDye, MainSaving.miscDye);
+					ServerUtils.InfoToItem(_info.bank, MainSaving.bank.item);
+				//}
+				//catch(SSCException ex)
+				//{
+				//	CommandBoardcast.ConsoleMessage($"玩家 {Name} 物品出现堆叠异常");
+				//}
 				MainSaving.LifeMax = _info.LifeMax;
 				MainSaving.StatLife = _info.StatLife;
 				MainSaving.ManaMax = _info.ManaMax;
@@ -535,12 +550,19 @@ namespace ServerSideCharacter2
 					_info.StatLife = MainSaving.StatLife;
 					_info.ManaMax = MainSaving.ManaMax;
 					_info.StatMana = MainSaving.StatMana;
+					//try
+					//{
 					ServerUtils.CopyToItemData(MainSaving.inventory, _info.inventory);
 					ServerUtils.CopyToItemData(MainSaving.armor, _info.armor);
 					ServerUtils.CopyToItemData(MainSaving.dye, _info.dye);
 					ServerUtils.CopyToItemData(MainSaving.miscEquips, _info.miscEquips);
 					ServerUtils.CopyToItemData(MainSaving.miscDye, _info.miscDye);
 					ServerUtils.CopyToItemData(MainSaving.bank.item, _info.bank);
+					//}
+					//catch(SSCException ex)
+					//{
+					//	CommandBoardcast.ConsoleMessage($"玩家 {Name} 的物品出现堆叠异常");
+					//}
 				}
 				//ServerUtils.CopyToItemData(bank2.item, _info.bank2);
 				//ServerUtils.CopyToItemData(bank3.item, _info.bank3);
@@ -596,8 +618,6 @@ namespace ServerSideCharacter2
 		public void Lock()
 		{
 			if (!RealPlayer) return;
-			PrototypePlayer.AddBuff(ServerSideCharacter2.Instance.BuffType("Locked"), 18000, false);
-			PrototypePlayer.AddBuff(BuffID.Frozen, 18000, false);
 			NetMessage.SendData(MessageID.AddPlayerBuff, PrototypePlayer.whoAmI, -1,
 				NetworkText.Empty, PrototypePlayer.whoAmI,
 				ServerSideCharacter2.Instance.BuffType("Locked"), 18000, 0f, 0, 0, 0);

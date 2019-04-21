@@ -60,6 +60,7 @@ namespace ServerSideCharacter2.Unions
 					union.Owner = owner.Name;
 					union.AddMember(owner);
 					Unions.Add(name, union);
+					owner.Union = union;
 					owner.SyncUnionInfo();
 				}
 				finally

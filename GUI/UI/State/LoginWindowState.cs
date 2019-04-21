@@ -94,7 +94,7 @@ namespace ServerSideCharacter2.GUI.UI
 		{
 			var username = _usernameText.Text;
 			var password = _passwordText.Text;
-			var machinecode = "ABCDEFGHIJKLMN";
+			var machinecode = MachineCodeManager.GetMachineCode();
 			StartWaiting();
 			switch (machinecode)
             {
@@ -131,6 +131,7 @@ namespace ServerSideCharacter2.GUI.UI
                         Main.NewText("您输入的密码为：" + password + "  长度为：" + password.Length + "请妥善保管您的密码");
 						Main.NewText("如果需要重置密码可以找管理员");
 						Main.NewText(info.ToString());
+						Main.NewText(info.MachineCode);
                         MessageSender.SendLoginPassword(info);
                         // ServerSideCharacter2.Instance.ShowMessage("已经提交AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 120, Color.White);
                     }

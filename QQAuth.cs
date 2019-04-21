@@ -353,33 +353,43 @@ namespace ServerSideCharacter2
             }
         }
 
+
 		/// <summary>
-		/// 用户封禁
+		/// 获取封禁原因
 		/// </summary>
-		/// <param name="banPlayer">封禁的用户</param>
-		/// <param name="banReason">封禁的原因</param>
-		/// <returns>成功返回true，失败返回false</returns>
-		public bool IsBanned(ServerPlayer banPlayer)
+		/// <param name="banPlayer">目标玩家</param>
+		/// <returns></returns>
+		public string GetBanReason(ServerPlayer banPlayer)
 		{
 			try
 			{
 				MySqlManager dbm = new MySqlManager();
 				dbm.Connect();
 				MySqlCommand cmd = dbm.command;
-				cmd.CommandText = "select ban from users where username = @UserName";
+				cmd.CommandText = "select ban, banreason from users where username = @UserName";
 				cmd.Parameters.AddWithValue("@UserName", banPlayer.Name);
-				MySqlDataReader mdr = cmd.ExecuteReader();
-				if (mdr.Read())
+				using (MySqlDataReader mdr = cmd.ExecuteReader())
 				{
-					Ban = mdr["ban"].ToString();
+					if (mdr.Read())
+					{
+						Ban = mdr["ban"].ToString();
+						BanReason = mdr["banreason"].ToString();
+					}
 				}
 				cmd.Cancel();
-				return Ban == "1";
+				if(Ban == "1")
+				{
+					return BanReason;
+				}
+				else
+				{
+					return "";
+				}
 			}
 			catch (Exception ex)
 			{
 				ErrorLog = ex.Message;
-				return false;
+				return "";
 			}
 		}
 		/// <summary>
@@ -390,6 +400,7 @@ namespace ServerSideCharacter2
 		/// <returns>成功返回true，失败返回false</returns>
 		public bool BanPlayer(ServerPlayer banPlayer, string banReason)
         {
+			Console.WriteLine("Ban");
             try
             {
                 MySqlManager dbm = new MySqlManager();
@@ -399,11 +410,13 @@ namespace ServerSideCharacter2
 				cmd.Parameters.AddWithValue("@UserName", banPlayer.Name);
                 cmd.Parameters.AddWithValue("@Banner", CharacterName);
                 cmd.Parameters.AddWithValue("@BanReason", banReason);
-                cmd.Cancel();
+				cmd.ExecuteNonQuery();
+				cmd.Cancel();
                 return true;
             }
             catch (Exception ex)
             {
+				CommandBoardcast.ConsoleError(ex);
                 ErrorLog = ex.Message;
                 return false;
             }
@@ -423,6 +436,7 @@ namespace ServerSideCharacter2
                 cmd.CommandText = "update users set ban = 0 , banner = @Banner where username = @UserName";
                 cmd.Parameters.AddWithValue("@UserName", banPlayer.Name);
                 cmd.Parameters.AddWithValue("@Banner", CharacterName);
+				cmd.ExecuteNonQuery();
                 cmd.Cancel();
                 return true;
             }
