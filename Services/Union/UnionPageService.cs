@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Graphics;
 using ServerSideCharacter2.GUI;
 using ServerSideCharacter2.GUI.UI;
 using ServerSideCharacter2.GUI.UI.Component;
@@ -22,7 +23,33 @@ namespace ServerSideCharacter2.Services.Union
 
 		public bool Enabled { get; set; }
 
-		public UIDrawEventHandler DrawEvent => null;
+		public UIDrawEventHandler DrawEvent
+		{
+			get
+			{
+				return new UIDrawEventHandler((element, sb) =>
+				{
+					if (UnionCandidatePage.Instance.UnreadCount > 0)
+					{
+						var tex = ServerSideCharacter2.ModTexturesTable["RedDot"];
+						Vector2 drawPos = element.GetDimensions().Position();
+						drawPos.X += element.GetDimensions().Width;
+						sb.Draw(tex, drawPos, null, Color.Red, 0f, tex.Size() * 0.5f, 1.2f, SpriteEffects.None, 0f);
+						string num = UnionCandidatePage.Instance.UnreadCount.ToString();
+						if (UnionCandidatePage.Instance.UnreadCount == 1)
+						{
+							return;
+						}
+						if (UnionCandidatePage.Instance.UnreadCount > 99)
+						{
+							num = "99+";
+						}
+						Vector2 size = Main.fontMouseText.MeasureString(num);
+						sb.DrawString(Main.fontMouseText, num, drawPos - new Vector2(size.X * 0.5f, 8f), Color.White);
+					}
+				});
+			}
+		}
 
 		public UnionPageService()
 		{

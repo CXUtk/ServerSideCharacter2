@@ -48,6 +48,7 @@ namespace ServerSideCharacter2.Services.Union
 				if (!ServerSideCharacter2.GuiManager.IsActive(SSCUIState.UnionPage2))
 				{
 					ServerSideCharacter2.GuiManager.SetState(SSCUIState.UnionPage2, true);
+					UnionPageState2.Instance.RefreshUnion();
 				}
 			}
 		}

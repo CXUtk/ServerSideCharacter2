@@ -12,6 +12,7 @@ namespace ServerSideCharacter2.GUI.UI
 	public class UnionCandidatePage : AdvWindowUIState
 	{
 		public static UnionCandidatePage Instance;
+		public int UnreadCount;
 		private int _relaxTimer;
 		private float _rotation;
 		private UIAdvList _candidateList;
@@ -85,16 +86,14 @@ namespace ServerSideCharacter2.GUI.UI
 
 		
 
-		public void ClearCandidates()
-		{
-			_candidateList.Clear();
-		}
 		public void AppendCandidates(JsonData.ComplexUnionInfo info)
 		{
-			foreach(var player in info.Requests)
+			_candidateList.Clear();
+			foreach (var player in info.Requests)
 			{
 				_candidateList.Add(new UIUnionCandidateBar(player));
 			}
+			UnreadCount = _candidateList.Count;
 		}
 
 

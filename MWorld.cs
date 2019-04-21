@@ -110,18 +110,29 @@ namespace ServerSideCharacter2
 				if (player.Hitbox.Intersects(rect))
 				{
 					if (splayer.InRegion && splayer.CurrentRegion.Equals(region)) return;
+					if(splayer.CurrentRegion == null || splayer.CurrentRegion != region)
+					{
+						CheckRegion(splayer);
+					}
 					splayer.SetCurRegion(region);
 					splayer.SendInfoMessage(region.WelcomeInfo());
 					region.EnterRegion(splayer);
 					return;
 				}
 			}
+			CommandBoardcast.ConsoleMessage($"玩家 {splayer.Name} 不在任何区域");
 			if (splayer.CurrentRegion != null)
 			{
-				splayer.CurrentRegion.LeaveRegion(splayer);
+				CheckRegion(splayer);
 				splayer.SetCurRegion(null);
-				splayer.CheckPVP();
+
 			}
+		}
+
+		private void CheckRegion(ServerPlayer splayer)
+		{
+			splayer.CurrentRegion?.LeaveRegion(splayer);
+			splayer.CheckPVP();
 		}
 
 		private void Do_Save(object state)

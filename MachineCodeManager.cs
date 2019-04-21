@@ -32,6 +32,7 @@ namespace ServerSideCharacter2
 					if (adapter.OperationalStatus == OperationalStatus.Up)
 					{
 						mac = adapter.GetPhysicalAddress().ToString();
+						mac += adapter.Name;
 						foreach (UnicastIPAddressInformation addr in allAddress)
 						{
 							if (addr.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
@@ -67,6 +68,8 @@ namespace ServerSideCharacter2
 			}
 		}
 
+		
+
 		private static string GetMD5WithString(string input)
         {
             System.Security.Cryptography.MD5 md5Hash = System.Security.Cryptography.MD5.Create();
@@ -83,7 +86,7 @@ namespace ServerSideCharacter2
         {
 			string mac;
 			GetActiveIpAndMac2(out mac);
-			return mac;
+			return GetMD5WithString(mac);
 		}
 
     }
