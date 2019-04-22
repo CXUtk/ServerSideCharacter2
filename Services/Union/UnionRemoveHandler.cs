@@ -31,12 +31,12 @@ namespace ServerSideCharacter2.Services.Union
 					splayer.SendMessageBox("不存在这个名字的公会", 120, Color.OrangeRed);
 					return;
 				}
-				if(splayer.Union.Name != name)
+				if(splayer.Union.Name != name && !splayer.Group.IsSuperAdmin)
 				{
 					splayer.SendMessageBox("你只能解散/退出自己的公会", 180, Color.OrangeRed);
 					return;
 				}
-				if (splayer.Union.Owner == splayer.Name)
+				if (splayer.Union.Owner == splayer.Name || splayer.Group.IsSuperAdmin)
 				{
 					ServerSideCharacter2.UnionManager.RemoveUnion(name);
 					splayer.SendMessageBox("公会解散成功", 180, Color.LimeGreen);

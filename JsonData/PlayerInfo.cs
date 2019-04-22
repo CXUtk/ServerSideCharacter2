@@ -52,6 +52,10 @@ namespace ServerSideCharacter2.JsonData
 
 		public ItemInfo[] bank = new ItemInfo[Chest.maxItems];
 
+		public int hideVisual = 0;
+
+		
+
 		//public ItemInfo[] bank2 = new ItemInfo[Chest.maxItems];
 
 		//public ItemInfo[] bank3 = new ItemInfo[Chest.maxItems];

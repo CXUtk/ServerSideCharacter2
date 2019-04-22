@@ -375,7 +375,7 @@ namespace ServerSideCharacter2
 			{
 				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
 				p.Write((int)SSCMessageType.UnionDonate);
-				p.Write(amount);
+				p.Write(RSACrypto.EncryptWithTag(amount.ToString(), "ddl"));
 				p.Send();
 			}
 		}

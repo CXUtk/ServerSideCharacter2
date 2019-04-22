@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
+using ServerSideCharacter2.Crypto;
 using ServerSideCharacter2.GUI.UI;
 using ServerSideCharacter2.JsonData;
 using ServerSideCharacter2.Utils;
@@ -20,9 +21,17 @@ namespace ServerSideCharacter2.Services.Union
 			// 服务器端
 			if (Main.netMode == 2)
 			{
-				var amount = reader.ReadInt32();
+				var encrypted = reader.ReadString();
 				var player = Main.player[playerNumber];
 				var splayer = player.GetServerPlayer();
+				string res;
+				if(!RSACrypto.DecryptWithTag(encrypted, "ddl", out res))
+				{
+					CommandBoardcast.ConsoleError($"玩家 {player.name} 发来的封包 数据异常，可能已被篡改");
+					return;
+				}
+				int amount = Convert.ToInt16(res);
+
 				if (splayer.Union == null)
 				{
 					splayer.SendMessageBox("你没有加入任何一个公会", 120, Color.Yellow);

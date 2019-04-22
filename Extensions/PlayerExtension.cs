@@ -11,10 +11,7 @@ namespace ServerSideCharacter2
 			{
 				return ServerSideCharacter2.PlayerCollection.Get(p.name);
 			}
-			else
-			{
-				throw new ArgumentException("Player name not found!");
-			}
+			return null;
 		}
 	}
 }

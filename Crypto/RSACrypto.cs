@@ -62,6 +62,47 @@ namespace ServerSideCharacter2.Crypto
 			}
 		}
 
+		public static string EncryptWithTag(string data, string tag)
+		{
+			if (!isSet) throw new SSCException("Public Key isn't available!");
+
+			try
+			{
+				return RsaEncrypt(data + tag, publicKey);
+			}
+			catch (Exception ex)
+			{
+				CommandBoardcast.ConsoleError(ex);
+				return null;
+			}
+		}
+
+		public static bool DecryptWithTag(string data, string tag, out string result)
+		{
+			if (!isSet) throw new SSCException("Public Key isn't available!");
+
+			try
+			{
+				string s = RsaDecrypt(data, privateKey);
+				if (!s.EndsWith(tag))
+				{
+					result = "";
+					return false;
+				}
+				else
+				{
+					result = s.Substring(0, s.Length - tag.Length);
+					return true;
+				}
+			}
+			catch (Exception ex)
+			{
+				CommandBoardcast.ConsoleError(ex);
+				result = "";
+				return false;
+			}
+		}
+
 		public static string RsaEncrypt(string rawInput, string publicKey)
 		{
 			using (var rsaProvider = new RSACryptoServiceProvider())

@@ -75,6 +75,7 @@ namespace ServerSideCharacter2
 					if (p.whoAmI == 255) continue;
 					if (!p.active) continue;
 					var player = p.GetServerPlayer();
+					if (player == null) continue;
 					if (player.IsLogin)
 						player.SyncPlayerToInfo();
 					UpdateRegion(p);
@@ -120,7 +121,6 @@ namespace ServerSideCharacter2
 					return;
 				}
 			}
-			CommandBoardcast.ConsoleMessage($"玩家 {splayer.Name} 不在任何区域");
 			if (splayer.CurrentRegion != null)
 			{
 				CheckRegion(splayer);

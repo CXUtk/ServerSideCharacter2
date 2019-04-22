@@ -505,12 +505,12 @@ namespace ServerSideCharacter2
 			{
 				//try
 				//{
-					ServerUtils.InfoToItem(_info.inventory, MainSaving.inventory);
-					ServerUtils.InfoToItem(_info.armor, MainSaving.armor);
-					ServerUtils.InfoToItem(_info.dye, MainSaving.dye);
-					ServerUtils.InfoToItem(_info.miscEquips, MainSaving.miscEquips);
-					ServerUtils.InfoToItem(_info.miscDye, MainSaving.miscDye);
-					ServerUtils.InfoToItem(_info.bank, MainSaving.bank.item);
+				ServerUtils.InfoToItem(_info.inventory, MainSaving.inventory);
+				ServerUtils.InfoToItem(_info.armor, MainSaving.armor);
+				ServerUtils.InfoToItem(_info.dye, MainSaving.dye);
+				ServerUtils.InfoToItem(_info.miscEquips, MainSaving.miscEquips);
+				ServerUtils.InfoToItem(_info.miscDye, MainSaving.miscDye);
+				ServerUtils.InfoToItem(_info.bank, MainSaving.bank.item);
 				//}
 				//catch(SSCException ex)
 				//{
@@ -520,6 +520,7 @@ namespace ServerSideCharacter2
 				MainSaving.StatLife = _info.StatLife;
 				MainSaving.ManaMax = _info.ManaMax;
 				MainSaving.StatMana = _info.StatMana;
+				MainSaving.hideVisual = _info.hideVisual;
 				//ServerUtils.InfoToItem(_info.bank2, bank2.item);
 				//ServerUtils.InfoToItem(_info.bank3, bank3.item);
 			}
@@ -541,6 +542,7 @@ namespace ServerSideCharacter2
 				currentSaving.miscEquips = PrototypePlayer.miscEquips;
 				currentSaving.miscDye = PrototypePlayer.miscDyes;
 				currentSaving.bank = PrototypePlayer.bank;
+				currentSaving.SaveHideVisual(PrototypePlayer);
 				//bank2 = PrototypePlayer.bank2;
 				//bank3 = PrototypePlayer.bank3;
 
@@ -550,6 +552,7 @@ namespace ServerSideCharacter2
 					_info.StatLife = MainSaving.StatLife;
 					_info.ManaMax = MainSaving.ManaMax;
 					_info.StatMana = MainSaving.StatMana;
+					_info.hideVisual = MainSaving.hideVisual;
 					//try
 					//{
 					ServerUtils.CopyToItemData(MainSaving.inventory, _info.inventory);
@@ -558,6 +561,7 @@ namespace ServerSideCharacter2
 					ServerUtils.CopyToItemData(MainSaving.miscEquips, _info.miscEquips);
 					ServerUtils.CopyToItemData(MainSaving.miscDye, _info.miscDye);
 					ServerUtils.CopyToItemData(MainSaving.bank.item, _info.bank);
+					
 					//}
 					//catch(SSCException ex)
 					//{
@@ -580,6 +584,7 @@ namespace ServerSideCharacter2
 						PrototypePlayer.statLife = currentSaving.StatLife;
 						PrototypePlayer.statMana = currentSaving.StatMana;
 					}
+					
 					PrototypePlayer.statLifeMax = currentSaving.LifeMax;
 					PrototypePlayer.statManaMax = currentSaving.ManaMax;
 					currentSaving.inventory.CopyTo(PrototypePlayer.inventory, 0);
@@ -588,6 +593,7 @@ namespace ServerSideCharacter2
 					currentSaving.dye.CopyTo(PrototypePlayer.dye, 0);
 					currentSaving.miscDye.CopyTo(PrototypePlayer.miscDyes, 0);
 					currentSaving.bank.item.CopyTo(PrototypePlayer.bank.item, 0);
+					currentSaving.SetHideVisual(PrototypePlayer);
 					foreach (var item in PrototypePlayer.bank2.item)
 					{
 						item.SetDefaults(0);
