@@ -10,6 +10,7 @@ using Terraria.Localization;
 
 namespace ServerSideCharacter2.Services.Login
 {
+	public delegate void AuthorizationHandler(ServerPlayer player);
 	public class Authorization : ISSCNetHandler
 	{
 
@@ -21,6 +22,7 @@ namespace ServerSideCharacter2.Services.Login
 		}
 
 		public static event EventHandler OnPlayerRegistered;
+		public static event AuthorizationHandler OnPlayerLogin;
 
 		private static string bannedchars = "$%^&*!@#:?|<>";
 
@@ -118,8 +120,12 @@ namespace ServerSideCharacter2.Services.Login
                         {
                             SuccessLogin(serverPlayer);
                             MessageSender.SendLoginSuccess(serverPlayer.PrototypePlayer.whoAmI, "认证成功");
-                            // 告诉客户端解除封印
-                            MessageSender.SendLoginIn(serverPlayer.PrototypePlayer.whoAmI);
+							if (!ServerSideCharacter2.DEBUGMODE)
+							{
+								OnPlayerLogin?.Invoke(serverPlayer);
+							}
+							// 告诉客户端解除封印
+							MessageSender.SendLoginIn(serverPlayer.PrototypePlayer.whoAmI);
 							NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(serverPlayer.Name + " 登入了游戏"), new Color(255, 255, 240, 20), -1);
 							CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 认证成功.");
                         }
@@ -188,7 +194,10 @@ namespace ServerSideCharacter2.Services.Login
                             // 告诉客户端解除封印
                             // MessageSender.SendLoginIn(serverPlayer.PrototypePlayer.whoAmI);
                             CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册成功.");
-							OnPlayerRegistered.Invoke(serverPlayer, new EventArgs());
+							if (!ServerSideCharacter2.DEBUGMODE)
+							{
+								OnPlayerRegistered.Invoke(serverPlayer, new EventArgs());
+							}
 						}
                     }
                     else
