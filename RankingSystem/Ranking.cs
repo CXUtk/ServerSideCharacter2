@@ -44,7 +44,7 @@ namespace ServerSideCharacter2.RankingSystem
 		public static void CheckRankBoard()
 		{
 			var config = ServerSideCharacter2.RankData;
-			if (config.LastRankBoardTime.Day != DateTime.Now.Day)
+			if (config.LastRankBoardTime.Day != DateTime.Now.Day || config.LastBoard.Count == 0)
 			{
 				config.LastBoard = SelectTops();
 				config.LastRankBoardTime = DateTime.Now;

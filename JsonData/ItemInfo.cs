@@ -1,5 +1,4 @@
 ﻿using ServerSideCharacter2.Items;
-using ServerSideCharacter2.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +14,7 @@ namespace ServerSideCharacter2.JsonData
 	{
 		public bool IsMod { get; set; }
 		public int ID { get; set; }
-		public Dictionary<string, object> modData { get; set; }
+		public string FullName { get; set; }
 		public int Stack { get; set; }
 		public byte Prefix { get; set; }
 		public bool Favorite { get; set; }
@@ -25,35 +24,20 @@ namespace ServerSideCharacter2.JsonData
 			IsMod = false;
 			ID = 0;
 			Stack = 0;
-			modData = new Dictionary<string, object>();
-		}
-
-		private void ToDict(TagCompound tag)
-		{
-			modData.Clear();
-			foreach (var pair in tag)
-			{
-				if(pair.Key == "stack")
-				{
-					continue;
-				}
-				modData.Add(pair.Key, pair.Value);
-			}
 		}
 
 		public void FromItem(Item item)
 		{
-			
 			if(item.type > Main.maxItemTypes || item.modItem != null)
 			{
 				this.IsMod = true;
+				this.FullName = item.modItem.GetType().FullName;
 				this.ID = 0;
-				ToDict(ItemIO.Save(item));
 			}
 			else
 			{
 				this.IsMod = false;
-				this.modData = new Dictionary<string, object>();
+				this.FullName = null;
 				this.ID = item.type;
 			}
 			this.Prefix = item.prefix;
@@ -76,20 +60,35 @@ namespace ServerSideCharacter2.JsonData
 
 		public Item ToItem()
 		{
-			Item item = new Item();
+			var item = new Item();
 			if (IsMod)
 			{
-				TagCompound tag = new TagCompound();
-				foreach (var pair in modData)
+				var modName = FullName.Substring(0, FullName.IndexOf('.'));
+				var itemName = FullName.Substring(FullName.LastIndexOf('.') + 1);
+				if (ModLoader.GetLoadedMods().Contains(modName))
 				{
-					tag.Add(pair.Key, pair.Value);
+					var type = ModLoader.LoadedMods.First(m => m.Name == modName).ItemType(itemName);
+					item.netDefaults(type);
 				}
-				item = ItemIO.Load(tag);
+				else
+				{
+					var tag = new TagCompound()
+					{
+						{"mod", modName},
+						{"name", itemName }
+					};
+					item.netDefaults(ModLoader.GetMod("ModLoader").ItemType("MysteryItem"));
+					var msitem = (MysteryItem)item.modItem;
+					var setup = typeof(MysteryItem).GetMethod("Setup", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+					setup.Invoke(msitem, new TagCompound[] { tag });
+					// MOD物品数据会丢失
+				}
 			}
 			else
 			{
 				item.netDefaults(ID);
 			}
+
 			item.Prefix(Prefix);
 			item.stack = Stack;
 			item.favorited = Favorite;
