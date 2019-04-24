@@ -30,7 +30,7 @@ namespace ServerSideCharacter2.Services.Union
 				}
 				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
 				p.Write((int)SSCMessageType.UnionInfoComplex);
-				p.Write(JsonConvert.SerializeObject(splayer.Union.GetComplex(playerNumber), Formatting.None));
+				p.Write(JsonConvert.SerializeObject(splayer.Union.GetVerbose(playerNumber), Formatting.None));
 				p.Send(playerNumber);
 				CommandBoardcast.ConsoleMessage($"{splayer.Union.Name} 公会信息已经发送给{Main.player[playerNumber].name}");
 			}

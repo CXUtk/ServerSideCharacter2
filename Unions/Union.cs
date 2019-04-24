@@ -12,7 +12,6 @@ namespace ServerSideCharacter2.Unions
 {
 	public class Union : IName
 	{
-
 		private const int EXP_BASE = 200;
 		private const int MAX_CANDIDATES = 10;
 		private const int MAX_LEVEL = 15;
@@ -73,7 +72,7 @@ namespace ServerSideCharacter2.Unions
 			return info;
 		}
 
-		public ComplexUnionInfo GetComplex(int plr)
+		public ComplexUnionInfo GetVerbose(int plr)
 		{
 			CheckCandidates();
 			var info = new ComplexUnionInfo
@@ -264,7 +263,7 @@ namespace ServerSideCharacter2.Unions
 				if (player.PrototypePlayer != null && player.RealPlayer && player.ConnectionAlive) {
 					ModPacket p = ServerSideCharacter2.Instance.GetPacket();
 					p.Write((int)SSCMessageType.UnionInfoComplex);
-					var tmp = JsonConvert.SerializeObject(this.GetComplex(player.PrototypePlayer.whoAmI), Formatting.None);
+					var tmp = JsonConvert.SerializeObject(this.GetVerbose(player.PrototypePlayer.whoAmI), Formatting.None);
 					p.Write(tmp);
 					p.Send(player.PrototypePlayer.whoAmI);
 				}

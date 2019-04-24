@@ -433,7 +433,6 @@ namespace ServerSideCharacter2
 				Name = p.name,
 				ID = ServerSideCharacter2.PlayerCollection.GetNextID(),
 				HasPassword = false,
-				IsMuted = false,
 				Group = "default",
 				Password = "",
 				LifeMax = 100,

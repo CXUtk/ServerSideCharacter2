@@ -40,7 +40,6 @@ namespace ServerSideCharacter2.Commands
 					Name = p.Name,
 					ID = p.GUID,
 					HasPassword = p.HasPassword,
-					IsMuted = false,
 					Group = p.Group.Name,
 					Password = p.Password,
 					LifeMax = 100,

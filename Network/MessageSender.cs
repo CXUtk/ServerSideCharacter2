@@ -302,7 +302,7 @@ namespace ServerSideCharacter2
 			{
 				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
 				p.Write((int)SSCMessageType.UnionInfoComplex);
-				var tmp = JsonConvert.SerializeObject(union.GetComplex(to), Formatting.None);
+				var tmp = JsonConvert.SerializeObject(union.GetVerbose(to), Formatting.None);
 				p.Write(tmp);
 				p.Send(to);
 			}

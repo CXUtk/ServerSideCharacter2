@@ -18,8 +18,6 @@ namespace ServerSideCharacter2.JsonData
 
 		public bool HasPassword;
 
-		public bool IsMuted;
-
 		public int LifeMax;
 
 		public int StatLife;
