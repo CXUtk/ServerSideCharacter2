@@ -196,7 +196,7 @@ namespace ServerSideCharacter2.Services.Login
                             CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册成功.");
 							if (!ServerSideCharacter2.DEBUGMODE)
 							{
-								OnPlayerRegistered.Invoke(serverPlayer, new EventArgs());
+								OnPlayerRegistered?.Invoke(serverPlayer, new EventArgs());
 							}
 						}
                     }
