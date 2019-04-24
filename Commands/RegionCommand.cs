@@ -67,6 +67,15 @@ namespace ServerSideCharacter2.Commands
 				}
 				MessageSender.SendRegionOwner(args[1], Convert.ToInt32(args[2]));
 			}
+			else if (args[0] == "union")
+			{
+				if (args.Length < 3)
+				{
+					Main.NewText("用法：/region union 领地名字 <公会名字>", Color.Red);
+					return;
+				}
+				MessageSender.SendRegionUnion(args[1], args[2]);
+			}
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MySql.Data.MySqlClient;
 using ServerSideCharacter2.Core;
 using ServerSideCharacter2.Utils;
 using System;
@@ -47,6 +48,17 @@ namespace ServerSideCharacter2.Services.Login
 					return 2;
 			}
 			return 0;
+		}
+
+		private void RecordVisit(int id, ServerPlayer player)
+		{
+			var ipaddr = Netplay.Clients[id].Socket.GetRemoteAddress().GetIdentifier();
+			QQAuth.MySqlManager sqlmanager = new QQAuth.MySqlManager();
+			sqlmanager.Connect();
+			MySqlCommand cmd = sqlmanager.command;
+			cmd.CommandText = $"update users set lastIP = '{ipaddr}' where QQ = '{player.qqAuth.QQ}'";
+			cmd.ExecuteNonQuery();
+			cmd.Cancel();
 		}
 
 		public void Handle(BinaryReader reader, int playerNumber)
@@ -124,6 +136,7 @@ namespace ServerSideCharacter2.Services.Login
 							{
 								OnPlayerLogin?.Invoke(serverPlayer);
 							}
+							RecordVisit(playerNumber, serverPlayer);
 							// 告诉客户端解除封印
 							MessageSender.SendLoginIn(serverPlayer.PrototypePlayer.whoAmI);
 							NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(serverPlayer.Name + " 登入了游戏"), new Color(255, 255, 240, 20), -1);

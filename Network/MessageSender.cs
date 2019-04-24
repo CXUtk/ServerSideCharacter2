@@ -444,6 +444,15 @@ namespace ServerSideCharacter2
 			p.Send();
 		}
 
+		public static void SendRegionUnion(string name, string union)
+		{
+			var p = ServerSideCharacter2.Instance.GetPacket();
+			p.Write((int)SSCMessageType.RegionUnionCommand);
+			p.Write(name);
+			p.Write(union);
+			p.Send();
+		}
+
 		public static void SendRegionShare(int plr, string name, int target)
 		{
 			var p = ServerSideCharacter2.Instance.GetPacket();

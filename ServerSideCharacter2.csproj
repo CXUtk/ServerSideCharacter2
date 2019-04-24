@@ -303,6 +303,7 @@
     <Compile Include="Services\Misc\NormalMessage.cs" />
     <Compile Include="Services\Rank\GetRankBoardHandler.cs" />
     <Compile Include="Services\Rank\RankBoardService.cs" />
+    <Compile Include="Services\Regions\RegionUnionHandler.cs" />
     <Compile Include="Services\Regions\RegionOwnerHandler.cs" />
     <Compile Include="Services\Regions\RegionForbidHandler.cs" />
     <Compile Include="Services\Regions\RegionRemoveHandler.cs" />

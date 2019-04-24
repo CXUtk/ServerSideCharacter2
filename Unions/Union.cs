@@ -240,6 +240,8 @@ namespace ServerSideCharacter2.Unions
 			{
 				player.Union = this;
 				Members.Add(player.Name);
+				if (!DonationTable.ContainsKey(player.Name))
+					DonationTable.Add(player.Name, 0);
 				SyncToAllMembers();
 				player.SyncUnionInfo();
 			}

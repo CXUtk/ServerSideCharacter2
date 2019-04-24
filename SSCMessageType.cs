@@ -64,6 +64,7 @@
 		PigPlayer,
 		RegionForbidCommand,
 		RegionOwnerCommand,
+		RegionUnionCommand,
 		NewMatchCommand,
 		JoinMatchCommand,
 		GetMatches,

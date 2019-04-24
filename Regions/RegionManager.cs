@@ -5,6 +5,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using ServerSideCharacter2.Utils;
 using Terraria.ModLoader;
+using Terraria;
 
 namespace ServerSideCharacter2.Regions
 {
@@ -110,18 +111,21 @@ namespace ServerSideCharacter2.Regions
 
 		//}
 
-		//public bool CheckRegion(int X, int Y, ServerPlayer player)
-		//{
-		//	Vector2 tilePos = new Vector2(X, Y);
-		//	foreach (var regions in _regions.ServerRegions)
-		//	{
-		//		if (regions.Area.Contains(X, Y) && !regions.Owner.Equals(player) && !regions.SharedOwner.Contains(player.UUID))
-		//		{
-		//			return true;
-		//		}
-		//	}
-		//	return false;
-		//}
+		public bool CheckRegion(int X, int Y, ServerPlayer player)
+		{
+			Vector2 tilePos = new Vector2(X, Y);
+			if (X < 0 || X >= Main.maxTilesX || Y < 0 || Y >= Main.maxTilesY) return true;
+			if (player.Group.Name == "criminal") return true;
+			foreach (var pair in Regions)
+			{
+				var region = pair.Value;
+				if (region.Area.Contains(X, Y) && (region.Owner.Equals(player) || (player.Union != null && player.Union.RegionName != region.Name)))
+				{
+					return false;
+				}
+			}
+			return true;
+		}
 
 		public bool CheckRegionSize(ServerPlayer player, Rectangle area)
 		{
