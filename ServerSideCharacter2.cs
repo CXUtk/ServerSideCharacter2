@@ -47,7 +47,7 @@ namespace ServerSideCharacter2
 
 		public static PlayerCollection PlayerCollection;
 
-		internal static string APIVersion = "V0.17 测试";
+		internal static string APIVersion = "V0.18 测试";
 
 		internal static ErrorLogger ErrorLogger;
 

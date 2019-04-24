@@ -116,6 +116,31 @@ namespace ServerSideCharacter2.GUI.UI
 
 
 
+		private Item GetItem(Player player, int index)
+		{
+			if (index < player.inventory.Length)
+			{
+				return player.inventory[index].Clone();
+			}
+			else if(index < player.inventory.Length + player.armor.Length)
+			{
+				return player.armor[index - player.inventory.Length].Clone();
+			}
+			else
+			{
+				return new Item();
+			}
+		}
+
+		private Texture2D useTexture(Player player, int index)
+		{
+			if (index < player.inventory.Length) return null;
+			else if (index < player.inventory.Length + player.armor.Length)
+			{
+				return Main.inventoryBack12Texture;
+			}
+			else return null;
+		}
 
 		public override void Update(GameTime gameTime)
 		{
@@ -124,12 +149,12 @@ namespace ServerSideCharacter2.GUI.UI
 			_playerName.SetText($"{target.name} 的背包");
 			if (slots.Count == 0)
 			{
-				for (int i = 0; i < target.inventory.Length; i++)
+				for (int i = 0; i < target.inventory.Length + target.armor.Length; i++)
 				{
-					var uislot = new UISlot();
+					var uislot = new UISlot(useTexture(target, i));
 					uislot.Width.Set(60, 0f);
 					uislot.Height.Set(60, 0f);
-					uislot.ContainedItem = target.inventory[i].Clone();
+					uislot.ContainedItem = GetItem(target, i);
 					uislot.Index = i;
 					uislot.PostExchangeItem += Uislot_PostExchangeItem;
 					slots.Add(uislot);
@@ -140,7 +165,7 @@ namespace ServerSideCharacter2.GUI.UI
 			{
 				for(int i = 0; i < slots.Count; i++)
 				{
-					slots[i].ContainedItem = target.inventory[i].Clone();
+					slots[i].ContainedItem = GetItem(target, i);
 				}
 			}
 		}

@@ -20,12 +20,16 @@ namespace ServerSideCharacter2.Unions
 
 		[JsonIgnore]
 		public long EXPForNextLevel => EXP_BASE * (long)Math.Exp(Level);
+
+
 		public long CurrentEXP { get; set; }
 		public long Wealth { get; set; }
 		public string Name { get; set; }
 		public HashSet<string> Members { get; set; }
 		public string Owner { get; set; }
 		public HashSet<string> Candidates { get; set; }
+		public string RegionName { get; set; }
+		public Dictionary<string, long> DonationTable { get; set; }
 
 
 		public static int GetMaxMembers(int level)
@@ -52,6 +56,8 @@ namespace ServerSideCharacter2.Unions
 			Wealth = 0;
 			Members = new HashSet<string>();
 			Candidates = new HashSet<string>();
+			RegionName = "";
+			DonationTable = new Dictionary<string, long>();
 		} 
 
 		public SimplifiedUnionInfo GetSimplified()
@@ -215,6 +221,7 @@ namespace ServerSideCharacter2.Unions
 			{
 				IncreaseEXP(amount);
 				IncreaseWealth(amount);
+				DonationTable[splayer.Name] += amount;
 				foreach (var member in Members)
 				{
 					var player = ServerSideCharacter2.PlayerCollection.Get(member);

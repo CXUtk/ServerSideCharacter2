@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using ServerSideCharacter2.Utils;
 using System;
 using ServerSideCharacter2.RankingSystem;
+using ServerSideCharacter2.Items;
 
 namespace ServerSideCharacter2
 {
@@ -117,6 +118,20 @@ namespace ServerSideCharacter2
 				}
 			}
 
+		}
+
+		public override void ModifyZoom(ref float zoom)
+		{
+			if(Main.LocalPlayer.inventory[Main.LocalPlayer.selectedItem].type == mod.ItemType<FailedItem>())
+			{
+				zoom = 1000f;
+			}
+			base.ModifyZoom(ref zoom);
+		}
+
+		public override void ModifyScreenPosition()
+		{
+			base.ModifyScreenPosition();
 		}
 
 		public override void OnEnterWorld(Player player)
