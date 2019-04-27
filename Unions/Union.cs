@@ -33,17 +33,17 @@ namespace ServerSideCharacter2.Unions
 
 		public static int GetMaxMembers(int level)
 		{
-			if(level == 8)
+			if(level >= 8)
 			{
-				return 40;
+				return 15;
 			}
 			else if(level >= 4)
 			{
-				return 25;
+				return 10;
 			}
 			else
 			{
-				return 15;
+				return 8;
 			}
 		}
 
@@ -220,7 +220,14 @@ namespace ServerSideCharacter2.Unions
 			{
 				IncreaseEXP(amount);
 				IncreaseWealth(amount);
-				DonationTable[splayer.Name] += amount;
+				if (!DonationTable.ContainsKey(splayer.Name))
+				{
+					DonationTable.Add(splayer.Name, amount);
+				}
+				else
+				{
+					DonationTable[splayer.Name] += amount;
+				}
 				foreach (var member in Members)
 				{
 					var player = ServerSideCharacter2.PlayerCollection.Get(member);

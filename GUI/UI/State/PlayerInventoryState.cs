@@ -20,9 +20,6 @@ namespace ServerSideCharacter2.GUI.UI
 	public class PlayerInventoryState : AdvWindowUIState
 	{
 
-		private int _relaxTimer;
-		private float _rotation;
-
 		public static PlayerInventoryState Instance;
 
 
@@ -126,6 +123,10 @@ namespace ServerSideCharacter2.GUI.UI
 			{
 				return player.armor[index - player.inventory.Length].Clone();
 			}
+			else if (index < player.inventory.Length + player.armor.Length + player.bank.item.Length)
+			{
+				return player.bank.item[index - player.inventory.Length - player.armor.Length].Clone();
+			}
 			else
 			{
 				return new Item();
@@ -139,6 +140,10 @@ namespace ServerSideCharacter2.GUI.UI
 			{
 				return Main.inventoryBack12Texture;
 			}
+			else if (index < player.inventory.Length + player.armor.Length + player.bank.item.Length)
+			{
+				return Main.inventoryBack15Texture;
+			}
 			else return null;
 		}
 
@@ -149,7 +154,7 @@ namespace ServerSideCharacter2.GUI.UI
 			_playerName.SetText($"{target.name} 的背包");
 			if (slots.Count == 0)
 			{
-				for (int i = 0; i < target.inventory.Length + target.armor.Length; i++)
+				for (int i = 0; i < target.inventory.Length + target.armor.Length + target.bank.item.Length; i++)
 				{
 					var uislot = new UISlot(useTexture(target, i));
 					uislot.Width.Set(60, 0f);

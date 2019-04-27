@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using Terraria;
 
 namespace ServerSideCharacter2.Matches
 {
@@ -31,6 +32,23 @@ namespace ServerSideCharacter2.Matches
 			IsMatched = false;
 			GameStarted = false;
 			innerCounter = MaxMatchingTime;
+		}
+
+		public bool Contains(Player player)
+		{
+			foreach(var pla in MatchedPlayers)
+			{
+				if(pla.Name == player.name)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
+		public virtual bool IsPlaying(Player player)
+		{
+			return Contains(player);
 		}
 
 		public void Activate()

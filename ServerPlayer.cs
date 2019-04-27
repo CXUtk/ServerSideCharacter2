@@ -800,6 +800,10 @@ namespace ServerSideCharacter2
 			{
 				currentSaving.armor[i - currentSaving.inventory.Length] = item;
 			}
+			else if (i < currentSaving.inventory.Length + currentSaving.armor.Length + currentSaving.bank.item.Length)
+			{
+				currentSaving.bank.item[i - currentSaving.inventory.Length - currentSaving.armor.Length] = item;
+			}
 		}
 
 		public void Ban(string reason)

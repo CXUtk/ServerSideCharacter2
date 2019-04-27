@@ -48,10 +48,7 @@ namespace ServerSideCharacter2.Utils
 			var size = src.Length;
 			for(var i = 0; i < size; i++)
 			{
-				if(dest[i] == null)
-				{
-					dest[i] = new ItemInfo();
-				}
+				dest[i] = new ItemInfo();
 				dest[i].FromItem(src[i]);
 			}
 		}

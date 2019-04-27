@@ -10,21 +10,14 @@ using Terraria.ModLoader.IO;
 
 namespace ServerSideCharacter2.JsonData
 {
-	public class ItemInfo
+	public struct ItemInfo
 	{
-		public bool IsMod { get; set; }
-		public int ID { get; set; }
-		public string FullName { get; set; }
-		public int Stack { get; set; }
-		public byte Prefix { get; set; }
-		public bool Favorite { get; set; }
-
-		public ItemInfo()
-		{
-			IsMod = false;
-			ID = 0;
-			Stack = 0;
-		}
+		public bool IsMod;
+		public int ID;
+		public string FullName;
+		public int Stack;
+		public byte Prefix;
+		public bool Favorite;
 
 		public void FromItem(Item item)
 		{

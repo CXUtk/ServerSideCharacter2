@@ -69,7 +69,7 @@ namespace ServerSideCharacter2.GUI.UI
 					(int)DrawRectangle.Width, (int)DrawRectangle.Height,
 					Drawing.DefaultBoxColor, slotbackTex, new Vector2(8, 8));
 
-				var frame = Main.itemAnimations[ItemType] != null ? Main.itemAnimations[ItemType].GetFrame(Main.itemTexture[ItemType]) : Main.itemTexture[ItemType].Frame(1, 1, 0, 0);
+				var frame = Main.itemAnimations[ItemType] != null ? Main.itemAnimations[ItemType].GetFrame(Main.itemTexture[ItemType]) : Main.itemTexture[ItemType].Frame();
 				var size = frame.Size();
 				var texScale = 1f;
 				if (size.X > DrawRectangle.Width || size.Y > DrawRectangle.Height)
