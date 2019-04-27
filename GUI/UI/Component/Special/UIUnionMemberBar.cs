@@ -21,19 +21,25 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 	{
 		private bool _isOwner;
 
-		public UIUnionMemberBar(SimplifiedPlayerInfo info, bool owner) : base(info)
+		public UIUnionMemberBar(SimplifiedPlayerInfo info, bool owner, long donation) : base(info)
 		{
 			if (owner)
 			{
 				_defaultColor = Color.LimeGreen;
 				this.Color = _defaultColor * 0.7f;
 			}
+			expandedHeight = 135;
 			_isOwner = owner;
 
 			var classText = new UIText(owner ? "会长" : "成员");
 			classText.Top.Set(10, 0f);
 			classText.Left.Set(165, 0);
 			Append(classText);
+
+			var donationText = new UIText($"贡献：{donation}");
+			donationText.Top.Set(50, 0f);
+			donationText.Left.Set(5f, 0);
+			Append(donationText);
 		}
 
 		protected override void AddExtraButtons(List<UICDButton> buttons)
@@ -78,7 +84,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 				kickButton.OnClick += KickButton_OnClick1;
 				buttons.Add(kickButton);
 			}
-
+			buttonTopOffset = 75f;
 		}
 
 		private void KickButton_OnClick1(UIMouseEvent evt, UIElement listeningElement)

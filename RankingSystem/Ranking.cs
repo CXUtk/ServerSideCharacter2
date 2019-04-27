@@ -11,10 +11,10 @@ namespace ServerSideCharacter2.RankingSystem
 {
 	public class Ranking
 	{
-		public const int S_CHALLENGER = 2600;
-		public const int S_MASTER = 2400;
-		public const int S_DIAMOND = 2100;
-		public const int S_PLATINUM = 1900;
+		public const int S_CHALLENGER = 2400;
+		public const int S_MASTER = 2200;
+		public const int S_DIAMOND = 2000;
+		public const int S_PLATINUM = 1850;
 		public const int S_GOLD = 1700;
 		public const int S_SILVER = 1300;
 		public const int RANK_BOARD_PLAYER_MAX = 50;
@@ -66,34 +66,15 @@ namespace ServerSideCharacter2.RankingSystem
 			}
 		}
 
-		private static int getR(int rank)
-		{
-			if(rank > 2600)
-			{
-				return 16 + Main.rand.Next(10) - 5;
-			}
-			else if(rank > 2200)
-			{
-				return 24 + Main.rand.Next(10) - 5;
-			}
-			else if (rank > 1900)
-			{
-				return 28 + Main.rand.Next(10) - 5;
-			}
-			else
-			{
-				return 32 + Main.rand.Next(10) - 5;
-			}
-		}
 
-		public static Tuple<int, int> ComputeRank(ServerPlayer win, ServerPlayer lose)
-		{
-			var rA = win.EloRank;
-			var rB = lose.EloRank;
-			var eA = 1.0 / (1.0 + Math.Pow(10, (rB - rA) / 400.0));
-			var eB = 1.0 / (1.0 + Math.Pow(10, (rA - rB) / 400.0));
-			return new Tuple<int, int>((int)(getR(rA) * (1.0 - eA)), (int)(getR(rB) * (0.0 - eB)));
-		}
+		//public static Tuple<int, int> ComputeRank(ServerPlayer win, ServerPlayer lose)
+		//{
+		//	var rA = win.EloRank;
+		//	var rB = lose.EloRank;
+		//	var eA = 1.0 / (1.0 + Math.Pow(10, (rB - rA) / 400.0));
+		//	var eB = 1.0 / (1.0 + Math.Pow(10, (rA - rB) / 400.0));
+		//	return new Tuple<int, int>((int)(getR(rA) * (1.0 - eA)), (int)(getR(rB) * (0.0 - eB)));
+		//}
 
 		public static RankType GetRankType(int score)
 		{
@@ -157,7 +138,7 @@ namespace ServerSideCharacter2.RankingSystem
 			switch (rankType)
 			{
 				case RankType.Bronze:
-					return new Tuple<int, int>(0, 1299);
+					return new Tuple<int, int>(0, S_SILVER - 1);
 				case RankType.Silver:
 					return new Tuple<int, int>(S_SILVER, S_GOLD - 1);
 				case RankType.Gold:

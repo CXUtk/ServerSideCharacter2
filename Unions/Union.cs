@@ -37,13 +37,13 @@ namespace ServerSideCharacter2.Unions
 			{
 				return 15;
 			}
-			else if(level >= 4)
+			else if(level >= 5)
 			{
 				return 10;
 			}
 			else
 			{
-				return 8;
+				return 7;
 			}
 		}
 
@@ -75,6 +75,7 @@ namespace ServerSideCharacter2.Unions
 		public ComplexUnionInfo GetVerbose(int plr)
 		{
 			CheckCandidates();
+			CheckDonationTable();
 			var info = new ComplexUnionInfo
 			{
 				Name = Name,
@@ -103,6 +104,11 @@ namespace ServerSideCharacter2.Unions
 				if (player == null) continue;
 				info.Requests.Add(player.GetSimplified(plr));
 			}
+			info.Donation = new Dictionary<string, long>();
+			foreach (var pair in DonationTable)
+			{
+				info.Donation.Add(pair.Key, pair.Value);
+			}
 			return info;
 		}
 
@@ -119,6 +125,21 @@ namespace ServerSideCharacter2.Unions
 				foreach (var del in list)
 				{
 					Candidates.Remove(del);
+				}
+			}
+		}
+
+		public void CheckDonationTable()
+		{
+			lock (this)
+			{
+				var list = new List<string>();
+				foreach (var member in Members)
+				{
+					if (!DonationTable.ContainsKey(member))
+					{
+						DonationTable.Add(member, 0);
+					}
 				}
 			}
 		}

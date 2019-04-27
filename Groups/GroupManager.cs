@@ -29,6 +29,7 @@ namespace ServerSideCharacter2.Groups
 				ChatColor = Color.Gray,
 				ChatPrefix = "罪犯"
 			};
+			crminalGroup.AddPermission("match-join");
 			var defaultGroup = new Group("default")
 			{
 				ChatPrefix = "公民"
