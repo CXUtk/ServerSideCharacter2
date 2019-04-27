@@ -21,7 +21,9 @@ namespace ServerSideCharacter2
 
 		public bool Piggify = false;
 
-		public bool ShowOverHead = false;
+		public bool ShowRank = false;
+
+		public bool ShowCrown = false;
 
 		public int Rank = 1500;
 
@@ -295,15 +297,32 @@ namespace ServerSideCharacter2
 			{
 				if (info.shadow != 0) return;
 				var modplayer = info.drawPlayer.GetModPlayer<MPlayer>();
-				if (Rank >= 0 && !player.dead && modplayer.ShowOverHead)
+				if (Rank >= 0 && !player.dead && (ShowRank || ShowCrown))
 				{
-					var type = Ranking.GetRankType(info.drawPlayer.GetModPlayer<MPlayer>().Rank);
-					var rankTex = ServerSideCharacter2.ModTexturesTable[type.ToString()];
-					var dd = new DrawData(rankTex,
-						new Vector2(info.position.X + info.drawPlayer.width / 2 - Main.screenPosition.X,
-						info.position.Y + info.drawPlayer.gfxOffY - 25 - Main.screenPosition.Y),
-						null, Color.White, 0f, rankTex.Size() * 0.5f, 0.8f + Main.essScale * 0.8f, SpriteEffects.None, 0);
-					Main.playerDrawData.Add(dd);
+					Texture2D tex;
+					if (ShowRank)
+					{
+						var type = Ranking.GetRankType(info.drawPlayer.GetModPlayer<MPlayer>().Rank);
+						tex = ServerSideCharacter2.ModTexturesTable[type.ToString()];
+						var dd = new DrawData(tex,
+							new Vector2(info.position.X + info.drawPlayer.width / 2 - Main.screenPosition.X,
+							info.position.Y + info.drawPlayer.gfxOffY - 25 - Main.screenPosition.Y),
+							null, Color.White, 0f, tex.Size() * 0.5f, 0.8f + Main.essScale * 0.8f, SpriteEffects.None, 0);
+						Main.playerDrawData.Add(dd);
+					}
+					else
+					{
+						Main.spriteBatch.End();
+						tex = ServerSideCharacter2.ModTexturesTable[RankType.Crown.ToString()];
+						Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
+						Main.spriteBatch.Draw(tex,
+							new Vector2(info.position.X + info.drawPlayer.width / 2 - Main.screenPosition.X,
+							info.position.Y + info.drawPlayer.gfxOffY - 25 - Main.screenPosition.Y),
+							null, Color.White, 0f, tex.Size() * 0.5f, 1.2f + Main.essScale * 0.3f, SpriteEffects.None, 0);
+						Main.spriteBatch.End();
+						Main.spriteBatch.Begin();
+					}
+
 				}
 			}));
 			layers.Add(new PlayerLayer(mod.Name, "SSC: Pig", (info) =>

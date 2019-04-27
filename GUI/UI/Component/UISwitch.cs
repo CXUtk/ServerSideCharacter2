@@ -12,7 +12,7 @@ using Terraria.UI;
 namespace ServerSideCharacter2.GUI.UI.Component
 {
 	public delegate void SwitchEvent(UIElement element, bool state);
-	public class UISwitch : UIElement
+	public class UISwitch : UIAdvElement
 	{
 		public bool Value { get; set; }
 
@@ -33,7 +33,8 @@ namespace ServerSideCharacter2.GUI.UI.Component
 
 		public override void Click(UIMouseEvent evt)
 		{
-			Switch();
+			if (Enabled)
+				Switch();
 		}
 
 		public void Switch()

@@ -11,7 +11,7 @@ using Terraria.ModLoader.IO;
 
 namespace ServerSideCharacter2.JsonData
 {
-	public class ItemInfo
+	public struct ItemInfo
 	{
 		public bool IsMod { get; set; }
 		public int ID { get; set; }

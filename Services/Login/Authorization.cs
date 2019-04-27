@@ -170,7 +170,11 @@ namespace ServerSideCharacter2.Services.Login
                             case QQAuth.States.RegisterState.RegisterSuccess:
                                 CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册请求合法（常规注册）.");
                                 isRegisterLegal = true;
-                                break;
+								if (!ServerSideCharacter2.DEBUGMODE)
+								{
+									OnPlayerRegistered?.Invoke(serverPlayer, new EventArgs());
+								}
+								break;
                             case QQAuth.States.RegisterState.RegisterRep:
                                 CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册请求合法（角色可能丢失）.");
                                 isRegisterLegal = true;
@@ -207,10 +211,6 @@ namespace ServerSideCharacter2.Services.Login
                             // 告诉客户端解除封印
                             // MessageSender.SendLoginIn(serverPlayer.PrototypePlayer.whoAmI);
                             CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册成功.");
-							if (!ServerSideCharacter2.DEBUGMODE)
-							{
-								OnPlayerRegistered?.Invoke(serverPlayer, new EventArgs());
-							}
 						}
                     }
                     else

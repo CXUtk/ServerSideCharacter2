@@ -693,7 +693,8 @@ namespace ServerSideCharacter2
 			BitsByte bits = new BitsByte();
 			bits[0] = mPlayer.GodMode;
 			bits[1] = mPlayer.Piggify;
-			bits[2] = mPlayer.ShowOverHead;
+			bits[2] = mPlayer.ShowRank;
+			bits[3] = mPlayer.ShowCrown;
 			pack.Write(bits);
 			pack.Write(mPlayer.Rank);
 			pack.Send(to, from);

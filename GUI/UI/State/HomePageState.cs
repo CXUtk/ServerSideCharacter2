@@ -28,7 +28,7 @@ namespace ServerSideCharacter2.GUI.UI
 		private UIPlayerProfileHead uIPlayerProfileHead;
 		private UIAdvPanel settingPanel;
 		private UISwitch aboveHeadSwitch;
-
+		private UISwitch crownSwitch;
 
 		private const float WINDOW_WIDTH = 720;
 		private const float WINDOW_HEIGHT = 480;
@@ -135,11 +135,46 @@ namespace ServerSideCharacter2.GUI.UI
 			aboveHeadSwitch.Height.Set(30f, 0f);
 			aboveHeadSwitch.OnSwitch += AboveHeadSwitch_OnSwitch;
 			panel.Append(aboveHeadSwitch);
+
+
+			UIText crownText = new UIText("显示赞助商标记");
+			crownText.Top.Set(50, 0f);
+			crownText.Left.Set(10, 0f);
+			panel.Append(crownText);
+
+			crownSwitch = new UISwitch();
+			crownSwitch.Top.Set(40, 0f);
+			crownSwitch.Left.Set(-80, 1f);
+			crownSwitch.Width.Set(60f, 0f);
+			crownSwitch.Height.Set(30f, 0f);
+			crownSwitch.OnSwitch += CrownSwitch_OnSwitch;
+			panel.Append(crownSwitch);
+		}
+
+		private void CrownSwitch_OnSwitch(UIElement element, bool state)
+		{
+			Main.LocalPlayer.GetModPlayer<MPlayer>().ShowRank = false;
+			Main.LocalPlayer.GetModPlayer<MPlayer>().ShowCrown = state;
+			if (aboveHeadSwitch.Value)
+			{
+				aboveHeadSwitch.Switch();
+			}
+			
+
+			if (Main.netMode == 1)
+				MessageSender.SyncModPlayerInfo(-1, -1, Main.LocalPlayer.GetModPlayer<MPlayer>());
 		}
 
 		private void AboveHeadSwitch_OnSwitch(UIElement element, bool state)
 		{
-			Main.LocalPlayer.GetModPlayer<MPlayer>().ShowOverHead = state;
+			Main.LocalPlayer.GetModPlayer<MPlayer>().ShowCrown = false;
+			Main.LocalPlayer.GetModPlayer<MPlayer>().ShowRank = state;
+			if (crownSwitch.Value)
+			{
+				crownSwitch.Switch();
+			}
+
+
 			if (Main.netMode == 1)
 				MessageSender.SyncModPlayerInfo(-1, -1, Main.LocalPlayer.GetModPlayer<MPlayer>());
 		}
@@ -163,6 +198,16 @@ namespace ServerSideCharacter2.GUI.UI
 		public void SetProfile(JsonData.SimplifiedPlayerInfo info)
 		{
 			uIPlayerProfileHead.SetPlayer(info);
+			if (info.VIPLevel == 0)
+			{
+				if (crownSwitch.Value)
+					crownSwitch.Switch();
+				crownSwitch.Enabled = false;
+			}
+			else
+			{
+				crownSwitch.Enabled = true;
+			}
 		}
 
 

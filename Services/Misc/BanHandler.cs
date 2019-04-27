@@ -28,6 +28,7 @@ namespace ServerSideCharacter2.Services.Misc
 				var player = ServerSideCharacter2.PlayerCollection.Get(target);
 				player.Ban(reason);
 				string str = $"玩家 {player.Name} 被管理员 {Main.player[playerNumber].name} 安排了， 原因是：{reason}";
+				Netplay.AddBan(player.PrototypePlayer.whoAmI);
 				ServerPlayer.SendInfoMessageToAll(str);
 				CommandBoardcast.ConsoleMessage(str);
 			}

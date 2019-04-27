@@ -21,7 +21,8 @@ namespace ServerSideCharacter2.Services.Misc
 			var mPlayer = Main.player[plr].GetModPlayer<MPlayer>();
 			mPlayer.GodMode = bb[0];
 			mPlayer.Piggify = bb[1];
-			mPlayer.ShowOverHead = bb[2];
+			mPlayer.ShowRank = bb[2];
+			mPlayer.ShowCrown = bb[3];
 			mPlayer.Rank = reader.ReadInt32();
 			if (Main.netMode == 2)
 			{

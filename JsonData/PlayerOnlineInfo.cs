@@ -41,6 +41,8 @@ namespace ServerSideCharacter2.JsonData
 
 		public string CurrentMatch;
 
+		public int VIPLevel;
+
 		public static int CompareB(SimplifiedPlayerInfo a, SimplifiedPlayerInfo b)
 		{
 			return a.Rank.CompareTo(b.Rank);

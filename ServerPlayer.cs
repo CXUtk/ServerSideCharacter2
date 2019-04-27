@@ -207,6 +207,11 @@ namespace ServerSideCharacter2
 			set;
 		}
 
+		public int VIPLevel
+		{
+			get; set;
+		}
+
 
 		public bool IsLogin { get; set; }
 
@@ -703,6 +708,7 @@ namespace ServerSideCharacter2
                 RegistedTime = this.RegistedTime,
                 QQNumber = this.qqAuth.QQ,
 				CurrentMatch = this.CurrentMatch == null ? "" : this.CurrentMatch.Name,
+				VIPLevel = this.VIPLevel
 			};
 		}
 
@@ -786,7 +792,18 @@ namespace ServerSideCharacter2
 
 		public void SetInventory(int i, Item item)
 		{
-			currentSaving.inventory[i] = item;
+			if (i < currentSaving.inventory.Length)
+			{
+				currentSaving.inventory[i] = item;
+			}
+			else if(i < currentSaving.inventory.Length + currentSaving.armor.Length)
+			{
+				currentSaving.armor[i - currentSaving.inventory.Length] = item;
+			}
+			else if (i < currentSaving.inventory.Length + currentSaving.armor.Length + currentSaving.bank.item.Length)
+			{
+				currentSaving.bank.item[i - currentSaving.inventory.Length - currentSaving.armor.Length] = item;
+			}
 		}
 
 		public void Ban(string reason)

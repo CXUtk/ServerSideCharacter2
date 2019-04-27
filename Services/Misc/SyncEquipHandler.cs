@@ -76,7 +76,6 @@ namespace ServerSideCharacter2.Services.Misc
 				}
 				lock (player)
 				{
-					if (id > 58) return;
 					if (stack < 0) stack = 0;
 					player.SetInventory(id, item);
 				}
