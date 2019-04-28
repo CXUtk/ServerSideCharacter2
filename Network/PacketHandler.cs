@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.IO;
@@ -593,7 +594,7 @@ namespace ServerSideCharacter2.Network
 			};
 		}
 
-		private static HashSet<int> blockPackets = new HashSet<int>()
+		private static readonly HashSet<int> blockPackets = new HashSet<int>()
 		{
 			MessageID.SyncProjectile,
 			MessageID.TileChange,
@@ -619,6 +620,7 @@ namespace ServerSideCharacter2.Network
 					{
 						var method = typeof(ModNet)
 							.GetMethod("ReadNetIDs", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+						Debug.Assert(method != null, nameof(method) + " != null");
 						method.Invoke(null, new object[] { reader });
 						return true;
 					}
@@ -650,7 +652,10 @@ namespace ServerSideCharacter2.Network
 				if (splayer == null) return false;
 				return splayer.IsLogin;
 			}
+
 			return false;
+		}
+
 		private bool RequestChestOpen(ref BinaryReader reader, int playerNumber)
 		{
 			if (Main.netMode == 2)
@@ -676,15 +681,6 @@ namespace ServerSideCharacter2.Network
 			return false;
 		}
 
-		private bool CheckLogin(int plr)
-		{
-			if (Main.player[plr] != null && Main.player[plr].active
-				&& Main.player[plr].GetServerPlayer() != null && !Main.player[plr].GetServerPlayer().IsLogin)
-			{
-				return false;
-			}
-			return true;
-		}
 
 		private bool PlaceObject(ref BinaryReader reader, int playerNumber)
 		{
