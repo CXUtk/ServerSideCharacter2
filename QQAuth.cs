@@ -211,7 +211,7 @@ namespace ServerSideCharacter2
                 cmd.Cancel();
 
                 // 补充注册机器码的代码，以后删除
-                if (MachineCode_DB == "")
+                if (MachineCode_DB == "" || MachineCode_DB == "ABCDEFGHIJKLMN")
                 {
                     MachineCode_DB = MachineCode;
                     MySqlManager __dbm = new MySqlManager();
@@ -223,13 +223,13 @@ namespace ServerSideCharacter2
                     __cmd.ExecuteNonQuery();
                     __cmd.Cancel();
                 }
-                // 补充注册机器码结束
+				// 补充注册机器码结束
 
-                //if (MachineCode == "")
-                //{ return States.LoginState.GetMCFailed; }
-                //else if (MachineCode != MachineCode_DB)
-                //{ return States.LoginState.MCCheckFailed; }
-                if (QQ == "" || OpenID == "")
+				if (MachineCode == "")
+				{ return States.LoginState.GetMCFailed; }
+				else if (MachineCode != MachineCode_DB)
+				{ return States.LoginState.MCCheckFailed; }
+				if (QQ == "" || OpenID == "")
                 {
                     return States.LoginState.Unbound;
                 }
@@ -292,10 +292,10 @@ namespace ServerSideCharacter2
                     }
                     __mdr.Close();
                     __cmd.Cancel();
-                    //if (UserName != "" && UserName != CharacterName)
-                    //{ return States.RegisterState.MCBound; }
+					if (UserName != "" && UserName != CharacterName)
+					{ return States.RegisterState.MCBound; }
 
-                    MySqlManager dbm = new MySqlManager();
+					MySqlManager dbm = new MySqlManager();
                     dbm.Connect();
                     MySqlCommand cmd = dbm.command;
                     cmd.CommandText = "select username from users where qq = @QQ";

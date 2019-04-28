@@ -5,6 +5,7 @@ using ServerSideCharacter2.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Terraria;
 
 namespace ServerSideCharacter2.Network
 {

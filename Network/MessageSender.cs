@@ -67,7 +67,7 @@ namespace ServerSideCharacter2
 			var p = ServerSideCharacter2.Instance.GetPacket();
 			p.Write((int)SSCMessageType.SyncSingleEquip);
 			p.Write((byte)target);
-			p.Write((byte)index);
+			p.Write((short)index);
 			p.Write((short)item.netID);
 			p.Write((byte)item.prefix);
 			p.Write((short)item.stack);

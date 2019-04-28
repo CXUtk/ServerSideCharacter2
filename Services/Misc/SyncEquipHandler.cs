@@ -33,7 +33,7 @@ namespace ServerSideCharacter2.Services.Misc
 			else if(id < player.inventory.Length + player.armor.Length + player.bank.item.Length)
 			{
 				player.bank.item[id - player.inventory.Length - player.armor.Length] = item;
-				return player.dye.Length + player.miscEquips.Length + player.miscDyes.Length + 1 + id;
+				return player.dye.Length + player.miscEquips.Length + player.miscDyes.Length + id;
 			}
 			return -1;
 		}
@@ -44,7 +44,7 @@ namespace ServerSideCharacter2.Services.Misc
 			if (Main.netMode == 2)
 			{
 				int plr = reader.ReadByte();
-				var id = reader.ReadByte();
+				var id = reader.ReadInt16();
 				var nettype = reader.ReadInt16();
 				var prefix = reader.ReadByte();
 				var stack = reader.ReadInt16();
@@ -58,7 +58,6 @@ namespace ServerSideCharacter2.Services.Misc
 				var splayer = player.GetServerPlayer();
 				lock (player)
 				{
-					if (id > 58) return;
 					if (stack < 0) stack = 0;
 					int k = setItem(player, id, item);
 					NetMessage.SendData(5, -1, -1, null, plr, k, (float)prefix, 0f, 0, 0, 0);

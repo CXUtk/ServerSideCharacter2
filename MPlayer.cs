@@ -214,7 +214,7 @@ namespace ServerSideCharacter2
 					var loseplayer = player.GetServerPlayer();
 					if (!loseplayer.IsLogin)
 					{
-						MessageSender.SendInfoMessage(winplayer.PrototypePlayer.whoAmI, "杀死没有登录的玩家不算分", Color.Yellow);
+						MessageSender.SendInfoMessage(winplayer.PrototypePlayer.whoAmI, "杀死没有登录的玩家不会被记录", Color.Yellow);
 						return;
 					}
 					winplayer.KillCount++;
