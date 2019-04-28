@@ -13,20 +13,30 @@ namespace ServerSideCharacter2.JsonData
 {
 	public struct ItemInfo
 	{
-		public bool IsMod { get; set; }
-		public int ID { get; set; }
-		public Dictionary<string, object> modData { get; set; }
-		public int Stack { get; set; }
-		public byte Prefix { get; set; }
-		public bool Favorite { get; set; }
+		public bool IsMod;
+		public int ID;
+		public Dictionary<string, object> modData;
+		public int Stack;
+		public byte Prefix;
+		public bool Favorite;
 
-		public ItemInfo()
+		public static ItemInfo Create()
 		{
-			IsMod = false;
-			ID = 0;
-			Stack = 0;
-			modData = new Dictionary<string, object>();
+			ItemInfo info = new ItemInfo();
+			info.modData = new Dictionary<string, object>();
+			return info;
 		}
+
+		public ItemInfo(bool ismod)
+		{
+			IsMod = ismod;
+			ID = 0;
+			modData = new Dictionary<string, object>();
+			Stack = 0;
+			Prefix = 0;
+			Favorite = false;
+		}
+
 
 		private void ToDict(TagCompound tag)
 		{
@@ -43,7 +53,7 @@ namespace ServerSideCharacter2.JsonData
 
 		public void FromItem(Item item)
 		{
-
+			this.modData = new Dictionary<string, object>();
 			if (item.type > Main.maxItemTypes || item.modItem != null)
 			{
 				this.IsMod = true;
@@ -53,7 +63,6 @@ namespace ServerSideCharacter2.JsonData
 			else
 			{
 				this.IsMod = false;
-				this.modData = new Dictionary<string, object>();
 				this.ID = item.type;
 			}
 			this.Prefix = item.prefix;
@@ -69,7 +78,7 @@ namespace ServerSideCharacter2.JsonData
 		{
 			var item = new Item();
 			item.SetDefaults(id);
-			ItemInfo info = new ItemInfo();
+			ItemInfo info = Create();
 			info.FromItem(item);
 			return info;
 		}

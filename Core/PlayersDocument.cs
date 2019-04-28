@@ -32,6 +32,11 @@ namespace ServerSideCharacter2.Core
 			{
 				writer.Write(data);
 			}
+
+			using (var writer = new StreamWriter(FileName + "bk", false, Encoding.UTF8))
+			{
+				writer.Write(data);
+			}
 		}
 
 		public void ExtractPlayersData()
@@ -60,7 +65,7 @@ namespace ServerSideCharacter2.Core
 					{
 						var p = new ServerPlayer();
 						p.SetPlayerInfo(player.Value);
-						p.SyncPlayerFromInfo();
+						p.LoadFromInfo();
 						ServerSideCharacter2.PlayerCollection.Add(p);
 					}
 					ServerSideCharacter2.PlayerCollection.SetID(dict.CurrentID);

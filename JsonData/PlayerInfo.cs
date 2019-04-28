@@ -52,6 +52,8 @@ namespace ServerSideCharacter2.JsonData
 
 		public int hideVisual = 0;
 
+		public Dictionary<string, object> ExtraInfos = new Dictionary<string, object>();
+
 		
 
 		//public ItemInfo[] bank2 = new ItemInfo[Chest.maxItems];
@@ -62,27 +64,27 @@ namespace ServerSideCharacter2.JsonData
 		{
 			for (var i = 0; i < inventory.Length; i++)
 			{
-				inventory[i] = new ItemInfo();
+				inventory[i] = ItemInfo.Create();
 			}
 			for (var i = 0; i < armor.Length; i++)
 			{
-				armor[i] = new ItemInfo();
+				armor[i] = ItemInfo.Create();
 			}
 			for (var i = 0; i < dye.Length; i++)
 			{
-				dye[i] = new ItemInfo();
+				dye[i] = ItemInfo.Create();
 			}
 			for (var i = 0; i < miscEquips.Length; i++)
 			{
-				miscEquips[i] = new ItemInfo();
+				miscEquips[i] = ItemInfo.Create();
 			}
 			for (var i = 0; i < miscDye.Length; i++)
 			{
-				miscDye[i] = new ItemInfo();
+				miscDye[i] = ItemInfo.Create();
 			}
 			for (var i = 0; i < bank.Length; i++)
 			{
-				bank[i] = new ItemInfo();
+				bank[i] = ItemInfo.Create();
 			}
 			//for (int i = 0; i < bank2.Length; i++)
 			//{

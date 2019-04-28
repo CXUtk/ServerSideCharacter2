@@ -30,6 +30,10 @@ namespace ServerSideCharacter2.Services.Misc
 
 				var str = $"玩家 {player.name} 击杀了玩家 {target0.name} ";
 				target1.Kill($"{target1.Name} 遭到了天谴……");
+				if (player.GetServerPlayer().ContainsValueName("罪恶值"))
+				{
+					player.GetServerPlayer().ModifyExtraValue("罪恶值", (int)player.GetServerPlayer().GetExtraValue("罪恶值") + 1);
+				}
 				CommandBoardcast.ConsoleMessage(str);
 			}
 		}

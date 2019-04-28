@@ -53,6 +53,36 @@ namespace ServerSideCharacter2
 
 		public List<Mail> MailList { get; set; }
 
+		public Dictionary<string, object> ExtraInfos
+		{
+			get
+			{
+				return _info.ExtraInfos;
+			}
+		}
+
+		public bool ContainsValueName(string name)
+		{
+			return ExtraInfos.ContainsKey(name);
+		}
+
+		public object GetExtraValue(string name)
+		{
+			return ExtraInfos[name];
+		}
+
+		public void ModifyExtraValue(string name, object value)
+		{
+			if (ExtraInfos.ContainsKey(name))
+			{
+				ExtraInfos[name] = value;
+			}
+			else
+			{
+				ExtraInfos.Add(name, value);
+			}
+		}
+
 		/// <summary>
 		/// 玩家当前正在使用的存档
 		/// </summary>
@@ -76,7 +106,7 @@ namespace ServerSideCharacter2
 			if (!IsMainSaving)
 			{
 				currentSaving = MainSaving;
-				SyncPlayerFromInfo();
+				LoadFromInfo();
 			}
 		}
 
@@ -93,7 +123,7 @@ namespace ServerSideCharacter2
 			if (currentSaving != MainSaving)
 			{
 				currentSaving = MainSaving;
-				SyncPlayerFromInfo();
+				LoadFromInfo();
 				ApplySavingToPlayer();
 			}
 		}
@@ -454,7 +484,7 @@ namespace ServerSideCharacter2
 				player.inventory[i++] = item;
 			}
 			instance._info = player;
-			instance.SyncPlayerFromInfo();
+			instance.LoadFromInfo();
 			return instance;
 		}
 
@@ -503,7 +533,7 @@ namespace ServerSideCharacter2
 			}
 		}
 
-		public void SyncPlayerFromInfo()
+		public void LoadFromInfo()
 		{
 			lock (this)
 			{

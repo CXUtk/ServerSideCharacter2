@@ -96,7 +96,7 @@ namespace ServerSideCharacter2.Mailing
 				};
 				foreach (var item in items)
 				{
-					var info = new ItemInfo();
+					var info = ItemInfo.Create();
 					info.FromItem(item);
 					mail.AttachedItems.Add(info);
 				}

@@ -612,7 +612,6 @@ namespace ServerSideCharacter2.Network
 		{
 			if (Main.netMode == 2)
 			{
-				Console.WriteLine($"收到封包 {messageType}");
 				if (messageType == MessageID.ModPacket)
 				{
 					short num = reader.ReadInt16();
@@ -636,8 +635,7 @@ namespace ServerSideCharacter2.Network
 					}
 				}
 				else if(!CheckLogin(plr) && blockPackets.Contains(messageType))
-				{
-					Console.WriteLine($"已经拦截未登录玩家的封包：{messageType}");
+				{ 
 					return true;
 				}
 			}
