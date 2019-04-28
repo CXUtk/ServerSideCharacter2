@@ -7,7 +7,7 @@ namespace ServerSideCharacter2.Groups
 {
 	public class PermissionList
 	{
-		private Dictionary<string, Permission> _permissions;
+		private readonly Dictionary<string, Permission> _permissions;
 		public PermissionList()
 		{
 			_permissions = new Dictionary<string, Permission>();
@@ -55,11 +55,7 @@ namespace ServerSideCharacter2.Groups
 
 		public Permission GetPermission(string name)
 		{
-			if (_permissions.ContainsKey(name))
-			{
-				return _permissions[name];
-			}
-			return null;
+			return _permissions.ContainsKey(name) ? _permissions[name] : null;
 		}
 	}
 }

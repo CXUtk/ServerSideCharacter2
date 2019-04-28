@@ -14,6 +14,7 @@ using Terraria.UI.Chat;
 using ServerSideCharacter2.JsonData;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace ServerSideCharacter2.GUI.UI.Component.Special
 {
@@ -95,6 +96,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		public override int CompareTo(object obj)
 		{
 			var other = obj as UIUnionMemberBar;
+			Debug.Assert(other != null, nameof(other) + " != null");
 			if (this._isOwner && !other._isOwner) return -1;
 			else if (playerInfo.IsLogin && !other.playerInfo.IsLogin) return -1;
 			else if (!playerInfo.IsLogin && other.playerInfo.IsLogin) return 1;

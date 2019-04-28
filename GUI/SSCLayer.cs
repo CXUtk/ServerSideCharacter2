@@ -14,7 +14,7 @@ namespace ServerSideCharacter2.GUI
 {
 	public class SSCLayer : GameInterfaceLayer
 	{
-		private GUIManager _UImanager;
+		private readonly GUIManager _UImanager;
 
 		public SSCLayer(GUIManager manager) : this("SSC: UI", InterfaceScaleType.UI)
 		{

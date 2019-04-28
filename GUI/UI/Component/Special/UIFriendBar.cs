@@ -82,7 +82,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		{
 			var other = obj as UIFriendBar;
 
-			return string.Compare(this.playerInfo.Name, other.playerInfo.Name);
+			return string.CompareOrdinal(this.playerInfo.Name, other.playerInfo.Name);
 		}
 
 

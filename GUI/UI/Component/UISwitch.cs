@@ -16,7 +16,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 	{
 		public bool Value { get; set; }
 
-		private UIPanel scrollBlock;
+		private readonly UIPanel scrollBlock;
 		public event SwitchEvent OnSwitch;
 		private Color bgColor;
 

@@ -21,16 +21,16 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 {
 	public class UIPlayerProfileHead : UIElement
 	{
-		private UIText textName;
-		private UIBar rankBar;
-		private UIImageResizable rankimage;
-		private UIText rankLabel;
-		private UIAdvList infoList;
+		private readonly UIText textName;
+		private readonly UIBar rankBar;
+		private readonly UIImageResizable rankimage;
+		private readonly UIText rankLabel;
+		private readonly UIAdvList infoList;
 
 		private const float RANK_BAR_WIDTH = 192;
 		private const float RANK_BAR_HEIGHT = 18;
 		private const float RANK_LEFT_OFFSET = 60;
-		private Vector2 center;
+		private readonly Vector2 center;
 		private SimplifiedPlayerInfo _info;
 
 		public UIPlayerProfileHead()
@@ -165,7 +165,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 				infoList.Add(sexText);
 			}
 
-			var regTimeText = new UIText($"注册时间：{_info.RegistedTime.ToString("g")}");
+			var regTimeText = new UIText($"注册时间：{_info.RegistedTime:g}");
 			infoList.Add(regTimeText);
         }
     }
