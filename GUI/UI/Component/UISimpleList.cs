@@ -8,7 +8,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 {
 	public class UISimpleList : UIAdvElement
 	{
-		private List<UIElement> _contents;
+		private readonly List<UIElement> _contents;
 
 		public float ListPadding { get; set; }
 

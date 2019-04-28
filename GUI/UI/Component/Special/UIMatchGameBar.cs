@@ -18,7 +18,7 @@ using System.Collections.Generic;
 
 namespace ServerSideCharacter2.GUI.UI.Component.Special
 {
-	public class UIMatchGameBar : UIAdvPanel
+	public sealed class UIMatchGameBar : UIAdvPanel
 	{
 		private const float LABEL_MAX_WIDTH = 100;
 		private const float GENDER_ICON_SIZE = 25;
@@ -27,13 +27,12 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 
 		internal static Color DefaultUIBlue = new Color(73, 94, 171);
 		private readonly Texture2D dividerTexture;
-		private UIText _matchingStateText;
-		private UIText matchTimeRem;
+		private readonly UIText matchTimeRem;
 
-		private List<UICDButton> extraButtons = new List<UICDButton>();
+		private readonly List<UICDButton> extraButtons = new List<UICDButton>();
 
-		protected UIText nameLabel;
-		protected SimplifiedMatchInfo matchInfo;
+		private UIText nameLabel;
+		private SimplifiedMatchInfo matchInfo;
 
 		public UIMatchGameBar(SimplifiedMatchInfo info)
 		{
@@ -52,25 +51,25 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			nameLabel.Left.Set(5, 0);
 			Append(nameLabel);
 
-			_matchingStateText = new UIText("");
-			_matchingStateText.Top.Set(10f, 0f);
-			_matchingStateText.Left.Set(-100f, 1f);
+			var matchingStateText = new UIText("");
+			matchingStateText.Top.Set(10f, 0f);
+			matchingStateText.Left.Set(-100f, 1f);
 			if (!info.IsMatching)
 			{
-				_matchingStateText.SetText("匹配未开始");
-				_matchingStateText.TextColor = Color.Red;
+				matchingStateText.SetText("匹配未开始");
+				matchingStateText.TextColor = Color.Red;
 			}
 			else if(!info.IsGameStarted)
 			{
-				_matchingStateText.SetText("匹配中……");
-				_matchingStateText.TextColor = Color.Lime;
+				matchingStateText.SetText("匹配中……");
+				matchingStateText.TextColor = Color.Lime;
 			}
 			else
 			{
-				_matchingStateText.SetText("游戏中……");
-				_matchingStateText.TextColor = Color.Yellow;
+				matchingStateText.SetText("游戏中……");
+				matchingStateText.TextColor = Color.Yellow;
 			}
-			Append(_matchingStateText);
+			Append(matchingStateText);
 
 			//bool male = Main.player[playerInfo.PlayerID].Male;
 			//UIImage _genderImage = new UIImage(ServerSideCharacter2.ModTexturesTable[male ? "Male" : "Female"]);
@@ -115,7 +114,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		}
 
 
-		protected virtual void AddExtraButtons(List<UICDButton> buttons)
+		private void AddExtraButtons(List<UICDButton> buttons)
 		{
 			if (Main.netMode == 0 || ServerSideCharacter2.MainPlayerGroup.HasPermission("match-join"))
 			{
@@ -159,9 +158,8 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		{
 			if (extraButtons.Count == 0) return;
 			var currentLeft = EXTRA_BUTTON_MARGIN_LEFT;
-			for (var i = 0; i < extraButtons.Count; i++)
+			foreach (var but in extraButtons)
 			{
-				var but = extraButtons[i];
 				but.Top.Set(80, 0f);
 				but.Left.Set(currentLeft, 0f);
 				Append(but);
@@ -172,7 +170,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		public override int CompareTo(object obj)
 		{
 			var other = obj as UIMatchGameBar;
-			return this.matchInfo.Name.CompareTo(other.matchInfo.Name);
+			return string.Compare(matchInfo.Name, other.matchInfo.Name, StringComparison.Ordinal);
 		}
 
 		public override void MouseOver(UIMouseEvent evt)

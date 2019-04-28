@@ -225,7 +225,7 @@ namespace ServerSideCharacter2.GUI.UI
 						Name = ServerUtils.RandomGenString(),
 						IsLogin = Main.rand.NextBool(),
 					};
-					var bar = new UIUnionMemberBar(testinfo, false);
+					var bar = new UIUnionMemberBar(testinfo, false, Main.rand.Next(10000000));
 					_memberList.Add(bar);
 				}
 				var ownerinfo = new JsonData.SimplifiedPlayerInfo
@@ -233,7 +233,7 @@ namespace ServerSideCharacter2.GUI.UI
 					Name = "Skirt",
 					IsLogin = true,
 				};
-				_memberList.Add(new UIUnionMemberBar(ownerinfo, true));
+				_memberList.Add(new UIUnionMemberBar(ownerinfo, true, Main.rand.Next(10000000)));
 				_memberList.Sort();
 				unionNameText.SetText("裙中世界");
 				AdjustOwnerUI(true);
@@ -264,11 +264,11 @@ namespace ServerSideCharacter2.GUI.UI
 		}
 		public void Apply(JsonData.ComplexUnionInfo info)
 		{
-			_memberList.Add(new UIUnionMemberBar(info.Owner, true));
+			_memberList.Add(new UIUnionMemberBar(info.Owner, true, info.Donation[info.Owner.Name]));
 			foreach (var member in info.Members)
 			{
 				if(member.Name != info.Owner.Name)
-					_memberList.Add(new UIUnionMemberBar(member, false));
+					_memberList.Add(new UIUnionMemberBar(member, false, info.Donation[member.Name]));
 			}
 			_memberList.Sort();
 			unionNameText.SetText(info.Name);

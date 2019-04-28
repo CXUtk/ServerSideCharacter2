@@ -24,7 +24,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			}
 			set
 			{
-				this._viewPosition = MathHelper.Clamp(value, 0f, this._maxViewSize - this._viewSize);
+				_viewPosition = MathHelper.Clamp(value, 0f, this._maxViewSize - this._viewSize);
 			}
 		}
 
@@ -58,7 +58,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		private Rectangle GetHandleRectangle()
 		{
 			var innerDimensions = base.GetInnerDimensions();
-			if (this._maxViewSize == 0f && this._viewSize == 0f)
+			if (Math.Abs(this._maxViewSize) < 0.001f && Math.Abs(this._viewSize) < 0.0001f)
 			{
 				this._viewSize = 1f;
 				this._maxViewSize = 1f;
@@ -141,9 +141,9 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		private float _dragYOffset;
 
 		// Token: 0x04003FFB RID: 16379
-		private Texture2D _texture;
+		private readonly Texture2D _texture;
 
 		// Token: 0x04003FFC RID: 16380
-		private Texture2D _innerTexture;
+		private readonly Texture2D _innerTexture;
 	}
 }

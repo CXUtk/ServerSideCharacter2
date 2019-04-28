@@ -114,7 +114,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		public override int CompareTo(object obj)
 		{
 			var other = obj as UIUnionBar;
-			return this.unionInfo.Name.CompareTo(other.unionInfo.Name);
+			return string.Compare(this.unionInfo.Name, other.unionInfo.Name, StringComparison.Ordinal);
 		}
 
 		public override void MouseOver(UIMouseEvent evt)

@@ -32,7 +32,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		private readonly Texture2D dividerTexture;
 		private UICDButton addFriendButton;
 
-		private List<UICDButton> extraButtons = new List<UICDButton>();
+		private readonly List<UICDButton> extraButtons = new List<UICDButton>();
 
 		protected UIText nameLabel;
 		protected SimplifiedPlayerInfo playerInfo;
@@ -188,9 +188,8 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		{
 			if (extraButtons.Count == 0) return;
 			var currentLeft = EXTRA_BUTTON_MARGIN_LEFT;
-			for (var i = 0; i < extraButtons.Count; i++)
+			foreach (var but in extraButtons)
 			{
-				var but = extraButtons[i];
 				but.Top.Set(buttonTopOffset, 0f);
 				but.Left.Set(currentLeft, 0f);
 				Append(but);

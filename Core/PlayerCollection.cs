@@ -11,7 +11,7 @@ namespace ServerSideCharacter2.Core
 {
 	public class PlayerCollection : IEnumerable<KeyValuePair<string, ServerPlayer>>
 	{
-		private Dictionary<string, ServerPlayer> _playerList;
+		private readonly Dictionary<string, ServerPlayer> _playerList;
 
 		private int CurrentID = 0;
 

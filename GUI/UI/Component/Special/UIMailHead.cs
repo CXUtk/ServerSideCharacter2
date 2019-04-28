@@ -29,9 +29,9 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 				return head.MailID;
 			}
 		}
-		private MailHead head;
+		private readonly MailHead head;
 		private int _innerCD = 0;
-		private UIText titleText;
+		private readonly UIText titleText;
 		private bool isExpanded = false;
 
 		public UIMailHead(MailHead info)
@@ -44,32 +44,27 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			base.SetPadding(6f);
 			this.OverflowHidden = true;
 
-			string origText = info.Title;
-			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < origText.Length; i++)
+			var origText = info.Title;
+			var sb = new StringBuilder();
+			foreach (var text in origText)
 			{
-				sb.Append(origText[i]);
-				Vector2 size = Main.fontMouseText.MeasureString(sb.ToString());
-				if (size.X > 200)
-				{
-					sb.Append("…");
-					break;
-				}
+				sb.Append(text);
+				var size = Main.fontMouseText.MeasureString(sb.ToString());
+				if (!(size.X > 200)) continue;
+				sb.Append("…");
+				break;
 			}
-			titleText = new UIText(sb.ToString())
-			{
-				VAlign = 0f
-			};
-			titleText.PaddingTop = 5f;
+
+			titleText = new UIText(sb.ToString()) {VAlign = 0f, PaddingTop = 5f};
 
 			if (!info.IsRead)
 			{
 				titleText.TextColor = Color.Yellow;
 			}
+
 			this.Append(titleText);
 
-			var senddateText = new UIText($"发件人：{info.Sender}");
-			senddateText.VAlign = 1f;
+			var senddateText = new UIText($"发件人：{info.Sender}") {VAlign = 1f};
 			this.Append(senddateText);
 		}
 

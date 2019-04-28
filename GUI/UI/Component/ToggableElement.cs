@@ -33,7 +33,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			set;
 		}
 
-		public ToggableElement() : base()
+		protected ToggableElement() : base()
 		{
 			Enabled = true;
 			Visible = true;

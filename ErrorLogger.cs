@@ -1,5 +1,6 @@
 ﻿using ServerSideCharacter2.Utils;
 using System;
+using System.Globalization;
 using System.IO;
 
 namespace ServerSideCharacter2
@@ -21,7 +22,7 @@ namespace ServerSideCharacter2
 		public void WriteToFile(string msg)
 		{
 			_logWriter = new StreamWriter(FileName, IsAppend);
-			var dateTime = DateTime.Now.ToString();
+			var dateTime = DateTime.Now.ToString(CultureInfo.InvariantCulture);
 			var text = "[" + dateTime + "] " + msg + "\n";
 			_logWriter.WriteLine(text);
 			_logWriter.Flush();

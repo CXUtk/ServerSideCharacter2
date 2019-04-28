@@ -10,7 +10,7 @@ namespace ServerSideCharacter2.GUI.UI
 {
 	public class CDInterfaceManager
 	{
-		private List<ConditionalInterface> _conditionalInterfaces;
+		private readonly List<ConditionalInterface> _conditionalInterfaces;
 
 		public CDInterfaceManager()
 		{

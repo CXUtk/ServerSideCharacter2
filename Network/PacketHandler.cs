@@ -593,6 +593,64 @@ namespace ServerSideCharacter2.Network
 			};
 		}
 
+		private static HashSet<int> blockPackets = new HashSet<int>()
+		{
+			MessageID.SyncProjectile,
+			MessageID.TileChange,
+			MessageID.ReadSign,
+			MessageID.PlayerControls,
+			MessageID.TileEntityPlacement,
+			MessageID.PlaceObject,
+			MessageID.MinionRestTargetUpdate,
+			MessageID.PlayerHurtV2,
+			MessageID.SyncNPC,
+			MessageID.SyncItem,
+		};
+
+		public static bool CheckBlockPacket(int plr, int messageType, ref BinaryReader reader)
+		{
+			if (Main.netMode == 2)
+			{
+				Console.WriteLine($"收到封包 {messageType}");
+				if (messageType == MessageID.ModPacket)
+				{
+					short num = reader.ReadInt16();
+					if (num < 0)
+					{
+						var method = typeof(ModNet)
+							.GetMethod("ReadNetIDs", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+						method.Invoke(null, new object[] { reader });
+						return true;
+					}
+					Mod mod = ModNet.GetMod((int)num);
+					if (mod == null)
+					{
+						return true;
+					}
+					SSCMessageType type = (SSCMessageType)reader.ReadInt32();
+					if (type != SSCMessageType.LoginPassword && !CheckLogin(plr))
+					{
+						return true;
+					}
+				}
+				else if(!CheckLogin(plr) && blockPackets.Contains(messageType))
+				{
+					Console.WriteLine($"已经拦截未登录玩家的封包：{messageType}");
+					return true;
+				}
+			}
+			return false;
+		}
+
+		public static bool CheckLogin(int plr)
+		{
+			if (Main.player[plr] != null && Main.player[plr].active)
+			{
+				var splayer = Main.player[plr].GetServerPlayer();
+				if (splayer == null) return false;
+				return splayer.IsLogin;
+			}
+			return false;
 		private bool RequestChestOpen(ref BinaryReader reader, int playerNumber)
 		{
 			if (Main.netMode == 2)

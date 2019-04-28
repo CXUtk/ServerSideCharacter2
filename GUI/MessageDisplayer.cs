@@ -22,7 +22,7 @@ namespace ServerSideCharacter2.GUI
 
 		private Color _color;
 
-		private List<string> _messageLine = new List<string>();
+		private readonly List<string> _messageLine = new List<string>();
 
 		private const int FADEIN_TIME = 20;
 		private const int FADEOUT_TIME = 20;
@@ -40,11 +40,11 @@ namespace ServerSideCharacter2.GUI
 			_color = color;
 			_messageLine.Clear();
 			var sb = new StringBuilder();
-			for (var i = 0; i < _message.Length; i++)
+			foreach (var t in _message)
 			{
-				sb.Append(_message[i]);
+				sb.Append(t);
 				var str = sb.ToString();
-				if(_message[i] == '\n')
+				if(t == '\n')
 				{
 					_messageLine.Add(str.Substring(0, str.Length - 1));
 					sb.Clear();
@@ -64,10 +64,6 @@ namespace ServerSideCharacter2.GUI
 			//{
 			//	Main.NewText(_messageLine[i]);
 			//}
-		}
-
-		public MessageDisplayer()
-		{
 		}
 
 		public void Update(GameTime gameTime)

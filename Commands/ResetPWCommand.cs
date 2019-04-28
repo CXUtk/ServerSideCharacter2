@@ -3,6 +3,8 @@ using Terraria;
 using ServerSideCharacter2.Utils;
 using System;
 using Newtonsoft.Json;
+using static ServerSideCharacter2.QQAuth;
+using MySql.Data.MySqlClient;
 
 namespace ServerSideCharacter2.Commands
 {
@@ -42,6 +44,12 @@ namespace ServerSideCharacter2.Commands
 				{
 					var s = $"玩家 {player.Name} 的密码已经被重置";
 					player.HasPassword = false;
+					MySqlManager __dbm = new MySqlManager();
+					__dbm.Connect();
+					MySqlCommand __cmd = __dbm.command;
+					__cmd.CommandText = $"update users set machinecode = '' where username = '{player.Name}'";
+					__cmd.ExecuteNonQuery();
+					__cmd.Cancel();
 					ServerSideCharacter2.ErrorLogger.WriteToFile(s);
 					player.Kick("你的密码已经被重置");
 					CommandBoardcast.ConsoleMessage(s);

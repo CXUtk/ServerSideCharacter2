@@ -128,6 +128,8 @@ namespace ServerSideCharacter2
 		{
 			try
 			{
+				if (PacketHandler.CheckBlockPacket(playerNumber, messageType, ref reader))
+					return true;
 				// 处理原版消息的地方
 				return _packetHandler.Handle(messageType, ref reader, playerNumber);
 			}

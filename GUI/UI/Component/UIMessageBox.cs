@@ -149,11 +149,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		// Token: 0x06001525 RID: 5413 RVA: 0x00401830 File Offset: 0x003FFA30
 		private void UpdateScrollbar()
 		{
-			if (this._scrollbar == null)
-			{
-				return;
-			}
-			this._scrollbar.SetView(base.GetInnerDimensions().Height, this.height);
+			_scrollbar?.SetView(base.GetInnerDimensions().Height, this.height);
 		}
 
 		// Token: 0x04001471 RID: 5233
@@ -169,6 +165,6 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		private bool heightNeedsRecalculating;
 
 		// Token: 0x04001475 RID: 5237
-		private List<Tuple<string, float>> drawtexts = new List<Tuple<string, float>>();
+		private readonly List<Tuple<string, float>> drawtexts = new List<Tuple<string, float>>();
 	}
 }

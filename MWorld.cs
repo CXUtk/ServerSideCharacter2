@@ -56,6 +56,7 @@ namespace ServerSideCharacter2
 						if (!player.active) continue;
 						var serverPlayer = player.GetServerPlayer();
 						var playerID = player.whoAmI;
+						if (serverPlayer == null) continue;
 						if (!serverPlayer.HasPassword)
 						{
 							serverPlayer.ApplyLockBuffs();

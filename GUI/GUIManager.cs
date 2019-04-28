@@ -54,12 +54,12 @@ namespace ServerSideCharacter2.GUI
 		private PlayerInventoryState _playerInventoryState;
 		private PlayerInventoryState2 _playerInventoryState2;
 
-		private UserInterface _toolBarInterface;
-		private CDInterfaceManager _cdInterface;
-		private MessageDisplayer _messageDisplayer;
-		private ToolBarState _toolBarState;
+		private readonly UserInterface _toolBarInterface;
+		private readonly CDInterfaceManager _cdInterface;
+		private readonly MessageDisplayer _messageDisplayer;
+		private readonly ToolBarState _toolBarState;
 
-		private Dictionary<SSCUIState, bool> _canShowUITable = new Dictionary<SSCUIState, bool>();
+		private readonly Dictionary<SSCUIState, bool> _canShowUITable = new Dictionary<SSCUIState, bool>();
 	
 
 		public GUIManager(ServerSideCharacter2 mod)
@@ -84,70 +84,70 @@ namespace ServerSideCharacter2.GUI
 		internal void SetWindows()
 		{
 			_loginWindowState = new LoginWindowState();
-			var loginWindow = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.LoginWindow]; });
+			var loginWindow = new ConditionalInterface(() => _canShowUITable[SSCUIState.LoginWindow]);
 			loginWindow.SetState(_loginWindowState);
 			_cdInterface.Add(loginWindow);
 
 			_playerOnlineWindow = new PlayerOnlineWindow();
-			var playerOnlineWindow = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.PlayerOnlineWindow]; });
+			var playerOnlineWindow = new ConditionalInterface(() => _canShowUITable[SSCUIState.PlayerOnlineWindow]);
 			playerOnlineWindow.SetState(_playerOnlineWindow);
 			_cdInterface.Add(playerOnlineWindow);
 
 			_homePageState = new HomePageState();
-			var hompage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.HomePage]; });
+			var hompage = new ConditionalInterface(() => _canShowUITable[SSCUIState.HomePage]);
 			hompage.SetState(_homePageState);
 			_cdInterface.Add(hompage);
 
 			_communicationState = new CommunicationState();
-			var commPage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.CommunicationPage]; });
+			var commPage = new ConditionalInterface(() => _canShowUITable[SSCUIState.CommunicationPage]);
 			commPage.SetState(_communicationState);
 			_cdInterface.Add(commPage);
 
 
 			_mainPageState = new MailPageState();
-			var mailPage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.MailPage]; });
+			var mailPage = new ConditionalInterface(() => _canShowUITable[SSCUIState.MailPage]);
 			mailPage.SetState(_mainPageState);
 			_cdInterface.Add(mailPage);
 
 			_unionPageState = new UnionPageState();
-			var unionpage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.UnionPage]; });
+			var unionpage = new ConditionalInterface(() => _canShowUITable[SSCUIState.UnionPage]);
 			unionpage.SetState(_unionPageState);
 			_cdInterface.Add(unionpage);
 
 			_unionPageState2 = new UnionPageState2();
-			var unionpage2 = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.UnionPage2]; });
+			var unionpage2 = new ConditionalInterface(() => _canShowUITable[SSCUIState.UnionPage2]);
 			unionpage2.SetState(_unionPageState2);
 			_cdInterface.Add(unionpage2);
 
 			_unionCandidateState = new UnionCandidatePage();
-			var cddpage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.UnionCandidatePage]; });
+			var cddpage = new ConditionalInterface(() => _canShowUITable[SSCUIState.UnionCandidatePage]);
 			cddpage.SetState(_unionCandidateState);
 			_cdInterface.Add(cddpage);
 
 			_unionCreateState = new UnionCreatePage();
-			var unioncreatepage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.UnionPage3]; });
+			var unioncreatepage = new ConditionalInterface(() => _canShowUITable[SSCUIState.UnionPage3]);
 			unioncreatepage.SetState(_unionCreateState);
 			_cdInterface.Add(unioncreatepage);
 
 
 			_rankBoardState = new RankBoardState();
-			var rankpage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.RankBoard]; });
+			var rankpage = new ConditionalInterface(() => _canShowUITable[SSCUIState.RankBoard]);
 			rankpage.SetState(_rankBoardState);
 			_cdInterface.Add(rankpage);
 
 			_getitemState = new ItemUIState();
-			var itempage = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.ItemPage]; });
+			var itempage = new ConditionalInterface(() => _canShowUITable[SSCUIState.ItemPage]);
 			itempage.SetState(_getitemState);
 			_cdInterface.Add(itempage);
 
 			_getnpcState = new NPCUIState();
-			var uinpcinterface = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.NPCPage]; });
+			var uinpcinterface = new ConditionalInterface(() => _canShowUITable[SSCUIState.NPCPage]);
 			uinpcinterface.SetState(_getnpcState);
 			_cdInterface.Add(uinpcinterface);
 
 
 			_gameCenterState = new GameCenterState();
-			var uiGameCenter = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.GameCenterPage]; });
+			var uiGameCenter = new ConditionalInterface(() => _canShowUITable[SSCUIState.GameCenterPage]);
 			uiGameCenter.SetState(_gameCenterState);
 			_cdInterface.Add(uiGameCenter);
 
@@ -158,7 +158,7 @@ namespace ServerSideCharacter2.GUI
 
 			// 置顶
 			_playerProfileState = new PlayerProfileState();
-			var profileinterface = new ConditionalInterface(() => { return _canShowUITable[SSCUIState.ProfilePage]; });
+			var profileinterface = new ConditionalInterface(() => _canShowUITable[SSCUIState.ProfilePage]);
 			profileinterface.SetState(_playerProfileState);
 			_cdInterface.Add(profileinterface);
 
@@ -167,7 +167,7 @@ namespace ServerSideCharacter2.GUI
 
 		private void AddState(UIState state, SSCUIState uistate)
 		{
-			var profileinterface = new ConditionalInterface(() => { return _canShowUITable[uistate]; });
+			var profileinterface = new ConditionalInterface(() => _canShowUITable[uistate]);
 			profileinterface.SetState(state);
 			_cdInterface.Add(profileinterface);
 		}

@@ -25,8 +25,8 @@ namespace ServerSideCharacter2.GUI.UI
 
 		private class UISimpleSlot : UIElement
 		{
-			public int ItemType { get; set; }
-			public Item Item { get; set; }
+			private int ItemType { get; }
+			public Item Item { get; }
 			
 			public UISimpleSlot(int type)
 			{

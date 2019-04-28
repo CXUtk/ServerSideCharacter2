@@ -14,6 +14,7 @@ using Terraria.UI.Chat;
 using ServerSideCharacter2.JsonData;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace ServerSideCharacter2.GUI.UI.Component.Special
 {
@@ -21,19 +22,25 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 	{
 		private bool _isOwner;
 
-		public UIUnionMemberBar(SimplifiedPlayerInfo info, bool owner) : base(info)
+		public UIUnionMemberBar(SimplifiedPlayerInfo info, bool owner, long donation) : base(info)
 		{
 			if (owner)
 			{
 				_defaultColor = Color.LimeGreen;
 				this.Color = _defaultColor * 0.7f;
 			}
+			expandedHeight = 135;
 			_isOwner = owner;
 
 			var classText = new UIText(owner ? "会长" : "成员");
 			classText.Top.Set(10, 0f);
 			classText.Left.Set(165, 0);
 			Append(classText);
+
+			var donationText = new UIText($"贡献：{donation}");
+			donationText.Top.Set(50, 0f);
+			donationText.Left.Set(5f, 0);
+			Append(donationText);
 		}
 
 		protected override void AddExtraButtons(List<UICDButton> buttons)
@@ -78,7 +85,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 				kickButton.OnClick += KickButton_OnClick1;
 				buttons.Add(kickButton);
 			}
-
+			buttonTopOffset = 75f;
 		}
 
 		private void KickButton_OnClick1(UIMouseEvent evt, UIElement listeningElement)
@@ -89,6 +96,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		public override int CompareTo(object obj)
 		{
 			var other = obj as UIUnionMemberBar;
+			Debug.Assert(other != null, nameof(other) + " != null");
 			if (this._isOwner && !other._isOwner) return -1;
 			else if (playerInfo.IsLogin && !other.playerInfo.IsLogin) return -1;
 			else if (!playerInfo.IsLogin && other.playerInfo.IsLogin) return 1;
