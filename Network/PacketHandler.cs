@@ -591,7 +591,44 @@ namespace ServerSideCharacter2.Network
 				{ MessageID.TileEntityPlacement, HandlePlaceTileEntity },
 				{ MessageID.PlaceObject, PlaceObject },
 				{ MessageID.RequestChestOpen, RequestChestOpen }
+				{ MessageID.ChestUpdates, ChestUpdate }
+				//{ MessageID.RequestChestOpen, RequestChestOpen }
 			};
+		}
+
+		private bool ChestUpdate(ref BinaryReader reader, int playerNumber)
+		{
+			if (Main.netMode == 2)
+			{
+				byte b9 = reader.ReadByte();
+				int x = reader.ReadInt16();
+				int y = reader.ReadInt16();
+				int num100 = reader.ReadInt16();
+				int num101 = reader.ReadInt16();
+				if (Main.netMode == 2)
+				{
+					num101 = 0;
+				}
+				ushort num102 = 0;
+				if (b9 >= 100)
+				{
+					num102 = reader.ReadUInt16();
+				}
+
+				var player = Main.player[playerNumber].GetServerPlayer();
+
+				if (!player.Group.HasPermission("changetile"))
+				{
+					if (MWorld.TileMessageCD[playerNumber] == 0)
+					{
+						MessageSender.SendErrorMessage(playerNumber, "你没有权限改变这个物块");
+						MWorld.TileMessageCD[playerNumber] = 60;
+					}
+					NetMessage.SendTileSquare(-1, x, y, 8);
+					return true;
+				}
+			}
+			return false;
 		}
 
 		private static readonly HashSet<int> blockPackets = new HashSet<int>()

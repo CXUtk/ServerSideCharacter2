@@ -22,7 +22,7 @@ namespace ServerSideCharacter2.RankingSystem
 		public static event RankBoardEventHandler OnSeasonEnd;
 
 
-		private static List<RankInfo2> SelectTops()
+		public static List<RankInfo2> SelectTops()
 		{
 			List<RankInfo2> ranks = new List<RankInfo2>();
 			foreach (var pair in ServerSideCharacter2.PlayerCollection)
@@ -50,20 +50,25 @@ namespace ServerSideCharacter2.RankingSystem
 				config.LastRankBoardTime = DateTime.Now;
 				CommandBoardcast.ConsoleMessage("每日排行榜更新完成");
 			}
-			if (config.RankSeasonEndTime < DateTime.Now)
+			//if (config.RankSeasonEndTime < DateTime.Now)
+			//{
+			//}
+		}
+
+		public static void CheckOut()
+		{
+			var config = ServerSideCharacter2.RankData;
+			config.RankSeasonEndTime = DateTime.Now.AddDays(RANK_SEASON_INTERVAL_DAY);
+			List<SimplifiedPlayerInfo> playerInfos = new List<SimplifiedPlayerInfo>();
+			var list = SelectTops();
+			foreach (var player in list)
 			{
-				config.RankSeasonEndTime = DateTime.Now.AddDays(RANK_SEASON_INTERVAL_DAY);
-				List<SimplifiedPlayerInfo> playerInfos = new List<SimplifiedPlayerInfo>();
-				var list = SelectTops();
-				foreach (var player in list)
-				{
-					playerInfos.Add(ServerSideCharacter2.PlayerCollection.Get(player.Name).GetSimplified(-1));
-				}
-				config.LastBoard = SelectTops();
-				config.LastRankBoardTime = DateTime.Now;
-				OnSeasonEnd?.Invoke(playerInfos);
-				CommandBoardcast.ConsoleMessage("赛季已经结束");
+				playerInfos.Add(ServerSideCharacter2.PlayerCollection.Get(player.Name).GetSimplified(-1));
 			}
+			config.LastBoard = SelectTops();
+			config.LastRankBoardTime = DateTime.Now;
+			OnSeasonEnd?.Invoke(playerInfos);
+			CommandBoardcast.ConsoleMessage("赛季已经结束");
 		}
 
 
