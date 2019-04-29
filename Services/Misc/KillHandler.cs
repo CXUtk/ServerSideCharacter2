@@ -32,8 +32,13 @@ namespace ServerSideCharacter2.Services.Misc
 				target1.Kill($"{target1.Name} 遭到了天谴……");
 				if (player.GetServerPlayer().ContainsValueName("罪恶值"))
 				{
-					player.GetServerPlayer().ModifyExtraValue("罪恶值", (int)player.GetServerPlayer().GetExtraValue("罪恶值") + 1);
+					player.GetServerPlayer().ModifyExtraValue("罪恶值", (long)player.GetServerPlayer().GetExtraValue("罪恶值") + 1L);
 				}
+				else
+				{
+					player.GetServerPlayer().ModifyExtraValue("罪恶值", 1L);
+				}
+				Console.WriteLine(player.GetServerPlayer().GetExtraValue("罪恶值"));
 				CommandBoardcast.ConsoleMessage(str);
 			}
 		}

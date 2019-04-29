@@ -21,6 +21,7 @@ using ServerSideCharacter2.Buffs;
 using System.Diagnostics;
 using System.Text;
 using System.Linq;
+using Terraria.ModLoader.IO;
 
 namespace ServerSideCharacter2
 {
@@ -60,7 +61,6 @@ namespace ServerSideCharacter2
 				return _info.ExtraInfos;
 			}
 		}
-
 		public bool ContainsValueName(string name)
 		{
 			return ExtraInfos.ContainsKey(name);
@@ -555,6 +555,12 @@ namespace ServerSideCharacter2
 				MainSaving.ManaMax = _info.ManaMax;
 				MainSaving.StatMana = _info.StatMana;
 				MainSaving.hideVisual = _info.hideVisual;
+
+				//ExtraInfos = new TagCompound();
+				//foreach(var item in _info.ExtraInfos)
+				//{
+				//	ExtraInfos.Add(item.Key, item.Value);
+				//}
 				//ServerUtils.InfoToItem(_info.bank2, bank2.item);
 				//ServerUtils.InfoToItem(_info.bank3, bank3.item);
 			}
@@ -602,6 +608,7 @@ namespace ServerSideCharacter2
 					//	CommandBoardcast.ConsoleMessage($"玩家 {Name} 的物品出现堆叠异常");
 					//}
 				}
+
 				//ServerUtils.CopyToItemData(bank2.item, _info.bank2);
 				//ServerUtils.CopyToItemData(bank3.item, _info.bank3);
 			}
