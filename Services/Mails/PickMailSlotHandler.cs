@@ -38,7 +38,7 @@ namespace ServerSideCharacter2.Services.Mails
 					player.SendMessageBox("这个邮件不存在", 180, Color.Yellow);
 					return;
 				}
-				target.AttachedItems[slotid] = new ItemInfo();
+				target.AttachedItems[slotid] = ItemInfo.Create();
 				return;
 			}
 		}

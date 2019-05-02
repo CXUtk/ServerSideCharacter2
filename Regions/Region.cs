@@ -18,9 +18,11 @@ namespace ServerSideCharacter2.Regions
 		public string OwnerName { get; set; }
 		public PVPMode PVP { get; set; }
 		public bool Forbidden { get; set; }
+		public string OwnedUnionName { get; set; }
 		public event PlayerInteractionHandler OnEnter;
 		public event PlayerInteractionHandler OnExit;
 		[JsonIgnore]
+
 		public ServerPlayer Owner
 		{
 			get
@@ -29,11 +31,20 @@ namespace ServerSideCharacter2.Regions
 			}
 		}
 
+		public Region OwnedRegion
+		{
+			get
+			{
+				return ServerSideCharacter2.RegionManager.Get(OwnedUnionName);
+			}
+		}
+
 		public Region(string name, Rectangle rect)
 		{
 			Name = name;
 			Area = rect;
 			OwnerName = "";
+			OwnedUnionName = "";
 			PVP = 0;
 			Forbidden = false;
 		}
@@ -42,7 +53,8 @@ namespace ServerSideCharacter2.Regions
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.AppendLine(string.Format("欢迎来到领地 '{0}'!", Name));
-			sb.Append(string.Format("领地主人: {0}", Owner == null ? "无" : Owner.Name));
+			sb.Append(string.Format("领地主人: {0}，所属公会：{1}", Owner == null ? "无" : Owner.Name,
+				OwnedUnionName == null ? "无" : OwnedUnionName));
 			return sb.ToString();
 		}
 

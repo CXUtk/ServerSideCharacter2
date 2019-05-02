@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.IO;
@@ -586,10 +587,10 @@ namespace ServerSideCharacter2.Network
 				{ MessageID.NetModules, HandleNetModules },
 				{ MessageID.TileChange, TileChange },
 				{ MessageID.ReadSign, ReadSign },
-				//{ MessageID.ChangeDoor, ChangeDoor },
 				{ MessageID.PlayerControls, PlayerControls },
 				{ MessageID.TileEntityPlacement, HandlePlaceTileEntity },
 				{ MessageID.PlaceObject, PlaceObject },
+				{ MessageID.RequestChestOpen, RequestChestOpen }
 				{ MessageID.ChestUpdates, ChestUpdate }
 				//{ MessageID.RequestChestOpen, RequestChestOpen }
 			};
@@ -630,7 +631,7 @@ namespace ServerSideCharacter2.Network
 			return false;
 		}
 
-		private static HashSet<int> blockPackets = new HashSet<int>()
+		private static readonly HashSet<int> blockPackets = new HashSet<int>()
 		{
 			MessageID.SyncProjectile,
 			MessageID.TileChange,
@@ -655,6 +656,7 @@ namespace ServerSideCharacter2.Network
 					{
 						var method = typeof(ModNet)
 							.GetMethod("ReadNetIDs", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+						Debug.Assert(method != null, nameof(method) + " != null");
 						method.Invoke(null, new object[] { reader });
 						return true;
 					}
@@ -670,7 +672,7 @@ namespace ServerSideCharacter2.Network
 					}
 				}
 				else if(!CheckLogin(plr) && blockPackets.Contains(messageType))
-				{
+				{ 
 					return true;
 				}
 			}
@@ -685,13 +687,40 @@ namespace ServerSideCharacter2.Network
 				if (splayer == null) return false;
 				return splayer.IsLogin;
 			}
+
 			return false;
 		}
 
+		private bool RequestChestOpen(ref BinaryReader reader, int playerNumber)
+		{
+			if (Main.netMode == 2)
+			{
+				int X = reader.ReadInt16();
+				int Y = reader.ReadInt16();
+				var player = Main.player[playerNumber].GetServerPlayer();
+				if (player.Group.HasPermission("changetile"))
+				{
+					return false;
+				}
+				if (ServerSideCharacter2.RegionManager.CheckRegion(X, Y, player))
+				{
+					if (MWorld.TileMessageCD[playerNumber] == 0)
+					{
+						MessageSender.SendErrorMessage(playerNumber, "你没有权限打开这个箱子");
+						MWorld.TileMessageCD[playerNumber] = 60;
+					}
+					NetMessage.SendTileSquare(-1, X, Y, 8);
+					return true;
+				}
+			}
+			return false;
+		}
+
+
 		private bool PlaceObject(ref BinaryReader reader, int playerNumber)
 		{
-			int x = reader.ReadInt16();
-			int y = reader.ReadInt16();
+			int X = reader.ReadInt16();
+			int Y = reader.ReadInt16();
 			short type10 = reader.ReadInt16();
 			int style2 = reader.ReadInt16();
 			int num172 = reader.ReadByte();
@@ -700,15 +729,18 @@ namespace ServerSideCharacter2.Network
 			{
 				
 				var player = Main.player[playerNumber].GetServerPlayer();
-
-				if (!player.Group.HasPermission("changetile"))
+				if (player.Group.HasPermission("changetile"))
+				{
+					return false;
+				}
+				if (ServerSideCharacter2.RegionManager.CheckRegion(X, Y, player))
 				{
 					if (MWorld.TileMessageCD[playerNumber] == 0)
 					{
-						MessageSender.SendErrorMessage(playerNumber, "你没有权限改变这个物块");
+						MessageSender.SendErrorMessage(playerNumber, "你没有权限放置这个物块");
 						MWorld.TileMessageCD[playerNumber] = 60;
 					}
-					NetMessage.SendTileSquare(-1, x, y, 8);
+					NetMessage.SendTileSquare(-1, X, Y, 8);
 					return true;
 				}
 			}
@@ -717,8 +749,8 @@ namespace ServerSideCharacter2.Network
 
 		private bool HandlePlaceTileEntity(ref BinaryReader reader, int playerNumber)
 		{
-			int x = reader.ReadInt16();
-			int y = reader.ReadInt16();
+			int X = reader.ReadInt16();
+			int Y = reader.ReadInt16();
 			byte b4 = reader.ReadByte();
 			if (Main.netMode == 2)
 			{
@@ -727,53 +759,30 @@ namespace ServerSideCharacter2.Network
 					return true;
 				}
 				var player = Main.player[playerNumber].GetServerPlayer();
-
-				if (!player.Group.HasPermission("changetile"))
+				if (player.Group.HasPermission("changetile"))
+				{
+					return false;
+				}
+				if (ServerSideCharacter2.RegionManager.CheckRegion(X, Y, player))
 				{
 					if (MWorld.TileMessageCD[playerNumber] == 0)
 					{
-						MessageSender.SendErrorMessage(playerNumber, "你没有权限改变这个物块");
+						MessageSender.SendErrorMessage(playerNumber, "你没有权限放置这个物块");
 						MWorld.TileMessageCD[playerNumber] = 60;
 					}
-					NetMessage.SendTileSquare(-1, x, y, 8);
+					NetMessage.SendTileSquare(-1, X, Y, 8);
 					return true;
 				}
 			}
 			return false;
 		}
 
-		private bool ChangeDoor(ref BinaryReader reader, int playerNumber)
-		{
-			byte b4 = reader.ReadByte();
-			int x = reader.ReadInt16();
-			int y = reader.ReadInt16();
-			if (Main.netMode == 2)
-			{
-				if (!CheckLogin(playerNumber))
-				{
-					return true;
-				}
-				var player = Main.player[playerNumber].GetServerPlayer();
-
-				if (!player.Group.HasPermission("changetile"))
-				{
-					if (MWorld.TileMessageCD[playerNumber] == 0)
-					{
-						MessageSender.SendErrorMessage(playerNumber, "你没有权限改变这个物块");
-						MWorld.TileMessageCD[playerNumber] = 60;
-					}
-					NetMessage.SendTileSquare(-1, x, y, 8);
-					return true;
-				}
-			}
-			return false;
-		}
 
 		private bool ReadSign(ref BinaryReader reader, int playerNumber)
 		{
 			int num121 = reader.ReadInt16();
-			int x2 = reader.ReadInt16();
-			int y2 = reader.ReadInt16();
+			int X = reader.ReadInt16();
+			int Y = reader.ReadInt16();
 			string text2 = reader.ReadString();
 			if (Main.netMode == 2)
 			{
@@ -782,14 +791,18 @@ namespace ServerSideCharacter2.Network
 					return true;
 				}
 				var player = Main.player[playerNumber].GetServerPlayer();
-				if (!player.Group.HasPermission("changetile"))
+				if (player.Group.HasPermission("changetile"))
+				{
+					return false;
+				}
+				if (ServerSideCharacter2.RegionManager.CheckRegion(X, Y, player))
 				{
 					if (MWorld.TileMessageCD[playerNumber] == 0)
 					{
 						MessageSender.SendErrorMessage(playerNumber, "你没有权限改变这个物块");
 						MWorld.TileMessageCD[playerNumber] = 60;
 					}
-					NetMessage.SendTileSquare(-1, x2, y2, 6);
+					NetMessage.SendTileSquare(-1, X, Y, 6);
 					return true;
 				}
 			}
@@ -811,7 +824,11 @@ namespace ServerSideCharacter2.Network
 				{
 					return true;
 				}
-				if (!player.Group.HasPermission("changetile"))
+				if (player.Group.HasPermission("changetile"))
+				{
+					return false;
+				}
+				if (ServerSideCharacter2.RegionManager.CheckRegion(X, Y, player))
 				{
 					if (MWorld.TileMessageCD[playerNumber] == 0)
 					{
