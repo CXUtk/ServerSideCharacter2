@@ -27,7 +27,7 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Usage
 		{
-			get { return "/rmrf"; }
+			get { return "/rmrf [all]"; }
 		}
 
 		public override void Action(CommandCaller caller, string input, string[] args)
@@ -49,8 +49,8 @@ namespace ServerSideCharacter2.Commands
 						ManaMax = 20,
 						StatMana = 20,
 						KillCount = p.KillCount,
-						Rank = p.Rank,
-						EloRank = p.EloRank,
+						Rank = 1500,
+						EloRank = 1500,
 						RegisteredTime = p.RegistedTime,
 					};
 					var i = 0;
@@ -65,35 +65,34 @@ namespace ServerSideCharacter2.Commands
 			}
 			else
 			{
-				var player = ServerSideCharacter2.PlayerCollection.Get(Convert.ToInt32(args[0]));
-				if(player == null)
+				foreach (var pair in ServerSideCharacter2.PlayerCollection)
 				{
-					return;
+					var p = pair.Value;
+					var player = new PlayerInfo
+					{
+						Name = p.Name,
+						ID = p.GUID,
+						HasPassword = p.HasPassword,
+						Group = p.Group.Name,
+						Password = p.Password,
+						LifeMax = 100,
+						StatLife = 100,
+						ManaMax = 20,
+						StatMana = 20,
+						KillCount = 0,
+						Rank = 1500,
+						EloRank = 1500,
+						RegisteredTime = p.RegistedTime,
+					};
+					var i = 0;
+					foreach (var item in ServerSideCharacter2.Config.startUpInventory)
+					{
+						player.inventory[i++] = item;
+					}
+					p.SetPlayerInfo(player);
+					p.SyncPlayerFromInfo();
+					Console.WriteLine($"{p.Name}的存档已被重置");
 				}
-				var info = new PlayerInfo
-				{
-					Name = player.Name,
-					ID = player.GUID,
-					HasPassword = player.HasPassword,
-					Group = player.Group.Name,
-					Password = player.Password,
-					LifeMax = 100,
-					StatLife = 100,
-					ManaMax = 20,
-					StatMana = 20,
-					KillCount = player.KillCount,
-					Rank = player.Rank,
-					EloRank = player.EloRank,
-					RegisteredTime = player.RegistedTime,
-				};
-				var i = 0;
-				foreach (var item in ServerSideCharacter2.Config.startUpInventory)
-				{
-					info.inventory[i++] = item;
-				}
-				player.SetPlayerInfo(info);
-				player.SyncPlayerFromInfo();
-				Console.WriteLine($"{player.Name}的存档已被重置");
 			}
 		}
 	}

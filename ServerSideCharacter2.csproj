@@ -127,6 +127,7 @@
     <Compile Include="Commands\LookCommand.cs" />
     <Compile Include="Commands\PigCommand.cs" />
     <Compile Include="Commands\CheckoutCommand.cs" />
+    <Compile Include="Commands\RefreshCommand.cs" />
     <Compile Include="Commands\RMRFCommand.cs" />
     <Compile Include="Commands\InvasionCommand.cs" />
     <Compile Include="Commands\UnionCommand.cs" />

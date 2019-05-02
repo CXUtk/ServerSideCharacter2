@@ -41,14 +41,20 @@ namespace ServerSideCharacter2.RankingSystem
 			return res;
 		}
 
+		public static void RefreshBoard()
+		{
+			var config = ServerSideCharacter2.RankData;
+			config.LastBoard = SelectTops();
+			config.LastRankBoardTime = DateTime.Now;
+			CommandBoardcast.ConsoleMessage("每日排行榜更新完成");
+		}
+
 		public static void CheckRankBoard()
 		{
 			var config = ServerSideCharacter2.RankData;
 			if (config.LastRankBoardTime.Day != DateTime.Now.Day)
 			{
-				config.LastBoard = SelectTops();
-				config.LastRankBoardTime = DateTime.Now;
-				CommandBoardcast.ConsoleMessage("每日排行榜更新完成");
+				RefreshBoard();
 			}
 			//if (config.RankSeasonEndTime < DateTime.Now)
 			//{

@@ -24,6 +24,7 @@ namespace ServerSideCharacter2.Groups
 			AddPermission(new Permission("expert", "切换专家模式"));
 			AddPermission(new Permission("hardmode", "切换肉山前后"));
 			AddPermission(new Permission("group", "管理权限组"));
+			AddPermission(new Permission("ban", "封禁玩家的权限"));
 			AddPermission(new Permission("banitem", "禁用物品"));
 			AddPermission(new Permission("changetile", "玩家可不可以改变物块"));
 			AddPermission(new Permission("god", "玩家可不可以进入无敌模式"));

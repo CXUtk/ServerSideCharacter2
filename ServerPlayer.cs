@@ -614,13 +614,41 @@ namespace ServerSideCharacter2
 
 		}
 
+		private static void TryRemovingBuff(int i, int b)
+		{
+			bool flag = false;
+			if (!Main.debuff[b] && b != 60 && b != 151)
+			{
+				if (Main.player[Main.myPlayer].mount.Active && Main.player[Main.myPlayer].mount.CheckBuff(b))
+				{
+					Main.player[Main.myPlayer].mount.Dismount(Main.player[Main.myPlayer]);
+					flag = true;
+				}
+				if (Main.player[Main.myPlayer].miscEquips[0].buffType == b && !Main.player[Main.myPlayer].hideMisc[0])
+				{
+					Main.player[Main.myPlayer].hideMisc[0] = true;
+				}
+				if (Main.player[Main.myPlayer].miscEquips[1].buffType == b && !Main.player[Main.myPlayer].hideMisc[1])
+				{
+					Main.player[Main.myPlayer].hideMisc[1] = true;
+				}
+				Main.PlaySound(12, -1, -1, 1, 1f, 0f);
+				if (!flag)
+				{
+					Main.player[Main.myPlayer].DelBuff(i);
+				}
+			}
+		}
+
 		public void ClearAllBuffs()
 		{
 			if (!RealPlayer) return;
+			PrototypePlayer.mount.Dismount(PrototypePlayer);
 			for(var i = 0; i < PrototypePlayer.buffType.Length; i++)
 			{
 				PrototypePlayer.DelBuff(i);
 			}
+			PrototypePlayer.ResetEffects();
 		}
 
 	

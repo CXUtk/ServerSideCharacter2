@@ -15,10 +15,10 @@ namespace ServerSideCharacter2
 		/// </summary>
 		/// <param name="mac">网卡物理地址</param>
 		/// <param name="ipv4">IPv4地址</param>
-		public static void GetActiveIpAndMac2(out string mac)
+		public static string GetMac()
 		{
-
-			mac = "";
+			StringBuilder sb = new StringBuilder();
+			string mac = "";
 			string ipv4 = "";
 			string ipv6 = "";
 
@@ -32,7 +32,6 @@ namespace ServerSideCharacter2
 					if (adapter.OperationalStatus == OperationalStatus.Up)
 					{
 						mac = adapter.GetPhysicalAddress().ToString();
-						mac += adapter.Name;
 						foreach (UnicastIPAddressInformation addr in allAddress)
 						{
 							if (addr.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
@@ -44,7 +43,6 @@ namespace ServerSideCharacter2
 								ipv6 = addr.Address.ToString();
 							}
 						}
-
 						if (string.IsNullOrWhiteSpace(mac) ||
 							(string.IsNullOrWhiteSpace(ipv4) && string.IsNullOrWhiteSpace(ipv6)))
 						{
@@ -53,19 +51,11 @@ namespace ServerSideCharacter2
 							ipv6 = "";
 							continue;
 						}
-						else
-						{
-							if (mac.Length == 12)
-							{
-								mac = string.Format("{0}-{1}-{2}-{3}-{4}-{5}",
-									mac.Substring(0, 2), mac.Substring(2, 2), mac.Substring(4, 2),
-									mac.Substring(6, 2), mac.Substring(8, 2), mac.Substring(10, 2));
-							}
-							break;
-						}
+						sb.Append(mac);
 					}
 				}
 			}
+			return sb.ToString();
 		}
 
 		
@@ -84,8 +74,7 @@ namespace ServerSideCharacter2
 
         public static string GetMachineCode()
         {
-			string mac;
-			GetActiveIpAndMac2(out mac);
+			string mac = GetMac();
 			return GetMD5WithString(mac);
 		}
 

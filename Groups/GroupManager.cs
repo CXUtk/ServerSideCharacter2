@@ -72,6 +72,7 @@ namespace ServerSideCharacter2.Groups
 			admin.AddPermission("region-share");
 			admin.AddPermission("see-inventory");
 			admin.AddPermission("clear");
+			admin.AddPermission("ban");
 			var superAdmin = new Group("superadmin")
 			{
 				ChatColor = Color.Cyan,
