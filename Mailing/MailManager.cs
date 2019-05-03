@@ -85,7 +85,7 @@ namespace ServerSideCharacter2.Mailing
 			Load();
 		}
 
-		public void ServerSendMail(ServerPlayer target, string title, string content, List<Item> items)
+		public void ServerSendMail(ServerPlayer target, string title, string content, List<Item> items, int gucoin = 0)
 		{
 			if (Main.netMode == 2)
 			{
@@ -100,6 +100,7 @@ namespace ServerSideCharacter2.Mailing
 					info.FromItem(item);
 					mail.AttachedItems.Add(info);
 				}
+				mail.AttachedGuCoin = gucoin;
 				lock (target.MailList)
 				{
 					MailList.Add(mail.MailHead.MailID, mail);

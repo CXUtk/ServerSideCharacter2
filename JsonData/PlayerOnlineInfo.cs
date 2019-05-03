@@ -43,6 +43,10 @@ namespace ServerSideCharacter2.JsonData
 
 		public int VIPLevel;
 
+		public long GuCoin;
+
+		public Dictionary<string, object> ExtraData;
+
 		public static int CompareB(SimplifiedPlayerInfo a, SimplifiedPlayerInfo b)
 		{
 			return a.Rank.CompareTo(b.Rank);

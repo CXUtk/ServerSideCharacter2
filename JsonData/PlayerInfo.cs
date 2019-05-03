@@ -52,6 +52,8 @@ namespace ServerSideCharacter2.JsonData
 
 		public int hideVisual = 0;
 
+		public long GuCoin = 0;
+
 		public Dictionary<string, object> ExtraInfos = new Dictionary<string, object>();
 
 		

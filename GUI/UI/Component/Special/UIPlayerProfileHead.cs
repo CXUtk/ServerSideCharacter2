@@ -19,13 +19,15 @@ using ServerSideCharacter2.RankingSystem;
 
 namespace ServerSideCharacter2.GUI.UI.Component.Special
 {
-	public class UIPlayerProfileHead : UIElement
+	public class UIPlayerProfileHead : UIAdvElement
 	{
 		private readonly UIText textName;
 		private readonly UIBar rankBar;
 		private readonly UIImageResizable rankimage;
 		private readonly UIText rankLabel;
 		private readonly UIAdvList infoList;
+
+		private UIText gucoinText;
 
 		private const float RANK_BAR_WIDTH = 192;
 		private const float RANK_BAR_HEIGHT = 18;
@@ -79,7 +81,36 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			infoList.Width.Set(0f, 1f);
 			infoList.Height.Set(0f, 1f);
 			infopanel.Append(infoList);
+
+
+			var uiscrollbar = new UIAdvScrollBar();
+			uiscrollbar.SetView(100f, 1000f);
+			uiscrollbar.Height.Set(0f, 1f);
+			uiscrollbar.HAlign = 1f;
+			infopanel.Append(uiscrollbar);
+			infoList.SetScrollbar(uiscrollbar);
+
+
+			gucoinText = new UIText("0");
+			gucoinText.MarginBottom = 5f;
+			gucoinText.TextColor = Color.Yellow;
+			gucoinText.VAlign = 1f;
+			gucoinText.HAlign = 0.5f;
+			infopanel.Append(gucoinText);
 			Append(infopanel);
+		}
+
+		private int frameCounter = 0;
+		private int frame = 0;
+		public override void Update(GameTime gameTime)
+		{
+			base.Update(gameTime);
+			frameCounter++;
+			if(frameCounter == 7)
+			{
+				frameCounter = 0;
+				frame = (frame + 1) % 4;
+			}
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)
@@ -101,6 +132,9 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 				Main.instance.DrawPlayer(player,
 					GetDimensions().Position() + new Vector2(2, 2) + Main.screenPosition, 0f, Vector2.Zero, 0f);
 			}
+			var iconpos = gucoinText.GetDimensions().Position() + new Vector2(-35f, gucoinText.GetDimensions().Height / 2 + 55);
+			var tex = ServerSideCharacter2.ModTexturesTable["GuCoin"];
+			spriteBatch.Draw(tex, iconpos, tex.Frame(1, 4, 0, frame), Color.White, 0f, tex.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
 		}
 
 		private string addColor(string str, Color c)
@@ -116,6 +150,8 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
             var type = Ranking.GetRankType(info.Rank);
 			var range = Ranking.GetRankRange(type);
 			rankLabel.SetText($"{info.Rank} / {range.Item2}");
+
+			gucoinText.SetText(info.GuCoin.ToString());
 
 			var percent = (info.Rank - range.Item1) / (float)(range.Item2 - range.Item1);
 			rankBar.Value = percent;
@@ -167,6 +203,8 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 
 			var regTimeText = new UIText($"注册时间：{_info.RegistedTime:g}");
 			infoList.Add(regTimeText);
+
+
         }
     }
 }

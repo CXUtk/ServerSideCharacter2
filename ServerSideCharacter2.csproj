@@ -156,6 +156,7 @@
     <Compile Include="GUI\UI\State\PlayerInventoryState2.cs" />
     <Compile Include="GUI\UI\State\PlayerInventoryState.cs" />
     <Compile Include="GUI\UI\State\RankBoardState.cs" />
+    <Compile Include="GUI\UI\State\UnionDonationPage.cs" />
     <Compile Include="GUI\UI\State\UnionCreatePage.cs" />
     <Compile Include="GUI\UI\State\UnionCandidatePage.cs" />
     <Compile Include="GUI\UI\State\MailPageState.cs" />

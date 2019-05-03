@@ -90,7 +90,7 @@ namespace ServerSideCharacter2.Commands
 						player.inventory[i++] = item;
 					}
 					p.SetPlayerInfo(player);
-					p.SyncPlayerFromInfo();
+					p.LoadFromInfo();
 					Console.WriteLine($"{p.Name}的存档已被重置");
 				}
 			}

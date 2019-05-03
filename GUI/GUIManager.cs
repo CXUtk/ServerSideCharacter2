@@ -22,6 +22,7 @@ namespace ServerSideCharacter2.GUI
 		UnionPage2,
 		UnionPage3,
 		UnionCandidatePage,
+		UnionDonationPage,
 		ItemPage,
 		ProfilePage,
 		InventoryPage,
@@ -155,6 +156,12 @@ namespace ServerSideCharacter2.GUI
 			_playerInventoryState2 = new PlayerInventoryState2();
 			AddState(_playerInventoryState, SSCUIState.InventoryPage);
 			AddState(_playerInventoryState2, SSCUIState.InventoryPage2);
+
+
+			var unionDonateState = new UnionDonationPage();
+			var uniondonateInterface = new ConditionalInterface(() => _canShowUITable[SSCUIState.UnionDonationPage]);
+			uniondonateInterface.SetState(unionDonateState);
+			_cdInterface.Add(uniondonateInterface);
 
 			// 置顶
 			_playerProfileState = new PlayerProfileState();

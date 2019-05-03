@@ -590,7 +590,7 @@ namespace ServerSideCharacter2.Network
 				{ MessageID.PlayerControls, PlayerControls },
 				{ MessageID.TileEntityPlacement, HandlePlaceTileEntity },
 				{ MessageID.PlaceObject, PlaceObject },
-				{ MessageID.RequestChestOpen, RequestChestOpen }
+				{ MessageID.RequestChestOpen, RequestChestOpen },
 				{ MessageID.ChestUpdates, ChestUpdate }
 				//{ MessageID.RequestChestOpen, RequestChestOpen }
 			};

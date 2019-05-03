@@ -10,10 +10,12 @@ namespace ServerSideCharacter2.Mailing
 	{
 		public MailHead MailHead { get; set; }
 		public string Content { get; set; }
+		public long AttachedGuCoin { get; set; }
 		public List<ItemInfo> AttachedItems { get; set; }
 
 		public Mail()
 		{
+			AttachedGuCoin = 0;
 			Content = "";
 			AttachedItems = new List<ItemInfo>();
 		}

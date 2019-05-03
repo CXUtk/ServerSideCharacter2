@@ -171,31 +171,19 @@ namespace ServerSideCharacter2.GUI.UI
 			unionWealthText.SetText($"财富值: 1000000");
 			WindowPanel.Append(unionWealthText);
 
-			uiSlot = new UISlot(ServerSideCharacter2.ModTexturesTable["AdvInvBack1"]);
-			uiSlot.Left.Set(475, 0f);
-			uiSlot.Top.Set(340, 0f);
-			uiSlot.Width.Set(60, 0f);
-			uiSlot.Height.Set(60, 0f);
-			uiSlot.CanPutInSlot = new CheckPutSlotCondition((item) =>
-			{
-				return item.type == UnionManager.CurrencyType;
-			});
-			uiSlot.Tooltip = "在这放置咕币来捐献";
-			uiSlot.DrawColor = Color.White;
-			WindowPanel.Append(uiSlot);
+			//uiSlot = new UISlot(ServerSideCharacter2.ModTexturesTable["AdvInvBack1"]);
+			//uiSlot.Left.Set(475, 0f);
+			//uiSlot.Top.Set(340, 0f);
+			//uiSlot.Width.Set(60, 0f);
+			//uiSlot.Height.Set(60, 0f);
+			//uiSlot.CanPutInSlot = new CheckPutSlotCondition((item) =>
+			//{
+			//	return item.type == UnionManager.CurrencyType;
+			//});
+			//uiSlot.Tooltip = "在这放置咕币来捐献";
+			//uiSlot.DrawColor = Color.White;
+			//WindowPanel.Append(uiSlot);
 
-			var donateButton = new UICDButton(null, true);
-			donateButton.Left.Set(450, 0f);
-			donateButton.Top.Set(420, 0f);
-			donateButton.Width.Set(108, 0f);
-			donateButton.Height.Set(50, 0f);
-			donateButton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
-			donateButton.ButtonDefaultColor = new Color(200, 200, 200);
-			donateButton.ButtonChangeColor = Color.White;
-			donateButton.CornerSize = new Vector2(12, 12);
-			donateButton.ButtonText = "捐献";
-			donateButton.OnClick += DonateButton_OnClick;
-			WindowPanel.Append(donateButton);
 		}
 
 		private void ReturnButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
@@ -319,6 +307,16 @@ namespace ServerSideCharacter2.GUI.UI
 				exitButton.OnClick += ExitButton_OnClick;
 				_buttonList.Add(exitButton);
 			}
+			var donateButton = new UICDButton(null, true);
+			donateButton.Width.Set(0, 1f);
+			donateButton.Height.Set(50, 0f);
+			donateButton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
+			donateButton.ButtonDefaultColor = new Color(200, 200, 200);
+			donateButton.ButtonChangeColor = Color.White;
+			donateButton.CornerSize = new Vector2(12, 12);
+			donateButton.ButtonText = "捐献";
+			donateButton.OnClick += DonateButton_OnClick;
+			_buttonList.Add(donateButton);
 		}
 
 		private void ExitButton_OnClick1(UIMouseEvent evt, UIElement listeningElement)
@@ -328,12 +326,7 @@ namespace ServerSideCharacter2.GUI.UI
 
 		private void DonateButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
-			if (uiSlot.ContainedItem.type == UnionManager.CurrencyType && uiSlot.ContainedItem.stack > 0)
-			{
-				Main.PlaySound(7, -1, -1, 1, 1f, 0.0f);
-				MessageSender.SendDonateUnion(uiSlot.ContainedItem.stack);
-				uiSlot.ContainedItem = new Item();
-			}
+			ServerSideCharacter2.Instance.ChangeState(SSCUIState.UnionDonationPage);
 		}
 
 		private void ExitButton_OnClick(UIMouseEvent evt, UIElement listeningElement)

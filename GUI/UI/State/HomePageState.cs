@@ -149,6 +149,7 @@ namespace ServerSideCharacter2.GUI.UI
 			crownSwitch.Height.Set(30f, 0f);
 			crownSwitch.OnSwitch += CrownSwitch_OnSwitch;
 			panel.Append(crownSwitch);
+
 		}
 
 		private void CrownSwitch_OnSwitch(UIElement element, bool state)

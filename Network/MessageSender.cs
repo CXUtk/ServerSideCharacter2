@@ -369,7 +369,7 @@ namespace ServerSideCharacter2
 			}
 		}
 
-		public static void SendDonateUnion(int amount)
+		public static void SendDonateUnion(long amount)
 		{
 			if (Main.netMode == 1)
 			{

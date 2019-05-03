@@ -37,7 +37,11 @@ namespace ServerSideCharacter2.Services.Mails
 					player.SendMessageBox("这个邮件不存在", 180, Color.Yellow);
 					return;
 				}
-				target.MailHead.IsRead = true;
+				if (!target.MailHead.IsRead)
+				{
+					target.MailHead.IsRead = true;
+					player.GiveGuCoin(target.AttachedGuCoin);
+				}
 				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
 				p.Write((int)SSCMessageType.MailGetContent);
 				p.Write(target.Content);

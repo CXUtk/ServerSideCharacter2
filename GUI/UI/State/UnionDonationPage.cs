@@ -1,27 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.UI;
-using Terraria.GameContent.UI.Elements;
+﻿using Microsoft.Xna.Framework;
 using ServerSideCharacter2.GUI.UI.Component;
-using Terraria.GameContent.UI.States;
-using ServerSideCharacter2.Utils;
-using System.Security.Cryptography;
-using ServerSideCharacter2.Core;
-using ServerSideCharacter2.GUI.UI.Component.Special;
-using Terraria.GameContent.UI;
-using ServerSideCharacter2.Unions;
+using Terraria;
+using Terraria.GameContent.UI.Elements;
+using Terraria.UI;
 
 namespace ServerSideCharacter2.GUI.UI
 {
-	public class UnionCreatePage : AdvWindowUIState
+	public class UnionDonationPage : AdvWindowUIState
 	{
-		public static UnionCreatePage Instance;
+		public static UnionDonationPage Instance;
 
 
 		private const float WINDOW_WIDTH = 380;
@@ -30,11 +17,11 @@ namespace ServerSideCharacter2.GUI.UI
 		private readonly int TEXTBOX_WIDTH = 200;
 		private readonly int Y_OFFSET = 50;
 		private readonly int X_OFFSET = -40;
-		private UIAdvTextBox _unionNameText;
+		private UIAdvTextBox _donationValueText;
 		private UICDButton _submitButton;
 
 
-		public UnionCreatePage()
+		public UnionDonationPage()
 		{
 			Instance = this;
 		}
@@ -49,14 +36,14 @@ namespace ServerSideCharacter2.GUI.UI
 			WindowPanel.Height.Set(WINDOW_HEIGHT, 0f);
 			WindowPanel.Color = Color.White * 0.8f;
 
-			_unionNameText = new UIAdvTextBox();
-			_unionNameText.Top.Set(-TEXTBOX_HEIGHT + Y_OFFSET, 0.5f);
-			_unionNameText.Left.Set(-TEXTBOX_WIDTH / 2 + X_OFFSET, 0.5f);
-			_unionNameText.Width.Set(TEXTBOX_WIDTH, 0f);
-			_unionNameText.Height.Set(TEXTBOX_HEIGHT, 0f);
-			WindowPanel.Append(_unionNameText);
+			_donationValueText = new UIAdvTextBox();
+			_donationValueText.Top.Set(-TEXTBOX_HEIGHT + Y_OFFSET, 0.5f);
+			_donationValueText.Left.Set(-TEXTBOX_WIDTH / 2 + X_OFFSET, 0.5f);
+			_donationValueText.Width.Set(TEXTBOX_WIDTH, 0f);
+			_donationValueText.Height.Set(TEXTBOX_HEIGHT, 0f);
+			WindowPanel.Append(_donationValueText);
 
-			var label = new UIText("输入公会名称");
+			var label = new UIText("输入捐献的咕币数量");
 			label.Top.Set(60, 0f);
 			label.Left.Set(-TEXTBOX_WIDTH / 2 + X_OFFSET, 0.5f);
 			WindowPanel.Append(label);
@@ -70,24 +57,31 @@ namespace ServerSideCharacter2.GUI.UI
 			submitButton.ButtonDefaultColor = new Color(200, 200, 200);
 			submitButton.ButtonChangeColor = Color.White;
 			submitButton.CornerSize = new Vector2(12, 12);
-			submitButton.ButtonText = "创建";
+			submitButton.ButtonText = "捐献";
 			submitButton.OnClick += SubmitButton_OnClick;
 			WindowPanel.Append(submitButton);
 		}
 
 		private void SubmitButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
-			if(_unionNameText.Text.Length > 10)
+			long res;
+			if (!long.TryParse(_donationValueText.Text, out res))
 			{
-				ServerSideCharacter2.Instance.ShowMessage("公会名字过长", 120, Color.OrangeRed);
+				ServerSideCharacter2.Instance.ShowMessage("输入的数字不合法，应为整数", 120, Color.Red);
 				return;
 			}
-			MessageSender.SendUnionCreate(_unionNameText.Text);
+			if(res <= 0)
+			{
+				ServerSideCharacter2.Instance.ShowMessage("你必须捐献正整数个咕币", 120, Color.Red);
+				return;
+			}
+			Main.PlaySound(7, -1, -1, 1, 1f, 0.0f);
+			MessageSender.SendDonateUnion(res);
 		}
 
 		protected override void OnClose(UIMouseEvent evt, UIElement listeningElement)
 		{
-			ServerSideCharacter2.Instance.ChangeState(SSCUIState.UnionPage3);
+			ServerSideCharacter2.Instance.ChangeState(SSCUIState.UnionDonationPage);
 		}
 	}
 }

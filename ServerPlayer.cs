@@ -83,6 +83,37 @@ namespace ServerSideCharacter2
 			}
 		}
 
+		internal long GuCoin
+		{
+			get { return _info.GuCoin; }
+			set { _info.GuCoin = value; }
+		}
+
+		public void GiveGuCoin(long amount)
+		{
+			lock (this)
+			{
+				_info.GuCoin += amount;
+				SendMessageBox($"你获得了 {amount} 咕币", 120, Color.Yellow);
+			}
+		}
+
+		public bool CheckGuCoin(long amount, bool pay)
+		{
+			lock (this)
+			{
+				if (_info.GuCoin >= amount)
+				{
+					if (pay)
+					{
+						_info.GuCoin -= amount;
+					}
+					return true;
+				}
+				return false;
+			}
+		}
+
 		/// <summary>
 		/// 玩家当前正在使用的存档
 		/// </summary>
@@ -756,7 +787,7 @@ namespace ServerSideCharacter2
 		{
 			var isFriend = (id == -1) ||(id == this.playerID) 
 				|| (Main.player[id].GetServerPlayer().Friends.Contains(this.Name));
-			return new SimplifiedPlayerInfo
+			var info = new SimplifiedPlayerInfo
 			{
 				Name = this.Name,
 				IsLogin = this.IsLogin,
@@ -773,8 +804,10 @@ namespace ServerSideCharacter2
                 RegistedTime = this.RegistedTime,
                 QQNumber = this.qqAuth.QQ,
 				CurrentMatch = this.CurrentMatch == null ? "" : this.CurrentMatch.Name,
-				VIPLevel = this.VIPLevel
+				VIPLevel = this.VIPLevel,
+				ExtraData = this.ExtraInfos
 			};
+			return info;
 		}
 
 		public void SyncGroupInfo()

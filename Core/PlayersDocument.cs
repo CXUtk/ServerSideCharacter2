@@ -25,15 +25,13 @@ namespace ServerSideCharacter2.Core
 
 		public void SavePlayersData()
 		{
-
+			if (File.Exists(FileName))
+			{
+				File.Copy(FileName, FileName + "bk", true);
+			}
 			ServerSideCharacter2.PlayerCollection.SyncPlayers();
 			var data = ServerSideCharacter2.PlayerCollection.GetJson();
 			using (var writer = new StreamWriter(FileName, false, Encoding.UTF8))
-			{
-				writer.Write(data);
-			}
-
-			using (var writer = new StreamWriter(FileName + "bk", false, Encoding.UTF8))
 			{
 				writer.Write(data);
 			}

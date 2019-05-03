@@ -30,7 +30,8 @@ namespace ServerSideCharacter2.Services.Union
 					CommandBoardcast.ConsoleError($"玩家 {player.name} 发来的封包 数据异常，可能已被篡改");
 					return;
 				}
-				int amount = Convert.ToInt16(res);
+				long amount;
+				long.TryParse(res, out amount);
 
 				if (splayer.Union == null)
 				{
@@ -40,11 +41,13 @@ namespace ServerSideCharacter2.Services.Union
 				if(amount <= 0)
 				{
 					splayer.SendMessageBox("捐献数量不合法", 120, Color.Red);
+					CommandBoardcast.ConsoleError($"玩家 {player.name} 发来的封包 数据异常，可能已被篡改");
 					return;
 				}
-				if(amount > 9999)
+				if(amount > splayer.GuCoin)
 				{
 					splayer.SendMessageBox("捐献数量不合法", 120, Color.Red);
+					CommandBoardcast.ConsoleError($"玩家 {player.name} 发来的封包 数据异常，可能已被篡改");
 					return;
 				}
 				var union = splayer.Union;

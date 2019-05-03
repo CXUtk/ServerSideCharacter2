@@ -21,8 +21,8 @@ namespace ServerSideCharacter2.Regions
 		public string OwnedUnionName { get; set; }
 		public event PlayerInteractionHandler OnEnter;
 		public event PlayerInteractionHandler OnExit;
-		[JsonIgnore]
 
+		[JsonIgnore]
 		public ServerPlayer Owner
 		{
 			get
@@ -30,7 +30,7 @@ namespace ServerSideCharacter2.Regions
 				return ServerSideCharacter2.PlayerCollection.Get(OwnerName);
 			}
 		}
-
+		[JsonIgnore]
 		public Region OwnedRegion
 		{
 			get
@@ -54,7 +54,7 @@ namespace ServerSideCharacter2.Regions
 			StringBuilder sb = new StringBuilder();
 			sb.AppendLine(string.Format("欢迎来到领地 '{0}'!", Name));
 			sb.Append(string.Format("领地主人: {0}，所属公会：{1}", Owner == null ? "无" : Owner.Name,
-				OwnedUnionName == null ? "无" : OwnedUnionName));
+				OwnedUnionName == "" ? "无" : OwnedUnionName));
 			return sb.ToString();
 		}
 

@@ -211,7 +211,7 @@ namespace ServerSideCharacter2.Unions
 			}
 		}
 
-		private void IncreaseEXP(int amount)
+		private void IncreaseEXP(long amount)
 		{
 			CurrentEXP += amount;
 			while(CurrentEXP >= EXPForNextLevel)
@@ -230,17 +230,18 @@ namespace ServerSideCharacter2.Unions
 		}
 
 
-		private void IncreaseWealth(int amount)
+		private void IncreaseWealth(long amount)
 		{
 			Wealth += amount;
 		}
 
-		public void Donate(ServerPlayer splayer, int amount)
+		public void Donate(ServerPlayer splayer, long amount)
 		{
 			lock (this)
 			{
 				IncreaseEXP(amount);
 				IncreaseWealth(amount);
+				splayer.GuCoin -= amount;
 				if (!DonationTable.ContainsKey(splayer.Name))
 				{
 					DonationTable.Add(splayer.Name, amount);
