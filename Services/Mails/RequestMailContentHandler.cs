@@ -40,6 +40,7 @@ namespace ServerSideCharacter2.Services.Mails
 				if (!target.MailHead.IsRead)
 				{
 					target.MailHead.IsRead = true;
+					if(target.AttachedGuCoin > 0)
 					player.GiveGuCoin(target.AttachedGuCoin);
 				}
 				ModPacket p = ServerSideCharacter2.Instance.GetPacket();

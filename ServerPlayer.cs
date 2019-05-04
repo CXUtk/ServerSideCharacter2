@@ -805,6 +805,7 @@ namespace ServerSideCharacter2
                 QQNumber = this.qqAuth.QQ,
 				CurrentMatch = this.CurrentMatch == null ? "" : this.CurrentMatch.Name,
 				VIPLevel = this.VIPLevel,
+				GuCoin = this.GuCoin,
 				ExtraData = this.ExtraInfos
 			};
 			return info;

@@ -39,9 +39,8 @@ namespace ServerSideCharacter2.Services.Union
 					splayer.SendMessageBox("公会名字不合法，长度应为2-10之间，且不能包含非法字符", 120, Color.OrangeRed);
 					return;
 				}
-				if (CustomCurrencyManager.BuyItem(player, 1000, UnionManager.CustomCurrencyID))
+				if (splayer.CheckGuCoin(1000, true))
 				{
-					splayer.SyncItemData();
 					ServerSideCharacter2.UnionManager.CreateUnion(name, splayer);
 					splayer.SendMessageBox("公会创建成功", 180, Color.LimeGreen);
 					var s = $"玩家 {splayer.Name} 创建了公会 {name}，快来看看吧";

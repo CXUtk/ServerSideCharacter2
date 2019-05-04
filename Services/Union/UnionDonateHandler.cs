@@ -46,8 +46,7 @@ namespace ServerSideCharacter2.Services.Union
 				}
 				if(amount > splayer.GuCoin)
 				{
-					splayer.SendMessageBox("捐献数量不合法", 120, Color.Red);
-					CommandBoardcast.ConsoleError($"玩家 {player.name} 发来的封包 数据异常，可能已被篡改");
+					splayer.SendMessageBox("你没有足够的咕币进行捐献", 120, Color.Red);
 					return;
 				}
 				var union = splayer.Union;
