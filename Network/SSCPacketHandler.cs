@@ -91,6 +91,7 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.UnionCandidateOp, new Services.Union.UnionCandidateHandler() },
 				{SSCMessageType.UnionRemoveCommand, new Services.Union.UnionRemoveHandler() },
 				{SSCMessageType.UnionDonate, new Services.Union.UnionDonateHandler() },
+				{SSCMessageType.UnionTP, new Services.Union.UnionRegionTPHandler() },
 				{SSCMessageType.UnionKick, new Services.Union.UnionKickHandler() },
 				{SSCMessageType.MailGetHeads, new Services.Mails.RequestMailListHandler() },
 				{SSCMessageType.MailGetContent, new Services.Mails.RequestMailContentHandler() },

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using ServerSideCharacter2.JsonData;
+using ServerSideCharacter2.Regions;
 using ServerSideCharacter2.Utils;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,20 @@ namespace ServerSideCharacter2.Unions
 		public HashSet<string> Candidates { get; set; }
 		public string RegionName { get; set; }
 		public Dictionary<string, long> DonationTable { get; set; }
+
+		[JsonIgnore]
+		public Region OwnedRegion
+		{
+			get
+			{
+				if (RegionName == "") return null;
+				if (ServerSideCharacter2.RegionManager.Contains(RegionName))
+				{
+					return ServerSideCharacter2.RegionManager.Regions[RegionName];
+				}
+				return null;
+			}
+		}
 
 
 		public static int GetMaxMembers(int level)

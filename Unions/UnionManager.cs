@@ -6,6 +6,7 @@ using System.Threading;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using ServerSideCharacter2.JsonData;
+using ServerSideCharacter2.Regions;
 using ServerSideCharacter2.Utils;
 
 namespace ServerSideCharacter2.Unions
@@ -43,35 +44,48 @@ namespace ServerSideCharacter2.Unions
 			return info;
 		}
 
+
+		private static Region FindNextRegion()
+		{
+			for(int i = 0; i < 20; i++)
+			{
+				string name = $"公会领地{i + 1}";
+				if (ServerSideCharacter2.RegionManager.Contains(name))
+				{
+					var region = ServerSideCharacter2.RegionManager.Regions[name];
+					if(region.OwnedUnionName == "")
+					{
+						return region;
+					}
+				}
+			}
+			return null;
+		}
+
 		/// <summary>
 		/// 创建领地，创建之前需要确保名字没有冲突
 		/// </summary>
 		/// <param name="name"></param>
 		/// <param name="owner"></param>
-		public void CreateUnion(string name, ServerPlayer owner)
+		public bool CreateUnion(string name, ServerPlayer owner)
 		{
-			bool lockTaken = false;
-			Monitor.TryEnter(this, 3000, ref lockTaken);
-			if (lockTaken)
+			lock (this)
 			{
-				try
+				if (Unions.Count == 20) return false;
+				var region = FindNextRegion();
+				if (region == null)
 				{
-					Union union = new Union(name);
-					union.Owner = owner.Name;
-					owner.Union = union;
-					owner.SyncUnionInfo();
-					union.AddMember(owner);
-					Unions.Add(name, union);
-
+					throw new SSCException("没有可用的领地来分配");
 				}
-				finally
-				{
-					Monitor.Exit(this);
-				}
-			}
-			else
-			{
-				throw new SSCException("死锁发生");
+				Union union = new Union(name);
+				union.Owner = owner.Name;
+				owner.Union = union;
+				owner.SyncUnionInfo();
+				union.AddMember(owner);
+				union.RegionName = region.Name;
+				region.OwnedUnionName = owner.Name;
+				Unions.Add(name, union);
+				return true;
 			}
 		}
 
@@ -90,6 +104,11 @@ namespace ServerSideCharacter2.Unions
 				{
 					var union = Unions[name];
 					var members = union.Members.ToList();
+					var region = union.OwnedRegion;
+					if(region != null)
+					{
+						region.OwnedUnionName = "";
+					}
 					Unions.Remove(name);
 					foreach(var member in members)
 					{

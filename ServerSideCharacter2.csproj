@@ -319,6 +319,7 @@
     <Compile Include="Services\Union\GetUnionComplexHandler.cs" />
     <Compile Include="Services\Union\UnionDonateHandler.cs" />
     <Compile Include="Services\Union\UnionCandidateHandler.cs" />
+    <Compile Include="Services\Union\UnionRegionTPHandler.cs" />
     <Compile Include="Services\Union\UnionKickHandler.cs" />
     <Compile Include="Services\Union\UnionRemoveHandler.cs" />
     <Compile Include="Services\Union\UnionJoinHandler.cs" />

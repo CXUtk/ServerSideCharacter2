@@ -489,7 +489,7 @@ namespace ServerSideCharacter2
 					BuffID.Frozen, time, 0f, 0, 0, 0);
 			}
 		}
-
+		public static event EventHandler OnPlayerNewAccount;
 		public static ServerPlayer CreateNewPlayer(Player p)
 		{
 			var instance = new ServerPlayer(p);
@@ -516,6 +516,7 @@ namespace ServerSideCharacter2
 			}
 			instance._info = player;
 			instance.LoadFromInfo();
+			OnPlayerNewAccount?.Invoke(instance, new EventArgs());
 			return instance;
 		}
 

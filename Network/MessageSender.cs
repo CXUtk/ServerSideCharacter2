@@ -379,6 +379,15 @@ namespace ServerSideCharacter2
 				p.Send();
 			}
 		}
+		public static void SendTPUnionRegion()
+		{
+			if (Main.netMode == 1)
+			{
+				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				p.Write((int)SSCMessageType.UnionTP);
+				p.Send();
+			}
+		}
 		public static void SendGetMailsHead()
 		{
 			ModPacket p = ServerSideCharacter2.Instance.GetPacket();

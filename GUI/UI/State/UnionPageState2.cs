@@ -117,7 +117,7 @@ namespace ServerSideCharacter2.GUI.UI
 			buttonPanel.Top.Set(UNIONLIST_OFFSET_TOP, 0f);
 			buttonPanel.Left.Set(UNIONLIST_OFFSET_RIGHT + UNIONLIST_WIDTH + 10, 0f);
 			buttonPanel.Width.Set(150, 0f);
-			buttonPanel.Height.Set(180, 0f);
+			buttonPanel.Height.Set(240, 0f);
 			buttonPanel.SetPadding(10f);
 			buttonPanel.Visible = false;
 			WindowPanel.Append(buttonPanel);
@@ -317,6 +317,23 @@ namespace ServerSideCharacter2.GUI.UI
 			donateButton.ButtonText = "捐献";
 			donateButton.OnClick += DonateButton_OnClick;
 			_buttonList.Add(donateButton);
+
+			var tpRegionButton = new UICDButton(null, true);
+			tpRegionButton.Width.Set(0, 1f);
+			tpRegionButton.Height.Set(50, 0f);
+			tpRegionButton.CoolDownCount = 60;
+			tpRegionButton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack2"];
+			tpRegionButton.ButtonDefaultColor = new Color(200, 200, 200);
+			tpRegionButton.ButtonChangeColor = Color.White;
+			tpRegionButton.CornerSize = new Vector2(12, 12);
+			tpRegionButton.ButtonText = "传送领地";
+			tpRegionButton.OnClick += TpRegionButton_OnClick;
+			_buttonList.Add(tpRegionButton);
+		}
+
+		private void TpRegionButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
+		{
+			MessageSender.SendTPUnionRegion();
 		}
 
 		private void ExitButton_OnClick1(UIMouseEvent evt, UIElement listeningElement)

@@ -312,6 +312,7 @@ namespace ServerSideCharacter2
 					}
 					else
 					{
+						var spstate = Main.spriteBatch.GraphicsDevice.SamplerStates[0];
 						Main.spriteBatch.End();
 						tex = ServerSideCharacter2.ModTexturesTable[RankType.Crown.ToString()];
 						Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
@@ -320,7 +321,7 @@ namespace ServerSideCharacter2
 							info.position.Y + info.drawPlayer.gfxOffY - 25 - Main.screenPosition.Y),
 							null, Color.White, 0f, tex.Size() * 0.5f, 1.2f + Main.essScale * 0.3f, SpriteEffects.None, 0);
 						Main.spriteBatch.End();
-						Main.spriteBatch.Begin();
+						Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, spstate, DepthStencilState.None, Main.instance.Rasterizer, null, Main.Transform);
 					}
 
 				}

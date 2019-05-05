@@ -31,7 +31,7 @@ namespace ServerSideCharacter2.Regions
 			}
 		}
 		[JsonIgnore]
-		public Region OwnedRegion
+		public Region OwnedUnion
 		{
 			get
 			{

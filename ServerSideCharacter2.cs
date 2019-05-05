@@ -39,7 +39,7 @@ namespace ServerSideCharacter2
 	public delegate void RankBoardEventHandler(List<SimplifiedPlayerInfo> players);
 	public class ServerSideCharacter2 : Mod
 	{
-		public const bool DEBUGMODE = true;
+		public const bool DEBUGMODE = false;
 
 		internal static ServerSideCharacter2 Instance;
 
@@ -47,7 +47,7 @@ namespace ServerSideCharacter2
 
 		public static PlayerCollection PlayerCollection;
 
-		internal static string APIVersion = "V0.18 测试";
+		internal static string APIVersion = "V0.20 测试";
 
 		internal static ErrorLogger ErrorLogger;
 
@@ -264,12 +264,27 @@ namespace ServerSideCharacter2
 				RSACrypto.GenKey();
 				ConfigLoader.Load();
 				MatchingSystem = new MatchingSystem();
+				AddUnionRegions();
+
 			}
 			Loaded = true;
 			if (!Main.dedServ)
 				GuiManager.SetNPCDefaults();
 		}
 
+		private void AddUnionRegions()
+		{
+			int width = 202;
+			int height = 102;
+			for (int i = 0; i < 20; i++)
+			{
+				Point start = new Point(55 + i * width, 800);
+				if (!RegionManager.Contains($"公会领地{i + 1}"))
+				{
+					RegionManager.CreateNewRegion(new Rectangle(start.X + 1, start.Y + 1, width - 2, height - 2), $"公会领地{i + 1}");
+				}
+			}
+		}
 
 		public void ShowMessage(string msg, int time, Color color)
 		{

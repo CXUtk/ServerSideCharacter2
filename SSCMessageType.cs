@@ -77,6 +77,7 @@
 		UnionRemoveCommand,
 		UnionKick,
 		UnionDonate,
+		UnionTP,
 		MailGetHeads,
 		MailGetContent,
 		MailPickItem,
