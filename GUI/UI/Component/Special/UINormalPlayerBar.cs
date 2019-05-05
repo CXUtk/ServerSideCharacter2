@@ -32,7 +32,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		private readonly Texture2D dividerTexture;
 		private UICDButton addFriendButton;
 
-		private readonly List<UICDButton> extraButtons = new List<UICDButton>();
+		protected readonly List<UICDButton> extraButtons = new List<UICDButton>();
 
 		protected UIText nameLabel;
 		protected SimplifiedPlayerInfo playerInfo;
@@ -73,7 +73,6 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			//_onlinePlayerPanel.Append(_genderImage);
 
 			AddExtraButtons(extraButtons);
-
 			SetUpExtraButtons();
 
 		}
@@ -184,7 +183,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			ServerSideCharacter2.GuiManager.OpenProfile(playerInfo);
 		}
 
-		private void SetUpExtraButtons()
+		protected void SetUpExtraButtons()
 		{
 			if (extraButtons.Count == 0) return;
 			var currentLeft = EXTRA_BUTTON_MARGIN_LEFT;

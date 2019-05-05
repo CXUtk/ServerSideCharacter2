@@ -76,6 +76,7 @@
 		UnionCandidateOp,
 		UnionRemoveCommand,
 		UnionKick,
+		UnionToggleBuilder,
 		UnionDonate,
 		UnionTP,
 		MailGetHeads,

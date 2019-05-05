@@ -225,10 +225,10 @@ namespace ServerSideCharacter2
                 }
 				// 补充注册机器码结束
 
-				if (MachineCode == "")
-				{ return States.LoginState.GetMCFailed; }
-				else if (MachineCode != MachineCode_DB)
-				{ return States.LoginState.MCCheckFailed; }
+				//if (MachineCode == "")
+				//{ return States.LoginState.GetMCFailed; }
+				//else if (MachineCode != MachineCode_DB)
+				//{ return States.LoginState.MCCheckFailed; }
 				if (QQ == "" || OpenID == "")
                 {
                     return States.LoginState.Unbound;
@@ -292,8 +292,8 @@ namespace ServerSideCharacter2
                     }
                     __mdr.Close();
                     __cmd.Cancel();
-					if (UserName != "" && UserName != CharacterName)
-					{ return States.RegisterState.MCBound; }
+					//if (UserName != "" && UserName != CharacterName)
+					//{ return States.RegisterState.MCBound; }
 
 					MySqlManager dbm = new MySqlManager();
                     dbm.Connect();

@@ -29,9 +29,9 @@ namespace ServerSideCharacter2.GUI.UI
 		private UIText unionWealthText;
 
 
-		private float windowWidth = 600;
+		private float windowWidth = 640;
 		private float windowHeight = 500;
-		private const float UNIONLIST_WIDTH = 400;
+		private const float UNIONLIST_WIDTH = 460;
 		private const float UNIONLIST_HEIGHT = 360;
 		private const float UNIONLIST_OFFSET_RIGHT = 32;
 		private const float UNIONLIST_OFFSET_TOP = 120;
@@ -213,7 +213,7 @@ namespace ServerSideCharacter2.GUI.UI
 						Name = ServerUtils.RandomGenString(),
 						IsLogin = Main.rand.NextBool(),
 					};
-					var bar = new UIUnionMemberBar(testinfo, false, Main.rand.Next(10000000));
+					var bar = new UIUnionMemberBar(testinfo, Main.rand.Next(2) == 0 ? UnionPosition.会员 : UnionPosition.建筑师, Main.rand.Next(10000000));
 					_memberList.Add(bar);
 				}
 				var ownerinfo = new JsonData.SimplifiedPlayerInfo
@@ -221,7 +221,7 @@ namespace ServerSideCharacter2.GUI.UI
 					Name = "Skirt",
 					IsLogin = true,
 				};
-				_memberList.Add(new UIUnionMemberBar(ownerinfo, true, Main.rand.Next(10000000)));
+				_memberList.Add(new UIUnionMemberBar(ownerinfo, UnionPosition.会长, Main.rand.Next(10000000)));
 				_memberList.Sort();
 				unionNameText.SetText("裙中世界");
 				AdjustOwnerUI(true);
@@ -250,13 +250,23 @@ namespace ServerSideCharacter2.GUI.UI
 		{
 			_memberList.Clear();
 		}
+
+
+
 		public void Apply(JsonData.ComplexUnionInfo info)
 		{
-			_memberList.Add(new UIUnionMemberBar(info.Owner, true, info.Donation[info.Owner.Name]));
+			_memberList.Add(new UIUnionMemberBar(info.Owner, UnionPosition.会长, info.Donation[info.Owner.Name]));
 			foreach (var member in info.Members)
 			{
-				if(member.Name != info.Owner.Name)
-					_memberList.Add(new UIUnionMemberBar(member, false, info.Donation[member.Name]));
+				if (member.Name != info.Owner.Name)
+				{
+					var pos = UnionPosition.会员;
+					if (info.Builders.Contains(member.Name))
+					{
+						pos = UnionPosition.建筑师;
+					}
+					_memberList.Add(new UIUnionMemberBar(member, pos, info.Donation[member.Name]));
+				}
 			}
 			_memberList.Sort();
 			unionNameText.SetText(info.Name);

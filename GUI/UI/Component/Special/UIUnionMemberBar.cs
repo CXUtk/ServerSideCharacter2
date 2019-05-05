@@ -15,24 +15,25 @@ using ServerSideCharacter2.JsonData;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using ServerSideCharacter2.Unions;
 
 namespace ServerSideCharacter2.GUI.UI.Component.Special
 {
 	public class UIUnionMemberBar : UINormalPlayerBar
 	{
-		private bool _isOwner;
+		public UnionPosition _position;
 
-		public UIUnionMemberBar(SimplifiedPlayerInfo info, bool owner, long donation) : base(info)
+		public UIUnionMemberBar(SimplifiedPlayerInfo info, UnionPosition position, long donation) : base(info)
 		{
-			if (owner)
+			_position = position;
+			if (position == UnionPosition.会长)
 			{
 				_defaultColor = Color.LimeGreen;
 				this.Color = _defaultColor * 0.7f;
 			}
 			expandedHeight = 135;
-			_isOwner = owner;
 
-			var classText = new UIText(owner ? "会长" : "成员");
+			var classText = new UIText(position.ToString());
 			classText.Top.Set(10, 0f);
 			classText.Left.Set(165, 0);
 			Append(classText);
@@ -41,9 +42,13 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			donationText.Top.Set(50, 0f);
 			donationText.Left.Set(5f, 0);
 			Append(donationText);
+
+			AddExtraButton();
+
+			SetUpExtraButtons();
 		}
 
-		protected override void AddExtraButtons(List<UICDButton> buttons)
+		private void AddExtraButton()
 		{
 			AddFriendButton();
 			var profilebutton = new UICDButton(null, true);
@@ -55,7 +60,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			profilebutton.CornerSize = new Vector2(12, 12);
 			profilebutton.ButtonText = "资料";
 			profilebutton.OnClick += Profilebutton_OnClick;
-			buttons.Add(profilebutton);
+			extraButtons.Add(profilebutton);
 
 			if (Main.netMode == 0 || ServerSideCharacter2.MainPlayerGroup.HasPermission("tp"))
 			{
@@ -68,7 +73,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 				tpbutton.CornerSize = new Vector2(12, 12);
 				tpbutton.ButtonText = "传送";
 				tpbutton.OnClick += Tpbutton_OnClick;
-				buttons.Add(tpbutton);
+				extraButtons.Add(tpbutton);
 			}
 
 
@@ -83,9 +88,33 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 				kickButton.CornerSize = new Vector2(12, 12);
 				kickButton.ButtonText = "踢出";
 				kickButton.OnClick += KickButton_OnClick1;
-				buttons.Add(kickButton);
+				extraButtons.Add(kickButton);
+			}
+
+			if (_position != UnionPosition.会长 && (Main.netMode == 0 || ServerSideCharacter2.ClientUnion.Owner == Main.LocalPlayer.name))
+			{
+				var builderButton = new UICDButton(null, true);
+				builderButton.Width.Set(125f, 0f);
+				builderButton.Height.Set(38f, 0f);
+				builderButton.BoxTexture = ServerSideCharacter2.ModTexturesTable["AdvInvBack3"];
+				builderButton.ButtonDefaultColor = new Color(200, 200, 200);
+				builderButton.ButtonChangeColor = Color.White;
+				builderButton.CornerSize = new Vector2(12, 12);
+				builderButton.ButtonText = (_position == UnionPosition.建筑师 ? "取消" : "任命") + "建筑师";
+				builderButton.OnClick += BuilderButton_OnClick;
+				extraButtons.Add(builderButton);
 			}
 			buttonTopOffset = 75f;
+		}
+
+		protected override void AddExtraButtons(List<UICDButton> buttons)
+		{
+			
+		}
+
+		private void BuilderButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
+		{
+			MessageSender.SendUnionToggleBuilder(playerInfo.Name);
 		}
 
 		private void KickButton_OnClick1(UIMouseEvent evt, UIElement listeningElement)
@@ -97,10 +126,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		{
 			var other = obj as UIUnionMemberBar;
 			Debug.Assert(other != null, nameof(other) + " != null");
-			if (this._isOwner && !other._isOwner) return -1;
-			else if (playerInfo.IsLogin && !other.playerInfo.IsLogin) return -1;
-			else if (!playerInfo.IsLogin && other.playerInfo.IsLogin) return 1;
-			else return 0;
+			return _position.CompareTo(other._position);
 		}
 
 

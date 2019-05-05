@@ -119,9 +119,13 @@ namespace ServerSideCharacter2.Regions
 			foreach (var pair in Regions)
 			{
 				var region = pair.Value;
-				if (region.Area.Contains(X, Y) && (region.Owner.Equals(player) || (player.Union != null && player.Union.RegionName != region.Name)))
+				if (region.Area.Contains(X, Y))
 				{
-					return false;
+					if ((region.Owner != null && region.Owner.Equals(player)) || (player.Union != null
+						&& player.Union.RegionName == region.Name && player.Union.Builders.Contains(player.Name)))
+					{
+						return false;
+					}
 				}
 			}
 			return true;

@@ -32,6 +32,7 @@ namespace ServerSideCharacter2.Services.Union
 				p.Write((int)SSCMessageType.UnionInfoComplex);
 				p.Write(JsonConvert.SerializeObject(splayer.Union.GetVerbose(playerNumber), Formatting.None));
 				p.Send(playerNumber);
+				splayer.SyncUnionInfo();
 				CommandBoardcast.ConsoleMessage($"{splayer.Union.Name} 公会信息已经发送给{Main.player[playerNumber].name}");
 			}
 			else

@@ -11,6 +11,13 @@ using Terraria.ModLoader;
 
 namespace ServerSideCharacter2.Unions
 {
+
+	public enum UnionPosition
+	{
+		会长,
+		建筑师,
+		会员
+	}
 	public class Union : IName
 	{
 		private const int EXP_BASE = 200;
@@ -28,6 +35,7 @@ namespace ServerSideCharacter2.Unions
 		public HashSet<string> Members { get; set; }
 		public string Owner { get; set; }
 		public HashSet<string> Candidates { get; set; }
+		public HashSet<string> Builders { get; set; }
 		public string RegionName { get; set; }
 		public Dictionary<string, long> DonationTable { get; set; }
 
@@ -48,17 +56,25 @@ namespace ServerSideCharacter2.Unions
 
 		public static int GetMaxMembers(int level)
 		{
-			if(level >= 8)
+			if(level >= 14)
 			{
-				return 15;
+				return 12;
 			}
-			else if(level >= 5)
+			else if(level >= 10)
 			{
 				return 10;
 			}
+			else if(level >= 8)
+			{
+				return 8;
+			}
+			else if(level >= 4)
+			{
+				return 6;
+			}
 			else
 			{
-				return 7;
+				return 5;
 			}
 		}
 
@@ -70,6 +86,7 @@ namespace ServerSideCharacter2.Unions
 			Wealth = 0;
 			Members = new HashSet<string>();
 			Candidates = new HashSet<string>();
+			Builders = new HashSet<string>();
 			RegionName = "";
 			DonationTable = new Dictionary<string, long>();
 		} 
@@ -123,6 +140,11 @@ namespace ServerSideCharacter2.Unions
 			foreach (var pair in DonationTable)
 			{
 				info.Donation.Add(pair.Key, pair.Value);
+			}
+			info.Builders = new HashSet<string>();
+			foreach (var builder in Builders)
+			{
+				info.Builders.Add(builder);
 			}
 			return info;
 		}
@@ -291,6 +313,24 @@ namespace ServerSideCharacter2.Unions
 			}
 		}
 
+		public void ToggleBuilder(ServerPlayer player)
+		{
+			lock (this)
+			{
+				if (!Members.Contains(player.Name)) return;
+				if (!Builders.Contains(player.Name))
+				{
+					Builders.Add(player.Name);
+				}
+				else
+				{
+					Builders.Remove(player.Name);
+				}
+				SyncToAllMembers();
+				player.SyncUnionInfo();
+			}
+		}
+
 
 		public void SyncToOwner()
 		{
@@ -316,21 +356,32 @@ namespace ServerSideCharacter2.Unions
 			}
 		}
 
+		private bool Remove(ServerPlayer player)
+		{
+			if (!Members.Contains(player.Name)) return false;
+			Members.Remove(player.Name);
+			if (Builders.Contains(player.Name))
+				Builders.Remove(player.Name);
+			player.Union = null;
+			SyncToAllMembers();
+			player.SyncUnionInfo();
+			return true;
+		}
+
 		public void RemoveMember(ServerPlayer player)
 		{
 			lock (this)
 			{
 				if (player == null) return;
 				if (player.Name == Owner) return;
-				Members.Remove(player.Name);
-				player.Union = null;
-				SyncToAllMembers();
-				player.SyncUnionInfo();
-				string s = $"玩家 {player.Name} 退出了公会";
-				foreach (var member in Members)
+				if (Remove(player))
 				{
-					var splayer = ServerSideCharacter2.PlayerCollection.Get(member);
-					splayer?.SendInfoMessage(s);
+					string s = $"玩家 {player.Name} 退出了公会";
+					foreach (var member in Members)
+					{
+						var splayer = ServerSideCharacter2.PlayerCollection.Get(member);
+						splayer?.SendInfoMessage(s);
+					}
 				}
 			}
 		}
@@ -341,15 +392,14 @@ namespace ServerSideCharacter2.Unions
 			{
 				if (player == null) return;
 				if (player.Name == Owner) return;
-				Members.Remove(player.Name);
-				player.Union = null;
-				SyncToAllMembers();
-				player.SyncUnionInfo();
-				string s = $"玩家 {player.Name} 被踢出了公会";
-				foreach (var member in Members)
+				if (Remove(player))
 				{
-					var splayer = ServerSideCharacter2.PlayerCollection.Get(member);
-					splayer?.SendInfoMessage(s);
+					string s = $"玩家 {player.Name} 被踢出了公会";
+					foreach (var member in Members)
+					{
+						var splayer = ServerSideCharacter2.PlayerCollection.Get(member);
+						splayer?.SendInfoMessage(s);
+					}
 				}
 			}
 		}

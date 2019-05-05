@@ -369,6 +369,17 @@ namespace ServerSideCharacter2
 			}
 		}
 
+		public static void SendUnionToggleBuilder(string name)
+		{
+			if (Main.netMode == 1)
+			{
+				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				p.Write((int)SSCMessageType.UnionToggleBuilder);
+				p.Write(name);
+				p.Send();
+			}
+		}
+
 		public static void SendDonateUnion(long amount)
 		{
 			if (Main.netMode == 1)

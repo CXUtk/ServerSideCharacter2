@@ -27,6 +27,7 @@ namespace ServerSideCharacter2.JsonData
 		public SimplifiedPlayerInfo Owner;
 		public HashSet<SimplifiedPlayerInfo> Members;
 		public HashSet<SimplifiedPlayerInfo> Requests;
+		public HashSet<string> Builders;
 		public Dictionary<string, long> Donation;
 	}
 

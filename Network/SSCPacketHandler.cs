@@ -93,6 +93,7 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.UnionDonate, new Services.Union.UnionDonateHandler() },
 				{SSCMessageType.UnionTP, new Services.Union.UnionRegionTPHandler() },
 				{SSCMessageType.UnionKick, new Services.Union.UnionKickHandler() },
+				{SSCMessageType.UnionToggleBuilder, new Services.Union.UnionToggleBuilderHandler() },
 				{SSCMessageType.MailGetHeads, new Services.Mails.RequestMailListHandler() },
 				{SSCMessageType.MailGetContent, new Services.Mails.RequestMailContentHandler() },
 				{SSCMessageType.MailPickItem, new Services.Mails.PickMailSlotHandler() },
