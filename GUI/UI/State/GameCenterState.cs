@@ -28,10 +28,10 @@ namespace ServerSideCharacter2.GUI.UI
 		private UIText onlinelabel;
 
 
-		private const float WINDOW_WIDTH = 480;
-		private const float WINDOW_HEIGHT = 480;
-		private const float MATCH_LIST_WIDTH = 400;
-		private const float MATCH_LIST_HEIGHT = 360;
+		private const float WINDOW_WIDTH = 600;
+		private const float WINDOW_HEIGHT = 520;
+		private const float MATCH_LIST_WIDTH = 540;
+		private const float MATCH_LIST_HEIGHT = 400;
 		private const float MATCHLIST_OFFSET_RIGHT = 0;
 		private const float MATCHLIST_OFFSET_TOP = 35;
 		private const float Y_OFFSET = 20;

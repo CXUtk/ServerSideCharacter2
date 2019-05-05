@@ -663,11 +663,31 @@ namespace ServerSideCharacter2
 
 		public static void SendMatchesData(int plr)
 		{
-			var data = JsonConvert.SerializeObject(ServerSideCharacter2.MatchingSystem.GetMatchInfo(), Formatting.None);
-			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
-			p.Write((int)SSCMessageType.GetMatches);
-			p.Write(data);
-			p.Send(plr);
+			if (plr != -1)
+			{
+				var splayer = Main.player[plr].GetServerPlayer();
+				var data = JsonConvert.SerializeObject(ServerSideCharacter2.MatchingSystem.GetMatchInfo(splayer), Formatting.None);
+				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				p.Write((int)SSCMessageType.GetMatches);
+				p.Write(data);
+				p.Send(plr);
+			}
+			else
+			{
+				for (int i = 0; i < 255; i++)
+				{
+					if(Main.player[i].active && Main.player[i].GetServerPlayer() != null 
+						&& Main.player[i].GetServerPlayer().RealPlayer && Main.player[i].GetServerPlayer().ConnectionAlive)
+					{
+						var splayer = Main.player[i].GetServerPlayer();
+						var data = JsonConvert.SerializeObject(ServerSideCharacter2.MatchingSystem.GetMatchInfo(splayer), Formatting.None);
+						ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+						p.Write((int)SSCMessageType.GetMatches);
+						p.Write(data);
+						p.Send(plr);
+					}
+				}
+			}
 		}
 
 		public static void SendFriendsData(int to, string data)

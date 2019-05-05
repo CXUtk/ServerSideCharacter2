@@ -41,10 +41,6 @@ namespace ServerSideCharacter2.Services.Union
 				}
 				ServerSideCharacter2.ClientUnion.Owner = owner;
 				if (!ServerSideCharacter2.Instance.IsLoginClientSide) return;
-				if (ServerSideCharacter2.GuiManager.IsActive(SSCUIState.UnionPage))
-				{
-					ServerSideCharacter2.GuiManager.SetState(SSCUIState.UnionPage, false);
-				}
 				if (!ServerSideCharacter2.GuiManager.IsActive(SSCUIState.UnionPage2))
 				{
 					ServerSideCharacter2.GuiManager.SetState(SSCUIState.UnionPage2, true);

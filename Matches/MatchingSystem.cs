@@ -57,12 +57,12 @@ namespace ServerSideCharacter2.Matches
 			Matches[name].Activate();
 		}
 
-		public MatchInfo GetMatchInfo()
+		public MatchInfo GetMatchInfo(ServerPlayer caller)
 		{
 			MatchInfo matchInfo = new MatchInfo();
 			foreach(var match in Matches.ToList())
 			{
-				matchInfo.Matches.Add(match.Value.GetSimplified());
+				matchInfo.Matches.Add(match.Value.GetSimplified(caller));
 			}
 			return matchInfo;
 		}

@@ -16,6 +16,7 @@ namespace ServerSideCharacter2.JsonData
 		public int TimeRem;
 		public bool IsMatching;
 		public bool IsGameStarted;
+		public int ReminChance;
 	}
 
 	public class MatchInfo

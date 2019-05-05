@@ -18,6 +18,7 @@ namespace ServerSideCharacter2
 {
 	public class MWorld : ModWorld
 	{
+		public static event EventHandler OnPostUpdate;
 		public static bool ServerStarted = false;
 
 		internal static int[] TileMessageCD = new int[Main.maxPlayers];
@@ -32,7 +33,6 @@ namespace ServerSideCharacter2
 				_timer++;
 				if (_timer > 10000000) _timer = 0;
 				ServerStarted = true;
-				Ranking.CheckRankBoard();
 				foreach (var player in ServerSideCharacter2.PlayerCollection)
 				{
 					if (player.Value.PrototypePlayer == null || !player.Value.PrototypePlayer.active)
@@ -83,6 +83,8 @@ namespace ServerSideCharacter2
 					// CommandBoardcast.ConsoleMessage($"玩家 {player.Name} 物品栏第一 {player.inventory[0].type}");
 				}
 				ServerSideCharacter2.MatchingSystem.Run();
+				OnPostUpdate?.Invoke(this, new EventArgs());
+				Ranking.CheckRankBoard();
 				if (ServerSideCharacter2.Config.AutoSave && _timer % ServerSideCharacter2.Config.SaveInterval < 1)
 				{
 					ThreadPool.QueueUserWorkItem(Do_Save);

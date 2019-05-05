@@ -28,6 +28,7 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 		internal static Color DefaultUIBlue = new Color(73, 94, 171);
 		private readonly Texture2D dividerTexture;
 		private readonly UIText matchTimeRem;
+		private readonly UIText reminCountText;
 
 		private readonly List<UICDButton> extraButtons = new List<UICDButton>();
 
@@ -102,10 +103,16 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			Append(matchedPlayerText);
 
 			matchTimeRem = new UIText("");
-			matchTimeRem.Top.Set(50f, 0f);
-			matchTimeRem.Left.Set(-150, 1f);
+			matchTimeRem.Top.Set(10f, 0f);
+			matchTimeRem.Left.Set(-300, 1f);
 			matchTimeRem.SetText($"剩余时间：{info.TimeRem / 60}s");
 			Append(matchTimeRem);
+
+			reminCountText = new UIText("");
+			reminCountText.Top.Set(50f, 0f);
+			reminCountText.Left.Set(-160, 1f);
+			reminCountText.SetText($"今日剩余：{(info.ReminChance == -1?"无数":info.ReminChance.ToString())}次");
+			Append(reminCountText);
 
 			AddExtraButtons(extraButtons);
 

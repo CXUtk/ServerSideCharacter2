@@ -17,6 +17,7 @@ namespace ServerSideCharacter2.Matches
 		public List<ServerPlayer> MatchedPlayers { get; set; }
 		public abstract int MaxMatchingTime { get; }
 		public abstract int MaxPlayers { get; }
+		public abstract int MaxChancePerDay { get; }
 
 		public bool IsActive { get; private set; }
 		public bool IsMatched { get; protected set; }
@@ -140,7 +141,7 @@ namespace ServerSideCharacter2.Matches
 			return this.Name.Equals(other.Name);
 		}
 
-		public SimplifiedMatchInfo GetSimplified()
+		public SimplifiedMatchInfo GetSimplified(ServerPlayer caller)
 		{
 			SimplifiedMatchInfo info = new SimplifiedMatchInfo
 			{
@@ -149,9 +150,15 @@ namespace ServerSideCharacter2.Matches
 				MatchedPlayers = MatchedPlayers.Count,
 				IsMatching = IsActive,
 				IsGameStarted = GameStarted,
-				TimeRem = innerCounter
+				TimeRem = innerCounter,
+				ReminChance = MaxChancePerDay == -1 ? -1 : (MaxChancePerDay - caller.TryGetInt("PVEMatchJoined"))
 			};
 			return info;
+		}
+
+		public override int GetHashCode()
+		{
+			return 539060726 + EqualityComparer<string>.Default.GetHashCode(Name);
 		}
 	}
 }

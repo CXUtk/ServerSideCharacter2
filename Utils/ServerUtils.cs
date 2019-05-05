@@ -32,6 +32,36 @@ namespace ServerSideCharacter2.Utils
 			return rect;
 		}
 
+		public static int TryGetInt(this ServerPlayer player, string name)
+		{
+			if (player.ContainsValueName(name))
+			{
+				return (int)((long)player.GetExtraValue(name));
+			}
+			else
+			{
+				return 0;
+			}
+		}
+
+		public static void TrySetInt(this ServerPlayer player, string name, int value)
+		{
+			player.ModifyExtraValue(name, (long)value);
+		}
+
+
+		public static void TryAddInt(this ServerPlayer player, string name, int inc)
+		{
+			if (player.ContainsValueName(name))
+			{
+				player.ModifyExtraValue(name, (long)player.GetExtraValue(name) + (long)inc);
+			}
+			else
+			{
+				player.ModifyExtraValue(name, (long)inc);
+			}
+		}
+
 		public static string RandomGenString(int varlen = 9)
 		{
 			var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

@@ -46,6 +46,11 @@ namespace ServerSideCharacter2.Services.Matches
 					player.SendMessageBox("这个活动正在进行，请等待下一轮", 120, Color.Red);
 					return;
 				}
+				if (player.TryGetInt("PVEMatchJoined") >= match.MaxChancePerDay)
+				{
+					player.SendMessageBox("您已用完今日的参与次数，请明日再来吧", 120, Color.Red);
+					return;
+				}
 				ServerSideCharacter2.MatchingSystem.MatchPlayer(name, player);
 				string str = $"玩家 {player.Name} 加入了 {name} 匹配。当前人数：{ServerSideCharacter2.MatchingSystem.Matches[name].MatchedPlayers.Count} / {ServerSideCharacter2.MatchingSystem.Matches[name].MaxPlayers}";
 				MessageSender.SendMatchesData(-1);
