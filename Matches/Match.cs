@@ -151,7 +151,7 @@ namespace ServerSideCharacter2.Matches
 				IsMatching = IsActive,
 				IsGameStarted = GameStarted,
 				TimeRem = innerCounter,
-				ReminChance = MaxChancePerDay == -1 ? -1 : (MaxChancePerDay - caller.TryGetInt("PVEMatchJoined"))
+				ReminChance = (MaxChancePerDay == -1 ? -1 : (MaxChancePerDay - caller.TryGetInt("PVEMatchJoined")))
 			};
 			return info;
 		}

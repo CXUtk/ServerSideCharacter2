@@ -91,7 +91,8 @@ namespace ServerSideCharacter2.GUI.UI
 			Add(new Services.Matches.MatchService());
 			Add(new Services.Rank.RankBoardService());
 			Add(new Services.Union.UnionPageService());
-			Add(new Services.FriendSystem.CommunicationService());
+			//Add(new Services.FriendSystem.CommunicationService());
+			Add(new Services.Shop.ShopService());
 
 			if (Main.netMode == 0)
 			{

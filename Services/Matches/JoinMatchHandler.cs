@@ -46,7 +46,7 @@ namespace ServerSideCharacter2.Services.Matches
 					player.SendMessageBox("这个活动正在进行，请等待下一轮", 120, Color.Red);
 					return;
 				}
-				if (player.TryGetInt("PVEMatchJoined") >= match.MaxChancePerDay)
+				if (!player.Group.IsSuperAdmin && match.MaxChancePerDay != -1 && player.TryGetInt("PVEMatchJoined") >= match.MaxChancePerDay)
 				{
 					player.SendMessageBox("您已用完今日的参与次数，请明日再来吧", 120, Color.Red);
 					return;

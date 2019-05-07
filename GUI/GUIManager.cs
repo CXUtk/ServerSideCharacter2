@@ -23,6 +23,8 @@ namespace ServerSideCharacter2.GUI
 		UnionPage3,
 		UnionCandidatePage,
 		UnionDonationPage,
+		NormalShopPage,
+		NormalShopBuyPage,
 		ItemPage,
 		ProfilePage,
 		InventoryPage,
@@ -54,11 +56,13 @@ namespace ServerSideCharacter2.GUI
 		private RankBoardState _rankBoardState;
 		private PlayerInventoryState _playerInventoryState;
 		private PlayerInventoryState2 _playerInventoryState2;
+		private NormalShopState normalShopState;
 
 		private readonly UserInterface _toolBarInterface;
 		private readonly CDInterfaceManager _cdInterface;
 		private readonly MessageDisplayer _messageDisplayer;
 		private readonly ToolBarState _toolBarState;
+
 
 		private readonly Dictionary<SSCUIState, bool> _canShowUITable = new Dictionary<SSCUIState, bool>();
 	
@@ -110,15 +114,16 @@ namespace ServerSideCharacter2.GUI
 			mailPage.SetState(_mainPageState);
 			_cdInterface.Add(mailPage);
 
-			_unionPageState = new UnionPageState();
-			var unionpage = new ConditionalInterface(() => _canShowUITable[SSCUIState.UnionPage]);
-			unionpage.SetState(_unionPageState);
-			_cdInterface.Add(unionpage);
 
 			_unionPageState2 = new UnionPageState2();
 			var unionpage2 = new ConditionalInterface(() => _canShowUITable[SSCUIState.UnionPage2]);
 			unionpage2.SetState(_unionPageState2);
 			_cdInterface.Add(unionpage2);
+
+			_unionPageState = new UnionPageState();
+			var unionpage = new ConditionalInterface(() => _canShowUITable[SSCUIState.UnionPage]);
+			unionpage.SetState(_unionPageState);
+			_cdInterface.Add(unionpage);
 
 			_unionCandidateState = new UnionCandidatePage();
 			var cddpage = new ConditionalInterface(() => _canShowUITable[SSCUIState.UnionCandidatePage]);
@@ -156,6 +161,12 @@ namespace ServerSideCharacter2.GUI
 			_playerInventoryState2 = new PlayerInventoryState2();
 			AddState(_playerInventoryState, SSCUIState.InventoryPage);
 			AddState(_playerInventoryState2, SSCUIState.InventoryPage2);
+
+			normalShopState = new NormalShopState();
+			AddState(normalShopState, SSCUIState.NormalShopPage);
+
+			AddState(new NormalShopBuyState(), SSCUIState.NormalShopBuyPage);
+
 
 
 			var unionDonateState = new UnionDonationPage();

@@ -33,6 +33,7 @@ using ServerSideCharacter2.Items;
 using ServerSideCharacter2.Matches;
 using ServerSideCharacter2.Mailing;
 using ServerSideCharacter2.RankingSystem;
+using ServerSideCharacter2.Market;
 
 namespace ServerSideCharacter2
 {
@@ -66,6 +67,8 @@ namespace ServerSideCharacter2
 		public static RegionManager RegionManager;
 
 		public static MailManager MailManager;
+
+		public static MarketManager MarketManager;
 
 		public static Dictionary<string, Region> ClientRegions = new Dictionary<string, Region>();
 
@@ -263,6 +266,7 @@ namespace ServerSideCharacter2
 				// 服务器端生成RSA私钥
 				RSACrypto.GenKey();
 				ConfigLoader.Load();
+				MarketManager = new MarketManager();
 				MatchingSystem = new MatchingSystem();
 				AddUnionRegions();
 

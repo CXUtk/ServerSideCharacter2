@@ -286,6 +286,9 @@ namespace ServerSideCharacter2
 			p.Write((int)SSCMessageType.UnionsInfo);
 			p.Send();
 		}
+
+
+
 		public static void GetComplexUnionData()
 		{
 			if (Main.netMode == 1)
@@ -295,6 +298,7 @@ namespace ServerSideCharacter2
 				p.Send();
 			}
 		}
+
 
 		public static void SendComplexUnionData(Union union, int to)
 		{
@@ -390,6 +394,19 @@ namespace ServerSideCharacter2
 				p.Send();
 			}
 		}
+
+		public static void SendShopBuy(int id, int amount)
+		{
+			if (Main.netMode == 1)
+			{
+				ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+				p.Write((int)SSCMessageType.ShopBuy);
+				p.Write(id);
+				p.Write((short)amount);
+				p.Send();
+			}
+		}
+
 		public static void SendTPUnionRegion()
 		{
 			if (Main.netMode == 1)
@@ -684,7 +701,7 @@ namespace ServerSideCharacter2
 						ModPacket p = ServerSideCharacter2.Instance.GetPacket();
 						p.Write((int)SSCMessageType.GetMatches);
 						p.Write(data);
-						p.Send(plr);
+						p.Send(i);
 					}
 				}
 			}
@@ -807,6 +824,13 @@ namespace ServerSideCharacter2
 			p.Write((int)SSCMessageType.JoinMatchCommand);
 			p.Write(name);
 			p.Send();
+		}
+
+		public static void SendGetNormalShop(int plr)
+		{
+			ModPacket p = ServerSideCharacter2.Instance.GetPacket();
+			p.Write((int)SSCMessageType.GetNormalShop);
+			p.Send(plr);
 		}
 
 		//public static void SendChestCommand(ChestManager.Pending pending, int plr, string friendName = null)

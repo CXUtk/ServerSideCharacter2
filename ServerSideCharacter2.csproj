@@ -146,6 +146,7 @@
     <Compile Include="Commands\LockCommand.cs" />
     <Compile Include="Commands\OnlinePlayerCommand.cs" />
     <Compile Include="Commands\SaveCommand.cs" />
+    <Compile Include="GUI\UI\Component\Special\UIShopItem.cs" />
     <Compile Include="GUI\UI\Component\Special\UIMailHead.cs" />
     <Compile Include="GUI\UI\Component\Special\UIUnionCandidateBar.cs" />
     <Compile Include="GUI\UI\Component\Special\UIRankBoardPlayer.cs" />
@@ -157,12 +158,15 @@
     <Compile Include="GUI\UI\State\PlayerInventoryState2.cs" />
     <Compile Include="GUI\UI\State\PlayerInventoryState.cs" />
     <Compile Include="GUI\UI\State\RankBoardState.cs" />
+    <Compile Include="GUI\UI\State\NormalShopBuyState.cs" />
     <Compile Include="GUI\UI\State\UnionDonationPage.cs" />
     <Compile Include="GUI\UI\State\UnionCreatePage.cs" />
     <Compile Include="GUI\UI\State\UnionCandidatePage.cs" />
     <Compile Include="GUI\UI\State\MailPageState.cs" />
+    <Compile Include="GUI\UI\State\NormalShopState.cs" />
     <Compile Include="GUI\UI\State\UnionPageState2.cs" />
     <Compile Include="JsonData\MailsHeadInfo.cs" />
+    <Compile Include="JsonData\MarketInfo.cs" />
     <Compile Include="JsonData\UnionInfo.cs" />
     <Compile Include="JsonData\MatchInfo.cs" />
     <Compile Include="JsonData\PlayerSaving.cs" />
@@ -170,6 +174,7 @@
     <Compile Include="Mailing\Mail.cs" />
     <Compile Include="Mailing\MailHead.cs" />
     <Compile Include="Mailing\MailManager.cs" />
+    <Compile Include="Market\MarketManager.cs" />
     <Compile Include="Matches\Match.cs" />
     <Compile Include="Matches\MatchingSystem.cs" />
     <Compile Include="Dusts\HealDust.cs" />
@@ -314,6 +319,9 @@
     <Compile Include="Services\Regions\RegionPVPHandler.cs" />
     <Compile Include="Services\Regions\RegionSyncHandler.cs" />
     <Compile Include="Services\Regions\RegionCreateHandler.cs" />
+    <Compile Include="Services\Shop\ShopBuyHandler.cs" />
+    <Compile Include="Services\Shop\GetNormalShopHandler.cs" />
+    <Compile Include="Services\Shop\ShopService.cs" />
     <Compile Include="Services\SSCCommandHandler.cs" />
     <Compile Include="Services\Union\ClientUnionHandler.cs" />
     <Compile Include="Services\Union\GetUnionComplexHandler.cs" />

@@ -27,7 +27,7 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Usage
 		{
-			get { return " /invasion [blood|snowman|goblin|ufo|pirate|pumpkin|frost]"; }
+			get { return " /invasion [blood|snowman|goblin|ufo|pirate|pumpkin|frost|slime]"; }
 		}
 
 		public override void Action(CommandCaller caller, string input, string[] args)
@@ -64,6 +64,14 @@ namespace ServerSideCharacter2.Commands
 			else if (args[0] == "frost")
 			{
 				MessageSender.SendInvasion(222);
+			}
+			else if(args[0] == "slime")
+			{
+				MessageSender.SendInvasion(123);
+			}
+			else if (args[0] == "eclipse")
+			{
+				MessageSender.SendInvasion(124);
 			}
 			else
 			{

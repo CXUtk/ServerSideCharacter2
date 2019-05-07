@@ -107,6 +107,7 @@ namespace ServerSideCharacter2.Unions
 					var region = union.OwnedRegion;
 					if(region != null)
 					{
+						region.ResetAsUnion();
 						region.OwnedUnionName = "";
 					}
 					Unions.Remove(name);

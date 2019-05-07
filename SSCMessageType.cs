@@ -83,7 +83,9 @@
 		MailGetContent,
 		MailPickItem,
 		Invasion,
-		GetEquipsOffline
+		GetEquipsOffline,
+		GetNormalShop,
+		ShopBuy,
 	}
 
 	public enum GenerationType

@@ -132,9 +132,9 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 				Main.instance.DrawPlayer(player,
 					GetDimensions().Position() + new Vector2(2, 2) + Main.screenPosition, 0f, Vector2.Zero, 0f);
 			}
-			var iconpos = gucoinText.GetDimensions().Position() + new Vector2(-35f, gucoinText.GetDimensions().Height / 2 + 55);
+			var iconpos = gucoinText.GetDimensions().Position() + new Vector2(-35f, gucoinText.GetDimensions().Height / 2);
 			var tex = ServerSideCharacter2.ModTexturesTable["GuCoin"];
-			spriteBatch.Draw(tex, iconpos, tex.Frame(1, 4, 0, frame), Color.White, 0f, tex.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
+			spriteBatch.Draw(tex, iconpos, tex.Frame(1, 4, 0, frame), Color.White, 0f, new Vector2(tex.Width, tex.Height / 4f * 0.5f), 1f, SpriteEffects.None, 0f);
 		}
 
 		private string addColor(string str, Color c)

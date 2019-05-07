@@ -21,6 +21,7 @@ namespace ServerSideCharacter2.Regions
 		public string OwnedUnionName { get; set; }
 		public event PlayerInteractionHandler OnEnter;
 		public event PlayerInteractionHandler OnExit;
+		public event EventHandler OnResetAsUnion;
 
 		[JsonIgnore]
 		public ServerPlayer Owner
@@ -63,6 +64,12 @@ namespace ServerSideCharacter2.Regions
 			OnEnter?.Invoke(this, player);
 		}
 
+
+		public void ResetAsUnion()
+		{
+			if (OwnedUnion == null) return;
+			OnResetAsUnion?.Invoke(this, new EventArgs());
+		}
 
 		public void LeaveRegion(ServerPlayer player)
 		{

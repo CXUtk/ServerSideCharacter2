@@ -105,6 +105,36 @@ namespace ServerSideCharacter2.Services.Misc
 								CommandBoardcast.ConsoleMessage(str);
 								break;
 							}
+						case 123:
+							{
+								if (Main.slimeRain)
+								{
+									Main.StopSlimeRain();
+								}
+								else
+								{
+									Main.StartSlimeRain(true);
+								}
+								string str = $"玩家 {player.Name} {(Main.slimeRain ? "开启" : "关闭")}了史莱姆雨";
+								NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
+								ServerPlayer.SendInfoMessageToAll(str);
+								CommandBoardcast.ConsoleMessage(str);
+								break;
+							}
+						case 124:
+							{
+								Main.eclipse ^= true;
+								if (Main.eclipse)
+								{
+									Main.dayTime = true;
+									Main.time = 0;
+								}
+								string str = $"玩家 {player.Name} {(Main.eclipse ? "开启" : "关闭")}了日食";
+								NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
+								ServerPlayer.SendInfoMessageToAll(str);
+								CommandBoardcast.ConsoleMessage(str);
+								break;
+							}
 						case 222:
 							{
 								Main.snowMoon ^= true;

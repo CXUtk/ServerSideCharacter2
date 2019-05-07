@@ -601,8 +601,8 @@ namespace ServerSideCharacter2.Network
 			if (Main.netMode == 2)
 			{
 				byte b9 = reader.ReadByte();
-				int x = reader.ReadInt16();
-				int y = reader.ReadInt16();
+				int X = reader.ReadInt16();
+				int Y = reader.ReadInt16();
 				int num100 = reader.ReadInt16();
 				int num101 = reader.ReadInt16();
 				if (Main.netMode == 2)
@@ -617,14 +617,14 @@ namespace ServerSideCharacter2.Network
 
 				var player = Main.player[playerNumber].GetServerPlayer();
 
-				if (!player.Group.HasPermission("changetile"))
+				if (ServerSideCharacter2.RegionManager.CheckRegion(X, Y, player))
 				{
 					if (MWorld.TileMessageCD[playerNumber] == 0)
 					{
-						MessageSender.SendErrorMessage(playerNumber, "你没有权限改变这个物块");
+						MessageSender.SendErrorMessage(playerNumber, "你没有权限改变这个箱子");
 						MWorld.TileMessageCD[playerNumber] = 60;
 					}
-					NetMessage.SendTileSquare(-1, x, y, 8);
+					NetMessage.SendTileSquare(-1, X, Y, 8);
 					return true;
 				}
 			}

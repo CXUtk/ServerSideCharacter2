@@ -18,27 +18,28 @@ using Terraria.ModLoader.UI.Elements;
 
 namespace ServerSideCharacter2.GUI.UI
 {
-	
 
-	public class ItemUIState : AdvWindowUIState
+	public class UISimpleSlot : UIElement
 	{
+		private int ItemType { get; }
+		public Item Item { get; }
+		public bool CanPick { get; set; }
 
-		private class UISimpleSlot : UIElement
+		public UISimpleSlot(int type)
 		{
-			private int ItemType { get; }
-			public Item Item { get; }
-			
-			public UISimpleSlot(int type)
-			{
-				ItemType = type;
-				Item = new Item();
-				Item.SetDefaults(type);
-			}
+			CanPick = true;
+			ItemType = type;
+			Item = new Item();
+			Item.SetDefaults(type);
+		}
 
-			public override void Click(UIMouseEvent evt)
+		public override void Click(UIMouseEvent evt)
+		{
+			base.Click(evt);
+			if (CanPick)
 			{
-				base.Click(evt);
 				Main.PlaySound(7, -1, -1, 1, 1f, 0.0f);
+
 				if (Main.mouseItem.type != 0)
 				{
 					return;
@@ -48,41 +49,46 @@ namespace ServerSideCharacter2.GUI.UI
 				Main.mouseItem.SetDefaults(ItemType);
 				Main.mouseItem.stack = Main.mouseItem.maxStack;
 			}
-
-			public override void Update(GameTime gameTime)
-			{
-				base.Update(gameTime);
-
-			}
-			protected override void DrawSelf(SpriteBatch spriteBatch)
-			{
-				base.DrawSelf(spriteBatch);
-				if (IsMouseHovering)
-				{
-					Main.hoverItemName = Item.Name;
-					Main.HoverItem = Item.Clone();
-					Main.HoverItem.SetNameOverride(Main.HoverItem.Name + ((Main.HoverItem.modItem != null) ? (" [" + Main.HoverItem.modItem.mod.Name + "]") : ""));
-				}
-				var slotbackTex = ServerSideCharacter2.ModTexturesTable["Box"];
-				var DrawRectangle = GetDimensions();
-				Drawing.DrawAdvBox(spriteBatch, (int)DrawRectangle.X, (int)DrawRectangle.Y,
-					(int)DrawRectangle.Width, (int)DrawRectangle.Height,
-					Drawing.DefaultBoxColor, slotbackTex, new Vector2(8, 8));
-
-				var frame = Main.itemAnimations[ItemType] != null ? Main.itemAnimations[ItemType].GetFrame(Main.itemTexture[ItemType]) : Main.itemTexture[ItemType].Frame();
-				var size = frame.Size();
-				var texScale = 1f;
-				if (size.X > DrawRectangle.Width || size.Y > DrawRectangle.Height)
-				{
-					texScale = size.X > size.Y ? size.X / DrawRectangle.Width : size.Y / DrawRectangle.Height;
-					texScale = 0.75f / texScale;
-					size *= texScale;
-				}
-				spriteBatch.Draw(Main.itemTexture[ItemType], new Vector2(DrawRectangle.X + DrawRectangle.Width / 2 - (size.X) / 2,
-					DrawRectangle.Y + DrawRectangle.Height / 2 - (size.Y) / 2), new Rectangle?(frame), Color.White, 0, Vector2.Zero, texScale, 0, 0);
-
-			}
 		}
+
+		public override void Update(GameTime gameTime)
+		{
+			base.Update(gameTime);
+
+		}
+		protected override void DrawSelf(SpriteBatch spriteBatch)
+		{
+			base.DrawSelf(spriteBatch);
+			if (IsMouseHovering)
+			{
+				Main.hoverItemName = Item.Name;
+				Main.HoverItem = Item.Clone();
+				Main.HoverItem.SetNameOverride(Main.HoverItem.Name + ((Main.HoverItem.modItem != null) ? (" [" + Main.HoverItem.modItem.mod.Name + "]") : ""));
+			}
+			var slotbackTex = ServerSideCharacter2.ModTexturesTable["Box"];
+			var DrawRectangle = GetDimensions();
+			Drawing.DrawAdvBox(spriteBatch, (int)DrawRectangle.X, (int)DrawRectangle.Y,
+				(int)DrawRectangle.Width, (int)DrawRectangle.Height,
+				Drawing.DefaultBoxColor, slotbackTex, new Vector2(8, 8));
+
+			var frame = Main.itemAnimations[ItemType] != null ? Main.itemAnimations[ItemType].GetFrame(Main.itemTexture[ItemType]) : Main.itemTexture[ItemType].Frame();
+			var size = frame.Size();
+			var texScale = 1f;
+			if (size.X > DrawRectangle.Width || size.Y > DrawRectangle.Height)
+			{
+				texScale = size.X > size.Y ? size.X / DrawRectangle.Width : size.Y / DrawRectangle.Height;
+				texScale = 0.75f / texScale;
+				size *= texScale;
+			}
+			spriteBatch.Draw(Main.itemTexture[ItemType], new Vector2(DrawRectangle.X + DrawRectangle.Width / 2 - (size.X) / 2,
+				DrawRectangle.Y + DrawRectangle.Height / 2 - (size.Y) / 2), new Rectangle?(frame), Color.White, 0, Vector2.Zero, texScale, 0, 0);
+
+		}
+	}
+
+	public class ItemUIState : AdvWindowUIState
+	{
+
 
 		private UIAdvGrid _itemGrid;
 		private UIPanel _itemPanel;

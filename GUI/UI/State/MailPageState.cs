@@ -139,7 +139,7 @@ namespace ServerSideCharacter2.GUI.UI
 			_mailList.SetScrollbar(uiscrollbar2);
 
 
-			refreshButton = new UIButton(ServerSideCharacter2.ModTexturesTable["Refresh"], false);
+			refreshButton = new UICDButton(ServerSideCharacter2.ModTexturesTable["Refresh"], false);
 			refreshButton.Top.Set(-UNIONLIST_HEIGHT / 2 + UNIONLIST_OFFSET_TOP - 50, 0.5f);
 			refreshButton.Left.Set(UNIONLIST_OFFSET_RIGHT + UNIONLIST_WIDTH / 2 - 35, 0.5f);
 			refreshButton.Width.Set(35, 0f);
@@ -175,6 +175,15 @@ namespace ServerSideCharacter2.GUI.UI
 			_uiItemGrid.Height.Set(0f, 1f);
 			_uiItemGrid.ListPadding = 10f;
 			itemSlotPanel.Append(_uiItemGrid);
+
+			// ScrollBar设定
+			var uiscrollbar = new UIAdvScrollBar();
+			uiscrollbar.SetView(100f, 1000f);
+			uiscrollbar.Height.Set(0f, 1f);
+			uiscrollbar.HAlign = 1f;
+			itemSlotPanel.Append(uiscrollbar);
+			_uiItemGrid.SetScrollbar(uiscrollbar);
+
 		}
 
 		internal void ClearContent()

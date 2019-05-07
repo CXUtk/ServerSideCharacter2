@@ -100,7 +100,9 @@ namespace ServerSideCharacter2.Network
 				{SSCMessageType.Invasion, new Services.Misc.InvasionHandler() },
 				{SSCMessageType.SyncSingleEquip, new Services.Misc.SyncEquipHandler() },
 				{SSCMessageType.SyncSingleEquip2, new Services.Misc.SyncEquipHandler2() },
-				{SSCMessageType.GetEquipsOffline, new Services.Misc.PlayerInventoryHandler() }
+				{SSCMessageType.GetEquipsOffline, new Services.Misc.PlayerInventoryHandler() },
+				{SSCMessageType.GetNormalShop, new Services.Shop.GetNormalShopHandler() },
+				{SSCMessageType.ShopBuy, new Services.Shop.ShopBuyHandler() }
 			};
 		}
 	}
