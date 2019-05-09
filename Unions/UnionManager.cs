@@ -83,7 +83,7 @@ namespace ServerSideCharacter2.Unions
 				owner.SyncUnionInfo();
 				union.AddMember(owner);
 				union.RegionName = region.Name;
-				region.OwnedUnionName = owner.Name;
+				region.OwnedUnionName = union.Name;
 				Unions.Add(name, union);
 				return true;
 			}
@@ -107,6 +107,7 @@ namespace ServerSideCharacter2.Unions
 					var region = union.OwnedRegion;
 					if(region != null)
 					{
+						Console.WriteLine($"解散领地{region.Name}开始");
 						region.ResetAsUnion();
 						region.OwnedUnionName = "";
 					}

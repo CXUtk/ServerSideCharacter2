@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ServerSideCharacter2.JsonData;
+using ServerSideCharacter2.Unions;
 using ServerSideCharacter2.Utils;
 using System;
 using System.Collections.Generic;
@@ -32,11 +33,12 @@ namespace ServerSideCharacter2.Regions
 			}
 		}
 		[JsonIgnore]
-		public Region OwnedUnion
+		public Union OwnedUnion
 		{
 			get
 			{
-				return ServerSideCharacter2.RegionManager.Get(OwnedUnionName);
+				if (!ServerSideCharacter2.UnionManager.ContainsUnion(OwnedUnionName)) return null;
+				return ServerSideCharacter2.UnionManager.Get(OwnedUnionName);
 			}
 		}
 

@@ -66,6 +66,16 @@ namespace ServerSideCharacter2.GUI.UI.Component.Special
 			buyButton.ButtonChangeColor = Color.White;
 			buyButton.OnClick += BuyButton_OnClick;
 			Append(buyButton);
+
+			if (info.Discount > 0)
+			{
+				var discountText = new UIText($"-{info.Discount}%");
+				discountText.Top.Set(5f, 0);
+				discountText.HAlign = 1f;
+				discountText.MarginRight = 5f;
+				discountText.TextColor = Color.Lime;
+				Append(discountText);
+			}
 		}
 
 		private void BuyButton_OnClick(UIMouseEvent evt, UIElement listeningElement)

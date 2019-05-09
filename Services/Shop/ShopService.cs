@@ -36,6 +36,8 @@ namespace ServerSideCharacter2.Services.Shop
 				Main.NewText("您还没有登录，请先登录", Color.Red);
 				return;
 			}
+			//Main.NewText("商城系统暂未完成，还不能使用", Color.Red);
+			//return;
 			ServerSideCharacter2.Instance.ChangeState(SSCUIState.NormalShopPage);
 			NormalShopState.Instance.RefreshItems();
 		}
