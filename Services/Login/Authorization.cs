@@ -130,13 +130,13 @@ namespace ServerSideCharacter2.Services.Login
                     {
                         if (serverPlayer.CheckPassword(info))
                         {
-                            SuccessLogin(serverPlayer);
-                            MessageSender.SendLoginSuccess(serverPlayer.PrototypePlayer.whoAmI, "认证成功");
 							if (!ServerSideCharacter2.DEBUGMODE)
 							{
 								OnPlayerLogin?.Invoke(serverPlayer);
 							}
 							RecordVisit(playerNumber, serverPlayer);
+							SuccessLogin(serverPlayer);
+							MessageSender.SendLoginSuccess(serverPlayer.PrototypePlayer.whoAmI, "认证成功");
 							// 告诉客户端解除封印
 							MessageSender.SendLoginIn(serverPlayer.PrototypePlayer.whoAmI);
 							NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(serverPlayer.Name + " 登入了游戏"), new Color(255, 255, 240, 20), -1);

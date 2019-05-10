@@ -155,7 +155,15 @@
     <Compile Include="GUI\UI\Component\Special\UIUnionBar.cs" />
     <Compile Include="GUI\UI\Component\Special\UIMatchGameBar.cs" />
     <Compile Include="GUI\UI\Component\UIMessageBox.cs" />
+    <Compile Include="GUI\UI\Coroutines\ICoroutineInstruction.cs" />
+    <Compile Include="GUI\UI\Coroutines\PVECoroutine.cs" />
+    <Compile Include="GUI\UI\Coroutines\SkipFrame.cs" />
+    <Compile Include="GUI\UI\Coroutines\SwitchTask.cs" />
+    <Compile Include="GUI\UI\Coroutines\WaitForFrames.cs" />
+    <Compile Include="GUI\UI\Coroutines\WaitUntil.cs" />
+    <Compile Include="GUI\UI\Coroutines\WaitWhile.cs" />
     <Compile Include="GUI\UI\State\GameCenterState.cs" />
+    <Compile Include="GUI\UI\State\LotteryState.cs" />
     <Compile Include="GUI\UI\State\PlayerInventoryState2.cs" />
     <Compile Include="GUI\UI\State\PlayerInventoryState.cs" />
     <Compile Include="GUI\UI\State\RankBoardState.cs" />
@@ -322,6 +330,7 @@
     <Compile Include="Services\Regions\RegionCreateHandler.cs" />
     <Compile Include="Services\Shop\ShopBuyHandler.cs" />
     <Compile Include="Services\Shop\GetNormalShopHandler.cs" />
+    <Compile Include="Services\Shop\LotteryService.cs" />
     <Compile Include="Services\Shop\ShopService.cs" />
     <Compile Include="Services\SSCCommandHandler.cs" />
     <Compile Include="Services\Union\ClientUnionHandler.cs" />

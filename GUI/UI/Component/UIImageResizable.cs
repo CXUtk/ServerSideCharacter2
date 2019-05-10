@@ -17,6 +17,9 @@ namespace ServerSideCharacter2.GUI.UI.Component
 
 		public float ImageScale = 1f;
 
+		public int FrameCount { get; set; }
+		public int Frame { get; set; }
+
 		public bool UsePosition
 		{
 			get;set;
@@ -41,6 +44,8 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		public UIImageResizable(Texture2D texture)
 		{
 			UsePosition = true;
+			this.FrameCount = 1;
+			Frame = 0;
 			this._texture = texture;
 			base.Width.Set(this._texture.Width, 0f);
 			base.Height.Set(this._texture.Height, 0f);
@@ -69,11 +74,12 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			var dimensions = base.GetDimensions();
 			if (UsePosition)
 			{
-				spriteBatch.Draw(this._texture, dimensions.Position(), null, Color.White, 0f, Vector2.Zero, this.ImageScale, SpriteEffects.None, 0f);
+				spriteBatch.Draw(this._texture, dimensions.Position(), _texture.Frame(1, FrameCount, 0, Frame), Color.White, 0f, Vector2.Zero, this.ImageScale, SpriteEffects.None, 0f);
 			}
 			else
 			{
-				spriteBatch.Draw(this._texture, dimensions.Center(), null, Color.White, 0f, _texture.Size() * 0.5f, this.ImageScale, SpriteEffects.None, 0f);
+				Vector2 origin = new Vector2(_texture.Width * 0.5f, _texture.Height / (float)FrameCount * 0.5f);
+				spriteBatch.Draw(this._texture, dimensions.Center(), _texture.Frame(1, FrameCount, 0, Frame), Color.White, 0f, origin, this.ImageScale, SpriteEffects.None, 0f);
 			}
 			spriteBatch.End();
 			spriteBatch.Begin();

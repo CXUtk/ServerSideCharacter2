@@ -865,13 +865,27 @@ namespace ServerSideCharacter2
 			if(_info.Rank + rank < range.Item1)
 			{
 				SendInfoMessage($"很遗憾，你的段位由 {Ranking.GetName(type)} 掉到了 {Ranking.GetName(Ranking.GetRankType(_info.Rank + rank))}");
+				_info.Rank += rank;
 			}
 			else if(_info.Rank + rank > range.Item2)
 			{
 				// Projectile.NewProjectile(PrototypePlayer.Center, new Vector2(0, -5f), ProjectileID.RocketFireworkRed, 100, 10, playerID);
-				SendInfoMessage($"恭喜，你从 {Ranking.GetName(type)} 晋级到了 {Ranking.GetName(Ranking.GetRankType(_info.Rank + rank))}");
+				var ranktype = Ranking.GetRankType(_info.Rank + rank);
+				SendInfoMessage($"恭喜，你从 {Ranking.GetName(type)} 晋级到了 {Ranking.GetName(ranktype)}");
+				if (EloRank > Ranking.GetRankRange(ranktype).Item1 + 50)
+				{
+					// 晋级隐藏分平衡
+					_info.EloRank = Ranking.GetRankRange(ranktype).Item1 + 50;
+				}
+				else
+				{
+					_info.Rank += rank;
+				}
 			}
-			_info.Rank += rank;
+			else
+			{
+				_info.Rank += rank;
+			}
 		}
 
 		public void IncreaseElo(int rank)

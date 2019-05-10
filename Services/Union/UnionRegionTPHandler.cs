@@ -30,6 +30,11 @@ namespace ServerSideCharacter2.Services.Union
 					splayer.SendMessageBox("公会并没有分配领地", 120, Color.OrangeRed);
 					return;
 				}
+				if (splayer.InRegion)
+				{
+					splayer.SendInfoMessage("你已经在匹配中了，无法传送");
+					return;
+				}
 				splayer.SafeTeleport(region.GetWorldHitBox().Center());
 				CommandBoardcast.ConsoleMessage($"玩家{splayer.Name} 传送到了公会{union.Name} 的领地{region.Name}");
 			}

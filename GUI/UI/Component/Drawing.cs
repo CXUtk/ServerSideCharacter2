@@ -60,9 +60,15 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		{
 			DrawAdvBox(sp, rect.X, rect.Y, rect.Width, rect.Height, c, img, size4);
 		}
-		public static void DrawAdvBox(SpriteBatch sp, int x, int y, int w, int h, Color c, Texture2D img, Vector2 size4)
+		public static void DrawAdvBox(SpriteBatch sp, int x, int y, int w, int h, Color c, Texture2D img, Vector2 size4, float scale = 1f)
         {
             var box = img;
+			int nw = (int)(w * scale);
+			int nh = (int)(h * scale);
+			x += (w - nw) / 2;
+			y += (h - nh) / 2;
+			w = nw;
+			h = nh;
             var width = (int)size4.X;
             var height = (int)size4.Y;
             if (w < size4.X)

@@ -26,8 +26,12 @@ namespace ServerSideCharacter2.GUI.UI.Component
 		public string Tooltip { get; set; }
 		public event ExchangeItemHandler PostExchangeItem;
 		public event ExchangeItemHandler OnPickItem;
+		public float Scale { get; set; }
+		public float Opacity { get; set; }
 		public UISlot(Texture2D texture = default(Texture2D)) : base()
 		{
+			Scale = 1f;
+			Opacity = 1f;
 			ContainedItem = new Item();
 			CanPutInSlot = null;
 			SlotBackTexture = texture == default(Texture2D) ? Drawing.Box1 : texture;
@@ -118,7 +122,7 @@ namespace ServerSideCharacter2.GUI.UI.Component
 			CalculatedStyle DrawRectangle = GetDimensions();
 			Drawing.DrawAdvBox(sb, (int)DrawRectangle.X, (int)DrawRectangle.Y,
 				(int)DrawRectangle.Width, (int)DrawRectangle.Height,
-				DrawColor, SlotBackTexture, CornerSize);
+				DrawColor * Opacity, SlotBackTexture, CornerSize, Scale);
 			if (ContainedItem.type != 0)
 			{
 				var frame = Main.itemAnimations[ContainedItem.type] != null ? Main.itemAnimations[ContainedItem.type].GetFrame(Main.itemTexture[ContainedItem.type]) : Main.itemTexture[ContainedItem.type].Frame(1, 1, 0, 0);
@@ -131,10 +135,10 @@ namespace ServerSideCharacter2.GUI.UI.Component
 					size *= texScale;
 				}
 				sb.Draw(Main.itemTexture[ContainedItem.type], new Vector2(DrawRectangle.X + DrawRectangle.Width / 2 - (size.X) / 2,
-					DrawRectangle.Y + DrawRectangle.Height / 2 - (size.Y) / 2), new Rectangle?(frame), Color.White, 0, Vector2.Zero, texScale, 0, 0);
+					DrawRectangle.Y + DrawRectangle.Height / 2 - (size.Y) / 2), new Rectangle?(frame), Color.White * Opacity, 0, Vector2.Zero, texScale * Scale, 0, 0);
 				if (ContainedItem.stack > 1)
 				{
-					sb.DrawString(Main.fontMouseText, ContainedItem.stack.ToString(), new Vector2(DrawRectangle.X + 10, DrawRectangle.Y + DrawRectangle.Height - 20), Color.White);
+					sb.DrawString(Main.fontMouseText, ContainedItem.stack.ToString(), new Vector2(DrawRectangle.X + 10, DrawRectangle.Y + DrawRectangle.Height - 20), Color.White * Opacity, 0f, Vector2.Zero, Scale, SpriteEffects.None, 0f);
 				}
 			}
 		}

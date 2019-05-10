@@ -25,6 +25,7 @@ namespace ServerSideCharacter2.GUI
 		UnionDonationPage,
 		NormalShopPage,
 		NormalShopBuyPage,
+		LotteryPage,
 		ItemPage,
 		ProfilePage,
 		InventoryPage,
@@ -166,7 +167,7 @@ namespace ServerSideCharacter2.GUI
 			AddState(normalShopState, SSCUIState.NormalShopPage);
 
 			AddState(new NormalShopBuyState(), SSCUIState.NormalShopBuyPage);
-
+			AddState(new LotteryState(), SSCUIState.LotteryPage);
 
 
 			var unionDonateState = new UnionDonationPage();

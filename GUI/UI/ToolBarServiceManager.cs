@@ -93,7 +93,7 @@ namespace ServerSideCharacter2.GUI.UI
 			Add(new Services.Union.UnionPageService());
 			//Add(new Services.FriendSystem.CommunicationService());
 			Add(new Services.Shop.ShopService());
-
+			// Add(new Services.Shop.LotteryService());
 			if (Main.netMode == 0)
 			{
 				Add(new Services.Misc.ItemServices());

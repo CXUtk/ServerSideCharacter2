@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace ServerSideCharacter2.Market
@@ -29,7 +30,7 @@ namespace ServerSideCharacter2.Market
 				this.Item = item.Clone();
 				this.Price = price;
 				this.Class = classify;
-				this.Discount = Discount;
+				this.Discount = discount;
 				this.UnionOnly = uniononly;
 				this.MinLv = minlv;
 			}
