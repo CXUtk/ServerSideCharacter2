@@ -11,9 +11,9 @@ namespace ServerSideCharacter2.RankingSystem
 {
 	public class Ranking
 	{
-		public const int S_CHALLENGER = 2400;
-		public const int S_MASTER = 2200;
-		public const int S_DIAMOND = 2000;
+		public const int S_CHALLENGER = 2500;
+		public const int S_MASTER = 2350;
+		public const int S_DIAMOND = 2100;
 		public const int S_PLATINUM = 1850;
 		public const int S_GOLD = 1700;
 		public const int S_SILVER = 1300;

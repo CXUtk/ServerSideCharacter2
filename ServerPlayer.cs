@@ -877,10 +877,8 @@ namespace ServerSideCharacter2
 					// 晋级隐藏分平衡
 					_info.EloRank = Ranking.GetRankRange(ranktype).Item1 + 50;
 				}
-				else
-				{
-					_info.Rank += rank;
-				}
+				_info.Rank += rank;
+				
 			}
 			else
 			{

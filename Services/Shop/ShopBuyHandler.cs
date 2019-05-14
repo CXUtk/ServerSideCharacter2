@@ -31,6 +31,11 @@ namespace ServerSideCharacter2.Services.Shop
 					CommandBoardcast.ConsoleError($"玩家 {player.name} 发来的购买物品封包 数据异常，可能已被篡改");
 					return;
 				}
+				if (splayer.InMatch)
+				{
+					splayer.SendMessageBox("参与游戏时不允许购买物品", 120, Color.Red);
+					return;
+				}
 				Item item = new Item();
 				item.netDefaults(id);
 				if (amount <= 0 || amount > item.maxStack)
