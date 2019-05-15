@@ -257,6 +257,12 @@ namespace ServerSideCharacter2
             }
             catch (Exception ex)
             {
+                if (MySqlManager.connection != null)
+                {
+                    MySqlManager.connection.Close();
+                    MySqlManager.connection.Dispose();
+                    MySqlManager.connection = null;
+                }
                 ErrorLog = ex.Message;
                 return States.LoginState.Error;
             }
@@ -347,6 +353,12 @@ namespace ServerSideCharacter2
                 }
                 catch (Exception ex)
                 {
+                    if (MySqlManager.connection != null)
+                    {
+                        MySqlManager.connection.Close();
+                        MySqlManager.connection.Dispose();
+                        MySqlManager.connection = null;
+                    }
                     ErrorLog = ex.Message;
                     return States.RegisterState.Error;
                 }
