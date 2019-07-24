@@ -109,12 +109,12 @@ namespace ServerSideCharacter2.Services.Login
                             break;
                         case QQAuth.States.LoginState.GetMCFailed:
                             CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 认证失败：机器码获取失败.");
-                            MessageSender.SendLoginFailed(playerNumber, "机器码获取失败！请确认机器已经注册。");
+                            MessageSender.SendLoginFailed(playerNumber, "机器码获取失败！请联系管理员。");
                             isLoginSuccess = false;
                             break;
                         case QQAuth.States.LoginState.MCCheckFailed:
-                            CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 认证失败：机器码不正确.");
-                            MessageSender.SendLoginFailed(playerNumber, "你不能使用非当前角色绑定的机器！");
+                            CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 认证失败：机器码校验失败.");
+                            MessageSender.SendLoginFailed(playerNumber, "机器码校验失败！当前机器可能不是此角色注册的机器。");
                             isLoginSuccess = false;
                             break;
                         case QQAuth.States.LoginState.Error:

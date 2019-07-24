@@ -29,14 +29,24 @@ namespace ServerSideCharacter2.Commands
 		{
 			if (args.Length == 1)
 			{
-				if (args[0] == "shop")
-				{
-					ServerSideCharacter2.MarketManager.Load();
-				}
-				else if(args[0] == "")
-				{
-
-				}
+                switch(args[0])
+                {
+                    case "shop":
+                        ServerSideCharacter2.MarketManager.Load();
+                        break;
+                    default:
+                        Console.WriteLine("请指定参数：");
+                        Console.WriteLine("shop - 刷新商店");
+                        break;
+                }
+    //            if (args[0] == "shop")
+				//{
+				//	ServerSideCharacter2.MarketManager.Load();
+				//}
+				//else if(args[0] == "")
+				//{
+                   
+				//}
 			}
 			else
 			{

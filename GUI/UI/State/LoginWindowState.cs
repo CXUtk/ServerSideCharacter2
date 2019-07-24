@@ -96,64 +96,80 @@ namespace ServerSideCharacter2.GUI.UI
 			var password = _passwordText.Text;
 			var machinecode = MachineCodeManager.GetMachineCode();
 			StartWaiting();
-			switch (machinecode)
+            if (password == "")
             {
-                case "FILENOTFOUND":
-					if (isDownloading)
-					{ Main.NewText("正在注册机器，请稍等。"); }
-					else
-					{
-						Task.Factory.StartNew(() =>
-						{
-							isDownloading = true;
-							Main.NewText("正在尝试注册机器。");
-							string _filepath = System.Environment.CurrentDirectory + "\\Reg.exe";
-							System.Net.WebClient webClient = new System.Net.WebClient();
-							webClient.DownloadFileCompleted += (s, e)=>
-							{
-								Main.NewText("注册机下载完成");
-								System.Diagnostics.Process.Start(_filepath, "Register");
-								Main.NewText("注册完成！请重新登录。");
-							};
-							webClient.DownloadProgressChanged += WebClient_DownloadProgressChanged;
-							webClient.DownloadFileAsync(new Uri("http://peserver.terrariaserver.cn/Reg.exe"), _filepath);
-						});
-					}
-                    break;
-                case "MD5ERROR":
-                    Main.NewText("机器码校验失败！");
-                    break;
-                default:
-                    if (password != "")
-                    {
-                        var info = CryptedUserInfo.Create(username, password, machinecode);
-                        Main.NewText(username);
-                        Main.NewText("您输入的密码为：" + password + "  长度为：" + password.Length + "请妥善保管您的密码");
-						Main.NewText("如果需要重置密码可以找管理员");
-						Main.NewText(info.ToString());
-						Main.NewText(info.MachineCode);
-                        MessageSender.SendLoginPassword(info);
-                        // ServerSideCharacter2.Instance.ShowMessage("已经提交AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 120, Color.White);
-                    }
-                    else
-                    {
-                        Main.NewText("密码不能为空！");
-                        Main.NewText("请注意：中文输入法可能导致字符不能正确输入");
-                        Main.NewText("请确保输入密码时输入法为英文输入状态");
-                    }
-                    break;
+                Main.NewText("密码不能为空！");
+                Main.NewText("请注意：中文输入法可能导致字符不能正确输入");
+                Main.NewText("请确保输入密码时输入法为英文输入状态");
             }
+            else
+            {
+                var info = CryptedUserInfo.Create(username, password, machinecode);
+                Main.NewText(username);
+                Main.NewText("您输入的密码为：" + password + "  长度为：" + password.Length + "请妥善保管您的密码");
+                Main.NewText("如果需要重置密码可以找管理员");
+                Main.NewText(info.ToString());
+                Main.NewText("MC：" + (info.MachineCode == "" ? "获取失败" : info.MachineCode));
+                MessageSender.SendLoginPassword(info);
+            }
+            //switch (machinecode)
+            //{
+            //    case "FILENOTFOUND":
+            //        if (isDownloading)
+            //        { Main.NewText("正在注册机器，请稍等。"); }
+            //        else
+            //        {
+            //            Task.Factory.StartNew(() =>
+            //            {
+            //                isDownloading = true;
+            //                Main.NewText("正在尝试注册机器。");
+            //                string _filepath = System.Environment.CurrentDirectory + "\\Reg.exe";
+            //                System.Net.WebClient webClient = new System.Net.WebClient();
+            //                webClient.DownloadFileCompleted += (s, e) =>
+            //                {
+            //                    Main.NewText("注册机下载完成");
+            //                    System.Diagnostics.Process.Start(_filepath, "Register");
+            //                    Main.NewText("注册完成！请重新登录。");
+            //                };
+            //                webClient.DownloadProgressChanged += WebClient_DownloadProgressChanged;
+            //                webClient.DownloadFileAsync(new Uri("http://peserver.terrariaserver.cn/Reg.exe"), _filepath);
+            //            });
+            //        }
+            //        break;
+            //    case "MD5ERROR":
+            //        Main.NewText("机器码校验失败！");
+            //        break;
+            //    default:
+            //        if (password != "")
+            //        {
+            //            var info = CryptedUserInfo.Create(username, password, machinecode);
+            //            Main.NewText(username);
+            //            Main.NewText("您输入的密码为：" + password + "  长度为：" + password.Length + "请妥善保管您的密码");
+            //            Main.NewText("如果需要重置密码可以找管理员");
+            //            Main.NewText(info.ToString());
+            //            Main.NewText("MC：" + info.MachineCode);
+            //            MessageSender.SendLoginPassword(info);
+            //            // ServerSideCharacter2.Instance.ShowMessage("已经提交AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 120, Color.White);
+            //        }
+            //        else
+            //        {
+            //            Main.NewText("密码不能为空！");
+            //            Main.NewText("请注意：中文输入法可能导致字符不能正确输入");
+            //            Main.NewText("请确保输入密码时输入法为英文输入状态");
+            //        }
+            //        break;
+            //}
         }
 
-		private double prevTime = -60;
-		private void WebClient_DownloadProgressChanged(object sender, System.Net.DownloadProgressChangedEventArgs e)
-		{
-			if (Main.time - prevTime > 60)
-			{
-				prevTime = Main.time;
-				Main.NewText("下载中：" + e.ProgressPercentage + "%");
-			}
-		}
+		//private double prevTime = -60;
+		//private void WebClient_DownloadProgressChanged(object sender, System.Net.DownloadProgressChangedEventArgs e)
+		//{
+		//	if (Main.time - prevTime > 60)
+		//	{
+		//		prevTime = Main.time;
+		//		Main.NewText("下载中：" + e.ProgressPercentage + "%");
+		//	}
+		//}
 
 		private void StartWaiting()
 		{

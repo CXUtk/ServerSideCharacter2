@@ -32,7 +32,7 @@ namespace ServerSideCharacter2.Services.Union
 				}
 				if (splayer.InRegion)
 				{
-					splayer.SendInfoMessage("你已经在匹配中了，无法传送");
+					splayer.SendInfoMessage("你已处于领地中，无法传送");
 					return;
 				}
 				splayer.SafeTeleport(region.GetWorldHitBox().Center());

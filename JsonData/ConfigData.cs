@@ -71,9 +71,9 @@ namespace ServerSideCharacter2.JsonData
 			data.NPCSpawnRate = 600;
 			data.ServerPort = "3306";
 			data.ServerAddr = "localhost";
-			data.ServerUserID = "mysqlserver";
+			data.ServerUserID = "";
 			data.ServerPassword = "";
-			data.DatabaseName = "database";
+			data.DatabaseName = "";
 			data.MaxMailsPerPlayer = 35;
 			return data;
 		}

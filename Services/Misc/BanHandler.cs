@@ -23,15 +23,16 @@ namespace ServerSideCharacter2.Services.Misc
 			// 服务器端
 			if (Main.netMode == 2)
 			{
-				int target = reader.ReadInt32();
-				string reason = reader.ReadString();
-				var player = ServerSideCharacter2.PlayerCollection.Get(target);
-				player.Ban(reason);
-				string str = $"玩家 {player.Name} 被管理员 {Main.player[playerNumber].name} 安排了， 原因是：{reason}";
-				Netplay.AddBan(player.PrototypePlayer.whoAmI);
-				ServerPlayer.SendInfoMessageToAll(str);
-				CommandBoardcast.ConsoleMessage(str);
-			}
+                int target = reader.ReadInt32();
+                string banner = Main.player[playerNumber].name;
+                string reason = reader.ReadString();
+                var player = ServerSideCharacter2.PlayerCollection.Get(target);
+                player.Ban(banner, reason);
+                string str = $"玩家 {player.Name} 被管理员 {banner} 安排了， 原因是：{reason}";
+                Netplay.AddBan(player.PrototypePlayer.whoAmI);
+                ServerPlayer.SendInfoMessageToAll(str);
+                CommandBoardcast.ConsoleMessage(str);
+            }
 		}
 	}
 

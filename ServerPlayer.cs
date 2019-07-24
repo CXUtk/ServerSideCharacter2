@@ -918,18 +918,18 @@ namespace ServerSideCharacter2
 			}
 		}
 
-		public void Ban(string reason)
-		{
-			qqAuth.BanPlayer(this, reason);
-			Kick("你被封禁了");
+        public void Ban(string banner, string reason)
+        {
+            qqAuth.BanPlayer(this, banner, reason);
+            Kick("你被封禁了");
 		}
 
-		public void UnBan(string reason)
-		{
-			qqAuth.UnbanPlayer(this);
-		}
+        public void UnBan(string banner)
+        {
+            qqAuth.UnbanPlayer(this, banner);
+        }
 
-		public void SyncUnionInfo()
+        public void SyncUnionInfo()
 		{
 			if(RealPlayer && ConnectionAlive)
 			{

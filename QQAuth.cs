@@ -30,6 +30,7 @@ namespace ServerSideCharacter2
 		public string BanReason = "";
 		public string CustomChatPrefix = "";
         public string MachineCode_DB = "";
+        public string SkipMCCheck = "";
 
         public string ErrorLog = "";
 
@@ -206,12 +207,13 @@ namespace ServerSideCharacter2
                     CustomChatPrefix = mdr["customchatprefix"].ToString();
                     ChangePasswordRequired = mdr["setpwreq"].ToString();
                     MachineCode_DB = mdr["machinecode"].ToString();
+                    SkipMCCheck = mdr["skipmccheck"].ToString();
                 }
                 mdr.Close();
                 cmd.Cancel();
 
-                // 补充注册机器码的代码，以后删除
-                if (MachineCode_DB == "" || MachineCode_DB == "ABCDEFGHIJKLMN")
+                // 给上版本注册的用户补充注册机器码的代码
+                if (MachineCode_DB == "" && MachineCode != "")
                 {
                     MachineCode_DB = MachineCode;
                     MySqlManager __dbm = new MySqlManager();
@@ -223,13 +225,15 @@ namespace ServerSideCharacter2
                     __cmd.ExecuteNonQuery();
                     __cmd.Cancel();
                 }
-				// 补充注册机器码结束
 
-				//if (MachineCode == "")
-				//{ return States.LoginState.GetMCFailed; }
-				//else if (MachineCode != MachineCode_DB)
-				//{ return States.LoginState.MCCheckFailed; }
-				if (QQ == "" || OpenID == "")
+                if (SkipMCCheck != "1")
+                {
+                    if (MachineCode == "")
+                    { return States.LoginState.GetMCFailed; }
+                    else if (MachineCode != MachineCode_DB)
+                    { return States.LoginState.MCCheckFailed; }
+                }
+                if (QQ == "" || OpenID == "")
                 {
                     return States.LoginState.Unbound;
                 }
@@ -280,8 +284,8 @@ namespace ServerSideCharacter2
             {
                 return States.RegisterState.NullQQ;
             }
-            //else if (MachineCode == "")
-            //{ return States.RegisterState.GetMCFailed; }
+            else if (MachineCode == "")
+            { return States.RegisterState.GetMCFailed; }
             else
             {
                 try
@@ -298,10 +302,11 @@ namespace ServerSideCharacter2
                     }
                     __mdr.Close();
                     __cmd.Cancel();
-					//if (UserName != "" && UserName != CharacterName)
-					//{ return States.RegisterState.MCBound; }
 
-					MySqlManager dbm = new MySqlManager();
+                    if (UserName != "" && UserName != CharacterName)
+                    { return States.RegisterState.MCBound; }
+
+                    MySqlManager dbm = new MySqlManager();
                     dbm.Connect();
                     MySqlCommand cmd = dbm.command;
                     cmd.CommandText = "select username from users where qq = @QQ";
@@ -404,13 +409,14 @@ namespace ServerSideCharacter2
 				return "";
 			}
 		}
-		/// <summary>
-		/// 用户封禁
-		/// </summary>
-		/// <param name="banPlayer">封禁的用户</param>
-		/// <param name="banReason">封禁的原因</param>
-		/// <returns>成功返回true，失败返回false</returns>
-		public bool BanPlayer(ServerPlayer banPlayer, string banReason)
+        /// <summary>
+        /// 用户封禁
+        /// </summary>
+        /// <param name="banPlayer">封禁的用户</param>
+        /// <param name="banner">封禁操作者</param>
+        /// <param name="banReason">封禁的原因</param>
+        /// <returns>成功返回true，失败返回false</returns>
+        public bool BanPlayer(ServerPlayer banPlayer, string banner, string banReason)
         {
 			Console.WriteLine("Ban");
             try
@@ -420,7 +426,7 @@ namespace ServerSideCharacter2
                 MySqlCommand cmd = dbm.command;
                 cmd.CommandText = "update users set ban = 1 , banner = @Banner , banreason = @BanReason where username = @UserName";
 				cmd.Parameters.AddWithValue("@UserName", banPlayer.Name);
-                cmd.Parameters.AddWithValue("@Banner", CharacterName);
+                cmd.Parameters.AddWithValue("@Banner", banner);
                 cmd.Parameters.AddWithValue("@BanReason", banReason);
 				cmd.ExecuteNonQuery();
 				cmd.Cancel();
@@ -437,8 +443,9 @@ namespace ServerSideCharacter2
 		/// 用户解封
 		/// </summary>
         /// <param name="banPlayer">解封的用户</param>
+        /// <param name="banner">解封操作者</param>
 		/// <returns>成功返回true，失败返回false</returns>
-        public bool UnbanPlayer(ServerPlayer banPlayer)
+        public bool UnbanPlayer(ServerPlayer banPlayer, string banner)
         {
             try
             {
@@ -447,8 +454,8 @@ namespace ServerSideCharacter2
                 MySqlCommand cmd = dbm.command;
                 cmd.CommandText = "update users set ban = 0 , banner = @Banner where username = @UserName";
                 cmd.Parameters.AddWithValue("@UserName", banPlayer.Name);
-                cmd.Parameters.AddWithValue("@Banner", CharacterName);
-				cmd.ExecuteNonQuery();
+                cmd.Parameters.AddWithValue("@Banner", banner);
+                cmd.ExecuteNonQuery();
                 cmd.Cancel();
                 return true;
             }

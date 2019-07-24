@@ -78,6 +78,7 @@
     <Reference Include="System.Data">
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Management" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
@@ -91,6 +92,7 @@
     <Content Include="Buffs\Locked.png" />
     <Content Include="Buffs\Protection.png" />
     <Content Include="build.txt" />
+    <None Include="Resources\System.Management.dll" />
     <None Include="ChangeLog.md" />
     <Content Include="description.txt" />
     <Content Include="Dusts\HealDust.png" />
@@ -266,6 +268,11 @@
     <Compile Include="Regions\Region.cs" />
     <Compile Include="Regions\RegionConfig.cs" />
     <Compile Include="Regions\RegionManager.cs" />
+    <Compile Include="Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="ServerPlayer.cs" />
     <Compile Include="ServerSideCharacter2.cs" />
     <Compile Include="Services\FriendSystem\CommunicationService.cs" />
@@ -360,7 +367,12 @@
     <Compile Include="Utils\DataConfig.cs" />
     <Compile Include="Utils\ServerUtils.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>
     <VisualStudio AllowExistingFolder="true" />
