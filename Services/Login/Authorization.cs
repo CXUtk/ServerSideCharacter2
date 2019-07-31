@@ -92,9 +92,14 @@ namespace ServerSideCharacter2.Services.Login
                             isLoginSuccess = false;
                             break;
                         case QQAuth.States.LoginState.Banned:
-							
                             CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 认证失败：玩家已被封禁.");
                             MessageSender.SendLoginFailed(playerNumber, $"您已被封禁！原因：{serverPlayer.qqAuth.GetBanReason(serverPlayer)}");
+                            isLoginSuccess = false;
+                            break;
+                        case QQAuth.States.LoginState.NotFound:
+                            serverPlayer.HasPassword = false;
+                            CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} ,QQ {serverPlayer.qqAuth.QQ} 数据库记录丢失.");
+                            MessageSender.SendLoginFailed(playerNumber, "数据库记录丢失！请重新输入QQ注册。");
                             isLoginSuccess = false;
                             break;
                         case QQAuth.States.LoginState.LoginSuccess:
@@ -180,12 +185,12 @@ namespace ServerSideCharacter2.Services.Login
                                 isRegisterLegal = true;
                                 break;
                             case QQAuth.States.RegisterState.QQBound:
-                                MessageSender.SendLoginFailed(playerNumber, "该QQ已被其他角色绑定！");
-                                CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册请求被拒（QQ已被绑定）.");
+                                MessageSender.SendLoginFailed(playerNumber, "QQ或角色已被绑定！");
+                                CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册请求被拒（QQ或角色已被绑定）.");
                                 isRegisterLegal = false;
                                 break;
                             case QQAuth.States.RegisterState.GetMCFailed:
-                                MessageSender.SendLoginFailed(playerNumber, "机器码获取失败！请确认机器已经注册。");
+                                MessageSender.SendLoginFailed(playerNumber, "机器码获取失败！请联系管理员。");
                                 CommandBoardcast.ConsoleMessage($"玩家 {serverPlayer.Name} 注册请求被拒（获取机器码失败）.");
                                 isRegisterLegal = false;
                                 break;

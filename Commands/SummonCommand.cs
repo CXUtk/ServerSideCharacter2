@@ -26,7 +26,7 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Usage
 		{
-			get { return " /sm <npc id> [number]"; }
+			get { return "/sm [NPC ID] [数量]"; }
 		}
 
 		public override void Action(CommandCaller caller, string input, string[] args)

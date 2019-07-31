@@ -21,7 +21,7 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Description
 		{
-			get { return "Save player's data"; }
+			get { return "保存玩家数据"; }
 		}
 
 		public override void Action(CommandCaller caller, string input, string[] args)

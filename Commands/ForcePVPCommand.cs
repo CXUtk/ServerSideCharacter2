@@ -3,6 +3,7 @@ using Terraria;
 using ServerSideCharacter2.Utils;
 using System;
 using Newtonsoft.Json;
+using Microsoft.Xna.Framework;
 
 namespace ServerSideCharacter2.Commands
 {
@@ -25,7 +26,7 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Usage
 		{
-			get { return "/forcepvp [模式]"; }
+			get { return "/forcepvp <0|1|2> 【0 - 正常模式 / 1 - 强制关闭PVP / 2 - 强制开启PVP】"; }
 		}
 
 		public override void Action(CommandCaller caller, string input, string[] args)
@@ -33,7 +34,7 @@ namespace ServerSideCharacter2.Commands
 			var mode = Convert.ToInt32(args[0]);
 			if(mode < 0 || mode > 2)
 			{
-				Main.NewText("不合法的模式，正常模式=0，强制不PVP=1，强制PVP=2");
+                Main.NewText(Usage, Color.Red);
 			}
 			MessageSender.SendToggleForcePVP(mode);
 		}

@@ -20,7 +20,7 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Description
 		{
-			get { return "?????"; }
+			get { return "【无描述】"; }
 		}
 
 		public override string Usage

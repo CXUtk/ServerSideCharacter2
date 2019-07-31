@@ -26,7 +26,7 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Usage
 		{
-			get { return " /coin $[玩家GUID] <咕币数量>"; }
+			get { return "coin <add|set> [玩家名|$玩家GUID] [咕币数量]"; }
 		}
 		//static private string[] GetArgs(string[] source)
 		//{
@@ -47,29 +47,40 @@ namespace ServerSideCharacter2.Commands
 		public override void Action(CommandCaller caller, string input, string[] args)
 		{
 			ServerPlayer player = null;
-			if (args.Length < 2)
+			if (args.Length < 3)
 			{
-				Console.WriteLine("用法： /coin $[玩家GUID] <数量>");
+				Console.WriteLine(Usage);
 				return;
 			}
 			
-			if (args[0][0] == '$')
+			if (args[1][0] == '$')
 			{
-				var GUID = Convert.ToInt32(args[0].Substring(1));
+				var GUID = Convert.ToInt32(args[1].Substring(1));
 				player = ServerSideCharacter2.PlayerCollection.Get(GUID);
 			}
 			else
 			{
-				player = ServerSideCharacter2.PlayerCollection.Get(args[0]);
+				player = ServerSideCharacter2.PlayerCollection.Get(args[1]);
 			}
 			if (player != null)
 			{
 				try
 				{
-					var coin = Convert.ToInt32(args[1]);
-					player.GuCoin = coin;
-					player.SendInfoMessage($"系统将你的咕币数量设为了 {coin}");
-					CommandBoardcast.ConsoleMessage($"成功设置玩家 {player.Name} 的咕币数量为 {coin}");
+					var coin = Convert.ToInt32(args[2]);
+                    if (args[0] == "add")
+                    { player.GuCoin += coin; player.SendInfoMessage($"您的咕币数量增加了 {coin}");
+                        CommandBoardcast.ConsoleMessage($"成功增加玩家 {player.Name} 的咕币数量为 {coin}");
+                    }
+                    else if (args[0] == "set")
+                    { player.GuCoin = coin; player.SendInfoMessage($"您的咕币数量变为了 {coin}");
+                        CommandBoardcast.ConsoleMessage($"成功设置玩家 {player.Name} 的咕币数量为 {coin}");
+                    }
+                    else
+                    {
+                        Console.WriteLine(Usage);
+                        return;
+                    }
+                    
 				}
 				catch (Exception ex)
 				{

@@ -21,12 +21,12 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Description
 		{
-			get { return "刷物品"; }
+			get { return "生成物品"; }
 		}
 
 		public override string Usage
 		{
-			get { return " /sm <物品 id> [数量]"; }
+			get { return "/sm [物品ID] [数量]"; }
 		}
 		public override void Action(CommandCaller caller, string input, string[] args)
 		{

@@ -48,7 +48,7 @@ namespace ServerSideCharacter2
 
 		public static PlayerCollection PlayerCollection;
 
-		internal static string APIVersion = "V0.20 测试";
+		internal static string APIVersion = "V0.20 Beta";
 
 		internal static ErrorLogger ErrorLogger;
 
@@ -159,7 +159,7 @@ namespace ServerSideCharacter2
 			//}
 		}
 
-		public override void Load()
+        public override void Load()
 		{
 			Instance = this;
 			if (Main.dedServ)
@@ -167,10 +167,9 @@ namespace ServerSideCharacter2
 				Main.ServerSideCharacter = true;
 				// 错误记录日志
 				ErrorLogger = new ErrorLogger("SSC-Log.txt", false);
-				Console.WriteLine("[ServerSideCharacter Mod, Author: DXTsT	Version: " + APIVersion + "]");
+				Console.WriteLine("[SSC Version: " + APIVersion + "]");
 
-
-				var sBuilder = new StringBuilder();
+                var sBuilder = new StringBuilder();
 				if (System.IO.File.Exists("pw.t"))
 				{
 					string auth;

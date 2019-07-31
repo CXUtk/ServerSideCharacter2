@@ -21,12 +21,12 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Description
 		{
-			get { return "召唤NPC"; }
+			get { return "管理活动"; }
 		}
 
 		public override string Usage
 		{
-			get { return " /match [new|join] <活动名字>"; }
+			get { return "/match [new|join] [活动名字] 【new - 新建 / join - 加入】"; }
 		}
 
 		public override void Action(CommandCaller caller, string input, string[] args)

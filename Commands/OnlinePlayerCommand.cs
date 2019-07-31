@@ -20,10 +20,8 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Description
 		{
-			get { return "See online players"; }
+			get { return "查看玩家数据"; }
 		}
-
-		public override string Usage => "see [all]";
 
 		public override void Action(CommandCaller caller, string input, string[] args)
 		{
@@ -31,21 +29,27 @@ namespace ServerSideCharacter2.Commands
 			{
 				if (args.Length == 1)
 				{
-					if (args[0] == "all")
-					{
-						var info = ServerSideCharacter2.PlayerCollection.GetAllInfo();
-						var s = JsonConvert.SerializeObject(info, Formatting.Indented);
-						CommandBoardcast.ConsoleMessage(s);
-						ServerSideCharacter2.ErrorLogger.WriteToFile(s);
-					}
-					else if(args[0] == "elo")
-					{
-						foreach(var pair in ServerSideCharacter2.PlayerCollection)
-						{
-							var player = pair.Value;
-							CommandBoardcast.ConsoleMessage($"玩家 {player.Name} 的隐藏分为 {player.EloRank}");
-						}
-					}
+                    switch (args[0])
+                    {
+                        case "all":
+                            var info = ServerSideCharacter2.PlayerCollection.GetAllInfo();
+                            var s = JsonConvert.SerializeObject(info, Formatting.Indented);
+                            CommandBoardcast.ConsoleMessage(s);
+                            ServerSideCharacter2.ErrorLogger.WriteToFile(s);
+                            break;
+                        case "elo":
+                                foreach (var pair in ServerSideCharacter2.PlayerCollection)
+                                {
+                                    var player = pair.Value;
+                                    CommandBoardcast.ConsoleMessage($"玩家 {player.Name} 的隐藏分为 {player.EloRank}");
+                                }
+                            break;
+                        default:
+                            Console.WriteLine("请指定参数：");
+                            Console.WriteLine("all - 角色数据");
+                            Console.WriteLine("elo - 角色隐藏分");
+                            break;
+                    }
 				}
 				else
 				{

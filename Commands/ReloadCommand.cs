@@ -22,7 +22,7 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Description
 		{
-			get { return "重新加载某些配置"; }
+			get { return "重新加载指定配置"; }
 		}
 
 		public override void Action(CommandCaller caller, string input, string[] args)
@@ -39,14 +39,6 @@ namespace ServerSideCharacter2.Commands
                         Console.WriteLine("shop - 刷新商店");
                         break;
                 }
-    //            if (args[0] == "shop")
-				//{
-				//	ServerSideCharacter2.MarketManager.Load();
-				//}
-				//else if(args[0] == "")
-				//{
-                   
-				//}
 			}
 			else
 			{

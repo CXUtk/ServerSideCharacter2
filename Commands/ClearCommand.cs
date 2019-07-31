@@ -22,19 +22,19 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Description
 		{
-			get { return "召唤NPC"; }
+			get { return "清除内容"; }
 		}
 
 		public override string Usage
 		{
-			get { return " /clear [npc|item|proj]"; }
+			get { return "/clear <npc|item|proj> 【npc - NPC / item - 物品 / proj - Projectile】"; }
 		}
 
 		public override void Action(CommandCaller caller, string input, string[] args)
 		{
 			if(args[0] != "npc" && args[0] != "item" && args[0] != "proj")
 			{
-				Main.NewText("用法： /clear [npc|item|proj]", Color.Red);
+				Main.NewText(Usage, Color.Red);
 				return;
 			}
 			int type = 0;

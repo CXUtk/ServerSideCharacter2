@@ -26,7 +26,7 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Usage
 		{
-			get { return " /tp <玩家ID>"; }
+			get { return "/tp [玩家ID]"; }
 		}
 
 		public override void Action(CommandCaller caller, string input, string[] args)
@@ -60,7 +60,7 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Usage
 		{
-			get { return " /tphere <玩家ID>"; }
+			get { return "/tphere [玩家ID]"; }
 		}
 
 		public override void Action(CommandCaller caller, string input, string[] args)

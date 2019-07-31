@@ -20,7 +20,7 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Description
 		{
-			get { return "Toggle player's god mode"; }
+			get { return "开关上帝模式"; }
 		}
 
 		public override string Usage

@@ -25,7 +25,7 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Usage
 		{
-			get { return "/kill <玩家ID>"; }
+			get { return "/kill [玩家ID]"; }
 		}
 
 		public override void Action(CommandCaller caller, string input, string[] args)

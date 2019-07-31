@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using ServerSideCharacter2.JsonData;
+using ServerSideCharacter2.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,7 +85,7 @@ namespace ServerSideCharacter2.Market
 				QQAuth.MySqlManager sqlmanager = new QQAuth.MySqlManager();
 				sqlmanager.Connect();
 				MySqlCommand cmd = sqlmanager.command;
-				cmd.CommandText = $"select * from normalshop";
+				cmd.CommandText = $"select * from normalshop order by id asc";
 				using (MySqlDataReader mdr = cmd.ExecuteReader())
 				{
 					if (!mdr.HasRows) return;
@@ -108,12 +109,8 @@ namespace ServerSideCharacter2.Market
 					}
 				}
 				cmd.Cancel();
-
-				foreach(var item in MarketItems)
-				{
-					Console.WriteLine(item.ToString());
-				}
-			}
+                CommandBoardcast.ConsoleMessage($"共计 {MarketItems.Count} 个商店物品");
+            }
 		}
 	}
 }

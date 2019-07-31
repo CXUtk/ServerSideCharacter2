@@ -53,28 +53,48 @@ namespace ServerSideCharacter2.Unions
 			}
 		}
 
-
+        // 工会最大人数
 		public static int GetMaxMembers(int level)
 		{
-			if(level >= 14)
+            if (level >= 14)
+            {
+                return 15;
+            }
+            else if (level >= 12)
+            {
+                return 14;
+            }
+            else if (level >= 10)
 			{
 				return 12;
 			}
-			else if(level >= 10)
+			else if(level >= 8)
+			{
+				return 11;
+			}
+			else if(level >= 6)
 			{
 				return 10;
 			}
-			else if(level >= 8)
+            else if (level >= 5)
+            {
+                return 9;
+            }
+            else if(level >= 4)
 			{
 				return 8;
 			}
-			else if(level >= 4)
+            else if (level >= 3)
+            {
+                return 6;
+            }
+            else if (level >= 2)
+            {
+                return 5;
+            }
+            else
 			{
-				return 6;
-			}
-			else
-			{
-				return 5;
+				return 4;
 			}
 		}
 

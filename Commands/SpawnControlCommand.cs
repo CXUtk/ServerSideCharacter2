@@ -26,7 +26,7 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Usage
 		{
-			get { return " /spawnrate <数值>"; }
+			get { return "/spawnrate [数值]"; }
 		}
 
 		public override void Action(CommandCaller caller, string input, string[] args)
@@ -68,7 +68,7 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Usage
 		{
-			get { return " /maxspawn <数值>"; }
+			get { return "/maxspawn [数值]"; }
 		}
 
 		public override void Action(CommandCaller caller, string input, string[] args)

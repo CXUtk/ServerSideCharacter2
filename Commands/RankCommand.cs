@@ -26,7 +26,7 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Usage
 		{
-			get { return " /rank [n|e] $[玩家GUID] <rank分数>"; }
+			get { return "/rank [n|e] $[玩家GUID] [rank分数] 【n - 段位分 / e - 隐藏分】"; }
 		}
 		//static private string[] GetArgs(string[] source)
 		//{
@@ -49,7 +49,7 @@ namespace ServerSideCharacter2.Commands
 			ServerPlayer player = null;
 			if (args.Length < 3)
 			{
-				Console.WriteLine("用法： /rank [n|e] $[玩家GUID] <rank分数>");
+				Console.WriteLine(Usage);
 				return;
 			}
 			
@@ -70,7 +70,7 @@ namespace ServerSideCharacter2.Commands
 					if (args[0] == "n")
 					{
 						player.IncreaseRank(rank - player.Rank);
-						player.SendInfoMessage($"系统将你的排位积分设为了 {rank}");
+						player.SendInfoMessage($"您的排位积分设为了 {rank}");
 						CommandBoardcast.ConsoleMessage($"成功设置玩家 {player.Name} 的段位分数为 {rank}");
 					}
 					else

@@ -23,7 +23,7 @@ namespace ServerSideCharacter2.Services.Login
 				ServerSideCharacter2.Instance.ShowMessage(msg, 120, textColor);
 				ServerSideCharacter2.Instance.RelaxButton();
                 if (msg == "请先绑定QQ！")
-                { System.Diagnostics.Process.Start("http://peserver.terrariaserver.cn/SteamCityRegister.aspx"); }
+                { System.Diagnostics.Process.Start("http://steamcity.terrariaserver.cn/SteamCityRegister.aspx"); }
             }
 		}
 	}

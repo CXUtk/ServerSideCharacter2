@@ -20,12 +20,12 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Description
 		{
-			get { return "Lock a player"; }
+			get { return "锁定一名玩家"; }
 		}
 
 		public override string Usage
 		{
-			get { return "/lock <player id> <time>"; }
+			get { return "/lock [玩家ID] [时间]"; }
 		}
 
 		public override void Action(CommandCaller caller, string input, string[] args)

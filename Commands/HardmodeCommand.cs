@@ -20,7 +20,7 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Description
 		{
-			get { return "切换肉山前后"; }
+			get { return "开关困难模式"; }
 		}
 
 		public override string Usage

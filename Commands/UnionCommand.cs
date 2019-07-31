@@ -21,12 +21,12 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Description
 		{
-			get { return "控制公会"; }
+			get { return "公会管理"; }
 		}
 
 		public override string Usage
 		{
-			get { return " /union <new|remove|exit> [公会名字]"; }
+			get { return "/union <new|remove|exit> [公会名字] 【new - 创建工会 / remove - 解散工会 / exit - 退出工会】"; }
 		}
 
 		public override void Action(CommandCaller caller, string input, string[] args)

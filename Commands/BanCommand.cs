@@ -25,7 +25,7 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Usage
 		{
-			get { return "/ban [玩家GUID] 原因"; }
+			get { return "/ban [玩家GUID] [原因]"; }
 		}
 
 		public override void Action(CommandCaller caller, string input, string[] args)

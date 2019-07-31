@@ -27,14 +27,17 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Usage
 		{
-			get { return " /invasion [blood|snowman|goblin|ufo|pirate|pumpkin|frost|slime]"; }
-		}
+            get
+            {
+                return "/invasion [blood|snowman|goblin|ufo|pirate|pumpkin|frost|slime]";
+            }
+        }
 
 		public override void Action(CommandCaller caller, string input, string[] args)
 		{
 			if(args.Length == 0)
 			{
-				Main.NewText("用法：/invasion [blood|snowman|goblin|ufo|pirate|pumpkin|frost]", Color.Red);
+				Main.NewText(Usage, Color.Red);
 				return;
 			}
 			if (args[0] == "blood")
@@ -75,7 +78,7 @@ namespace ServerSideCharacter2.Commands
 			}
 			else
 			{
-				Main.NewText("用法：/invasion [blood|snowman|goblin|ufo|pirate|pumpkin|frost]", Color.Red);
+				Main.NewText(Usage, Color.Red);
 				return;
 			}
 		}

@@ -26,7 +26,7 @@ namespace ServerSideCharacter2.Commands
 
 		public override string Usage
 		{
-			get { return "/group <player name / [$]GUID> <group name>"; }
+			get { return "/group [玩家名|$玩家GUID] [权限组名]"; }
 		}
 
 		public override void Action(CommandCaller caller, string input, string[] args)
@@ -47,7 +47,7 @@ namespace ServerSideCharacter2.Commands
 				{
 					player.SetGroup(args[1]);
 					player.SyncGroupInfo();
-					player.SendInfoMessage($"你已经被系统设置为权限组 {args[1]}");
+					player.SendInfoMessage($"您已经被设置到权限组 {args[1]}");
 					CommandBoardcast.ConsoleMessage("成功设置玩家" + player.Name + "为组" + args[1]);
 				}
 				catch (Exception ex)
